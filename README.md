@@ -1,36 +1,7 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# 커스터마이징 서비스 프론트엔드 레포지토리
+## 초기 협업 시 주의사항
+- navbar가 존재하는 페이지 구현 시 `app/(nav)` 폴더 하위에 작성
+- navbar사 없는 페이지 구현 시 `app/(fullscreen)` 폴더 하위에 작성
+- 중복 가능성이 있거나 페이지가 너무 길어져서 분리가 필요한 컴포넌트의 경우 분리한 파일은 `components` 폴더의 같은 이름을 가지는 하위 폴더에 생성
+- 만약 화면에 표시하는 것 외의 로직이 길어지면 필요하면 `utils` 폴더에 js파일 작성
+- 아이콘 사용 시 `https://marella.me/material-icons/demo/` 페이지에서 탐색 후 없으면 파일로 대체
