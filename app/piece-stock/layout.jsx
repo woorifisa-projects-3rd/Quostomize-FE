@@ -8,10 +8,10 @@ export const metadata = {
 export default function NavLayout({ children }) {
   const menuItems = [
     {title: "홈", iconName: "home", path: "home"},
-    {title: "나의카드", iconName: "credit_card", path: "my-card"},
-    {title: "혜택변경", iconName: "price_change", path: "change-benefits"},
-    {title: "서비스", iconName: "stars", path: "service"},
-    {title: "내정보", iconName: "account_circle", path: "my-page"},
+    {title: "현재가", iconName: "line_axis", path: "quotes"},
+    {title: "선택종목", iconName: "favorite", path: "favorite"},
+    {title: "보유종목", iconName: "attach_money", path: "stocks"},
+    {title: "검색", iconName: "search", path: "search"},
   ]
 
   return (

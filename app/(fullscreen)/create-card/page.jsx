@@ -1,9 +1,9 @@
-const page = () => {
+const CreateCardPage = () => {
   return (
     <div>
-      nav가 없는 페이지
+      카드 생성 페이지
     </div>
   );
 }
 
-export default page;
+export default CreateCardPage;
