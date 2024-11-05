@@ -26,7 +26,7 @@ const Nav = ({menuItems}) => {
   },[pathName])
 
   return (
-    <div className="sticky bottom-0 right-0 h-16 bg-slate-300 flex justify-around items-center text-[0.6rem]">
+    <div className="sticky z-10 bottom-0 right-0 h-16 bg-slate-300 flex justify-around items-center text-[0.6rem]">
       {menuItems.map((item, index) => {
           return <NavButton iconTitle={item.title} iconName={item.iconName} path={item.path} currentPath={currentPath} selectMenu={selectMenu} key={index}/>;
       })}
