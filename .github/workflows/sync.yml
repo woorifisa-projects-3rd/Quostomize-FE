@@ -1,0 +1,33 @@
+name: Sync Fork with Upstream
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # This runs once per day. You can adjust the schedule
+  workflow_dispatch:   # You can manually trigger the sync via GitHub Actions UI
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        ref: dev  # Replace with the default branch of your fork
+
+    - name: Set up Git
+      run: |
+        git config user.name "GitHub Actions"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+
+    - name: Add upstream remote
+      run: git remote add upstream https://github.com/ORIGINAL_OWNER/ORIGINAL_REPOSITORY.git
+
+    - name: Fetch upstream changes
+      run: |
+        git fetch upstream
+        git checkout dev  # Replace with the branch name of your fork
+        git merge upstream/main --allow-unrelated-histories -m "Sync fork with upstream"
+
+    - name: Push changes to fork
+      run: git push origin dev  # Replace with the branch name of your fork
