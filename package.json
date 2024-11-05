@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@headlessui/react": "^2.2.0",
     "material-icons": "^1.13.12",
     "next": "15.0.2",
     "next-auth": "^5.0.0-beta.25",
