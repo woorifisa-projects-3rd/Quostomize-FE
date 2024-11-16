@@ -1,4 +1,4 @@
-import Nav from "../../components/NavigationBar/bottomNav.jsx";
+import Nav from "../../components/navigationbar/bottomNav.jsx";
 
 export const metadata = {
   title: "Create Next App",
