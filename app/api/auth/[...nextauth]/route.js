@@ -1,13 +1,14 @@
 import { NextResponse } from "next/server";
-import { handlers } from "../../../../auth" // Referring to the auth.ts we just created
-import { Fet } from "../../../../utils/fetch/fet"
+import { auth } from "../../../../auth"
+import { initFet } from "../../../../utils/fetch/fet";
 
 
 export async function POST(request) {
     console.log("POST 실행");
     try {
+        const fetch = await initFet();
         const body = await request.json();
-        const response = await Fet.post("/login",body);
+        const response = await fetch.post("/login",body);
 
         const accessToken = response.headers.get("accessToken");
         const setCookie = response.headers.get("set-cookie").split(";");
@@ -17,6 +18,7 @@ export async function POST(request) {
         const path = setCookie[3].split("=")[1];
         return Response.json({accessToken, refreshToken, maxAge, expires, path}, {status: response.status});
     } catch (e) {
+        console.error(e);
         if (e.response) {
             return NextResponse.json({}, {status: e.response.status})
         }
@@ -24,3 +26,8 @@ export async function POST(request) {
     }
     
 }
+
+export async function GET(request) {
+    const session = await auth();
+    return NextResponse.json({ user: session?.user || null }, { status: 200 });
+ }

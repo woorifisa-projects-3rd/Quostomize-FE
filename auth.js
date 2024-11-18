@@ -24,37 +24,48 @@ export const authConfig = {
             }
           );
           const result = await response.json();
-          const accessToken = result.accessToken;
-          const refreshToken = result.refreshToken;
-          const maxAge = result.maxAge;
-          const expires = result.expires;z
-          const path = result.path;
+          console.log(result);
           
-          return { accessToken, refreshToken, maxAge, expires, path };
+          return {
+            id: result.accessToken,
+            accessToken: result.accessToken,
+            refreshToken: result.refreshToken,
+            maxAge: result.maxAge,
+            expires: result.expires,
+            path: result.path,
+            };
       }
     })
   ],
   secret: process.env.NEXT_PUBLIC_SECRET,
-
+  // session: {
+  //   strategy:
+  // },
   callbacks: {
-    async jwt({token, account}) {
-      if (account) {
-        token.access_token = account.access_token;
-        token.id_token = account.id_token;
-        token.expires = account.expires;
-        token.refreshToken = account.refreshToken;
-        return token;
+    async jwt({token, user, account}) {
+      console.log("account =" )
+      console.log(account);
+      console.log("user =")
+      console.log(user)
+      if (user) {
+        token.accessToken = user.accessToken;
+        token.refreshToken = user.refreshToken;
+        // TODO: refresh 전략 설정
+        if (Date.now() >= user.expires) {
+          
+        }
       }
-      // refresh 전략
-      if (Date.now() >= token.expires) {
-
-      }
-
+      console.log("token =")
+      console.log(token);
       return token;
     },
     async session({session, token}) {
-      session.accessToken = token.accessToken;
-      session.refreshToken = token.refreshToken;
+      if (token) {
+        session.accessToken = token.accessToken;
+        session.refreshToken = token.refreshToken;
+      }
+      console.log("session =")
+      console.log(session);
       return session;
     },
 

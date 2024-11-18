@@ -3,26 +3,37 @@ import { auth } from "../../auth";
 class CustomFetch {
     serverUrl;
     session;
+    header;
 
     constructor(serverUrl) {
         this.serverUrl = serverUrl;
-
+        this.header = {
+            "Content-Type": "application/json",
+        };
     }
 
-    init = async(auth) => {
-        instance.session = await auth;
+    init = async() => {
+        try {
+            const session = await auth();
+            if (session) {
+                this.session = session;
+                this.header["Authorization"] = `Bearer ${session.accessToken}`;
+            }
+        } catch (error) {
+            console.error("아직 로그인하지 않았습니다.", error);
+        }
     }
 
     get = async (endpoint) => {
+        console.log(this.session);
         const response = await fetch(this.serverUrl+endpoint, {
             method: "GET",
             mode: "cors",
             credentials: "include",
-            headers: {
-                "Content-Type": "application/json"
-            },
+            headers: this.header,
             cache: "no-store"
         })
+        console.log(response);
 
         return response;
     }
@@ -32,9 +43,7 @@ class CustomFetch {
             method: "POST",
             mode: "cors",
             credentials: "include",
-            headers: {
-                "Content-Type": "application/json"
-            },
+            headers: this.header,
             cache: "no-store",
             body: JSON.stringify(data)
         })
@@ -47,9 +56,7 @@ class CustomFetch {
             method: "PATCH",
             mode: "cors",
             credentials: "include",
-            headers: {
-                "Content-Type": "application/json"
-            },
+            headers: this.header,
             cache: "no-store",
             body: JSON.stringify(data)
         })
@@ -62,9 +69,7 @@ class CustomFetch {
             method: "DELETE",
             mode: "cors",
             credentials: "include",
-            headers: {
-                "Content-Type": "application/json"
-            },
+            headers: this.header,
             cache: "no-store",
         })
 
@@ -72,9 +77,17 @@ class CustomFetch {
     }
 }
 
-const Fet = CustomFetch.init(`${process.env.SERVER_URL}`);
-(async () => {
-    const auth = await auth();
-    await Fet.init(auth);
-})();
-export { Fet };
+
+export const initFet = async () => {
+    const Fet = new CustomFetch(`${process.env.SERVER_URL}`)
+    try {
+        const session = await auth();
+        console.log(session)
+        if (session && session.accessToken) {
+          Fet.header['Authorization'] = `Bearer ${session.accessToken}`;
+        }
+    } catch (error) {
+        console.error('Session initialization error:', error);
+    }
+    return Fet;
+};
