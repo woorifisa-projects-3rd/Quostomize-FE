@@ -1,8 +1,16 @@
+import { auth } from "../../auth";
+
 class CustomFetch {
     serverUrl;
+    session;
 
     constructor(serverUrl) {
         this.serverUrl = serverUrl;
+
+    }
+
+    init = async(auth) => {
+        instance.session = await auth;
     }
 
     get = async (endpoint) => {
@@ -64,4 +72,9 @@ class CustomFetch {
     }
 }
 
-export const fet = new CustomFetch(process.env.SERVER_URL);
+const Fet = CustomFetch.init(`${process.env.SERVER_URL}`);
+(async () => {
+    const auth = await auth();
+    await Fet.init(auth);
+})();
+export { Fet };
