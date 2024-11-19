@@ -1,6 +1,6 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-const ArrowButton = ({ direction, onClick }) => {
+function ArrowButton({ direction, onClick }) {
     return (
         <button
             onClick={onClick}

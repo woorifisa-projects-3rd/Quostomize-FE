@@ -21,7 +21,7 @@ const HomeBody1 = () => {
                     <h1>
                         오직 나만을 위한 <span style={{ color: "#007AFF" }}>우리 금융 그룹<br /> '커스터 마이징'</span> 서비스 출시
                     </h1>
-                    <p className="text-xs">첫번째 시작, <span>{"{"}</span> 우리카드: 커스터마이징 카드 <span>{"}"}</span> </p>
+                    <p className="text-xs text-gray-500">첫번째 시작, <span>{"{"}</span> 우리카드: 커스터마이징 카드 <span>{"}"}</span> </p>
                 </div>
             </FadeInSection>
 
