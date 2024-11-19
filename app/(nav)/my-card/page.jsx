@@ -1,9 +1,21 @@
+import Image from "next/image";
+
 const MyCardPage = () => {
-    return (
-      <div>
-        내 카드 페이지
+  return (
+    <div>
+      <h1>나의 카드</h1>
+      <div>카드 이미지
+        {/* TODO: src - s3 이미지 주소로 변경 필요 */}
+        <Image src="/images/temp-card.png" alt="내 카드 이미지" width={180} height={180}></Image>
       </div>
-    );
-  }
-  
-  export default MyCardPage;
+
+      <div>혜택 및 포인트
+        {/* TODO: API 통신 후 개발 예정 */}
+        <div>내 혜택 확인하기</div>
+        <div>내 포인트 쓰는 곳</div>
+      </div>
+    </div>
+  );
+}
+
+export default MyCardPage;
