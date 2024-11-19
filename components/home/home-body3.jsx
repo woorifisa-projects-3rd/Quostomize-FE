@@ -1,7 +1,7 @@
 "use client";
 
 import MyFullButton from '../button/full-button'
-import BenefitBox from './benefit-box'
+import BenefitBox from '../box/benefit-box'
 
 const HomeBody3 = () => {
     const benefits = [
