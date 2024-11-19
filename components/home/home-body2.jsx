@@ -26,7 +26,7 @@ const HomeBody2 = () => {
     return (
 
 
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center mt-16">
 
             <div>
                 <h1>내가 채워가는 나를 위한 카드</h1>

@@ -50,8 +50,8 @@ function HomeHeader() {
     }, []);
 
     return (
-        <div className="flex flex-col justify-center items-center mt-16">
-            <p className="text-3xl">내가 선택하는</p>
+        <div className="flex flex-col justify-center items-center mt-60">
+            <p className="text-3xl font-semibold">내가 선택하는</p>
             <div className="text-3xl space-x-16">
                 <span>{"{"}</span>
                 <span
