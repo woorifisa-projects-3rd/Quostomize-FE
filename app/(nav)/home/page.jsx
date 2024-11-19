@@ -1,9 +1,16 @@
-const MainPage = () => {
+"use client";
+
+import HomeHeader from './home-header';
+import HomeBody1 from './home-body1'
+
+const Home = () => {
   return (
+
     <div>
-      nav가 있는 메인 페이지
+      <HomeHeader />
+      <HomeBody1 />
+
     </div>
   );
 }
-
-export default MainPage;
+export default Home;
