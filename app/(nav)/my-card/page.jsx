@@ -16,6 +16,12 @@ const MyCardPage = () => {
       </div>
 
       <div>
+        <h3>조각투자</h3>
+        <MyToggle />
+        <Image src='' alter='조각투자 이미지' width={50} height={50}></Image>
+      </div>
+
+      <div>
         <h3>일일복권</h3>
         <MyToggle />
         <Image src='' alter='일일복권 이미지' width={50} height={50}></Image>
