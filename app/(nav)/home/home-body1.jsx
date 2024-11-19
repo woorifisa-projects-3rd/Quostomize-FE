@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { useInView } from "react-intersection-observer";
 
@@ -23,8 +25,8 @@ const HomeBody1 = () => {
                 </div>
             </FadeInSection>
 
-            {/* 두 번째 섹션에 문장들이 차례대로 나타나도록 */}
-            <section style={{ height: "200vh" }}>
+            {/* 두 번째 섹션에 문장들이 차례대로 나타나도록 하고 싶었습니다 */}
+            <section>
                 {sentences.map((sentence, index) => (
                     <FadeInText key={index} sentence={sentence} />
                 ))}

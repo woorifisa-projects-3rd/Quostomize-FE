@@ -9,8 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@floating-ui/react": "^0.26.28",
     "@headlessui/react": "^2.2.0",
     "gsap": "^3.12.5",
+    "lucide-react": "^0.460.0",
     "material-icons": "^1.13.12",
     "next": "15.0.2",
     "next-auth": "^5.0.0-beta.25",
