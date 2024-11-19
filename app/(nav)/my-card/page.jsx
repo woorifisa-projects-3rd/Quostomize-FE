@@ -26,6 +26,12 @@ const MyCardPage = () => {
         <MyToggle />
         <Image src='' alter='일일복권 이미지' width={50} height={50}></Image>
       </div>
+
+      <div>
+        <h3>페이백</h3>
+        <MyToggle />
+        <p>포인트의 80% 페이백 받기</p>
+      </div>
     </div>
   );
 }
