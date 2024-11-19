@@ -4,7 +4,8 @@ import { initFet } from "../../../../utils/fetch/fet";
 
 
 export async function POST(request) {
-    console.log("POST 실행");
+    console.log("url 체크");
+    console.log(request);
     try {
         const fetch = await initFet();
         const body = await request.json();

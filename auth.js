@@ -9,7 +9,6 @@ export const authConfig = {
         memberPassword: {label: "비밀번호", type: "text"},
       },
       async authorize(credentials, req) {
-        console.log("authorize 실행")
           const response = await fetch(
             `${process.env.NEXT_URL}/api/auth/login`,
             {
@@ -38,41 +37,34 @@ export const authConfig = {
     })
   ],
   secret: process.env.NEXT_PUBLIC_SECRET,
-  // session: {
-  //   strategy:
-  // },
+  session: {
+    strategy: 'jwt',
+    maxAge: 60*30
+  },
+
   callbacks: {
-    async jwt({token, user, account}) {
-      console.log("account =" )
-      console.log(account);
-      console.log("user =")
-      console.log(user)
-      if (user) {
-        token.accessToken = user.accessToken;
-        token.refreshToken = user.refreshToken;
-        // TODO: refresh 전략 설정
-        if (Date.now() >= user.expires) {
-          
-        }
-      }
-      console.log("token =")
-      console.log(token);
-      return token;
-    },
     async session({session, token}) {
       if (token) {
+        // console.log("token: ")
+        // console.log(token)
         session.accessToken = token.accessToken;
         session.refreshToken = token.refreshToken;
       }
-      console.log("session =")
-      console.log(session);
       return session;
+    },
+    async jwt({token, user, session, trigger}) {
+      if (user) {
+        token.accessToken = user.accessToken;
+        token.refreshToken = user.refreshToken;
+      }
+
+      return token;
     },
 
     pages: {
       signIn: "/login"
     }
-  }
+  },
 };
 
-export const { signIn, signOut, auth } = NextAuth(authConfig);
+export const { signIn, signOut, auth, update } = NextAuth(authConfig);

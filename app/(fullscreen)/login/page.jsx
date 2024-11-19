@@ -7,25 +7,26 @@ const LoginPage = () => {
       memberLoginId: formData.get("memberLoginId"),
       memberPassword: formData.get("memberPassword"),
       redirect:true,
-      redirectTo: "/home"
+      redirectTo: "/test"
     });
   }
     return (
       <div>
         <form
           action={login}
+          className="flex flex-col"
         >
           <label>
             아이디
-            <input name="memberLoginId" type="text"/>
+            <input name="memberLoginId" type="text" className="border-2 border-green-400"/>
           </label>
 
           <label>
             비밀번호
-            <input name="memberPassword" type="password"/>
+            <input name="memberPassword" type="password" className="border-2 border-green-400"/>
           </label>
 
-          <button type="submit">Sign In</button>
+          <button type="submit" className="border-4 border-solid bg-red-400">Sign In</button>
         </form>
       </div>
     );

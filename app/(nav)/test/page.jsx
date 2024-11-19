@@ -3,12 +3,14 @@
 import { useEffect, useState } from "react";
 import AlertModal from "../../../components/overlay/alertModal";
 import BottomDrawer from "../../../components/overlay/bottomDrawer";
+import { redirect } from "next/navigation";
 
 const TestPage = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [drawerOpen, setDrawer] = useState(false);
   
   const [res, setRes] = useState(null);
+  const [isMounted, setMounted] = useState(false);
   
 
   useEffect(() => {
@@ -16,13 +18,19 @@ const TestPage = () => {
       // next서버 도메인/route/js 파일 경로
       const result = await fetch("http://localhost:3000/api/test")
       const resultJson = await result.json();
+      if (result.status >= 400) {
+        redirect(resultJson.redirectUrl);
+      }
       setRes(resultJson);
     }
     onLoad();
   },[])
 
   useEffect(() => {
-    console.log(res);
+    if (isMounted === false) {
+      setMounted(true);
+      return;
+    }
   },[res])
   
   return (
