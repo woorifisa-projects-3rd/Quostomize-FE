@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 const OPTIONS = ["적금", "펀드", "증권", "보험", "카드", "페이"];
 const COLORS = ["#007AFF", "#20C4F4"];
 
-export default function HomeHeader() {
+function HomeHeader() {
     const [currentOption, setCurrentOption] = useState("");
     const [colorIndex, setColorIndex] = useState(0);
     const [isStopped, setIsStopped] = useState(false); // 멈춤 여부 관리
@@ -48,7 +48,7 @@ export default function HomeHeader() {
             clearInterval(cycleStop);
         };
     }, []);
-    
+
     return (
         <div >
             <header >
@@ -69,3 +69,5 @@ export default function HomeHeader() {
         </div >
     );
 }
+
+export default HomeHeader;
