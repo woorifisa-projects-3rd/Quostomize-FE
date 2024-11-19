@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import ArrowButton from "../../../components/button/arrow";
+import ArrowButton from "../button/arrow-button";
 
 const colors = ["#ffffff", "#dbff3d", "#ff0000", "#ed3ef7", "#000000"];
 
@@ -56,7 +56,7 @@ const HomeBody2 = () => {
                         key={index}
                         onClick={() => changeColor(index)}
                         className="w-4 h-4 rounded-full shadow-xl"
-                        style={{ backgroundColor: color, boxShadow: color = "0 0 10px rgba(0, 0, 0, 0.5)", }}
+                        style={{ backgroundColor: color, boxShadow: "0 0 10px rgba(0, 0, 0, 0.5)", }}
                     />
                 ))}
             </div>
