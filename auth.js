@@ -27,6 +27,7 @@ export const authConfig = {
           
           return {
             id: result.accessToken,
+            name: credentials.memberLoginId,
             accessToken: result.accessToken,
             refreshToken: result.refreshToken,
             maxAge: result.maxAge,
@@ -43,22 +44,40 @@ export const authConfig = {
   },
 
   callbacks: {
-    async session({session, token}) {
-      if (token) {
-        // console.log("token: ")
-        // console.log(token)
-        session.accessToken = token.accessToken;
-        session.refreshToken = token.refreshToken;
-      }
-      return session;
-    },
     async jwt({token, user, session, trigger}) {
+      // 최초 로그인 시 (user 객체가 존재할 때)
       if (user) {
-        token.accessToken = user.accessToken;
-        token.refreshToken = user.refreshToken;
+        console.log("jwt 내부, user 존재")
+        console.log(user);
+        console.log(user.accessToken);
+        return {
+          ...token,
+          accessToken: user.accessToken,
+          refreshToken: user.refreshToken,
+        };
       }
-
+    
+      // 세션 업데이트 시
+      if (trigger === "update") {
+        console.log("업데이트 일어남");
+        return {
+          ...token,
+          ...session, // 전체 세션 데이터 spread
+        };
+      }
+    
+      // 기존 토큰 유지
       return token;
+    },
+    
+    async session({session, token}) {
+      console.log("session 관련 실행");
+      console.log("기존 session:", session);
+      session.accessToken = token.accessToken
+      session.refreshToken = token.refreshToken
+    
+      // 토큰의 모든 정보를 세션에 복사
+      return session
     },
 
     pages: {
@@ -67,4 +86,4 @@ export const authConfig = {
   },
 };
 
-export const { signIn, signOut, auth, update } = NextAuth(authConfig);
+export const { signIn, signOut, auth, unstable_update } = NextAuth(authConfig);

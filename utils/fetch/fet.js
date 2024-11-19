@@ -1,10 +1,11 @@
-import { getCsrfToken } from "next-auth/react";
-import { auth, update } from "../../auth";
+import { auth, unstable_update } from "../../auth";
 import { NextResponse } from "next/server";
 
 class CustomFetch {
     serverUrl;
     header;
+    isRefreshing = false;
+    failedRequests = [];
     
     constructor(serverUrl) {
         this.serverUrl = serverUrl;
@@ -32,6 +33,7 @@ class CustomFetch {
         try {
             const session = await auth();
             const refreshToken = await session.refreshToken;
+            const accessToken = await session.accessToken;
             if (!refreshToken) {
                 // 리프레시 실패 시 로그인 페이지로 리다이렉트
                 return NextResponse.json({}, {status: 400})
@@ -50,29 +52,22 @@ class CustomFetch {
             const setCookie = response.headers.get("set-cookie").split(";");
             const newRefreshToken = setCookie[0].split("=")[1];
             const result = await response.json();
-            if (response.status >= 400) {
-                return NextResponse.json({}, {status: 400})
-            }
+
+            const newAccessToken = result.accessToken;
             // 새로운 토큰을 받아서 세션 업데이트
             console.log("이전 refreshTOken");
             console.log(refreshToken);
             console.log("새 refreshToken")
             console.log(newRefreshToken)
-            console.log("업데이트 요청 보낼 거임");
-            await fetch(`${NEXT_URL}/api/auth/session`, {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(
-                    {
-                        csrfToken: await getCsrfToken(),
-                        data: {
-                            accessToken: result.accessToken,
-                            refreshToken: newRefreshToken 
-                        }
-                    }
-                )
+            console.log("이전 accessToken")
+            console.log(accessToken)
+            console.log("새 accessToken")
+            console.log(newAccessToken);
+
+            await unstable_update({
+                ...session,
+                accessToken: newAccessToken,
+                refreshToken: newRefreshToken,
             })
             
             return NextResponse.json({}, {status: 200});
@@ -84,7 +79,19 @@ class CustomFetch {
 
     async handleRequest(endpoint, options) {
         try {
+            // If a refresh is in progress, wait for it
+            if (this.isRefreshing) {
+                return new Promise((resolve, reject) => {
+                    this.failedRequests.push({ resolve, reject, endpoint, options });
+                });
+            }
+
             const authHeader = await this.getAuthHeader();
+            console.log("최신 헤더")
+            console.log(authHeader);
+            const session = await fetch(`${process.env.NEXT_URL}/api/auth/session`);
+            const res = await session.json();
+            console.log(res);
             const response = await fetch(this.serverUrl + endpoint, {
                 ...options,
                 headers: {
@@ -94,48 +101,48 @@ class CustomFetch {
                 }
             });
 
-            // 응답이 JSON이 아닐 수 있으므로 미리 클론
             const responseClone = response.clone();
             
             try {
                 const data = await response.json();
-                console.log(data);
-                // 토큰 만료 에러 체크
-                if (data.code) {
-                    // 이미 리프레시 진행 중이면 대기
-                    if (this.isRefreshing) {
-                        return new Promise((resolve) => {
-                            this.failedRequests.push(() => {
-                                resolve(this.handleRequest(endpoint, options));
-                            });
-                        });
-                    }
-
+                
+                // Token expired error
+                if (data.code === "T-001") {
                     this.isRefreshing = true;
-                    const refreshed = await this.refreshToken();
-                    this.isRefreshing = false;
+                    const refreshResult = await this.refreshToken();
 
-                    if (refreshed) {
-                        // 실패했던 요청들 재시도
-                        this.failedRequests.forEach(callback => callback());
+                    if (refreshResult) {
+                        // Retry original request and other failed requests
+                        const retryRequests = [
+                            { endpoint, options },
+                            ...this.failedRequests
+                        ];
+
+                        const results = await Promise.all(
+                            retryRequests.map(req => 
+                                this.handleRequest(req.endpoint, req.options)
+                            )
+                        );
+
                         this.failedRequests = [];
-                        
-                        // 현재 요청 재시도
-                        return this.handleRequest(endpoint, options);
+                        this.isRefreshing = false;
+
+                        return results[0]; // Return original request result
                     } else {
-                        // 리프레시 실패 시 로그인 페이지로 리다이렉트
-                        return NextResponse.json({}, {status:400});
+                        // Refresh failed, redirect to login or handle error
+                        return NextResponse.redirect(new URL('/login', request.url));
                     }
                 }
+
+                return responseClone;
             } catch (e) {
-                // JSON 파싱 에러는 무시하고 원본 응답 반환
                 return responseClone;
             }
-
-            return responseClone;
         } catch (error) {
             console.error("Request failed:", error);
             throw error;
+        } finally {
+            this.isRefreshing = false;
         }
     }
 

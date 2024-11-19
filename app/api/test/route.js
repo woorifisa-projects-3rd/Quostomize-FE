@@ -10,10 +10,9 @@ export async function GET() {
     const response = await fetch.get("/v1/api/member/info");
     
     const result = await response.json();
+    console.log("test 페이지 Get요청 결과")
+    console.log(result);
 
-    const session = await auth();
-    console.log("세션에 refreshToken")
-    console.log(session.refreshToken);
     if (response.status >= 400) {
         return NextResponse.json({redirectUrl:'login'}, {status: response.status})
     } else {

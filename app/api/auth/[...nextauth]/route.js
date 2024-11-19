@@ -4,8 +4,8 @@ import { initFet } from "../../../../utils/fetch/fet";
 
 
 export async function POST(request) {
-    console.log("url 체크");
-    console.log(request);
+    // console.log("url 체크");
+    // console.log(request);
     try {
         const fetch = await initFet();
         const body = await request.json();
@@ -30,5 +30,10 @@ export async function POST(request) {
 
 export async function GET(request) {
     const session = await auth();
+    try{
+        console.log(session.user)
+    } catch {
+        
+    }
     return NextResponse.json({ user: session?.user || null }, { status: 200 });
  }
