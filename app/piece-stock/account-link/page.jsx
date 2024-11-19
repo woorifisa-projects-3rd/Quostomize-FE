@@ -1,6 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import MyCheckBox from '../../../components/check/checkbox'
+import MyFullSubmitButton from '../../../components/button/full-submit-button'
 
 const page = () => {
     return (
@@ -15,9 +16,8 @@ const page = () => {
                     <MyCheckBox />
                 </li>
             </ul>
-            <button>계좌정보 직접입력</button>
-            <br></br>
-            <button>계좌 연동하기</button>
+            <MyFullSubmitButton action={''}>계좌정보 직접입력</MyFullSubmitButton>
+            <MyFullSubmitButton action={''}>계좌 연동하기</MyFullSubmitButton>
         </div>
     )
 }
