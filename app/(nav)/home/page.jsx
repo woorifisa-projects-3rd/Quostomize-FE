@@ -10,7 +10,11 @@ import HomeFoot from '../../../components/home/home-foot';
 const Home = () => {
   return (
 
-    <div>
+    <div className={`h-full overflow-scroll [&::-webkit-scrollbar]:hidden`}
+      style={{
+        scrollbarWidth: 'none',
+        msOverflowStyle: 'none',
+      }}>
       <HomeHeader /><br />
       <HomeBody1 /><br />
       <HomeBody2 /><br />
