@@ -289,7 +289,7 @@ const FavoritePage = () => {
             </div>
           }
           description={
-            <div className="text-gray-600 text-sm text-center mb-6">
+            <div className="text-sm text-center mb-6">
               카드 혜택을 기반으로 3종목을 추천해요.
               원하는 만큼 선택해서 반영해보세요.
             </div>
