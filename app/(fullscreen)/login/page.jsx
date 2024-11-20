@@ -1,6 +1,7 @@
-import { signIn } from "../../../auth"
+import { signIn, signOut } from "../../../auth"
 
-const LoginPage = () => {
+const LoginPage = async () => {
+
   const login = async(formData) => {
     'use server';
     await signIn("credentials", {
@@ -9,6 +10,8 @@ const LoginPage = () => {
       redirect:true,
       redirectTo: "/test"
     });
+
+
   }
     return (
       <div>

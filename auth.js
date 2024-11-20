@@ -1,89 +1,175 @@
 import NextAuth from "next-auth"
 import Credentials from "next-auth/providers/credentials"
- 
+
+// Redis 또는 다른 저장소를 사용하는 것이 좋지만, 임시로 Map을 사용
+// Singleton 패턴으로 토큰 갱신 상태 관리
+class TokenRefreshManager {
+  static instance;
+  refreshPromise;
+  lastRefreshTime;
+
+  constructor() {}
+
+  static getInstance() {
+    if (!TokenRefreshManager.instance) {
+      TokenRefreshManager.instance = new TokenRefreshManager();
+    }
+    return TokenRefreshManager.instance;
+  }
+
+  async refreshToken(token) {
+    const currentTime = Date.now();
+    
+    // 이미 진행 중인 리프레시가 있다면 해당 Promise 반환
+    if (this.refreshPromise) {
+      return this.refreshPromise;
+    }
+
+    // 마지막 리프레시로부터 5초 이내라면 현재 토큰 반환
+    if (currentTime - this.lastRefreshTime < 5000) {
+      return token;
+    }
+
+    this.refreshPromise = this.doRefresh(token);
+    
+    try {
+      const result = await this.refreshPromise;
+      this.lastRefreshTime = Date.now();
+      return result;
+    } finally {
+      this.refreshPromise = null;
+    }
+  }
+
+  async doRefresh(token) {
+    try {
+      const response = await fetch(
+        `${process.env.SERVER_URL}/v1/api/auth/reissue`,
+        {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+            Cookie: `refreshToken=${token.refreshToken}`
+          },
+          cache: "no-store",
+          credentials: "include"
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Token refresh failed');
+      }
+
+      const result = await response.json();
+      const setCookie = response.headers.get("set-cookie")?.split(";");
+      if (!setCookie) throw new Error('No cookie in response');
+
+      const newRefreshToken = setCookie[0].split("=")[1];
+      const expires = setCookie[2].split("=")[1];
+      const path = setCookie[3].split("=")[1];
+
+      return {
+        ...token,
+        accessToken: result.accessToken,
+        refreshToken: newRefreshToken,
+        accessExpires: Date.now() + 150000,
+        refreshExpires: expires,
+        path: path,
+      };
+    } catch (error) {
+      console.error('Token refresh failed:', error);
+      throw error;
+    }
+  }
+}
+
 export const authConfig = {
   providers: [
     Credentials({
       credentials: {
-        memberLoginId: {label: "아이디", type: "text", placeholder:"아이디를 입력해주세요."},
-        memberPassword: {label: "비밀번호", type: "text"},
+        memberLoginId: { label: "아이디", type: "text", placeholder: "아이디를 입력해주세요." },
+        memberPassword: { label: "비밀번호", type: "text" },
       },
       async authorize(credentials, req) {
-          const response = await fetch(
-            `${process.env.NEXT_URL}/api/auth/login`,
-            {
-              method: "POST",
-              headers: {
-                "Content-type": "application/json"
-              },
-              body: JSON.stringify({
-                memberLoginId: credentials.memberLoginId,
-                memberPassword: credentials.memberPassword
-              })
-            }
-          );
-          const result = await response.json();
-          console.log(result);
-          
-          return {
-            id: result.accessToken,
-            name: credentials.memberLoginId,
-            accessToken: result.accessToken,
-            refreshToken: result.refreshToken,
-            maxAge: result.maxAge,
-            expires: result.expires,
-            path: result.path,
-            };
+        const response = await fetch(
+          `${process.env.SERVER_URL}/login`,
+          {
+            method: "POST",
+            headers: {
+              "Content-type": "application/json"
+            },
+            body: JSON.stringify({
+              memberLoginId: credentials.memberLoginId,
+              memberPassword: credentials.memberPassword
+            })
+          }
+        );
+
+        const accessToken = response.headers.get("accessToken");
+        const setCookie = response.headers.get("set-cookie").split(";");
+        const refreshToken = setCookie[0].split("=")[1];
+        const expires = setCookie[2].split("=")[1];
+        const path = setCookie[3].split("=")[1];
+
+        const user = {
+          id: accessToken,
+          name: credentials.memberLoginId,
+          accessToken: accessToken,
+          refreshToken: refreshToken,
+          accessExpires: new Date().valueOf() + 150000,
+          refreshExpires: expires,
+          path: path,
+        }
+        
+        return user;
       }
     })
   ],
   secret: process.env.NEXT_PUBLIC_SECRET,
-  session: {
-    strategy: 'jwt',
-    maxAge: 60*30
-  },
 
   callbacks: {
-    async jwt({token, user, session, trigger}) {
-      // 최초 로그인 시 (user 객체가 존재할 때)
-      if (user) {
-        console.log("jwt 내부, user 존재")
-        console.log(user);
-        console.log(user.accessToken);
+    async jwt({ token, account, user }) {
+      if (account && user) {
         return {
           ...token,
           accessToken: user.accessToken,
           refreshToken: user.refreshToken,
+          accessExpires: user.accessExpires,
+          refreshExpires: user.refreshExpires,
+          path: user.path,
         };
       }
-    
-      // 세션 업데이트 시
-      if (trigger === "update") {
-        console.log("업데이트 일어남");
+
+      // 토큰 만료 시간 체크
+      const currentTime = Date.now();
+      if (token.accessExpires && currentTime + 120000 < token.accessExpires) {
+        return token;
+      }
+
+      // 토큰 리프레시 매니저를 통한 갱신
+      try {
+        return await TokenRefreshManager.getInstance().refreshToken(token);
+      } catch (error) {
         return {
           ...token,
-          ...session, // 전체 세션 데이터 spread
+          error: 'RefreshAccessTokenError',
         };
       }
-    
-      // 기존 토큰 유지
-      return token;
-    },
-    
-    async session({session, token}) {
-      console.log("session 관련 실행");
-      console.log("기존 session:", session);
-      session.accessToken = token.accessToken
-      session.refreshToken = token.refreshToken
-    
-      // 토큰의 모든 정보를 세션에 복사
-      return session
     },
 
-    pages: {
-      signIn: "/login"
-    }
+    async session({ session, token }) {
+      if (token) {
+        session.accessToken = token.accessToken;
+        session.refreshToken = token.refreshToken;
+        session.accessExpires = token.accessExpires;
+        session.refreshExpires = token.refreshExpires;
+        session.path = token.path;
+        session.error = token.error;
+      }
+      return session;
+    },
   },
 };
 
-export const { signIn, signOut, auth, unstable_update } = NextAuth(authConfig);
+
+export const { handlers, signIn, signOut, auth } = NextAuth(authConfig);

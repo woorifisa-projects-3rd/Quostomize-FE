@@ -3,39 +3,49 @@
 import { useEffect, useState } from "react";
 import AlertModal from "../../../components/overlay/alertModal";
 import BottomDrawer from "../../../components/overlay/bottomDrawer";
-import { redirect } from "next/navigation";
-import { signOut } from "../../../auth";
-import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const TestPage = () => {
-  const {update} = useSession();
+  const router = useRouter();
   
   const [isOpen, setIsOpen] = useState(false);
   const [drawerOpen, setDrawer] = useState(false);
   
   const [res, setRes] = useState(null);
-  const [isMounted, setMounted] = useState(false);
   
   
+  // Initial data fetch
   useEffect(() => {
-    const onLoad = async () => {
-      update();
-      // next서버 도메인/route/js 파일 경로
-      const result = await fetch("http://localhost:3000/api/test")
-      const resultJson = await result.json();
-      if (result.status >= 400) {
-        redirect(resultJson.redirectUrl);
-      }
-      setRes(resultJson);
-    }
-    onLoad();
-  },[])
+    console.log("useEffect 실행");
+    const fetchData = async () => {
+      try {
+        // Update session before making the request
+        const result = await fetch(
+          "/api/test"
+          , {
+            cache: "no-store"
+          }
+        );
+        console.log("클라이언트 사이드에서 결과 출력")
+        console.log(result);
+        const resultJson = await result.json();
+        
+        if (result.status >= 400) {
+          router.push(`/${resultJson.redirectUrl}`);
+
+          return;
+        }
+        
+        setRes(resultJson);
+      } catch (error) {
+        console.error("Error fetching data");
+      } 
+    };
+
+    fetchData();
+  }, []); // Empty dependency array for initial load only
 
   useEffect(() => {
-    if (isMounted === false) {
-      setMounted(true);
-      return;
-    }
     console.log(res);
   },[res])
   
