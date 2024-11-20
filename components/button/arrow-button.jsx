@@ -4,9 +4,9 @@ function ArrowButton({ direction, onClick }) {
     return (
         <button
             onClick={onClick}
-            className="text-gray-700 rounded-full focus:outline-none"
+            className="text-gray-700  rounded-full focus:outline-none"
         >
-            {direction === "prev" ? <ChevronLeft size={24} /> : <ChevronRight size={24} />}
+            {direction === "prev" ? <ChevronLeft size={45} className='transistion-colors hover:text-gray-400' /> : <ChevronRight size={45} className='transistion-colors hover:text-gray-400' />}
         </button>
     );
 };

@@ -35,10 +35,10 @@ const HomeBody3 = () => {
 
     return (
         <div className='flex flex-col justify-center items-center mt-32'>
-            <h1 className='text-2xl font-semibold'>내 라이프스타일에 맞춰</h1>
-            <h1 className='text-2xl font-semibold' style={{ color: "#007AFF" }}>내가 정하는 혜택</h1>
+            <h1 className='text-4xl font-semibold'>내 라이프스타일에 맞춰</h1>
+            <h1 className='text-4xl font-semibold mt-2' style={{ color: "#0083CA" }}>내가 정하는 혜택</h1>
 
-            <div className="p-4 space-y-4 mt-5 mb-5">
+            <div className="px-16 space-y-5 mt-14 mb-10 w-full">
                 {benefits.map((benefit, index) => (
                     <BenefitBox
                         key={index}
@@ -48,8 +48,7 @@ const HomeBody3 = () => {
                     />
                 ))}
             </div>
-
-            <MyFullButton href=''>혜택 더보기</MyFullButton>
+            <MyFullButton href='/card-benefit-details'>혜택 더보기</MyFullButton>
         </div>
     );
 }
