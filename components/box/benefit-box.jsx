@@ -17,7 +17,7 @@ const BenefitBox = ({ icon, category, description }) => {
                 </p>
                 <div className="font-semibold text-lg" style={{ color: "#0083CA" }}>
                     {category}
-                    <span className="text-gray-600 ml-2">혜택</span>
+                    <span className="text-[#333d4b] ml-2">혜택</span>
                 </div>
             </div>
         </div>
