@@ -42,12 +42,12 @@ const HomeBody2 = () => {
 
         <div className="flex flex-col justify-center items-center mt-32">
 
-            <div className="text-center text-2xl font-semibold">
+            <div className="text-center text-4xl font-semibold">
                 <h1>내가 채워가는 나를 위한 카드</h1>
-                <p className="text-xs text-gray-500">색상도, 혜택도, 포인트 사용옵션까지 </p>
+                <p className="text-sm text-gray-500 mt-5">색상도, 혜택도, 포인트 사용옵션까지 </p>
             </div>
 
-            <div className="flex w-64 mb-4 mt-10 space-x-5">
+            <div className="flex w-96 mb-4 mt-28 space-x-20">
                 {/* 이전 버튼 */}
                 <ArrowButton direction="prev" onClick={() => handleArrowClick("prev")} />
 
@@ -56,7 +56,7 @@ const HomeBody2 = () => {
                     <img
                         src={images[currentColorIndex]}
                         alt="카드 이미지"
-                        className="w-full h-full rounded-xl object-cover"
+                        className="w-full h-full rounded-xl object-cover rotate-45"
                     />
                 </div>
 
@@ -65,7 +65,7 @@ const HomeBody2 = () => {
             </div>
 
             {/* 색상 미리 보기 원들 */}
-            <div className="flex space-x-2 mt-6">
+            <div className="flex space-x-4 mt-16">
                 {colors.map((color, index) => (
                     <button
                         key={index}

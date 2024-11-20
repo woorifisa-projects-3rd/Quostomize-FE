@@ -6,7 +6,7 @@ const HomeFoot = () => {
 
     return (
         <div>
-            <MyFullButton href=''>카드 만들기</MyFullButton>
+            <MyFullButton href='/create-card'>카드 만들기</MyFullButton>
         </div>
     );
 }
