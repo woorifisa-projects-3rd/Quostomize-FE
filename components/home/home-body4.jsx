@@ -2,20 +2,21 @@
 
 import NoticeToggleBox from '../box/noitce-toggle-box';
 import PointBox from '../box/point-box';
+import HomeFoot from '../home/home-foot';
+import 'material-icons/iconfont/material-icons.css';
 
 const HomeBody4 = () => {
-
     const points = [
         {
-            icon: "/icons/investment.svg",  // 조각투자 아이콘
-            title: "조각투자"
+            icon: "insights",  // 조각투자 아이콘
+            title: "조각 투자"
         },
         {
-            icon: "/icons/payback.svg",  // 페이백 아이콘
+            icon: "attach_money",  // 페이백 아이콘
             title: "페이백"
         },
         {
-            icon: "/icons/ticket.svg",  // 일일 복권 아이콘
+            icon: "star",  // 일일 복권 아이콘
             title: "일일 복권"
         }
     ];
@@ -37,24 +38,28 @@ const HomeBody4 = () => {
                 "교통카드 이용대금 연체 시 연체료가 부과됩니다.(연체이율 연 9% 적용)"
             ]
         }
-    ]
+    ];
 
     return (
-        <div>
-            <h1>혜택은 다양하게</h1>
-            <h1>사용은 재미있게</h1>
+        <div className='flex flex-col justify-center items-center mt-36'>
+            <h1 className='text-2xl font-semibold'>혜택은 다양하게</h1>
+            <h1 className='text-2xl font-semibold' style={{ color: "#007AFF" }}>사용은 재미있게</h1>
 
-            <div className="p-8 grid grid-cols-3 gap-8">
-                {points.map((points, index) => (
+            <div className="p-4 grid grid-cols-3 gap-4 mt-16">
+                {points.map((point, index) => (
                     <PointBox
                         key={index}
-                        icon={points.icon}
-                        title={points.title}
+                        icon={point.icon}
+                        title={point.title}
                     />
                 ))}
             </div>
 
-            <div className="p-4 space-y-2">
+            <div className='mt-20'>
+                <HomeFoot />
+            </div>
+
+            <div className="p-4 w-full space-y-2 mt-20">
                 {notices.map((notice, index) => (
                     <NoticeToggleBox
                         key={index}
@@ -66,4 +71,5 @@ const HomeBody4 = () => {
         </div>
     );
 }
+
 export default HomeBody4;

@@ -2,22 +2,14 @@
 
 const PointBox = ({ icon, title }) => {
     return (
-        <div className="flex flex-col items-center bg-white transition-all duration-300 cursor-pointer">
-            {/* 아이콘 영역 */}
-            <div className="w-16 h-16 mb-4 p-3">
-                <img
-                    src={icon}
-                    alt={title}
-                    className="w-full h-full object-contain"
-                />
-            </div>
-
-            {/* 텍스트 영역 */}
-            <span className="text-gray-800 font-medium text-center">
-                {title}
+        <div className="flex flex-col items-center p-6 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors cursor-pointer">
+            <span className="material-icons" style={{ fontSize: "40px", color: "#007AFF" }}>
+                {icon} {/* Material Icons 아이콘 이름 */}
             </span>
+            <h2 className="mt-2 text-sm font-semibold">{title}</h2>
         </div>
     );
 }
+
 
 export default PointBox;

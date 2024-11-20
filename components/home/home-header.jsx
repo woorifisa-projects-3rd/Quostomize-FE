@@ -50,23 +50,19 @@ function HomeHeader() {
     }, []);
 
     return (
-        <div >
-            <header >
-                내가 선택하는{" "} <br />
-                <span >
-                    {"{"}
-                </span>
+        <div className="flex flex-col justify-center items-center mt-60">
+            <p className="text-3xl font-semibold">내가 선택하는</p>
+            <div className="text-3xl space-x-16">
+                <span>{"{"}</span>
                 <span
                     className="font-bold"
                     style={{ color: COLORS[colorIndex] }}
                 >
                     {currentOption}
                 </span>
-                <span >
-                    {"}"}
-                </span>
-            </header>
-        </div >
+                <span>{"}"}</span>
+            </div>
+        </div>
     );
 }
 
