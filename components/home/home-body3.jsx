@@ -48,7 +48,7 @@ const HomeBody3 = () => {
                     />
                 ))}
             </div>
-            <MyFullButton href=''>혜택 더보기</MyFullButton>
+            <MyFullButton href='/card-benefit-details'>혜택 더보기</MyFullButton>
         </div>
     );
 }
