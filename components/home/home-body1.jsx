@@ -20,7 +20,7 @@ const HomeBody1 = () => {
                 <div className="text-center text-4xl font-semibold">
                     <h1>
                         오직 나만을 위한
-                        <span style={{ color: "#0083CA" }}>우리 금융 그룹</span>
+                        <span style={{ color: "#0083CA" }}> 우리 금융 그룹</span>
                     </h1>
                     <h1 className="mt-2">
                         <span> '커스터 마이징'</span> 서비스 출시
