@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 
 const OPTIONS = ["적금", "펀드", "증권", "보험", "카드", "페이"];
-const COLORS = ["#007AFF", "#20C4F4"];
+const COLORS = ["#0083CA", "#20C4F4"];
 
 function HomeHeader() {
     const [currentOption, setCurrentOption] = useState("");
@@ -50,17 +50,18 @@ function HomeHeader() {
     }, []);
 
     return (
+        // 메인페이지 글자 크기 페이지 너비에 맞춰 3xl 이상 사용
         <div className="flex flex-col justify-center items-center mt-60">
-            <p className="text-3xl font-semibold">내가 선택하는</p>
-            <div className="text-3xl space-x-16">
-                <span>{"{"}</span>
+            <p className="text-6xl font-semibold">내가 선택하는</p>
+            <div className="text-5xl space-x-16 mt-7">
+                <span className="font-extrabold">{"{"}</span>
                 <span
                     className="font-bold"
                     style={{ color: COLORS[colorIndex] }}
                 >
                     {currentOption}
                 </span>
-                <span>{"}"}</span>
+                <span className="font-extrabold">{"}"}</span>
             </div>
         </div>
     );

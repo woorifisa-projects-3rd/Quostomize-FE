@@ -43,7 +43,7 @@ const HomeBody4 = () => {
     return (
         <div className='flex flex-col justify-center items-center mt-36'>
             <h1 className='text-2xl font-semibold'>혜택은 다양하게</h1>
-            <h1 className='text-2xl font-semibold' style={{ color: "#007AFF" }}>사용은 재미있게</h1>
+            <h1 className='text-2xl font-semibold' style={{ color: "#0083CA" }}>사용은 재미있게</h1>
 
             <div className="p-4 grid grid-cols-3 gap-4 mt-16">
                 {points.map((point, index) => (
