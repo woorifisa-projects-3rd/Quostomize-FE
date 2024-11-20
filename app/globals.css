@@ -17,16 +17,12 @@
     font-family: 'Pretendard', sans-serif; /* 기본 폰트 설정 */
     font-size: 1rem;
     line-height: 1.5;
-    background-color: #f8fafc; /* 기본 배경 색상 slate-50 */
     color: #333D4B ; /* 기본 텍스트 색상 */
   }
 
-
+    /*font, color, font-bold 순으로 작성*/
 
   /* font size별 클래스 */
-.font0 {
-    font-size: 1rem; /* text-base 16px */
-}
 
 .font1 {
     font-size: 0.875rem;  /* text-sm 14px */
@@ -46,6 +42,10 @@
   
   .font5 {
     font-size: 3rem;  /* text-5xl 48px */
+  }
+
+  .font55 {
+    font-size: 3.5rem;  /* 52px*/
   }
 
   .font6{
