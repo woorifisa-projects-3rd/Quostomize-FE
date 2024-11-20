@@ -13,7 +13,7 @@ const NoticeToggleBox = ({ title, content }) => {
                 onClick={() => setIsOpen(!isOpen)}
                 className="w-full flex justify-between items-center p-2 bg-gray-100 hover:bg-gray-200 transition-colors"
             >
-                <span className="text-gray-700 text-xs">{title}</span>
+                <span className="text-[#333d4b] text-xs">{title}</span>
                 {isOpen ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
             </button>
 
@@ -24,13 +24,13 @@ const NoticeToggleBox = ({ title, content }) => {
                     {Array.isArray(content) ? (
                         <ul className="list-disc pl-5 space-y-2">
                             {content.map((item, index) => (
-                                <li key={index} className="text-xs text-gray-600">
+                                <li key={index} className="text-xs text-gray-500">
                                     {item}
                                 </li>
                             ))}
                         </ul>
                     ) : (
-                        <p className="text-sm text-gray-600">{content}</p>
+                        <p className="text-sm text-gray-500">{content}</p>
                     )}
                 </div>
             )}
