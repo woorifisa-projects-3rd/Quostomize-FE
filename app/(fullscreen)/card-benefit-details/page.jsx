@@ -4,8 +4,8 @@ import BenefitChartV1 from '../../../components/cardBenefitDetails/benefit-graph
 import BenefitChartV1ColorChange from '../../../components/cardBenefitDetails/benefit-graph-v1-colorchange'
 import BenefitChartV2 from '../../../components/cardBenefitDetails/benefit-graph-v2'
 
-import BenefitDetailsBody1 from '../../../components/cardBenefitDetails/benefit-body1'
-import BenefitDetailsBody2 from '../../../components/cardBenefitDetails/benefit-body2'
+import BenefitDetailsBody1 from '../../../components/cardBenefitDetails/benefit-details-body1'
+import BenefitDetailsBody2 from '../../../components/cardBenefitDetails/benefit-details-body2'
 
 import PointUsageHeader from "../../../components/cardBenefitDetails/point-usage-header";
 import PointUsageBody from "../../../components/cardBenefitDetails/point-usage-body";
