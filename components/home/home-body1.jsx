@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useInView } from "react-intersection-observer";
+import FadeInSection from "../fade-in/fade-in-section";
 
 const sentences = [
     "커다란 혜택을",
@@ -23,7 +24,7 @@ const HomeBody1 = () => {
                         <span style={{ color: "#0083CA" }}> 우리 금융 그룹</span>
                     </h1>
                     <h1 className="mt-2">
-                        <span> '커스터 마이징'</span> 서비스 출시
+                        <span style={{ color: "#0083CA" }}> '커스터 마이징'</span> 서비스 출시
                     </h1>
                     <p className="text-sm text-gray-500 mt-5">첫번째 시작, <span>{"{"}</span> 우리카드: 커스터마이징 카드 <span>{"}"}</span> </p>
                 </div>
@@ -38,26 +39,9 @@ const HomeBody1 = () => {
     );
 };
 
-// Fade-in 효과를 섹션에 적용
-const FadeInSection = ({ children }) => {
-    const { ref, inView } = useInView({
-        triggerOnce: false,
-        threshold: 0.5,
-    });
-
-    return (
-        <div
-            ref={ref}
-            className={`transition-all duration-700 ease-in-out transform ${inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
-        >
-            {children}
-        </div>
-    );
-};
-
 const FadeInText = ({ sentence }) => {
     const { ref, inView } = useInView({
-        triggerOnce: false,
+        triggerOnce: true,
         threshold: 0.5,
     });
 
