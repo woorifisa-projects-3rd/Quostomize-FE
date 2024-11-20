@@ -39,8 +39,8 @@ const HomeBody3 = () => {
         <div className='flex flex-col justify-center items-center mt-32'>
             <FadeInSection>
                 <div className='flex flex-col justify-center items-center'>
-                    <h1 className='text-4xl font-semibold'>내 라이프스타일에 맞춰</h1>
-                    <h1 className='text-4xl font-semibold mt-2' style={{ color: "#0083CA" }}>내가 정하는 혜택</h1>
+                    <h1 className='text-4xl text-[#333d4b] font-semibold'>내 라이프스타일에 맞춰</h1>
+                    <h1 className='text-4xl text-[#0083CA] font-semibold mt-2'>내가 정하는 혜택</h1>
 
                 </div>
             </FadeInSection>

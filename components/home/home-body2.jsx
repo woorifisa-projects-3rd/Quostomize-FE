@@ -43,7 +43,7 @@ const HomeBody2 = () => {
         <FadeInSection>
             <div className="flex flex-col justify-center items-center mt-32">
 
-                <div className="text-center text-4xl font-semibold">
+                <div className="text-center text-4xl text-[#333d4b] font-semibold">
                     <h1>내가 채워가는 나를 위한 카드</h1>
                     <p className="text-sm text-gray-500 mt-5">색상도, 혜택도, 포인트 사용옵션까지 </p>
                 </div>
