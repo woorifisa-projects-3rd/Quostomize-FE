@@ -2,7 +2,9 @@
 
 import MyFullButton from '../button/full-button'
 import BenefitBox from '../box/benefit-box'
+import FadeInSection from "../fade-in/fade-in-section";
 import 'material-icons/iconfont/material-icons.css';
+
 
 const HomeBody3 = () => {
     const benefits = [
@@ -35,22 +37,32 @@ const HomeBody3 = () => {
 
     return (
         <div className='flex flex-col justify-center items-center mt-32'>
-            <h1 className='text-2xl font-semibold'>내 라이프스타일에 맞춰</h1>
-            <h1 className='text-2xl font-semibold' style={{ color: "#007AFF" }}>내가 정하는 혜택</h1>
+            <FadeInSection>
+                <div className='flex flex-col justify-center items-center'>
+                    <h1 className='font4 font-semibold'>내 라이프스타일에 맞춰</h1>
+                    <h1 className='font4 color1 font-semibold'>내가 정하는 혜택</h1>
 
-            <div className="p-4 space-y-4 mt-5 mb-5">
-                {benefits.map((benefit, index) => (
-                    <BenefitBox
-                        key={index}
-                        icon={benefit.icon}
-                        category={benefit.category}
-                        description={benefit.description}
-                    />
-                ))}
-            </div>
+                </div>
+            </FadeInSection>
+            <FadeInSection>
+                <div className="px-16 space-y-5 mt-14 mb-10 w-full">
+                    {benefits.map((benefit, index) => (
+                        <BenefitBox
+                            key={index}
+                            icon={benefit.icon}
+                            category={benefit.category}
+                            description={benefit.description}
+                        />
+                    ))}
+                </div>
+            </FadeInSection>
+            <FadeInSection>
+                <div className='flex flex-col justify-center items-center'>
+                    <MyFullButton href='/card-benefit-details'>혜택 더보기</MyFullButton>
+                </div>
+            </FadeInSection>
+        </div >
 
-            <MyFullButton href=''>혜택 더보기</MyFullButton>
-        </div>
     );
 }
 

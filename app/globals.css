@@ -1,3 +1,77 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+
+
+/* 글로벌 전역 폰트 설정 */
+* {
+    box-sizing: border-box;
+  }
+  
+  
+  /* 기본 폰트 스타일 (body, html) */
+  html, body {
+    font-family: 'Pretendard', sans-serif; /* 기본 폰트 설정 */
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #333D4B ; /* 기본 텍스트 색상 */
+  }
+
+    /*font, color, font-bold 순으로 작성*/
+
+  /* font size별 클래스 */
+
+.font1 {
+    font-size: 0.875rem;  /* text-sm 14px */
+  }
+  
+  .font2 {
+    font-size: 1.25rem;  /* text-xl 20px */
+  }
+  
+  .font3 {
+    font-size:  1.5rem;  /* text-2xl 24px */
+  }
+  
+  .font4 {
+    font-size: 2.25rem;  /* text-4xl 36px */
+  }
+  
+  .font5 {
+    font-size: 3rem;  /* text-5xl 48px */
+  }
+
+  .font55 {
+    font-size: 3.5rem;  /* 52px*/
+  }
+
+  .font6{
+    font-size: 3.75rem; /* text-6xl 60px */
+  }
+
+  .font6{
+    font-size: 4.5rem; /* text-7xl 72px */
+  }
+  
+  
+
+/* font color 클래스 */
+
+.color1 {
+  color: #0083CA ; /* 강조 블루 1 */
+}
+
+.color2 {
+    color: #20C4F4; /* 강조 블루 2 */
+  }
+
+.color3 {
+    color: #6B7280; /* text-gray-500 기타 설명 등 */
+  }
+
+.color4 {
+    color: #333D4B; /**/
+  }

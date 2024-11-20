@@ -3,6 +3,7 @@
 import NoticeToggleBox from '../box/noitce-toggle-box';
 import PointBox from '../box/point-box';
 import HomeFoot from '../home/home-foot';
+import FadeInSection from "../fade-in/fade-in-section";
 import 'material-icons/iconfont/material-icons.css';
 
 const HomeBody4 = () => {
@@ -41,34 +42,41 @@ const HomeBody4 = () => {
     ];
 
     return (
-        <div className='flex flex-col justify-center items-center mt-36'>
-            <h1 className='text-2xl font-semibold'>혜택은 다양하게</h1>
-            <h1 className='text-2xl font-semibold' style={{ color: "#007AFF" }}>사용은 재미있게</h1>
 
-            <div className="p-4 grid grid-cols-3 gap-4 mt-16">
-                {points.map((point, index) => (
-                    <PointBox
-                        key={index}
-                        icon={point.icon}
-                        title={point.title}
-                    />
-                ))}
-            </div>
+        <div className='flex flex-col justify-center items-center mt-32'>
+            <FadeInSection>
+                <div className='flex flex-col justify-center items-center'>
+                    <h1 className='font4 font-semibold'>혜택은 다양하게</h1>
+                    <h1 className='font4 color1 font-semibold'>사용은 재미있게</h1>
 
-            <div className='mt-20'>
+                    <div className="gap-8 grid grid-cols-3 mt-24">
+                        {points.map((point, index) => (
+                            <PointBox
+                                key={index}
+                                icon={point.icon}
+                                title={point.title}
+                            />
+                        ))}
+                    </div>
+                </div>
+            </FadeInSection>
+
+            <div className='mt-32'>
                 <HomeFoot />
             </div>
 
-            <div className="p-4 w-full space-y-2 mt-20">
-                {notices.map((notice, index) => (
-                    <NoticeToggleBox
-                        key={index}
-                        title={notice.title}
-                        content={notice.content}
-                    />
-                ))}
-            </div>
-        </div>
+            <FadeInSection>
+                <div className="p-4 w-full space-y-2 mt-20">
+                    {notices.map((notice, index) => (
+                        <NoticeToggleBox
+                            key={index}
+                            title={notice.title}
+                            content={notice.content}
+                        />
+                    ))}
+                </div>
+            </FadeInSection >
+        </div >
     );
 }
 
