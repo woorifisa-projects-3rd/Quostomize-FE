@@ -52,16 +52,16 @@ function HomeHeader() {
     return (
         // 메인페이지 글자 크기 페이지 너비에 맞춰 3xl 이상 사용
         <div className="flex flex-col justify-center items-center mt-60">
-            <p className="text-6xl text-[#333d4b] font-semibold">내가 선택하는</p>
-            <div className="text-5xl space-x-16 mt-7">
-                <span className="text-[#333d4b] font-extrabold ">{"{"}</span>
+            <p className="font6 font-semibold">내가 선택하는</p>
+            <div className="font5 space-x-16 mt-7">
+                <span className="font-extrabold ">{"{"}</span>
                 <span
                     className="font-bold"
                     style={{ color: COLORS[colorIndex] }}
                 >
                     {currentOption}
                 </span>
-                <span className="text-[#333d4b] font-extrabold">{"}"}</span>
+                <span className="font-extrabold">{"}"}</span>
             </div>
         </div>
     );

@@ -18,15 +18,15 @@ const HomeBody1 = () => {
         <div className="flex flex-col justify-center items-center mt-80">
             {/* 첫 번째 섹션에 fade-in 효과 추가 */}
             <FadeInSection>
-                <div className="text-[#333d4b] text-center text-4xl font-semibold">
+                <div className="font4 text-center font-semibold">
                     <h1>
                         오직 나만을 위한
-                        <span className="text-[#0083CA]"> 우리 금융 그룹</span>
+                        <span className="color1"> 우리 금융 그룹</span>
                     </h1>
                     <h1 className="mt-2">
-                        <span className="text-[#0083CA]"> '커스터 마이징'</span> 서비스 출시
+                        <span className="color1"> '커스터 마이징'</span> 서비스 출시
                     </h1>
-                    <p className="text-sm text-gray-500 mt-5">첫번째 시작, <span>{"{"}</span> 우리카드: 커스터마이징 카드 <span>{"}"}</span> </p>
+                    <p className="font1 color3 mt-5">첫번째 시작, <span>{"{"}</span> 우리카드: 커스터마이징 카드 <span>{"}"}</span> </p>
                 </div>
             </FadeInSection>
 
@@ -54,12 +54,10 @@ const FadeInText = ({ sentence }) => {
             className={`transition-all duration-700 ease-in-out transform ${inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
                 }`}
         >
-            <span className="font-extrabold text-4xl text-[#0083CA] relative">
+            <span className="font4 color1 font-extrabold relative">
                 {firstChar}
-                {/* 첫 글자 아래에 밑줄 효과 - 적용되지 않고 있음. 확인 필요 */}
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 scale-x-100 transform group-hover:w-full"></span>
             </span>
-            <span className="text-2xl font-bold text-[#333d4b] ml-1">
+            <span className="font3 font-bold ml-1">
                 {restOfText}
             </span>
         </div>
