@@ -40,7 +40,7 @@ const HomeBody3 = () => {
             <FadeInSection>
                 <div className='flex flex-col justify-center items-center'>
                     <h1 className='font4 font-semibold'>내 라이프스타일에 맞춰</h1>
-                    <h1 className='font4 color1 font-semibold mt-2'>내가 정하는 혜택</h1>
+                    <h1 className='font4 color1 font-semibold'>내가 정하는 혜택</h1>
 
                 </div>
             </FadeInSection>

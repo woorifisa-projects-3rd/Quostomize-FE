@@ -47,7 +47,7 @@ const HomeBody4 = () => {
             <FadeInSection>
                 <div className='flex flex-col justify-center items-center'>
                     <h1 className='font4 font-semibold'>혜택은 다양하게</h1>
-                    <h1 className='font4 color1 font-semibold mt-2'>사용은 재미있게</h1>
+                    <h1 className='font4 color1 font-semibold'>사용은 재미있게</h1>
 
                     <div className="gap-8 grid grid-cols-3 mt-24">
                         {points.map((point, index) => (
