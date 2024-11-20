@@ -34,7 +34,14 @@ const TabContentBox = ({ tabs = [] }) => {
 
                 {/* Subtitle 영역 */}
                 {tabs[activeTab]?.subtitle && (
-                    <h1 className="text-xl font-semibold mb-6">{tabs[activeTab].subtitle}</h1>
+                    <h1 className="text-xl font-semibold mb-6">
+                        {tabs[activeTab].subtitle.split('\n').map((line, index) => (
+                            <span key={index}>
+                                {line}
+                                <br />
+                            </span>
+                        ))}
+                    </h1>
                 )}
 
                 {tabs[activeTab]?.content?.map((item, index) => (
@@ -47,11 +54,30 @@ const TabContentBox = ({ tabs = [] }) => {
                             </div>
                             <div className="flex-1">
                                 <p className="font1">
-                                    {typeof item === 'string' ? item : item?.text || ''}
+                                    {typeof item === 'string'
+                                        ? item.split('\n').map((line, index) => (
+                                            <span key={index}>
+                                                {line}
+                                                <br />
+                                            </span>
+                                        ))
+                                        : item?.text.split('\n').map((line, index) => (
+                                            <span key={index}>
+                                                {line}
+                                                <br />
+                                            </span>
+                                        )) || ''}
                                 </p>
                                 {/* 추가 설명이 있는 경우 */}
                                 {item?.description && (
-                                    <p className="mt-1 font0 color3">{item.description}</p>
+                                    <p className="mt-1 font0 color3">
+                                        {item.description.split('\n').map((line, index) => (
+                                            <span key={index}>
+                                                {line}
+                                                <br />
+                                            </span>
+                                        ))}
+                                    </p>
                                 )}
                             </div>
                         </div>
