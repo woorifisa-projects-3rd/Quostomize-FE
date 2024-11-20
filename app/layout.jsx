@@ -9,7 +9,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className="flex justify-center h-full">
       <body
-        className={`flex flex-col w-96 h-full bg-slate-400`}
+        className={`flex flex-col w-[36rem] h-full bg-gray-100`}
       >
         {children}
       </body>
