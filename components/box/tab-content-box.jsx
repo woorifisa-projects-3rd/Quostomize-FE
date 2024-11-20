@@ -18,9 +18,9 @@ const TabContentBox = ({ tabs = [] }) => {
                     <button
                         key={index}
                         onClick={() => setActiveTab(index)}
-                        className={`px-4 py-2 font1 transition-colors ${activeTab === index
-                            ? 'color1 border-b-2 color1 bg-gray-50'
-                            : 'color3 hover:color4 hover:bg-gray-50'
+                        className={`px-4 py-2 font1 font-bold text-[color1] transition-colors ${activeTab === index
+                            ? 'color1 border-b-2 bg-gray-50'
+                            : 'color3 hover:bg-gray-50'
                             }`}
                     >
                         {tab.title || `Tab ${index + 1}`}
@@ -34,7 +34,7 @@ const TabContentBox = ({ tabs = [] }) => {
 
                 {/* Subtitle 영역 */}
                 {tabs[activeTab]?.subtitle && (
-                    <h1 className="text-xl font-semibold mb-6">
+                    <h1 className="font2 font-bold mb-6">
                         {tabs[activeTab].subtitle.split('\n').map((line, index) => (
                             <span key={index}>
                                 {line}
@@ -49,11 +49,11 @@ const TabContentBox = ({ tabs = [] }) => {
 
                         {/* 원 모양의 숫자 표시 */}
                         <div className="flex items-start">
-                            <div className="flex-shrink-0 w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center mr-3">
-                                <span className="font1 color3">{index + 1}</span>
+                            <div className="flex-shrink-0 w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center mr-3">
+                                <span className="font1 font-bold color1">{index + 1}</span>
                             </div>
                             <div className="flex-1">
-                                <p className="font1">
+                                <p className="font1 font-semibold">
                                     {typeof item === 'string'
                                         ? item.split('\n').map((line, index) => (
                                             <span key={index}>
