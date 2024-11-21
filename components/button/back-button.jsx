@@ -5,8 +5,11 @@ import { useRouter } from 'next/navigation';
 const BackButton = ({ children }) => {
     const router = useRouter();
 
-    const handleBack = () => {
-        router.back();  // 이전 페이지로 이동
+    const handleBack = (children) => {
+        if (children == '카드 소개로 돌아가기') { router.push('/home'); }
+        else {
+            router.back(); // 이전 페이지로 이동
+        }
     };
 
     return (
