@@ -1,67 +1,45 @@
 class CustomFetch {
     serverUrl;
-
+    
     constructor(serverUrl) {
         this.serverUrl = serverUrl;
     }
 
-    get = async (endpoint) => {
-        const response = await fetch(this.serverUrl+endpoint, {
-            method: "GET",
-            mode: "cors",
-            credentials: "include",
+    async handleRequest(endpoint, options) {
+        const response = await fetch(`${this.serverUrl}${endpoint}`, {
+            ...options,
             headers: {
-                "Content-Type": "application/json"
+                'Content-Type': 'application/json',
+                ...options.headers,
             },
-            cache: "no-store"
-        })
+            credentials: 'include',
+            cache: 'no-store'
+        });
 
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        if (options.method === 'GET') {
+            return response.json();
+        }
+        
         return response;
     }
 
-    post = async (endpoint, data) => {
-        const response = await fetch(this.serverUrl+endpoint, {
-            method: "POST",
-            mode: "cors",
-            credentials: "include",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            cache: "no-store",
-            body: JSON.stringify(data)
-        })
+    get = (endpoint) => this.handleRequest(endpoint, { method: 'GET' });
+    
+    post = (endpoint, data) => this.handleRequest(endpoint, {
+        method: 'POST',
+        body: data ? JSON.stringify(data) : {}
+    });
 
-        return response;
-    }
+    patch = (endpoint, data) => this.handleRequest(endpoint, {
+        method: 'PATCH',
+        body: data ? JSON.stringify(data) : {}
+    });
 
-    patch = async (endpoint, data) => {
-        const response = await fetch(this.serverUrl+endpoint, {
-            method: "PATCH",
-            mode: "cors",
-            credentials: "include",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            cache: "no-store",
-            body: JSON.stringify(data)
-        })
-
-        return response;
-    }
-
-    delete = async (endpoint) => {
-        const response = await fetch(this.serverUrl+endpoint, {
-            method: "DELETE",
-            mode: "cors",
-            credentials: "include",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            cache: "no-store",
-        })
-
-        return response;
-    }
+    delete = (endpoint) => this.handleRequest(endpoint, { method: 'DELETE' });
 }
 
-export const fet = new CustomFetch(process.env.SERVER_URL);
+export default CustomFetch;
