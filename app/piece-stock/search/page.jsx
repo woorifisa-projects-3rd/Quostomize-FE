@@ -1,11 +1,41 @@
 'use client'
 
 import { useEffect, useState } from "react";
+import RecommendAlertmodal from "../../../components/piece-stock/favorite/recommendAlertmodal";
 
 const SearchPage = () => {
   const [value, setValue] = useState(""); // 입력값
   const [searchInfo, setSearchInfo] = useState([]);
   const [selectedStocks, setSelectedStocks] = useState([]);
+  const [isAlert, setAlert] = useState(false);
+  const [wishInfo, setWishInfo] = useState([])
+
+  const param = new URLSearchParams();
+
+  const cardId = 2
+  //예시value
+  param.append("cardId", cardId)
+
+  // 백엔드에서 GET 위시리스트 조회시, 위시리스트의 priority, stockName, stockPresentPrice, stockImage 를 갖고온다.
+  const searchWishStocks = async () => {
+    try {
+      const response = await fetch(`http://localhost:8080/api/stocks/select?${param}`, {
+        method: 'GET',
+      });
+
+      if (!response.ok) {
+        throw new Error('값이 조회되지 않았습니다.');
+      }
+      const data = await response.json(); // 응답을 JSON으로 파싱
+      setWishInfo(data.data);
+    } catch (error) {
+      console.error('데이터 가져오기 오류:', error);
+    }
+  }
+
+
+  useEffect(() => {
+  }, [selectedStocks])
 
   const dummy = [{
     stockName: "주식1",
@@ -35,6 +65,19 @@ const SearchPage = () => {
     );
   }
 
+  const check = () => {
+    searchWishStocks()
+  }
+
+  useEffect(() => {
+    if ((wishInfo.length + selectedStocks.length) > 3) {
+      setAlert(true)
+      setTimeout(() => {
+        setAlert(false)
+      }, 1000);
+    }
+  }, [wishInfo])
+
   return (
     <div className="p-4">
       <div className="flex items-center gap-2 mb-4">
@@ -53,7 +96,7 @@ const SearchPage = () => {
         </div>
       </div>
 
-      <h1 className="font-bold text-lg mb-4">Pencarian Terakhir</h1>
+      <h1 className="font-bold text-lg mb-4">검색 결과</h1>
 
       <div className="space-y-4">
         {searchInfo.map((stock, index) => (
@@ -76,12 +119,16 @@ const SearchPage = () => {
         <div className="mt-4">
           <button
             className="w-full bg-blue-500 text-white py-2 rounded-lg"
-            onClick={() => console.log("선택 완료:", selectedStocks)}
+            onClick={() => check()}
           >
             선택 완료
           </button>
         </div>
       )}
+      {isAlert && <RecommendAlertmodal
+        title={"이미 3개가 선택되어있어요 삭제하고 선택해주세요."}
+      >
+      </RecommendAlertmodal>}
     </div>
   );
 }
