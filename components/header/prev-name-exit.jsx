@@ -4,13 +4,14 @@ import React from "react";
 import ArrowButton from "../button/arrow-button";
 import ExitButton from "../button/exit-button";
 
-function Header1({ children, onArrowClick, exitDirection }) {
+function Header({ children, onArrowClick, exitDirection, showArrowButton }) {
     return (
-        <div className="flex justify-between p-8">
+        <div className="flex justify-between items-center p-8 w-full">
+            {showArrowButton && (
+                <ArrowButton direction="prev" onClick={() => onArrowClick("prev")} />
+            )}
 
-            <ArrowButton direction="prev" onClick={() => onArrowClick("prev")} />
-
-            <div className="font2 font-bold">
+            <div className="font2 font-bold mx-auto">
                 {children}
             </div>
 
@@ -19,4 +20,4 @@ function Header1({ children, onArrowClick, exitDirection }) {
     );
 }
 
-export default Header1;
+export default Header;
