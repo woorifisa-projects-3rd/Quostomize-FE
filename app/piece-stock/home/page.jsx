@@ -24,7 +24,7 @@ const PieceStockHome = () => {
   }
 
   const formatNumber = (number) => {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); // 총매입금액 숫자 세자리 수 단위로 , 표시
   };
 
   return (<>
