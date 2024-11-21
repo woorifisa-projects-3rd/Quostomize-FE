@@ -14,7 +14,7 @@ const BenefitDetailsBody1 = () => {
                 },
                 {
                     text: "매달 최대 4% 적립 또는 10,000 포인트 적립해요",
-                    description: "백화점, 온라인 쇼핑, 마트 중 1개 선택 시 최대 4% 적립\n(매달 최대 10,000 포인트 제한)"
+                    description: "백화점, 온라인 쇼핑, 마트 중 1개 카테고리 선택 시 최대 4% 적립\n(매달 최대 10,000 포인트 제한)"
                 }
             ]
         },
@@ -28,7 +28,7 @@ const BenefitDetailsBody1 = () => {
                 },
                 {
                     text: "매달 최대 4% 적립 또는 10,000 포인트 적립해요",
-                    description: "주유소, 통신, 대중교통 중 1개 선택 시 최대 4% 적립\n(매달 최대 10,000 포인트 제한)"
+                    description: "주유소, 통신, 대중교통 중 1개 카테고리 선택 시 최대 4% 적립\n(매달 최대 10,000 포인트 제한)"
                 }
             ]
         },
@@ -42,7 +42,7 @@ const BenefitDetailsBody1 = () => {
                 },
                 {
                     text: "매달 최대 4% 적립 또는 10,000 포인트 적립해요",
-                    description: "편의점, 카페, 배달앱 중 1개 선택 시 최대 4% 적립\n(매달 최대 10,000 포인트 제한)"
+                    description: "편의점, 카페, 배달앱 중 1개 카테고리 선택 시 최대 4% 적립\n(매달 최대 10,000 포인트 제한)"
                 }
             ]
         },
@@ -56,7 +56,7 @@ const BenefitDetailsBody1 = () => {
                 },
                 {
                     text: "매달 최대 4% 적립 또는 10,000 포인트 적립해요",
-                    description: "투어, 렌트, 숙소 중 1개 선택 시 최대 4% 적립\n(매달 최대 10,000 포인트 제한)"
+                    description: "투어, 렌트, 숙소 중 1개 카테고리 선택 시 최대 4% 적립\n(매달 최대 10,000 포인트 제한)"
                 }
             ]
         },
@@ -70,7 +70,7 @@ const BenefitDetailsBody1 = () => {
                 },
                 {
                     text: "매달 최대 4% 적립 또는 10,000 포인트 적립해요",
-                    description: "OTT, 영화, 도서 중 1개 선택 시 최대 4% 적립\n(매달 최대 10,000 포인트 제한)"
+                    description: "OTT, 영화, 도서 중 1개 카테고리 선택 시 최대 4% 적립\n(매달 최대 10,000 포인트 제한)"
                 }
             ]
         },
@@ -78,7 +78,7 @@ const BenefitDetailsBody1 = () => {
     ]
 
     return (
-        <div className="flex flex-col justify-center items-center p-4 w-full">
+        <div className="flex flex-col justify-center items-center p-4 w-full mt-10">
             <TabContentBox tabs={tabData} />
         </div>
     )
