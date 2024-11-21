@@ -4,6 +4,7 @@ import Image from "Next/image"
 import { useEffect, useState } from "react";
 import LargeModal from "../../../components/overlay/largeModal";
 import RecommendAlertmodal from "../../../components/piece-stock/favorite/recommendAlertmodal"
+import { useRouter } from "next/navigation";
 
 const FavoritePage = () => {
   const [wishInfo, setWishInfo] = useState([]); // 조회한 위쉬 정보를 저장
@@ -14,6 +15,7 @@ const FavoritePage = () => {
   const [isOpen, setOpen] = useState(false)
   const [isClickButton, setClickButton] = useState([false, false, false])
   const [showAlertModal, setShowAlertModal] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     searchWishStocks();
@@ -234,6 +236,10 @@ const FavoritePage = () => {
     }
   }
 
+  const SearchPage = () => {
+    router.push("search");
+  }
+
   return (
     <>
       <ul className="my-7 flex flex-col h-full">
@@ -244,7 +250,7 @@ const FavoritePage = () => {
         </div>
         <div className="flex justify-between items-center p-4">
           <h2 className="text-xl font-semibold">Watchlist</h2>
-          <button className="search-icon">
+          <button className="search-icon" onClick={SearchPage}>
             <span className="material-icons">search</span>
           </button>
         </div>
