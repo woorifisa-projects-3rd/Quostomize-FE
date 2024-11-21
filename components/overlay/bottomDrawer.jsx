@@ -20,7 +20,7 @@ const BottomDrawer = ({isOpen, setIsOpen, onClose, title, description}) => {
                     leaveFrom="transform translate-y-0 opacity-100"
                     leaveTo="transform translate-y-full opacity-0"
                 >
-                    <div className="w-96 h-72 sticky bg-white border rounded-t-lg px-8 py-6">
+                    <div className="w-[32rem] h-72 sticky bg-white border rounded-t-lg px-8 py-6">
                         <span className="font-bold">{title}</span>
                         <p>{description}</p>
                         <div className="flex gap-4 justify-end">

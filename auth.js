@@ -57,7 +57,10 @@ class TokenRefreshManager {
       );
 
       if (!response.ok) {
-        throw new Error('Token refresh failed');
+        await signOut({
+          redirect: true,
+          redirectTo: "/login"
+        })
       }
 
       const result = await response.json();
@@ -72,7 +75,7 @@ class TokenRefreshManager {
         ...token,
         accessToken: result.accessToken,
         refreshToken: newRefreshToken,
-        accessExpires: Date.now() + 150000,
+        accessExpires: Date.now() + 1800000,
         refreshExpires: expires,
         path: path,
       };
@@ -120,7 +123,7 @@ export const authConfig = {
           name: credentials.memberLoginId,
           accessToken: accessToken,
           refreshToken: refreshToken,
-          accessExpires: new Date().valueOf() + 150000,
+          accessExpires: new Date().valueOf() + 1800000,
           refreshExpires: expires,
           path: path,
         }
@@ -163,6 +166,9 @@ export const authConfig = {
 
       // 토큰 만료 시간 체크
       const currentTime = Date.now();
+      console.log("만료시간은 = "+ token.accessExpires);
+      console.log("현재시간은 = "+ currentTime);
+      console.log("남은 시간은 = "+ `${token.accessExpires-currentTime}`);
       if (token.accessExpires && currentTime + 120000 < token.accessExpires) {
         return token;
       }
