@@ -7,19 +7,19 @@ export const metadata = {
 
 export default function NavLayout({ children }) {
   const menuItems = [
-    {title: "홈", iconName: "home", path: "home"},
-    {title: "현재가", iconName: "line_axis", path: "quotes"},
-    {title: "선택종목", iconName: "favorite", path: "favorite"},
-    {title: "보유종목", iconName: "attach_money", path: "stocks"},
-    {title: "검색", iconName: "search", path: "search"},
+    { title: "홈", iconName: "home", path: "home" },
+    { title: "현재가", iconName: "line_axis", path: "quotes" },
+    { title: "선택종목", iconName: "favorite", path: "favorite" },
+    { title: "보유종목", iconName: "attach_money", path: "stocks" },
+    { title: "검색", iconName: "search", path: "search" },
   ]
 
   return (
     <>
-      <div className="w-96 h-[calc(100%-4rem)] bg-white">
+      <div className="w-[36rem] h-[calc(100%-4rem)] bg-white">
         {children}
       </div>
-      <Nav menuItems={menuItems}/>
+      <Nav menuItems={menuItems} />
     </>
   );
 }
