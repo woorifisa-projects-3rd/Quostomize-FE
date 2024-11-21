@@ -37,7 +37,7 @@ const PieceStockHome = () => {
 
     <div className="p-4 h-screen flex flex-col bg-gray-100">
       <div className="flex justify-between">
-        <h1 className="font-bold text-lg mb-4">Pencarian Terakhir</h1>
+        <h1 className="font-bold text-lg mb-4">Stock List</h1>
         <div className="border border-gray-300 bg-white rounded-xl flex items-center p-3 mb-3">
 
           <span className="font-bold cursor-pointer" onClick={StockWishListPage}>주식선택</span>
