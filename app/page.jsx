@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import '../styles/global.css'
 
 export default function Home() {
   redirect('home');
