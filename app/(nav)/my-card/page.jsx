@@ -1,6 +1,35 @@
+'use client'
+
 import Image from "next/image";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 const MyCardPage = () => {
+
+  // const [cardData, setCardSequenceId] = useState(null);
+  // const router = useRouter();
+
+  // const fetchCardData = async (cardSequenceId) => {
+  //   try {
+  //     const result = await fetch(`/v1/api/my-card/{cardSequenceId}`);
+  //     if (result.ok) {
+  //       const data = await result.json();
+  //       setCardSequenceId(data.data);
+  //     } else {
+  //       const errorData = await result.json();
+  //       router.push(`/${errorData.redirectUrl}`);
+  //     }
+  //   } catch (error) {
+  //     console.error('Error - 카드 혜택 불러오기: ', error);
+  //   }
+  // };
+
+  // // fetchCardData: useEffect에서 실행 시키기
+  // useEffect(() => {
+  //   // cardSequenceId: 사용해서 작성하면 됨
+
+  // })
+
   return (
     <div>
       <h1>나의 카드</h1>
