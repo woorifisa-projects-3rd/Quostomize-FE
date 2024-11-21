@@ -1,7 +1,14 @@
+"use client"
+
+import SelectPoint1 from '../../../components/create-card/select-point1';
+
 const CreateCardPage = () => {
   return (
     <div>
-      카드 생성 페이지
+      <header>
+        <SelectPoint1 />
+      </header>
+
     </div>
   );
 }
