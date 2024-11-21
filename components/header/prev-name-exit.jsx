@@ -8,7 +8,7 @@ function Header({ children, onArrowClick, exitDirection, showArrowButton }) {
     return (
         <div className="flex justify-between items-center p-8 w-full">
             {showArrowButton && (
-                <ArrowButton direction="prev" onClick={() => onArrowClick("prev")} />
+                <ArrowButton direction="prev" onClick={onArrowClick} />
             )}
 
             <div className="font2 font-bold mx-auto">

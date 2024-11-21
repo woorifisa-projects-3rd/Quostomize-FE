@@ -1,9 +1,9 @@
 'use client'
 
 import React, { useState } from 'react'
-import SelectPointUsageBox from '../box/select-point-usage-box'
-import Icons from '../../public/icons/icons'
-import Toast from '../overlay/toast';
+import SelectPointUsageBox from '../../box/select-point-usage-box'
+import Icons from '../../../public/icons/icons'
+import Toast from '../../overlay/toast';
 
 function SelectPoint2() {
     const [activeOptions, setActiveOptions] = useState([]);
