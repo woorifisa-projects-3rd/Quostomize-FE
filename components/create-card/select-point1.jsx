@@ -3,7 +3,8 @@ import Header from "../header/prev-name-exit";
 
 function SelectPoint1() {
 
-  const handleArrowClick = (direction) => {
+  const handleArrowClick = () => {
+    window.history.back();
   };
 
   return (
