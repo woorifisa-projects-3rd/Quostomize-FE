@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react';
-import '../../FlipCard.css'; // CSS 파일 import
+import '../../FlipCard.css';
 
 const FlipCard = ({ frontImg, backImg }) => {
     // 카드 뒤집기 상태 관리
