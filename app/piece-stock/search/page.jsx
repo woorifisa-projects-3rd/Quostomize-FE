@@ -7,14 +7,6 @@ const SearchPage = () => {
   const [searchInfo, setSearchInfo] = useState([]);
   const [selectedStocks, setSelectedStocks] = useState([]);
 
-  useEffect(() => {
-    console.log(searchInfo)
-  }, [searchInfo])
-
-  useEffect(() => {
-    console.log(selectedStocks)
-  }, [selectedStocks])
-
   const dummy = [{
     stockName: "주식1",
     stockPrice: "주식가격1",
@@ -41,7 +33,6 @@ const SearchPage = () => {
         ? originalData.filter(name => name !== stockName)
         : [...originalData, stockName]
     );
-    console.log(selectedStocks)
   }
 
   return (
