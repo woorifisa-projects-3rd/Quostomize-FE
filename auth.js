@@ -132,25 +132,12 @@ export const authConfig = {
       }
     })
   ],
-  secret: process.env.NEXT_PUBLIC_SECRET,
+  secret: process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: '/login', // 명시적으로 로그인 페이지 경로 지정
   },
 
   callbacks: {
-    authorized: ({ auth, request }) => {
-
-      // 보호된 경로에 대한 명시적 권한 확인
-      const isProtectedRoute = [
-        '/change-benefits',
-        '/lotto',
-        '/my-card',
-        '/piece-stock'
-      ].some(route => request.nextUrl.pathname.startsWith(route));
-      
-      // 보호된 경로일 경우에만 인증 여부 확인
-      return isProtectedRoute ? !!auth : true;
-    },
 
     async jwt({ token, account, user }) {
       if (account && user) {
@@ -166,9 +153,6 @@ export const authConfig = {
 
       // 토큰 만료 시간 체크
       const currentTime = Date.now();
-      console.log("만료시간은 = "+ token.accessExpires);
-      console.log("현재시간은 = "+ currentTime);
-      console.log("남은 시간은 = "+ `${token.accessExpires-currentTime}`);
       if (token.accessExpires && currentTime + 120000 < token.accessExpires) {
         return token;
       }

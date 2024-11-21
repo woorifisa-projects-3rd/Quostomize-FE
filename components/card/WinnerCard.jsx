@@ -6,7 +6,7 @@ const WinnerCard = ({man}) => {
 
       {/* Card Content */}
       <div className="ml-24 z-10">
-        <div className="text-3xl font-bold mt-2">{man.name}</div>
+        <div className="text-3xl font-bold mt-2 tracking-[.5em]">{man.name}</div>
       </div>
     </div>
   );
