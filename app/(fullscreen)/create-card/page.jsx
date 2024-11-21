@@ -3,6 +3,8 @@
 import SelectPoint1 from '../../../components/create-card/select-point/select-point1';
 import SelectPoint2 from '../../../components/create-card/select-point/select-point2';
 import CreateCardBottom from '../../../components/create-card/create-card-bottom';
+import SelectCardImage from '../../../components/create-card/card-detail/select-card-image';
+import SelectCardDetail from '../../../components/create-card/card-detail/select-card-detail';
 
 import React, { useState } from "react";
 
@@ -62,10 +64,11 @@ const CreateCardPage = () => {
           <header>
             <SelectPoint1 onClick={handlePrevPage} />
           </header>
+          <SelectCardImage />
+          <SelectCardDetail />
         </div>;
 
-      default:
-        return null;
+
 
     }
   };
