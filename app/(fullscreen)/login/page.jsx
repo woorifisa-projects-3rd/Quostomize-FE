@@ -1,16 +1,41 @@
-import { signIn, signOut } from "../../../auth"
+'use client'
 
-const LoginPage = async () => {
+import { useRouter, useSearchParams } from "next/navigation";
+import { signIn } from "next-auth/react"
+import LogoutButton from "./LogoutButton"
 
+const LoginPage = () => {
+  const serachParams = useSearchParams();
+  const router = useRouter();
+  let redirectTo;
+  const goalURL = serachParams.get("to");
+  if (goalURL) {
+    redirectTo = "/"+ goalURL;
+  } else {
+    redirectTo = "/home";
+  }
+  
   const login = async(formData) => {
-    'use server';
-    await signIn("credentials", {
-      memberLoginId: formData.get("memberLoginId"),
-      memberPassword: formData.get("memberPassword"),
-      redirect:true,
-      redirectTo: "/test"
-    });
+    let isAuthed = true;
+    try {
+      const response = await signIn("credentials", {
+        memberLoginId: formData.get("memberLoginId"),
+        memberPassword: formData.get("memberPassword"),
+        redirect: false,
+      });
+      if (response.error) {
+        window.alert("아이디, 비밀번호 확인");
+      }
 
+    } catch (err) {
+      isAuthed = false;
+      window.alert(err.message);
+    } finally {
+      if (isAuthed) {
+        router.push(redirectTo);
+      }
+    }
+    
 
   }
     return (
@@ -31,6 +56,7 @@ const LoginPage = async () => {
 
           <button type="submit" className="border-4 border-solid bg-red-400">Sign In</button>
         </form>
+        <LogoutButton />
       </div>
     );
   }

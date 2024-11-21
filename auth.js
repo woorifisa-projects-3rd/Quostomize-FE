@@ -105,6 +105,10 @@ export const authConfig = {
           }
         );
 
+        if (response.status >= 400) {
+          throw new Error("아이디, 비밀번호를 확인해주세요.")
+        }
+
         const accessToken = response.headers.get("accessToken");
         const setCookie = response.headers.get("set-cookie").split(";");
         const refreshToken = setCookie[0].split("=")[1];
@@ -126,8 +130,25 @@ export const authConfig = {
     })
   ],
   secret: process.env.NEXT_PUBLIC_SECRET,
+  pages: {
+    signIn: '/login', // 명시적으로 로그인 페이지 경로 지정
+  },
 
   callbacks: {
+    authorized: ({ auth, request }) => {
+
+      // 보호된 경로에 대한 명시적 권한 확인
+      const isProtectedRoute = [
+        '/change-benefits',
+        '/lotto',
+        '/my-card',
+        '/piece-stock'
+      ].some(route => request.nextUrl.pathname.startsWith(route));
+      
+      // 보호된 경로일 경우에만 인증 여부 확인
+      return isProtectedRoute ? !!auth : true;
+    },
+
     async jwt({ token, account, user }) {
       if (account && user) {
         return {
