@@ -45,7 +45,7 @@ const BenefitChartV1ColorChange = () => {
                     {
                         label: '문화',
                         data: [20],
-                        backgroundColor: '#8C8C8C', // 디스코볼 아이콘의 회색
+                        backgroundColor: '#8BC34A', // 책 아이콘의 초록색
                     },
                 ],
             },
@@ -90,7 +90,7 @@ const BenefitChartV1ColorChange = () => {
                     {
                         label: '문화',
                         data: [30],
-                        backgroundColor: '#8C8C8C',
+                        backgroundColor: '#8BC34A',
                     },
                 ],
             },
