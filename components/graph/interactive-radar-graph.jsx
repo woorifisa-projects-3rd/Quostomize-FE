@@ -76,9 +76,11 @@ const InteractiveRadarGraph = ({ labels, datasets, onButtonClick, borderColor, m
     }, [labels, datasets, borderColor, max, min]);
 
     return (
-        <div className="relative items-center h-80">
-            <canvas ref={chartRef}></canvas>
-            <div className="flex justify-between mt-2">
+        <div className='flex flex-col justify-between items-center'>
+            <div className="relative items-center" style={{ flex: '1 1 auto' }}>
+                <canvas style={{ width: '100%', height: '100%' }} ref={chartRef}></canvas>
+            </div>
+            <div className=" mt-2">
                 {labels.map((label, index) => (
                     <button key={index} onClick={() => onButtonClick(index)}
                         className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition">
