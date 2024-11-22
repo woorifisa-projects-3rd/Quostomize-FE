@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import '../../Carousel.css'
 
-const CarouselCard = () => {
+const CarouselCard = ({ onCardChange }) => {
     const [angle, setAngle] = useState(0);
     const sceneRef = useRef(null);
     const carouselRef = useRef(null);
@@ -22,24 +22,21 @@ const CarouselCard = () => {
 
     const calculateFrontCardIndex = (currentAngle) => {
         const normalizedAngle = ((currentAngle % 360) + 360) % 360;
-        const index = Math.round(normalizedAngle / rotateAngle) % 5;
-        return index === 0 ? 1 : index + 1;
+        return Math.round(normalizedAngle / rotateAngle) % 5;
     };
 
+    // 각도가 변경될 때마다 현재 카드 번호를 부모 컴포넌트에 전달
+    useEffect(() => {
+        const currentIndex = calculateFrontCardIndex(angle);
+        onCardChange(currentIndex);
+    }, [angle, onCardChange]);
+
     const handlePrev = () => {
-        setAngle((prev) => {
-            const newAngle = prev - rotateAngle;
-            const frontCardIndex = calculateFrontCardIndex(newAngle);
-            return newAngle
-        });
+        setAngle((prev) => prev - rotateAngle);
     };
 
     const handleNext = () => {
-        setAngle((prev) => {
-            const newAngle = prev + rotateAngle;
-            const frontCardIndex = calculateFrontCardIndex(newAngle);
-            return newAngle
-        });
+        setAngle((prev) => prev + rotateAngle);
     };
 
     return (
