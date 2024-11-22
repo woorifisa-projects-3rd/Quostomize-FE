@@ -9,13 +9,13 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <SessionProvider>
-    <html lang="en" className="flex justify-center h-full">
-      <body
-        className={`flex flex-col w-[36rem] h-full bg-gray-100`}
-      >
-        {children}
-      </body>
-    </html>
+      <html lang="en" className="flex justify-center h-full">
+        <body
+          className={`flex flex-col w-[36rem] h-full bg-slate-400`}
+          >
+          {children}
+        </body>
+      </html>
     </SessionProvider>
   );
 }
