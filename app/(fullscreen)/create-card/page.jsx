@@ -7,6 +7,7 @@ import SelectCardImage from '../../../components/create-card/card-detail/select-
 import SelectCardDetail from '../../../components/create-card/card-detail/select-card-detail';
 import SelectDesign1 from '../../../components/create-card/select-design/select-design1'
 import SelectDesign3 from '../../../components/create-card/select-design/select-design3'
+import SelectBenefit2 from '../../../components/create-card/select-benefit/select-benefit2';
 
 import React, { useState } from "react";
 
@@ -52,6 +53,7 @@ const CreateCardPage = () => {
           <header>
             <SelectPoint1 onClick={handlePrevPage} />
           </header>
+          <SelectBenefit2 />
         </div>;
 
       case 3:
