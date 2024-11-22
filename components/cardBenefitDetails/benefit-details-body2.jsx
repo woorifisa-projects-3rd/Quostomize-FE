@@ -41,7 +41,7 @@ const BenefitDetailsBody2 = () => {
             ]
         },
         {
-            iconSrc: "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Mirror%20Ball.png",
+            iconSrc: "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Books.png",
             category: '문화',
             descriptions: [
                 'OTT - 넷플릭스, 티빙',
