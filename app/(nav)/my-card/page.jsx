@@ -58,6 +58,8 @@ const MyCardPage = () => {
     })
   }
 
+  const filteredCardColor = uniqueBy(cardData.filter(card => card.cardColor), "cardColor");
+  const cardColor = filteredCardColor.length > 0 ? filteredCardColor[0].cardColor : null;
   const filteredUpperCategories = uniqueBy(cardData.filter(card => card.isActive), "upperCategoryType");
   const filteredLowerCategories = uniqueBy(
     cardData.filter(card => card.isActive && card.lowerCategoryType), "lowerCategoryType");
@@ -72,13 +74,17 @@ const MyCardPage = () => {
     <div>
       <h1>나의 카드</h1>
       <div>
-        <Image
-          src="/images/temp-card.png"
-          alt="내 카드 이미지"
-          width={180}
-          height={180}
-          priority
-        />
+        {cardColor !== null ? (
+          <Image
+            src={`/cards-images/${cardColor.toString()}f.png`}
+            alt="내 카드 이미지"
+            width={180}
+            height={180}
+            priority
+          />
+        ) : (
+          <div>카드 색상이 없습니다.</div>
+        )}
       </div>
 
       <div>
