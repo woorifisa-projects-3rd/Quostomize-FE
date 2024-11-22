@@ -1,5 +1,5 @@
 import "./globals.css";
-import {SessionProvider} from "next-auth/react"
+import { SessionProvider } from "next-auth/react"
 
 export const metadata = {
   title: "Create Next App",

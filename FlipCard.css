@@ -1,0 +1,45 @@
+/* 카드의 스타일 */
+.card {
+    width: 200px;
+    height: 350px;
+    perspective: 1000px;
+    /* 3D 효과를 위한 설정 */
+}
+
+.card_box {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transition: transform 0.5s ease;
+    /* 빠르고 부드러운 전환 */
+    transform-style: preserve-3d;
+    cursor: pointer;
+    transform: rotate(-90deg);
+    /* 기본적으로 90도 회전 유지 */
+}
+
+.card_box .front,
+.card_box .back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+}
+
+.card_box .back {
+    transform: rotateY(180deg);
+    /* 뒷면은 180도 회전 */
+}
+
+/* 카드가 뒤집혔을 때의 스타일 */
+.card_box.flipped {
+    transform: rotateY(180deg) rotate(90deg);
+    /* 뒤집을 때에도 90도 회전 상태 유지 */
+}
+
+img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    /* 이미지 크기를 부모 크기에 맞게 조정 */
+}
