@@ -5,7 +5,6 @@ import { useState } from "react";
 
 const PieceStockHome = () => {
   const router = useRouter()
-  const [selectedStocks, setSelectedStocks] = useState([]);
 
   const headDummyData = [{
     price: 6284817,
@@ -55,8 +54,7 @@ const PieceStockHome = () => {
         {dummyData.map((stock) => (
           <div
             key={stock.stockName}
-            className={`flex border-b items-center justify-between p-3 rounded-lg mb-2 ${selectedStocks.includes(stock.id) ? 'bg-blue-100' : 'bg-white'
-              }`}
+            className={`flex border-b items-center justify-between p-3 rounded-lg mb-2`}
           >
             <div className="flex items-center gap-3">
               <span className="font3">{stock.stockImage}</span>
