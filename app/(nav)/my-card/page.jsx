@@ -1,7 +1,7 @@
 'use client'
 
-import Image from "next/image";
 import { useEffect, useState } from "react";
+import FlipCard from '../../../components/card/flip-card'
 
 const MyCardPage = () => {
   const [cardData, setCardData] = useState(null);
@@ -60,46 +60,33 @@ const MyCardPage = () => {
 
   const filteredCardColor = uniqueBy(cardData.filter(card => card.cardColor), "cardColor");
   const cardColor = filteredCardColor.length > 0 ? filteredCardColor[0].cardColor : null;
+
   const filteredUpperCategories = uniqueBy(cardData.filter(card => card.isActive), "upperCategoryType");
-  const filteredLowerCategories = uniqueBy(
-    cardData.filter(card => card.isActive && card.lowerCategoryType), "lowerCategoryType");
+  const filteredLowerCategories = uniqueBy(cardData.filter(card => card.isActive && card.lowerCategoryType), "lowerCategoryType");
   const filteredLotto = uniqueBy(cardData.filter(card => card.isLotto), "isLotto");
   const filteredPayback = uniqueBy(cardData.filter(card => card.isPayback), "isPayback");
   const filteredPieceStock = uniqueBy(cardData.filter(card => card.isPieceStock), "isPieceStock");
-  const totalBenefitRate = cardData
-    .filter(card => card.isActive && card.benefitRate)
-    .reduce((sum, card) => sum + card.benefitRate, 0);
+
+  const totalBenefitRate = cardData.filter(card => card.isActive && card.benefitRate).reduce((sum, card) => sum + card.benefitRate, 0);
 
   return (
     <div>
       <h1>나의 카드</h1>
       <div>
         {cardColor !== null ? (
-          <>
-            <Image
-              src={`/cards-images/${cardColor.toString()}f.png`}
-              alt="내 카드 이미지"
-              width={180}
-              height={180}
-              priority
+          <div className="">
+            <FlipCard
+              frontImg={`/cards-images/${cardColor.toString()}f.png`}
+              backImg={`/cards-images/${cardColor.toString()}b.png`}
             />
-            <Image
-              src={`/cards-images/${cardColor.toString()}b.png`}
-              alt="내 카드 이미지"
-              width={180}
-              height={180}
-              priority
-            />
-          </>
+          </div>
         ) : (
           <div>카드 색상이 없습니다.</div>
         )}
       </div>
 
       <div>
-        <div>
-          총 혜택률: {totalBenefitRate}
-        </div>
+        <span>총 혜택률: {totalBenefitRate}</span>
 
         {filteredUpperCategories.map((card, index) => (
           <div key={`upper-${index}`}>
