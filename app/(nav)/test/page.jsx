@@ -16,7 +16,7 @@ const TestPage = () => {
   
   // Initial data fetch
   useEffect(() => {
-    console.log("useEffect 실행");
+
     const fetchData = async () => {
       try {
         // Update session before making the request
@@ -26,8 +26,7 @@ const TestPage = () => {
             cache: "no-store"
           }
         );
-        console.log("클라이언트 사이드에서 결과 출력")
-        console.log(result);
+
         const resultJson = await result.json();
         
         if (result.status >= 400) {
