@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import InteractiveRadarGraph from '../../graph/interactive-radar-graph';
+import SelectBenefit3 from './select-benefit3';
 
 const getRandomColor = () => {
     const colors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'];
@@ -16,7 +17,9 @@ const SelectBenefit2 = () => {
     const handleButtonClick = (index) => {
         setData(prevData => {
             const newData = [...prevData];
-            newData[index] += 1;
+            if (newData[index] < 5) {
+                newData[index] += 1;
+            }
             return newData;
         });
     };
@@ -26,7 +29,7 @@ const SelectBenefit2 = () => {
     }, []);
 
     return (
-        <div className='flex justify-center'>
+        <div className='flex flex-col justify-center'>
             <InteractiveRadarGraph
 
                 labels={labels}
@@ -43,10 +46,7 @@ const SelectBenefit2 = () => {
                 borderColor={borderColor}
 
             />
-            {/* select-benefit3에서 보여주면 좋을 것 같음
-             <div>
-                <h3>Current Data: {JSON.stringify(data)}</h3>
-            </div> */}
+            <SelectBenefit3 labels={labels} data={data.map(item => item - 1)} />
         </div>
     );
 };
