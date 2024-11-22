@@ -75,13 +75,22 @@ const MyCardPage = () => {
       <h1>나의 카드</h1>
       <div>
         {cardColor !== null ? (
-          <Image
-            src={`/cards-images/${cardColor.toString()}f.png`}
-            alt="내 카드 이미지"
-            width={180}
-            height={180}
-            priority
-          />
+          <>
+            <Image
+              src={`/cards-images/${cardColor.toString()}f.png`}
+              alt="내 카드 이미지"
+              width={180}
+              height={180}
+              priority
+            />
+            <Image
+              src={`/cards-images/${cardColor.toString()}b.png`}
+              alt="내 카드 이미지"
+              width={180}
+              height={180}
+              priority
+            />
+          </>
         ) : (
           <div>카드 색상이 없습니다.</div>
         )}
@@ -130,7 +139,7 @@ const MyCardPage = () => {
           </div>
         ))}
       </div>
-    </div>
+    </div >
   );
 }
 
