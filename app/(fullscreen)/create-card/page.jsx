@@ -12,6 +12,7 @@ import SelectBenefit1 from '../../../components/create-card/select-benefit/selec
 import SelectBenefit2 from '../../../components/create-card/select-benefit/select-benefit2';
 import CardDetailHeader from '../../../components/create-card/card-detail/CardDetailHeader';
 import UserDetailHeader from '../../../components/create-card/user-detail/UserDetailHeader';
+import CardApplicantInfo1 from '../../../components/create-card/card-detail/card-applicant-info1';
 import TermsAgreementHeader from '../../../components/create-card/terms-agreement/TermsAgreementHeader';
 import InputAddressHeader from '../../../components/create-card/input-address/InputAddressHeader';
 import CheckInformationHeader from '../../../components/create-card/check-information/CheckInformationHeader';
@@ -43,8 +44,6 @@ const CreateCardPage = () => {
       overflowY: "auto",
     },
   };
-
-
 
   // 현재 페이지에 따라 렌더링할 콘텐츠
   const renderContent = () => {
@@ -87,9 +86,12 @@ const CreateCardPage = () => {
       case 5:
         return <div>
           <header>
+
             <UserDetailHeader onClick={handlePrevPage} />
           </header>
+
           {/*UserDetail - 사용자 상세 정보 */}
+             <CardApplicantInfo1 />
         </div>;
 
       case 6:
@@ -114,7 +116,7 @@ const CreateCardPage = () => {
             <CheckInformationHeader onClick={handlePrevPage} />
           </header>
           {/*CheckInformationHeader - 입력 정보 확인 */}
-        </div>;
+                </div>;
     }
   };
 
