@@ -9,6 +9,7 @@ import SelectDesign1 from '../../../components/create-card/select-design/select-
 import SelectDesign3 from '../../../components/create-card/select-design/select-design3'
 import SelectBenefit1 from '../../../components/create-card/select-benefit/select-benefit1';
 import SelectBenefit2 from '../../../components/create-card/select-benefit/select-benefit2';
+import CardApplicantInfo1 from '../../../components/create-card/card-detail/card-applicant-info1';
 
 import React, { useState } from "react";
 
@@ -72,6 +73,14 @@ const CreateCardPage = () => {
           </header>
           <SelectCardImage />
           <SelectCardDetail />
+        </div>;
+
+      case 5:
+        return <div>
+          <header>
+            <SelectPoint1 onClick={handlePrevPage} />
+          </header>
+          <CardApplicantInfo1 />
         </div>;
     }
   };
