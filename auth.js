@@ -132,7 +132,7 @@ export const authConfig = {
       }
     })
   ],
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.NEXT_PUBLIC_SECRET,
   pages: {
     signIn: '/login', // 명시적으로 로그인 페이지 경로 지정
   },

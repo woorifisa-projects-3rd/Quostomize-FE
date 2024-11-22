@@ -1,4 +1,4 @@
-const WinnerCard = ({man}) => {
+const WinnerCard = ({name}) => {
   return (
     <div className="shrink-0 relative w-5/6 h-[128px] bg-white rounded-lg shadow-lg flex items-center">
       
@@ -6,7 +6,7 @@ const WinnerCard = ({man}) => {
 
       {/* Card Content */}
       <div className="ml-24 z-10">
-        <div className="text-3xl font-bold mt-2 tracking-[.5em]">{man.name}</div>
+        <div className="text-3xl font-bold mt-2 tracking-wider">{name}</div>
       </div>
     </div>
   );
