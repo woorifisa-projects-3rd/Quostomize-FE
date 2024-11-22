@@ -1,25 +1,5 @@
 "use client";
 
-<<<<<<< HEAD
-import React from 'react'
-import RadarGraph from '../graph/radar-graph'
-
-
-
-const SelectBenefit2 = () => {
-
-
-    return (
-        <div>
-            <RadarGraph>
-
-            </RadarGraph>
-        </div>
-    )
-}
-
-export default SelectBenefit2
-=======
 import React, { useState, useEffect } from 'react';
 import InteractiveRadarGraph from '../../graph/interactive-radar-graph';
 import SelectBenefit3 from './select-benefit3';
@@ -72,4 +52,3 @@ const SelectBenefit2 = () => {
 };
 
 export default SelectBenefit2;
->>>>>>> 8bc711f9065603fa427c17b58fcfb90fffd6f9c6
