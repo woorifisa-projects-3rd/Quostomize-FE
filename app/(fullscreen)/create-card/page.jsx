@@ -3,9 +3,9 @@
 import SelectPoint1 from '../../../components/create-card/select-point/select-point1';
 import SelectPoint2 from '../../../components/create-card/select-point/select-point2';
 import CreateCardBottom from '../../../components/create-card/create-card-bottom';
-import CarouselCard from '../../../components/card/carousel-card'
 import SelectCardImage from '../../../components/create-card/card-detail/select-card-image';
 import SelectCardDetail from '../../../components/create-card/card-detail/select-card-detail';
+import SelectDesign1 from '../../../components/create-card/select-design/select-design1'
 
 import React, { useState } from "react";
 
@@ -42,7 +42,7 @@ const CreateCardPage = () => {
           <header>
             <SelectPoint1 onClick={handlePrevPage} />
           </header>
-          <CarouselCard />
+          <SelectDesign1 />
         </div>;
 
       case 2:
