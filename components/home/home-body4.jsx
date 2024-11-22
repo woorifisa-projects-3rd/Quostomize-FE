@@ -4,20 +4,20 @@ import NoticeToggleBox from '../box/noitce-toggle-box';
 import PointBox from '../box/point-notice-box';
 import HomeFoot from '../home/home-foot';
 import FadeInSection from "../fade-in/fade-in-section";
-import 'material-icons/iconfont/material-icons.css';
+import Icons from "../../public/icons/icons"
 
 const HomeBody4 = () => {
     const points = [
         {
-            icon: "insights",  // 조각투자 아이콘
+            icon: Icons.stockpiece,
             title: "조각 투자"
         },
         {
-            icon: "attach_money",  // 페이백 아이콘
+            icon: Icons.payback,
             title: "페이백"
         },
         {
-            icon: "star",  // 일일 복권 아이콘
+            icon: Icons.lotto,
             title: "일일 복권"
         }
     ];
