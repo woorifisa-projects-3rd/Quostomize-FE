@@ -1,7 +1,11 @@
 export default function FullLayout({ children }) {
   return (
-      <div className="w-96 h-full bg-white">
-        {children}
-      </div>
+    <div className={`h-full overflow-scroll bg-slate-50 [&::-webkit-scrollbar]:hidden`}
+      style={{
+        scrollbarWidth: 'none',
+        msOverflowStyle: 'none',
+      }}>
+      {children}
+    </div>
   );
 }
