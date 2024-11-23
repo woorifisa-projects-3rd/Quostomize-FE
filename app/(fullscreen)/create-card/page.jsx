@@ -13,7 +13,8 @@ import SelectBenefit2 from '../../../components/create-card/select-benefit/selec
 import { BenefitProvider } from '../../../components/create-card/select-benefit/BenefitContext';
 import CardDetailHeader from '../../../components/create-card/card-detail/CardDetailHeader';
 import UserDetailHeader from '../../../components/create-card/user-detail/UserDetailHeader';
-import CardApplicantInfo1 from '../../../components/create-card/card-detail/card-applicant-info1';
+import CardApplicantInfo1 from '../../../components/create-card/user-detail/card-applicant-info1';
+import IdentityVerification1 from '../../../components/create-card/user-detail/identityVerification1';
 import TermsAgreementHeader from '../../../components/create-card/terms-agreement/TermsAgreementHeader';
 import InputAddressHeader from '../../../components/create-card/input-address/InputAddressHeader';
 import CheckInformationHeader from '../../../components/create-card/check-information/CheckInformationHeader';
@@ -89,12 +90,12 @@ const CreateCardPage = () => {
       case 5:
         return <div>
           <header>
-
             <UserDetailHeader onClick={handlePrevPage} />
           </header>
-
           {/*UserDetail - 사용자 상세 정보 */}
           <CardApplicantInfo1 />
+          <IdentityVerification1 />
+
         </div>;
 
       case 6:

@@ -12,7 +12,7 @@ function UserDetailHeader({ onClick }) {
                 onArrowClick={onClick}
                 exitDirection="/home"
             >
-                수령인 정보
+                신청인 정보
             </Header>
         </div>
     )
