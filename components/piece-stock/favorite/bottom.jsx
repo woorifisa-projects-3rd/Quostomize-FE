@@ -11,6 +11,11 @@ const favoriteBottom = ({ orderInfo, cardId, wishInfo, setWishInfo, session, set
     const [showAlertModal, setShowAlertModal] = useState(false);
 
     const param = new URLSearchParams();
+    const paramSave = new URLSearchParams();
+    const totalData = []
+    const saveData = []
+    let compareData;
+    let testName
 
     // 스위치 요청
     const switchStock = async () => {
@@ -53,7 +58,7 @@ const favoriteBottom = ({ orderInfo, cardId, wishInfo, setWishInfo, session, set
     // 저장 요청
     const saveStocks = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/v1/api/stocks/recommendations/add?${param}`, {
+            const response = await fetch(`http://localhost:8080/v1/api/stocks/recommendations/add?${paramSave}`, {
                 method: 'GET',
                 credentials: 'include',
                 headers: {
@@ -98,7 +103,6 @@ const favoriteBottom = ({ orderInfo, cardId, wishInfo, setWishInfo, session, set
             isClickButton.forEach((checkStock, i) => { // 선택된 주식을 저장하는 코드
                 let duplicated = []
                 let check = false;
-                const changeData = [];
                 if (checkStock === true) { // 만일 해당 추천주식이 체크 되어 있다면
                     const stockName = recommendStockInfo[i] // 해당하는 인덱스의 위시주식과 비교해서
                     wishInfo.forEach((whishStock, index) => { // 내 위시주식 정보에서
@@ -110,29 +114,55 @@ const favoriteBottom = ({ orderInfo, cardId, wishInfo, setWishInfo, session, set
                             console.log(whishStock.stockName)
                             console.log(stockName.stockName)
                             console.log("===============")
-                            duplicated.push(false) // 중복일떄 false를 넣는다.
-                            param.append("stockName", stockName)
+                            duplicated.push(false) // 중복이 아닐떄 false를 넣는다.
+                            testName = stockName.stockName
                         }
                     })
                     check = true;
-                    changeData.push(stockName)
+
+                    totalData.push(stockName)
+                    console.log(stockName)
                 }
                 if (duplicated.includes(true)) {
                     console.log("위시주식에 이미 해당 주식이 존재합니다.");
                 } else {
                     if (check === true) {
-                        changeData.forEach(data => {
-                            const newData = [...wishInfo, data];
-                            setWishInfo(newData);
-                        })
-                        // console.log(stockName); // 중복이 없을 때만 실행;
-                        // saveStocks(); // 저장하는 함수 호출 (주석 처리된 상태)
+                        console.log(paramSave)
+                        paramSave.append("stockName", testName)
+                        saveStocks(); // 저장하는 함수 호출 (주석 처리된 상태)
+                        saveData.push(...totalData)
+                        console.log(totalData)
                         console.log("위시주식 저장");
+                        // paramSave.delete("stockName")
                     } else {
                         console.log("다음 추천주식 인덱스로")
                     }
                 }
             })
+            if (saveData.length > 0) {
+                if (wishInfo.length === 1) {
+                    compareData = saveData.map((data, i) => {
+                        return (
+                            {
+                                ...data,
+                                priority: i + 2
+                            }
+                        )
+                    })
+                } else {
+                    compareData = saveData.map((data, i) => {
+                        return (
+                            {
+                                ...data,
+                                priority: 3
+                            }
+                        )
+                    })
+                }
+                const newData = [...wishInfo, ...compareData]
+                console.log(totalData)
+                setWishInfo(newData)
+            }
             setOpen(false) // 모달을 닫는다
         }
     }

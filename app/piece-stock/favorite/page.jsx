@@ -7,12 +7,13 @@ import FavoriteBottom from "../../../components/piece-stock/favorite/bottom"
 import { useSession } from "next-auth/react";
 
 const FavoritePage = () => {
-  const [recommendStockInfo, setRecommend] = useState([]);
-  const [orderInfo, setOrderInfo] = useState([])
+  const [recommendStockInfo, setRecommend] = useState([]); //추천종목조회 데이터
+  const [orderInfo, setOrderInfo] = useState([]) // 움직인 횟수
   const [wishInfo, setWishInfo] = useState([]); // 조회한 위쉬 정보를 저장
   const [isClickButton, setClickButton] = useState([false, false, false])
-  const [cardData, setCardData] = useState([])
-  const { data: session, status } = useSession();
+  const [cardData, setCardData] = useState([]) // 카드데이터-카드아이디뽑기용
+  const [dragOverIndex, setDragOverIndex] = useState(null); // 드래깅 된 위치확인 값
+  const { data: session, status } = useSession(); //세션관리용
 
   useEffect(() => {
     if (status === "authenticated") {
@@ -20,14 +21,8 @@ const FavoritePage = () => {
     }
   }, [status]);
 
-  useEffect(() => {
-    // console.log(cardData[0]?.cardSequenceId)
-    // const cardId = cardData[0]?.cardSequenceId
-
-  }, [cardData])
   const cardId = cardData[0]?.cardSequenceId
-  // const cardId = 2
-  // const cardId = cardData.data.find(item => item.benefitId === 93).cardSequenceId;
+
   // 백엔드에서 GET 위시리스트 조회시, 위시리스트의 priority, stockName, stockPresentPrice, stockImage 를 갖고온다.
   const searchCardInfo = async () => {
     try {
@@ -55,7 +50,7 @@ const FavoritePage = () => {
         {/* header - 검색버튼 밑 제목 */}
         <FavoriteHeader />
         {/* 주식 와치리스트*/}
-        {cardId !== undefined && <FavoriteBody cardId={cardId} setOrderInfo={setOrderInfo} setWishInfo={setWishInfo} wishInfo={wishInfo} session={session} status={status} cardData={cardData} />}
+        {cardId !== undefined && <FavoriteBody cardId={cardId} setOrderInfo={setOrderInfo} orderInfo={orderInfo} setWishInfo={setWishInfo} wishInfo={wishInfo} session={session} status={status} dragOverIndex={dragOverIndex} setDragOverIndex={setDragOverIndex} />}
         {/* 항목 추천 조회 및 순서변경 조회 */}
         {cardId !== undefined && <FavoriteBottom cardId={cardId} orderInfo={orderInfo} wishInfo={wishInfo} session={session} status={status} setRecommend={setRecommend} recommendStockInfo={recommendStockInfo} isClickButton={isClickButton} setClickButton={setClickButton} setWishInfo={setWishInfo} />}
       </ul>

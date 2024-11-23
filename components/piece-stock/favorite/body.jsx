@@ -5,10 +5,9 @@ import Image from "Next/image"
 import Motion from "../../../components/piece-stock/etc/motion"
 import InverseMotion from "../../../components/piece-stock/etc/inverseMotion"
 
-const favoriteBody = ({ cardId, setOrderInfo, setWishInfo, wishInfo, session, status, cardData }) => {
+const favoriteBody = ({ cardId, orderInfo, setOrderInfo, setWishInfo, wishInfo, session, status, dragOverIndex, setDragOverIndex }) => {
 
     const [hoveredIndex, setHoveredIndex] = useState([{ order: 0 }, { order: 0 }, { order: 0 }]); // Hover된 항목의 인덱스를 관리
-    const [dragOverIndex, setDragOverIndex] = useState(null); // 드래깅 된 위치확인 값
     const param = new URLSearchParams();
 
     useEffect(() => {

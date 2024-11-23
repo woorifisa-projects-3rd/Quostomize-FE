@@ -70,7 +70,7 @@ const PieceStockHome = () => {
         <div className="text-center" key={index}>
           <h1 className="font1 font-bold mb-3">Portfolio</h1>
           <p className="font4 font-bold mb-3">Total {formatNumber(userInfo.price)}</p>
-          <p className={`font-bold ${userInfo.rate > 0 ? `text-red-500` : `text-blue-500`}`}>{userInfo.rate > 0 ? "+" + userInfo.rate + "%" : "-" + userInfo.rate + "%"}</p>
+          <p className={`font-bold ${userInfo.rate > 0 ? `text-red` : `text-blue-500`}`}>{userInfo.rate > 0 ? "+" + userInfo.rate + "%" : userInfo.rate + "%"}</p>
         </div>
       ))}
     </div>
