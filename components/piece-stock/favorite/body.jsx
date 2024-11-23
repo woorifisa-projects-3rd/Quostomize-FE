@@ -5,34 +5,21 @@ import Image from "Next/image"
 import Motion from "../../../components/piece-stock/etc/motion"
 import InverseMotion from "../../../components/piece-stock/etc/inverseMotion"
 
-const favoriteBody = ({ cardId, setOrderInfo, setWishInfo, wishInfo, session, status }) => {
+const favoriteBody = ({ cardId, setOrderInfo, setWishInfo, wishInfo, session, status, cardData }) => {
 
     const [hoveredIndex, setHoveredIndex] = useState([{ order: 0 }, { order: 0 }, { order: 0 }]); // Hover된 항목의 인덱스를 관리
     const [dragOverIndex, setDragOverIndex] = useState(null); // 드래깅 된 위치확인 값
     const param = new URLSearchParams();
-    //예시value
-    param.append("cardId", cardId)
+
     useEffect(() => {
         if (status === "authenticated") {
             searchWishStocks();
         }
-
     }, [status]);
 
     // 백엔드에서 GET 위시리스트 조회시, 위시리스트의 priority, stockName, stockPresentPrice, stockImage 를 갖고온다.
     const searchWishStocks = async () => {
-        const base64Payload = session.accessToken.split('.')[1];
-        const base64 = base64Payload.replace(/-/g, '+').replace(/_/g, '/');
-        const result = JSON.parse(decodeURIComponent(
-            window
-                .atob(base64)
-                .split('')
-                .map(function (c) {
-                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-                })
-                .join('')
-        ))
-        console.log(result.id)
+        param.append("cardId", cardId)
         try {
             const response = await fetch(`http://localhost:8080/v1/api/stocks/select?${param}`, {
                 method: 'GET',
@@ -42,7 +29,6 @@ const favoriteBody = ({ cardId, setOrderInfo, setWishInfo, wishInfo, session, st
                     'Authorization': `Bearer ${session.accessToken}`, // JWT 토큰을 Authorization 헤더에 포함
                 },
             });
-
             if (!response.ok) {
                 throw new Error('값이 조회되지 않았습니다.');
             }
@@ -55,26 +41,6 @@ const favoriteBody = ({ cardId, setOrderInfo, setWishInfo, wishInfo, session, st
 
     // delete 요청
     const deleteStocks = async () => {
-        try {
-            const response = await fetch(`http://localhost:8080/v1/api/stocks/select?${param}`, {
-                method: 'DELETE',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',  // 요청 본문이 JSON임을 지정
-                    'Authorization': `Bearer ${session.accessToken}`, // JWT 토큰을 Authorization 헤더에 포함
-                },
-            });
-
-            if (!response.ok) {
-                throw new Error('값이 조회되지 않았습니다.');
-            }
-        } catch (error) {
-            console.error('데이터 가져오기 오류:', error);
-        }
-    }
-
-    // delete 요청
-    const saveStocks = async () => {
         try {
             const response = await fetch(`http://localhost:8080/v1/api/stocks/select?${param}`, {
                 method: 'DELETE',
@@ -211,7 +177,6 @@ const favoriteBody = ({ cardId, setOrderInfo, setWishInfo, wishInfo, session, st
             : null;
         setHoveredIndex(newData)
     }
-
 
     return (
         <>

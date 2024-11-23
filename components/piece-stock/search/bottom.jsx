@@ -2,7 +2,7 @@ import React from 'react'
 import RecommendAlertmodal from "../../../components/piece-stock/etc/recommendAlertModal"
 import { useState } from 'react';
 
-const SearchBottom = ({ selectedStocks, cardId }) => {
+const SearchBottom = ({ selectedStocks, cardId, session }) => {
     const [isAlert, setAlert] = useState(false);
     const [wishInfo, setWishInfo] = useState([])
 
@@ -14,6 +14,11 @@ const SearchBottom = ({ selectedStocks, cardId }) => {
         try {
             const response = await fetch(`http://localhost:8080/v1/api/stocks/select?${param}`, {
                 method: 'GET',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',  // 요청 본문이 JSON임을 지정
+                    'Authorization': `Bearer ${session.accessToken}`, // JWT 토큰을 Authorization 헤더에 포함
+                },
             });
 
             if (!response.ok) {
