@@ -81,9 +81,9 @@ const InteractiveTabContentBox = () => {
                         >
                             <div className="w-12 h-12 mr-4 flex items-center justify-center">
                                 <img
-                                    src={optionicon[activeTab][index]} // 아이콘을 올바르게 전달
+                                    src={optionicon[activeTab][index]}
                                     alt={option}
-                                    className="w-8 h-8 object-contain"
+                                    className="w-12 h-12 object-contain"
                                 />
                             </div>
                             <span className="text-gray-700">{option}</span>
