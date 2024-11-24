@@ -9,7 +9,7 @@ import PointUsageBody from "../../../components/cardBenefitDetails/point-usage-b
 import BenefitFooter1 from "../../../components/cardBenefitDetails/benefit-details-footer1";
 import BenefitFooter2 from "../../../components/cardBenefitDetails/benefit-details-footer2";
 
-const CardDetailsPage = ({ children }) => {
+const CardDetailsPage = () => {
   return (
     <div className='relative h-screen'>
       <BackButton children={"카드 소개로 돌아가기"} />
