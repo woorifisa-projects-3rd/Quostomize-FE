@@ -24,12 +24,18 @@ export function BenefitProvider({ children }) {
     });
   };
 
+  const resetContext = () => {
+    setCategoryValues([1, 1, 1, 1, 1]);
+    setSelectedOptions([null, null, null, null, null]);
+  }
+
   return (
-    <BenefitContext.Provider value={{ 
-      categoryValues, 
+    <BenefitContext.Provider value={{
+      categoryValues,
       selectedOptions,
-      updateCategory, 
-      updateOption 
+      updateCategory,
+      updateOption,
+      resetContext
     }}>
       {children}
     </BenefitContext.Provider>
