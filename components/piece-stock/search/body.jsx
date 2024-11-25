@@ -1,3 +1,4 @@
+import Image from "Next/image"
 import React from 'react'
 
 const SearchBody = ({ searchInfo, setSelectedStocks, selectedStocks }) => {
@@ -19,7 +20,7 @@ const SearchBody = ({ searchInfo, setSelectedStocks, selectedStocks }) => {
                         }`}
                         onClick={() => toggleStockSelection(stock.stockName)}>
                         <div className="flex items-center gap-3">
-                            {stock.stockImage}
+                            <Image src={stock.stockImage} width={30} height={30} alt="주식이미지"></Image>
                             <div>
                                 <div className="font-semibold">{stock.stockName}</div>
                             </div>

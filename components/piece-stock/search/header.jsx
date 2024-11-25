@@ -1,33 +1,50 @@
-import React from 'react'
+import { useRouter } from 'next/navigation';
+import React, { useEffect } from 'react'
 
-const searchHeader = ({ setValue, setSearchInfo }) => {
+const searchHeader = ({ setValue, value, setSearchInfo, searchInfo, session }) => {
 
+    const router = useRouter()
     const param = new URLSearchParams();
 
-    const dummy = [{
-        stockName: "주식1",
-        stockPrice: "주식가격1",
-        stockImage: "주식이미지1"
+    useEffect(() => {
+        console.log(searchInfo)
+    }, [searchInfo])
+
+    const searchStock = async () => {
+        param.append("keyword", value)
+        console.log(param)
+        try {
+            const response = await fetch(`http://localhost:8080/v1/api/stocks/search?${param}`, {
+                method: 'GET',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',  // 요청 본문이 JSON임을 지정
+                    'Authorization': `Bearer ${session.accessToken}`, // JWT 토큰을 Authorization 헤더에 포함
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('값이 조회되지 않았습니다.');
+            }
+            const data = await response.json(); // 응답을 JSON으로 파싱
+            setSearchInfo(data.data);
+        } catch (error) {
+            console.error('데이터 가져오기 오류:', error);
+        }
     }
-        , {
-        stockName: "주식2",
-        stockPrice: "주식가격2",
-        stockImage: "주식이미지2"
-    }
-        , {
-        stockName: "주식3",
-        stockPrice: "주식가격3",
-        stockImage: "주식이미지3"
-    }]
 
     const searchData = () => {
-        setSearchInfo(dummy)
+        searchStock()
+    }
+
+    const toFavorite = () => {
+        router.push("/piece-stock/favorite")
     }
 
     return (
         <>
             <div className="flex items-center gap-2 mb-4">
-                <span className="material-icons cursor-pointer">chevron_left</span>
+                <span className="material-icons cursor-pointer" onClick={toFavorite}>chevron_left</span>
                 <div className="flex-1 relative">
                     <input
                         type="text"

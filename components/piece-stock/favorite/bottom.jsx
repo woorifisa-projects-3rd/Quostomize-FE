@@ -101,7 +101,7 @@ const favoriteBottom = ({ orderInfo, cardId, wishInfo, setWishInfo, session, set
             }, 2000); //
         } else {
             isClickButton.forEach((checkStock, i) => { // 선택된 주식을 저장하는 코드
-                const testName = [];
+                const testName = []
                 let duplicated = []
                 let check = false;
                 if (checkStock === true) { // 만일 해당 추천주식이 체크 되어 있다면
@@ -128,7 +128,7 @@ const favoriteBottom = ({ orderInfo, cardId, wishInfo, setWishInfo, session, set
                     console.log("위시주식에 이미 해당 주식이 존재합니다.");
                 } else {
                     if (check === true) {
-                        testName.map((recommendName, index) => {
+                        testName.forEach((recommendName, index) => {
 
                             paramSave.append("stockName", recommendName.stockName)
                             console.log(paramSave)
