@@ -6,6 +6,7 @@ import { redirect, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import BottomDrawer from "../../../../components/overlay/bottomDrawer"
+import Calendar from "../../../../components/calendar/calendar"
 
 
 const LottoMain = () => {
@@ -74,7 +75,7 @@ const LottoMain = () => {
                         "서버에서 오류가 발생했습니다.\n 잠시 후 다시 시도해주세요."
                 }
             </div>
-            <BottomDrawer isOpen={isDrawerOpen} setIsOpen={setDrawerOpen} />
+            <BottomDrawer isOpen={isDrawerOpen} setIsOpen={setDrawerOpen} height={"h-[30rem]"} children={<Calendar date={date} setDate={setDate} isDrawerOpen={isDrawerOpen} setDrawerOpen={setDrawerOpen}/>} />
         </div>
     );
 }
