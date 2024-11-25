@@ -4,6 +4,7 @@ import ChangeBenefitHeader from "../../../components/change-benefits/ChangeBenef
 import ChangeBenefitBody1 from "../../../components/change-benefits/ChangeBenefitBody1";
 import ChangeBenefitBody2 from "../../../components/change-benefits/ChangeBenefitBody2";
 import ChangeBenefitBody3 from "../../../components/change-benefits/ChangeBenefitBody3";
+import ChangeBenefitFoot from "../../../components/change-benefits/ChangeBenefitFoot";
 import { BenefitProvider } from "../../../components/create-card/select-benefit/BenefitContext";
 
 const ChangeBenefitsPage = () => {
@@ -16,9 +17,8 @@ const ChangeBenefitsPage = () => {
         <ChangeBenefitBody1 labels={labels} />
         <ChangeBenefitBody2 labels={labels} />
         <ChangeBenefitBody3 labels={labels} />
-
       </BenefitProvider>
-
+      <ChangeBenefitFoot modalTitle="혜택 변경" exitDirection="/my-card" />
 
     </div>
   );
