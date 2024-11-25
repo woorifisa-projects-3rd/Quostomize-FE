@@ -83,7 +83,11 @@ class TokenRefreshManager {
       };
     } catch (error) {
       console.error('Token refresh failed:', error);
-      redirect("/login")
+      await signOut({
+        redirect: true,
+        redirectTo: "/login"
+      })
+      return;
     }
   }
 }
