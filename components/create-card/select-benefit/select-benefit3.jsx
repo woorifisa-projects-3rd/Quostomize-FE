@@ -1,28 +1,36 @@
 import React from 'react';
+import { useBenefitContext } from './BenefitContext';
 
 const SelectBenefit3 = ({ labels, data }) => {
-    // data가 없을 경우 빈 배열로 초기화
-    const safeData = Array.isArray(data) ? data : [];
+    const { selectedOptions, resetContext } = useBenefitContext();
 
     return (
-        <div className='flex justify-center items-center mt-5'>
-            {/* 데이터가 있을 경우 박스 형태로 출력 */}
-            <div className="p-6 border-2 border-gray-300 rounded-md">
-                <h3 className="font-semibold mb-2">내가 선택한 적립 혜택:</h3>
-                <div className="space-y-2">
-                    {safeData.length > 0 ? (
-                        safeData.map((item, index) => (
-                            item <= 4 && (
-                                <div key={index} className="flex items-center">
-                                    <span className="font-medium">{labels[index]}: </span>
-                                    <span className="ml-2 text-blue-600">{item}</span>
-                                </div>
-                            )
-                        ))
-                    ) : (
-                        <p>No data available</p>
-                    )}
-                </div>
+        <div className="w-full max-w-2xl p-6 border-2 border-gray-300 rounded-md">
+
+            <div className='flex justify-between items-center mb-5'>
+                <h3 className="font-semibold">선택된 혜택</h3>
+
+                <button
+                    onClick={resetContext}
+                    className="px-6 py-2 bg-red-200 text-white rounded-lg hover:bg-red-500"
+                > 선택 초기화 </button>
+
+
+            </div>
+
+
+            <div className="grid grid-cols-5 gap-4">
+                {labels.map((label, index) => (
+                    <div key={index} className="text-center">
+                        <div className="font-medium">{label}</div>
+                        <div className="text-blue-600">{data[index]}</div>
+                        {selectedOptions[index] && (
+                            <div className="text-sm text-gray-600 mt-1">
+                                {selectedOptions[index]}
+                            </div>
+                        )}
+                    </div>
+                ))}
             </div>
         </div>
     );

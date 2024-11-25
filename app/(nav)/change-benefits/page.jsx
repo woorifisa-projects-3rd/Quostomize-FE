@@ -1,9 +1,12 @@
+import ChangeBenefitHeader from "../../../components/change-benefits/ChangeBenefitHeader";
+
 const ChangeBenefitsPage = () => {
-    return (
-      <div>
-        혜택 변경 페이지
-      </div>
-    );
-  }
-  
-  export default ChangeBenefitsPage;
+  return (
+    <div>
+      <ChangeBenefitHeader />
+
+    </div>
+  );
+}
+
+export default ChangeBenefitsPage;
