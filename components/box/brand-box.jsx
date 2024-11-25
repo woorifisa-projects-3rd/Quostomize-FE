@@ -1,12 +1,12 @@
 'use client'
 
-const BrandBox = ({ iconSrc, category, descriptions = [] }) => {  // color -> iconColor로 변경
+const BrandBox = ({ icon, category, descriptions = [] }) => {  // color -> iconColor로 변경
     return (
         <div className="flex gap-4 mb-4 itmes-center">
             {/* 아이콘 영역 */}
             <div className="relative">
                 <img
-                    src={iconSrc}
+                    src={icon}
                     alt={`${category} icon`}
                     width="40"
                     height="40"

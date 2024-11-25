@@ -16,10 +16,10 @@ const FlipCard = ({ frontImg, backImg }) => {
         <div className="card" onClick={handleCardClick}>
             <div className={`card_box ${isFlipped ? 'flipped' : ''}`}>
                 <div className="front">
-                    <img src={frontImg} alt="앞면" />
+                    <img src={frontImg} alt="앞면" className='card_img' />
                 </div>
                 <div className="back">
-                    <img src={backImg} alt="뒷면" />
+                    <img src={backImg} alt="뒷면" className='card_img' />
                 </div>
             </div>
         </div>
