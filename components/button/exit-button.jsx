@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { X } from "lucide-react";
 import AlertModal from "../overlay/alertModal";
 
-function ExitButton({ direction }) {
+function ExitButton({ direction, title, description }) {
     const [isModalOpen, setModalOpen] = useState(false);
 
     const handleOpenModal = () => {
@@ -35,8 +35,8 @@ function ExitButton({ direction }) {
                 isOpen={isModalOpen}
                 setIsOpen={setModalOpen}
                 onClose={handleConfirmExit}
-                title="카드생성"
-                description="정말 나가시겠습니까?"
+                title={title}
+                description={description}
             />
         </div>
     );

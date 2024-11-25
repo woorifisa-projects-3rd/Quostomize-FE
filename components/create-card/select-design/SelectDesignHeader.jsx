@@ -2,21 +2,22 @@ import React from 'react'
 import Header from "../../header/prev-name-exit";
 
 
-function SelectBenefit1({ onClick }) {
+function SelectDesign({ onClick }) {
     console.log("onClick received:", onClick);
 
     return (
 
         <div>
             <Header
-                showArrowButton={true}
+                modaltitle="카드 생성"
+                showArrowButton={false}
                 onArrowClick={onClick}
                 exitDirection="/home"
             >
-                포인트 적립 옵션 선택
+                카드 디자인 선택
             </Header>
         </div>
     )
 }
 
-export default SelectBenefit1
+export default SelectDesign
