@@ -1,18 +1,21 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import RecommendAlertmodal from "../../../components/piece-stock/etc/recommendAlertModal"
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-const SearchBottom = ({ selectedStocks, cardId, session }) => {
+const SearchBottom = ({ selectedStocks, cardId, session, status }) => {
     const [isAlert, setAlert] = useState(false);
     const [wishInfo, setWishInfo] = useState([]);
-    const FavoriteData = []
-    const saveData = []
 
     const param = new URLSearchParams();
 
     const router = useRouter()
 
+    useEffect(() => {
+        if (status === "authenticated") {
+            searchWishStocks()
+        }
+    }, [status])
 
     const searchWishStocks = async () => {
         param.append("cardId", cardId)
@@ -58,13 +61,14 @@ const SearchBottom = ({ selectedStocks, cardId, session }) => {
 
     // 중복 확인로직
     const check = () => {
-        searchWishStocks()
         if ((wishInfo.length + selectedStocks.length) > 3) {
+            console.log((wishInfo.length + selectedStocks.length))
             setAlert(true)
             setTimeout(() => {
                 setAlert(false)
             }, 1500);
-        } else {
+        }
+        else {
             selectedStocks.forEach((checkStockName, i) => { // 선택된 주식을 저장하는 코드
                 const testName = []
                 let duplicated = []
@@ -101,10 +105,9 @@ const SearchBottom = ({ selectedStocks, cardId, session }) => {
                     } else {
                         console.log("다음 추천주식 인덱스로")
                     }
-
+                    router.push("/piece-stock/favorite")
                 }
             })
-            router.push("/piece-stock/favorite")
         }
     }
 

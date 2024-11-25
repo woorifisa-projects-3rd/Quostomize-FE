@@ -49,7 +49,7 @@ const SearchPage = () => {
 
       {cardId !== undefined && <SearchBody searchInfo={searchInfo} setSelectedStocks={setSelectedStocks} selectedStocks={selectedStocks} />}
 
-      {cardId !== undefined && <SearchBottom selectedStocks={selectedStocks} cardId={cardId} session={session} />}
+      {cardId !== undefined && <SearchBottom selectedStocks={selectedStocks} cardId={cardId} session={session} status={status} />}
     </div>
   );
 }
