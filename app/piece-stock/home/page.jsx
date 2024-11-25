@@ -48,18 +48,11 @@ const PieceStockHome = () => {
     rate: myStock?.output2?.[0]?.resultRate
   }
 
-  const dummyData = [
-    {
-      stockName: myStock?.output1?.[0]?.prdtName,
-      stockNumber: myStock?.output1?.[0]?.hldgQty,
-      stockImage: myStock?.output1?.[0]?.stockImage
-    },
-    {
-      stockName: myStock?.output1?.[1]?.prdtName,
-      stockNumber: myStock?.output1?.[1]?.hldgQty,
-      stockImage: myStock?.output1?.[1]?.stockImage
-    }
-  ]
+  const dummyData = myStock?.output1?.map((stock) => ({
+    stockName: stock?.prdtName,
+    stockNumber: stock?.hldgQty,
+    stockImage: stock?.stockImage,
+  })) || [];
 
 
   const StockWishListPage = () => {
