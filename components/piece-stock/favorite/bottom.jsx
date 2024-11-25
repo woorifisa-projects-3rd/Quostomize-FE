@@ -15,7 +15,7 @@ const favoriteBottom = ({ orderInfo, cardId, wishInfo, setWishInfo, session, set
     const totalData = []
     const saveData = []
     let compareData;
-    let testName
+
 
     // 스위치 요청
     const switchStock = async () => {
@@ -101,6 +101,7 @@ const favoriteBottom = ({ orderInfo, cardId, wishInfo, setWishInfo, session, set
             }, 2000); //
         } else {
             isClickButton.forEach((checkStock, i) => { // 선택된 주식을 저장하는 코드
+                const testName = [];
                 let duplicated = []
                 let check = false;
                 if (checkStock === true) { // 만일 해당 추천주식이 체크 되어 있다면
@@ -115,33 +116,38 @@ const favoriteBottom = ({ orderInfo, cardId, wishInfo, setWishInfo, session, set
                             console.log(stockName.stockName)
                             console.log("===============")
                             duplicated.push(false) // 중복이 아닐떄 false를 넣는다.
-                            testName = stockName.stockName
                         }
                     })
                     check = true;
-
+                    testName.push(stockName)
                     totalData.push(stockName)
-                    console.log(stockName)
+
                 }
+
                 if (duplicated.includes(true)) {
                     console.log("위시주식에 이미 해당 주식이 존재합니다.");
                 } else {
                     if (check === true) {
-                        console.log(paramSave)
-                        paramSave.append("stockName", testName)
-                        saveStocks(); // 저장하는 함수 호출 (주석 처리된 상태)
-                        saveData.push(...totalData)
-                        console.log(totalData)
-                        console.log("위시주식 저장");
-                        // paramSave.delete("stockName")
+                        testName.map((recommendName, index) => {
+
+                            paramSave.append("stockName", recommendName.stockName)
+                            console.log(paramSave)
+                            saveStocks(); // 저장하는 함수 호출 (주석 처리된 상태)
+                            saveData.push(recommendName)
+                            console.log(recommendName)
+                            console.log("위시주식 저장");
+                            paramSave.delete("stockName")
+                        })
                     } else {
                         console.log("다음 추천주식 인덱스로")
                     }
+
                 }
             })
             if (saveData.length > 0) {
                 if (wishInfo.length === 1) {
                     compareData = saveData.map((data, i) => {
+                        console.log(data)
                         return (
                             {
                                 ...data,
@@ -151,6 +157,7 @@ const favoriteBottom = ({ orderInfo, cardId, wishInfo, setWishInfo, session, set
                     })
                 } else {
                     compareData = saveData.map((data, i) => {
+                        console.log(data)
                         return (
                             {
                                 ...data,
@@ -160,7 +167,8 @@ const favoriteBottom = ({ orderInfo, cardId, wishInfo, setWishInfo, session, set
                     })
                 }
                 const newData = [...wishInfo, ...compareData]
-                console.log(totalData)
+                console.log(wishInfo)
+                console.log(newData)
                 setWishInfo(newData)
             }
             setOpen(false) // 모달을 닫는다
