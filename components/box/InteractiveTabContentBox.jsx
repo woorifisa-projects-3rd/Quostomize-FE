@@ -4,7 +4,7 @@ import Icons from '../../public/icons/icons';
 
 const InteractiveTabContentBox = () => {
     const { updateCategory, updateOption, categoryValues, selectedOptions } = useBenefitContext();
-    const [activeTab, setActiveTab] = useState(null); // null indicates no tab selected
+    const [activeTab, setActiveTab] = useState(null);
     const [selectedOptionIndex, setSelectedOptionIndex] = useState(Array(5).fill(null));
 
     const categories = ['쇼핑', '생활', '푸드', '여행', '문화'];

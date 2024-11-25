@@ -4,7 +4,7 @@ import { useBenefitContext } from './BenefitContext';
 import { useState, useEffect } from 'react';
 import InteractiveRadarGraph from '../../graph/interactive-radar-graph';
 import SelectBenefit3 from './select-benefit3';
-import InteractiveTabContentBox from './InteractiveTabContentBox';
+import InteractiveTabContentBox from '../box/InteractiveTabContentBox';
 
 const getRandomColor = () => {
     const colors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'];
