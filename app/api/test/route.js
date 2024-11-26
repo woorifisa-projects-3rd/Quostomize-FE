@@ -4,8 +4,10 @@ import { auth } from "../../../auth";
 
 
 export async function GET() {
-    // 서버 엔드포인트 지정
+
     const session = await auth();
+
+
 
     const response = await fetch(`${process.env.SERVER_URL}/v1/api/member/info`,
         {
@@ -19,6 +21,7 @@ export async function GET() {
         }
 
     );
+
     
     const result = await response.json();
 

@@ -1,7 +1,7 @@
 "use client";
 
 import NoticeToggleBox from '../box/noitce-toggle-box';
-import PointBox from '../box/point-box';
+import PointBox from '../box/point-notice-box';
 import HomeFoot from '../home/home-foot';
 import FadeInSection from "../fade-in/fade-in-section";
 import 'material-icons/iconfont/material-icons.css';
