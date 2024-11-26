@@ -10,7 +10,7 @@ const getRandomColor = () => {
     return colors[Math.floor(Math.random() * colors.length)];
 };
 
-const ChangeBenefitBody1 = ({ labels }) => {
+const ChangeBenefitBody1 = ({ labels, benefitData }) => {
     const { categoryValues } = useBenefitContext();
     const [borderColor, setBorderColor] = useState(getRandomColor());
 

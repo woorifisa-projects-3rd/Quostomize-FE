@@ -4,7 +4,7 @@ import { useBenefitContext } from '../create-card/select-benefit/BenefitContext'
 import SelectBenefit3 from '../create-card/select-benefit/select-benefit3'
 
 
-const ChangeBenefitBody3 = ({ labels }) => {
+const ChangeBenefitBody3 = ({ labels, benefitData }) => {
 
   const { categoryValues } = useBenefitContext();
   
