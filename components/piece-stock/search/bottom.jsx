@@ -80,7 +80,7 @@ const SearchBottom = ({ selectedStocks, cardId, session, status }) => {
                         duplicated.push(true) // 중복일떄 true를 넣는다.
                     } else {    //중복이 있다면 체크
                         console.log("주식의 중복이 없다면 : " + index)
-                        console.log(whishStock.stockName)
+                        // console.log(whishStock.stockName)
                         console.log(checkStockName)
                         console.log("===============")
                         duplicated.push(false) // 중복이 아닐떄 false를 넣는다.

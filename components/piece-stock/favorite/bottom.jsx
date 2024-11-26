@@ -155,13 +155,23 @@ const favoriteBottom = ({ orderInfo, cardId, wishInfo, setWishInfo, session, set
                             }
                         )
                     })
-                } else {
+                } else if (wishInfo.length === 2) {
                     compareData = saveData.map((data, i) => {
                         console.log(data)
                         return (
                             {
                                 ...data,
                                 priority: 3
+                            }
+                        )
+                    })
+                } else {
+                    compareData = saveData.map((data, i) => {
+                        console.log(data)
+                        return (
+                            {
+                                ...data,
+                                priority: i + 1
                             }
                         )
                     })
