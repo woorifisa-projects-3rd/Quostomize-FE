@@ -11,6 +11,9 @@ module.exports = {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      cursor: {
+        'context': "url('/cursors/cursor-context-menu.svg'), pointer"
+      } 
     },
   },
   plugins: [],
