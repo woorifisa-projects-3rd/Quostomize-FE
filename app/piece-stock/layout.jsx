@@ -1,4 +1,8 @@
 import Nav from "../../components/navigationbar/bottomNav.jsx";
+import { BsGraphUpArrow } from "react-icons/bs";
+import { MdFavorite } from "react-icons/md";
+import { FaSackDollar, FaMagnifyingGlassDollar } from "react-icons/fa6";
+import { FaPiggyBank } from "react-icons/fa";
 
 export const metadata = {
   title: "Create Next App",
@@ -7,11 +11,11 @@ export const metadata = {
 
 export default function NavLayout({ children }) {
   const menuItems = [
-    { title: "홈", iconName: "home", path: "home" },
-    { title: "현재가", iconName: "line_axis", path: "quotes" },
-    { title: "선택종목", iconName: "favorite", path: "favorite" },
-    { title: "보유종목", iconName: "attach_money", path: "stocks" },
-    { title: "검색", iconName: "search", path: "search" },
+    { title: "홈", icon: <FaPiggyBank />, path: "home" },
+    { title: "현재가", icon: <BsGraphUpArrow />, path: "quotes" },
+    { title: "선택종목", icon: <MdFavorite />, path: "favorite" },
+    { title: "보유종목", icon: <FaSackDollar />, path: "stocks" },
+    { title: "검색", icon: <FaMagnifyingGlassDollar />, path: "search" },
   ]
 
   return (
