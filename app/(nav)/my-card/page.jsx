@@ -217,7 +217,7 @@ const MyCardPage = () => {
         <div>
           <div>
             {cardColor !== null ? (
-              < div className="-mt-10 flex flex-col items-center">
+              <div className="-mt-10 flex flex-col items-center">
                 <FlipCard
                   frontImg={`/cards-images/${cardColor.toString()}f.png`}
                   backImg={`/cards-images/${cardColor.toString()}b.png`}
@@ -249,7 +249,7 @@ const MyCardPage = () => {
           </div>
           <div>
             {filteredUpperCategories.length > 0 ? (
-              <div className="flex justify-around">
+              <div className="flex justify-around gap-2">
                 {filteredUpperCategories.map((card, index) => (
                   <div key={index} className="mb-6">
                     {card.upperCategoryType} {card.benefitRate}%
@@ -263,7 +263,7 @@ const MyCardPage = () => {
 
         </div>
         <div className="mb-20 flex">
-          <MyFullButton href={"/change-beenfit"} children={"혜택 다시 고르기"} />
+          <MyFullButton href={"/change-beenfit"} children={"혜택 새로 고르기"} />
 
         </div>
 
@@ -278,8 +278,8 @@ const MyCardPage = () => {
                   ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
               >
                 <div className="space-y-4 p-4 m-2 w-24 h-42 flex flex-col items-center justify-center">
-                  <div className="font-bold">로또</div>
-                  <div><img src={Icons.lotto} alt="로또 아이콘" /></div>
+                  <div className="font-bold">일일복권</div>
+                  <div><img src={Icons.lotto} alt="일일복권 아이콘" /></div>
                   <MyToggle isEnabled={lottoBox.isLotto}
                             onToggle={() => handleLottoToggle(
                                 lottoBox.cardSequenceId,
@@ -290,6 +290,26 @@ const MyCardPage = () => {
                   />
                 </div>
               </div>
+            )}
+
+            {stockBox && (
+                <div
+                    className={`rounded-lg shadow-lg ${stockBox.isPieceStock ? "bg-blue-100" : "bg-white"}
+                  ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+                >
+                  <div className="space-y-4 p-4 m-2 w-24 h-42 flex flex-col items-center justify-center">
+                    <div className="font-bold">조각투자</div>
+                    <div><img src={Icons.stockpiece} alt="조각투자 아이콘" /></div>
+                    <MyToggle isEnabled={stockBox.isPieceStock}
+                              onToggle={() => handleStockToggle(
+                                  stockBox.cardSequenceId,
+                                  stockBox.pointUsageTypeId,
+                                  stockBox.isPieceStock
+                              )}
+                              disabled={isLoading}
+                    />
+                  </div>
+                </div>
             )}
 
             {paybackBox && (
@@ -308,26 +328,6 @@ const MyCardPage = () => {
                           paybackBox.isPayback
                       )}
                       disabled={isLoading}
-                  />
-                </div>
-              </div>
-            )}
-
-            {stockBox && (
-              <div
-                className={`rounded-lg shadow-lg ${stockBox.isPieceStock ? "bg-blue-100" : "bg-white"}
-                  ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
-              >
-                <div className="space-y-4 p-4 m-2 w-24 h-42 flex flex-col items-center justify-center">
-                  <div className="font-bold">조각투자</div>
-                  <div><img src={Icons.stockpiece} alt="조각투자 아이콘" /></div>
-                  <MyToggle isEnabled={stockBox.isPieceStock}
-                            onToggle={() => handleStockToggle(
-                                stockBox.cardSequenceId,
-                                stockBox.pointUsageTypeId,
-                                stockBox.isPieceStock
-                            )}
-                            disabled={isLoading}
                   />
                 </div>
               </div>
