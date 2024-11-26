@@ -4,14 +4,24 @@ import React, { useEffect, useState } from 'react'
 import 'material-icons/iconfont/material-icons.css';
 import { useRouter } from 'next/navigation';
 
-const SignupSecond = ({ setPage, secondForm, setSecondForm, firstForm }) => {
-    const [error, setResionNumberError] = useState(false) // 비밀번호 오류 상태 추가
+const SignupSecond = ({ setPage, secondForm, setSecondForm }) => {
+    const [error, setError] = useState(false) // 비밀번호 오류 상태 추가
     const router = useRouter()
 
     const changeInfo = (value, index) => {
         const newData = [...secondForm]
         const addData = { placeholder: newData[index]?.placeholder, value: value, type: newData[index].type }
         newData.splice(index, 1, addData)
+
+        // 비밀번호 필드인 경우에만 검증
+        if (newData[index].placeholder === "주민등록번호 입력") {
+            if (!validateRegionNumber(value)) {
+                setError(true); // 조건 불만족 시 오류 상태 업데이트
+            } else {
+                setError(false); // 조건 만족 시 오류 상태 해제
+            }
+        }
+
         setSecondForm(newData)
     }
     const toLogin = () => {
@@ -24,8 +34,22 @@ const SignupSecond = ({ setPage, secondForm, setSecondForm, firstForm }) => {
     }
 
     const toNextPage = () => {
-        const newData = [false, false, false, true]
-        setPage(newData)
+        // if(){
+        // 여기는 핸드폰인증도 모두 통과후 해당 데이터들이 모두 문제가 없을 시, 해당 데이터들을 모아서 맴버를 생성하는 코드를 작성한다.
+        // } else{
+
+        // }
+        if (validateRePassword() && secondForm[0].value !== "" && secondForm[1].value !== "" && secondForm[2].value !== "") {
+            const newData = [false, false, false, true]
+            setPage(newData)
+        } else {
+            setError(true)
+            setTimeout(() => {
+                setError(false)
+            }, 1000);
+        }
+        // const newData = [false, false, false, true]
+        // setPage(newData)
     }
 
     const checkPhonenumber = (e) => {
@@ -34,22 +58,34 @@ const SignupSecond = ({ setPage, secondForm, setSecondForm, firstForm }) => {
         setPage(newData)
     }
 
-    const validateRegionNumber = (password) => {
-        const hasUpperCase = /[A-Z]/.test(password); // 대문자 체크
-        const hasLowerCase = /[a-z]/.test(password); // 소문자 체크
-        const hasNumber = /\d/.test(password); // 숫자 체크
-        const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password); // 특수문자 체크
-        const isLongLength = password.length <= 13;
+    const validateRegionNumber = (value) => {
+        const hasUpperCase = !/[A-Z]/.test(value); // 대문자 없는지 체크
+        const hasLowerCase = !/[a-z]/.test(value); // 소문자 없는지 체크
+        const hasSpecialChar = !/[!@#$%^&*(),.?":{}|<>]/.test(value); // 특수문자 없는지 체크
+        const isLongLength = value.length <= 13; // 숫자길이체크
 
         // 비밀번호가 조건을 만족하는지 검사
-        if (hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar && isLongLength) {
+        if (hasUpperCase && hasLowerCase && hasSpecialChar && isLongLength) {
             return true;
-        } else if (password === "") {
+        } else if (value === "") {
             return true;
         } else {
             return false;
         }
     }
+
+    const validateRePassword = () => {
+        const newData = [...secondForm]
+        const rePasswrodData = newData[4]?.value
+        const passwordData = newData[3]?.value
+        // 비밀번호값의 일치여부를 검사
+        if (rePasswrodData == passwordData && passwordData !== "" && passwordData.length === 6) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     return (
         <>
             <button className="material-icons cursor-pointer m-6" onClick={toBeforePage}>arrow_back_ios</button>

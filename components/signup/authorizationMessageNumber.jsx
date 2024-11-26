@@ -4,16 +4,71 @@ import React, { useEffect, useRef, useState } from 'react'
 import 'material-icons/iconfont/material-icons.css';
 import { useRouter } from 'next/navigation';
 
-const AuthorizationMessageNumber = ({ setPage }) => {
+const AuthorizationMessageNumber = ({ setPage, secondForm }) => {
     const inputRefs = [useRef(null), useRef(null), useRef(null), useRef(null)];
-    const [authNumber, setAuthNumber] = useState(["", "", "", "", ""])
+    const [authNumber, setAuthNumber] = useState(["", "", "", ""])
 
     useEffect(() => {
         // 페이지 진입시 첫 번째 입력칸에 포커스
         inputRefs[0].current?.focus();
     }, []);
 
+    useEffect(() => {
+        console.log(authNumber)
+    }, [authNumber])
+
+    // // 백엔드에서 GET 위시리스트 조회시, 위시리스트의 priority, stockName, stockPresentPrice, stockImage 를 갖고온다.
+    const authorizationByMessage = async () => {
+        const authData = [{ phone: secondForm[2].value }, { certificationNumber: secondForm[3].value }]
+        try {
+            const response = await fetch(`http://localhost:8080/v1/api/sms/send`, {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',  // 요청 본문이 JSON임을 지정
+                    'Authorization': `Bearer ${session.accessToken}`, // JWT 토큰을 Authorization 헤더에 포함
+                },
+                body: JSON.stringify(authData),
+            });
+
+            if (!response.ok) {
+                throw new Error('값이 조회되지 않았습니다.');
+            }
+            //   const data = await response.json(); // 응답을 JSON으로 파싱
+        } catch (error) {
+            console.error('데이터 가져오기 오류:', error);
+        }
+    }
+
+    // // 백엔드에서 GET 위시리스트 조회시, 위시리스트의 priority, stockName, stockPresentPrice, stockImage 를 갖고온다.
+    const checkAuthorizationAboutMessage = async () => {
+        const authData = [{ phone: secondForm[2].value }, { certificationNumber: secondForm[3].value }]
+        try {
+            const response = await fetch(`http://localhost:8080/v1/api/sms/confirm`, {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',  // 요청 본문이 JSON임을 지정
+                    'Authorization': `Bearer ${session.accessToken}`, // JWT 토큰을 Authorization 헤더에 포함
+                },
+                body: JSON.stringify(authData),
+            });
+
+            if (!response.ok) {
+                throw new Error('값이 조회되지 않았습니다.');
+            }
+            //   const data = await response.json(); // 응답을 JSON으로 파싱
+        } catch (error) {
+            console.error('데이터 가져오기 오류:', error);
+        }
+    }
+
     const toCheckPage = () => {
+        // if( ){
+        // 이곳은 , 문자인증이 정상적으로 진행 시 회원가입 두번째 페이지로 이동하는 코드를 작성한다.
+        // } else{
+
+        // }
         const newData = [false, true, false, false]
         setPage(newData)
     }
@@ -25,6 +80,7 @@ const AuthorizationMessageNumber = ({ setPage }) => {
 
     const reRequestMessage = () => {
         console.log("문자 재요청")
+        // 문자요청 api 를 실행하는 장소
     }
 
     const handleInput = (e, index) => {
@@ -34,6 +90,10 @@ const AuthorizationMessageNumber = ({ setPage }) => {
         if (!/^\d*$/.test(value)) {
             e.target.value = '';
             return;
+        } else {
+            const newData = [...authNumber]
+            newData.splice(index, 1, e.target.value)
+            setAuthNumber(newData)
         }
 
         if (value.length === 1 && index < 3) {
@@ -55,10 +115,6 @@ const AuthorizationMessageNumber = ({ setPage }) => {
                             <input key={`${ref}*${index}`} ref={ref} className='text-center w-1/4 p-10 font5 flex justify-center' type="text" placeholder='0' maxLength={1} onChange={(e) => handleInput(e, index)} />
                         )
                     })}
-                    {/* <input className='text-center w-1/4 p-10 font5 flex justify-center' type="text" placeholder='0' maxLength={1} onChange={nextNumber} />
-                    <input className='text-center w-1/4 p-10 font5' type="text" placeholder='0' maxLength={1} />
-                    <input className='text-center w-1/4 p-10 font5' type="text" placeholder='0' maxLength={1} />
-                    <input className='text-center w-1/4 p-10 font5' type="text" placeholder='0' maxLength={1} /> */}
                 </div>
                 <div className='flex justify-center'>
                     <button className="bg-black rounded-3xl w-5/6 h-20 font3 font-sans text-white font-semibold mt-8">제출</button>

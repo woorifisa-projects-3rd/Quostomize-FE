@@ -38,7 +38,7 @@ const SignupPage = () => {
     <>
       {isPage[0] === true && <SignupFirst setPage={setPage} firstForm={firstForm} setFirstForm={setFirstForm} />}
       {isPage[1] === true && <SignupSecond setPage={setPage} secondForm={secondForm} setSecondForm={setSecondForm} firstForm={firstForm} />}
-      {isPage[2] === true && <AuthorizationMessageNumber setPage={setPage} />}
+      {isPage[2] === true && <AuthorizationMessageNumber setPage={setPage} secondForm={secondForm} />}
       {isPage[3] === true && <SignupComplete setPage={setPage} />}
     </>
   );
