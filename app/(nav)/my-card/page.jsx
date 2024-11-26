@@ -14,7 +14,6 @@ const MyCardPage = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchCardData = async () => {
-
     try {
       const response = await fetch('/api/my-card', {
         method: "GET",
@@ -65,6 +64,36 @@ const MyCardPage = () => {
       await fetchCardData();
     } catch (error) {
       console.error('Error updating lotto status: ', error);
+      setError(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handlePaybackToggle = async (cardSequenceId, pointUsageTypeId, currentValue) => {
+    if (isLoading) return;
+    setIsLoading(true);
+    try {
+      const response = await fetch(`/api/my-card/payback?cardSequenceId=${cardSequenceId}`, {
+        method: 'PATCH',
+        cache: 'no-store',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          pointUsageTypeId: pointUsageTypeId,
+          cardSequenceId: cardSequenceId,
+          isPayback: !currentValue
+        })
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || '서버 오류 발생');
+      }
+      await fetchCardData();
+    } catch (error) {
+      console.error('Error updating payback status: ', error);
       setError(error.message);
     } finally {
       setIsLoading(false);
@@ -235,13 +264,21 @@ const MyCardPage = () => {
 
             {paybackBox && (
               <div
-                className={`rounded-lg shadow-lg ${paybackBox.isPayback ? "bg-blue-100" : "bg-white"
-                  }`}
+                className={`rounded-lg shadow-lg ${paybackBox.isPayback ? "bg-blue-100" : "bg-white"}
+                ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
               >
                 <div className="space-y-4 p-4 m-2 w-24 h-42 flex flex-col items-center justify-center">
                   <div className="font-bold">페이백</div>
                   <div><img src={Icons.payback} alt="페이백 아이콘" /></div>
-                  <MyToggle isEnabled={paybackBox.isPayback} />
+                  <MyToggle
+                      isEnabled={paybackBox.isPayback}
+                      onToggle={() => handlePaybackToggle(
+                          paybackBox.cardSequenceId,
+                          paybackBox.pointUsageTypeId,
+                          paybackBox.isPayback
+                      )}
+                      disabled={isLoading}
+                  />
                 </div>
               </div>
             )}
