@@ -42,6 +42,7 @@ class TokenRefreshManager {
   }
 
   async doRefresh(token) {
+    console.log("리프레시 요청")
     try {
       const response = await fetch(
         `${process.env.SERVER_URL}/v1/api/auth/reissue`,
@@ -61,6 +62,7 @@ class TokenRefreshManager {
           redirect: true,
           redirectTo: "/login"
         })
+        return;
       }
 
       const result = await response.json();
@@ -81,7 +83,11 @@ class TokenRefreshManager {
       };
     } catch (error) {
       console.error('Token refresh failed:', error);
-      throw error;
+      await signOut({
+        redirect: true,
+        redirectTo: "/login"
+      })
+      return;
     }
   }
 }
@@ -161,6 +167,11 @@ export const authConfig = {
       try {
         return await TokenRefreshManager.getInstance().refreshToken(token);
       } catch (error) {
+        console.log("여기서 에러가 났어!!!")
+        await signOut({
+          redirectTo: "login",
+          redirect: true
+        })
         return {
           ...token,
           error: 'RefreshAccessTokenError',

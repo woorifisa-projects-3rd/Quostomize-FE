@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react"
-import LogoutButton from "./LogoutButton"
+import LogoutButton from "../../../components/button/logoutButton";
 
 const LoginPage = () => {
   const serachParams = useSearchParams();
