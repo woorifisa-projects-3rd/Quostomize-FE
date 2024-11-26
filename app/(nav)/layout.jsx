@@ -18,10 +18,14 @@ export default function NavLayout({ children }) {
 
   return (
     <>
-      <div className="w-96 h-[calc(100%-4rem)] bg-white">
+      <div className={`h-full overflow-scroll bg-slate-50 [&::-webkit-scrollbar]:hidden`}
+        style={{
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
+        }}>
         {children}
       </div>
-      <Nav menuItems={menuItems}/>
+      <Nav menuItems={menuItems} />
     </>
   );
 }
