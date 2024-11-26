@@ -11,7 +11,7 @@ const MyCardPage = () => {
   const [cardData, setCardData] = useState(null);
   const [error, setError] = useState(null);
   const [currentColorIndex, setCurrentColorIndex] = useState(0);
-
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchCardData = async () => {
 
@@ -25,19 +25,49 @@ const MyCardPage = () => {
         credentials: "include",
       });
 
-
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const data = await response.json();
       setCardData(data.data);
-      console.log(data.data);
-
 
     } catch (error) {
       console.error('Error - 카드 혜택 불러오기: ', error.message);
       setError(error.message);
+    }
+  };
+
+  const handleLottoToggle = async (cardSequenceId, pointUsageTypeId, currentValue) => {
+    if (isLoading) return;
+    setIsLoading(true);
+
+    try {
+      const response = await fetch(`/api/my-card/lotto?cardSequenceId=${cardSequenceId}`, {
+        method: 'PATCH',
+        cache: "no-store",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          pointUsageTypeId: pointUsageTypeId,
+          cardSequenceId: cardSequenceId,
+          isLotto: !currentValue
+        })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || '서버 오류 발생');
+      }
+
+      await fetchCardData();
+    } catch (error) {
+      console.error('Error updating lotto status: ', error);
+      setError(error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -185,12 +215,20 @@ const MyCardPage = () => {
           <div className="flex gap-10">
             {lottoBox && (
               <div
-                className={`rounded-lg shadow-lg ${lottoBox.isLotto ? "bg-blue-100" : "bg-white"
-                  }`}
-              >                <div className="space-y-4 p-4 m-2 w-24 h-42 flex flex-col items-center justify-center">
+                  className={`rounded-lg shadow-lg ${lottoBox.isLotto ? "bg-blue-100" : "bg-white"}
+                  ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+              >
+                <div className="space-y-4 p-4 m-2 w-24 h-42 flex flex-col items-center justify-center">
                   <div className="font-bold">로또</div>
                   <div><img src={Icons.lotto} alt="로또 아이콘" /></div>
-                  <MyToggle isEnabled={lottoBox.isLotto} />
+                  <MyToggle isEnabled={lottoBox.isLotto}
+                            onToggle={() => handleLottoToggle(
+                                lottoBox.cardSequenceId,
+                                lottoBox.pointUsageTypeId,
+                                lottoBox.isLotto
+                            )}
+                            disabled={isLoading}
+                  />
                 </div>
               </div>
             )}
