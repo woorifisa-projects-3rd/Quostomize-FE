@@ -100,6 +100,36 @@ const MyCardPage = () => {
     }
   };
 
+  const handleStockToggle = async (cardSequenceId, pointUsageTypeId, currentValue) => {
+    if (isLoading) return;
+    setIsLoading(true);
+    try {
+      const response = await fetch(`/api/my-card/piece-stock?cardSequenceId=${cardSequenceId}`, {
+        method: 'PATCH',
+        cache: "no-store",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          pointUsageTypeId: pointUsageTypeId,
+          cardSequenceId: cardSequenceId,
+          isPieceStock: !currentValue
+        })
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || '서버 오류 발생');
+      }
+      await fetchCardData();
+    } catch (error) {
+      console.error('Error updating stock status: ', error);
+      setError(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchCardData();
   }, []);
@@ -285,13 +315,20 @@ const MyCardPage = () => {
 
             {stockBox && (
               <div
-                className={`rounded-lg shadow-lg ${stockBox.isPieceStock ? "bg-blue-100" : "bg-white"
-                  }`}
+                className={`rounded-lg shadow-lg ${stockBox.isPieceStock ? "bg-blue-100" : "bg-white"}
+                  ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
               >
                 <div className="space-y-4 p-4 m-2 w-24 h-42 flex flex-col items-center justify-center">
                   <div className="font-bold">조각투자</div>
                   <div><img src={Icons.stockpiece} alt="조각투자 아이콘" /></div>
-                  <MyToggle isEnabled={stockBox.isPieceStock} />
+                  <MyToggle isEnabled={stockBox.isPieceStock}
+                            onToggle={() => handleStockToggle(
+                                stockBox.cardSequenceId,
+                                stockBox.pointUsageTypeId,
+                                stockBox.isPieceStock
+                            )}
+                            disabled={isLoading}
+                  />
                 </div>
               </div>
             )}
