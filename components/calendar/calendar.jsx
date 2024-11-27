@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import YearSelector from "./yearSelector";
 import MonthSelector from "./monthSelector";
 
-const Calendar = ({date, setDate, isDrawerOpen ,setDrawerOpen}) => {
+const Calendar = ({date, setDate, setDrawerOpen}) => {
   const todayYear = date.slice(0,4);
   const todayMonth = date.slice(5,7);
   const todayDay = date.slice(8,10);
@@ -108,10 +108,6 @@ const Calendar = ({date, setDate, isDrawerOpen ,setDrawerOpen}) => {
     })
   };
 
-  const closeDrawer = () => {
-    setDrawerOpen(false);
-  }
-
   // 달력 날짜 업데이트
   useEffect(() => {
     updateCalendar(
@@ -168,7 +164,7 @@ const Calendar = ({date, setDate, isDrawerOpen ,setDrawerOpen}) => {
                   selectorOpen === true
                   ?
                     <div 
-                      className="absolute w-96 h-80 translate-x-6 translate-y-48 rounded-lg bg-slate-300"
+                      className="absolute w-96 h-80 translate-x-6 translate-y-48 rounded-xl bg-white/75 shadow-lg shadow-[rgba(31,38,135,0.37)] backdrop-blur-[6.5px]"
                       onClick = {(e) => {e.stopPropagation()}}  
                     >
                       <div className="flex">

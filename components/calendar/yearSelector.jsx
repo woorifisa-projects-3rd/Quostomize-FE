@@ -16,13 +16,13 @@ export default function YearSelector({setSelectorYear}) {
 
   return (
     <div 
-      className="mx-auto border-r-2 p-2 h-full"
+      className="mx-auto border-r-2 border-b-2 p-2 h-full"
       onClick={(e) => e.stopPropagation}
     >
       {/* 상단 컨트롤 */}
       <div className="flex justify-between items-center mb-4 h-8">
         <button
-          className="text-gray-500 hover:text-gray-700"
+          className=" hover:text-gray-700"
           onClick={() => {
             setStartYear((prev) => prev - 12);
           }}
@@ -31,7 +31,7 @@ export default function YearSelector({setSelectorYear}) {
         </button>
         <div className="text-lg font-bold">{startYear}년~{startYear+12}년</div>
         <button
-          className="text-gray-500 hover:text-gray-700"
+          className=" hover:text-gray-700"
           onClick={() => {
             setStartYear((prev) => prev + 12);
           }}
@@ -48,7 +48,7 @@ export default function YearSelector({setSelectorYear}) {
             className={`py-2 text-center rounded-lg ${
               year === currentYear
                 ? 'bg-gray-100 text-green-500 font-bold'
-                : 'text-gray-600 hover:bg-gray-50'
+                : 'hover:text-black/50 hover:bg-white/35'
             }`}
             onClick={() => handleYearClick(year)}
           >

@@ -6,7 +6,7 @@ export default function YearSelector({currentMonth, setSelectorMonth}) {
 
   return (
     <div 
-      className="mx-auto border-r-2 p-2 h-full"
+      className="mx-auto border-b-2 p-2 h-full"
       onClick={(e) => e.stopPropagation()}
     >
       {/* 상단 컨트롤 */}
