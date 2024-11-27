@@ -4,28 +4,6 @@ import 'material-icons/iconfont/material-icons.css';
 import { useEffect, useState, useRef } from "react";
 
 const Terms = () => {
-//   const [filePaths, setFilePaths] = useState([]);
-
-
-
-  // Todo: 예외처리
-//   const getTerms = async() => {
-//     const response = await fetch("/api/filePaths",
-//         {
-//             method: "GET",
-//             cache: "force-cache"
-//         }
-//       );
-
-//       const result = await response.json();
-//       setFilePaths(result.data);
-//   }
-
-//   useEffect(() => {
-//     getTerms();
-//   },[])
-
-
 
   const termNames = [
     "(필수) 개인 회원 약관", "(필수) 특정 금융거래 보고 및 이용에 관한 안내" ,"(필수) 개인 (신용)정보 수집·이용·제공 동의", 
