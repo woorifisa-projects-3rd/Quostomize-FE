@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import AlertModal from '../overlay/alertModal';
 
 
-const ChangeBenefitFoot = ({ exitDirection, modalTitle }) => {
+const ChangeBenefitFoot = ({ exitDirection, modalTitle, buttonText }) => {
     const [isModalOpen, setModalOpen] = useState(false);
 
     const handleOpenModal = () => {
@@ -22,6 +22,16 @@ const ChangeBenefitFoot = ({ exitDirection, modalTitle }) => {
         }
     };
 
+    const getDescription = () => {
+        if (buttonText === '예약하기') {
+            return '혜택 변경을 예약하시겠습니까?'
+        } else if (buttonText === '저장하기') {
+            return '변경 사항을 저장하시겠습니까?'
+        } else {
+            return '변경 사항을 저장하시겠습니까?'
+        }
+    }
+
     return (
         <div className='flex flex-col p-4 justify-center items-center'>
             <Button
@@ -29,7 +39,7 @@ const ChangeBenefitFoot = ({ exitDirection, modalTitle }) => {
                 onClick={handleOpenModal}
                 direction={exitDirection}
             >
-                혜택 변경 저장하기
+                {buttonText || '저장 하기'}
             </Button>
 
             <AlertModal
@@ -37,13 +47,7 @@ const ChangeBenefitFoot = ({ exitDirection, modalTitle }) => {
                 setIsOpen={setModalOpen}
                 onClose={handleConfirmExit}
                 title={modalTitle}
-                description={
-                    <>
-                        변경 사항을 저장하시겠습니까?
-                        <br />
-                        (30일 이후 재 변경 가능)
-                    </>
-                }
+                description={getDescription()}
             />
         </div>
     )
