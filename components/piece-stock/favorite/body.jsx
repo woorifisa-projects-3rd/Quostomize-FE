@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import Image from "Next/image"
+import Image from "next/image"
 import Motion from "../../../components/piece-stock/etc/motion"
 import InverseMotion from "../../../components/piece-stock/etc/inverseMotion"
 
@@ -39,18 +39,17 @@ const favoriteBody = ({ cardId, orderInfo, setOrderInfo, setWishInfo, wishInfo, 
     // delete 요청
     const deleteStocks = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/v1/api/stocks/select?${param}`, {
+            const response = await fetch(`/api/piece-stock/favorite/deleteWish?${param}`, {
                 method: 'DELETE',
                 credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',  // 요청 본문이 JSON임을 지정
-                    'Authorization': `Bearer ${session.accessToken}`, // JWT 토큰을 Authorization 헤더에 포함
                 },
             });
 
-            if (!response.ok) {
-                throw new Error('값이 조회되지 않았습니다.');
-            }
+            // if (!response.ok) {
+            //     throw new Error('값이 조회되지 않았습니다.');
+            // }
         } catch (error) {
             console.error('데이터 가져오기 오류:', error);
         }

@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import LargeModal from "../../../components/overlay/largeModal";
 import RecommendAlertmodal from "../etc/recommendAlertModal"
-import Image from "Next/image"
+import Image from "next/image"
 
 const favoriteBottom = ({ orderInfo, cardId, wishInfo, setWishInfo, session, setRecommend, recommendStockInfo, isClickButton, setClickButton }) => {
 
