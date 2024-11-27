@@ -119,7 +119,7 @@ export async function GET3(param) { // 종목 추가
     }
 };
 
-export async function PATCH(orderInfo) { // 위시조회
+export async function PATCH(orderInfo) { // 스위칭
 
     const session = await auth();
 
