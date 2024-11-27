@@ -6,7 +6,7 @@ import ChangeBenefitBody2 from "../../../components/change-benefits/ChangeBenefi
 import ChangeBenefitBody3 from "../../../components/change-benefits/ChangeBenefitBody3";
 import ChangeBenefitFoot from "../../../components/change-benefits/ChangeBenefitFoot";
 import { BenefitProvider } from "../../../components/create-card/select-benefit/BenefitContext";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 const ChangeBenefitsPage = () => {
   const [benefitData, setBenefitData] = useState(null);
@@ -22,11 +22,6 @@ const ChangeBenefitsPage = () => {
     4: '여행',
     5: '문화',
   };
-
-  const reverseCategoryMap = Object.fromEntries(
-    Object.entries(categoryMap).map(([key, value]) => [value, parseInt(key)])
-  );
-  const labels = Object.values(categoryMap);
 
   const lowerCategoryMap = {
     100: '백화점(더현대, 신세계, 롯데백화점)',
@@ -46,31 +41,13 @@ const ChangeBenefitsPage = () => {
     502: '도서(교보문고, 밀리의서재)',
   };
 
-  const reverseLowerCategoryMap = Object.fromEntries(
-    Object.entries(lowerCategoryMap).map(([key, value]) => [value, parseInt(key)])
-  );
-
-  // 백엔드 데이터 → 프론트엔드 데이터로 변환
-  const transformBackendData = (benefitData) => {
-    console.log('benefitData type:', typeof benefitData);
-    console.log('benefitData:', benefitData);
-
-    return benefitData.map(item => ({
-      benefitRate: item.benefitRate + 1,
-      isActive: item.isActive,
-      lowerCategory: lowerCategoryMap[item.lowerCategoryId],
-      upperCategory: categoryMap[item.upperCategoryId],
-    }));
-  };
+  const labels = Object.values(categoryMap);
 
 
   // 프론트엔드 데이터 → 백엔드 데이터로 변환
   const prepareBackendPayload = (data) => {
     return data.map(item => ({
-      benefitRate: item.benefitRate,
-      isActive: item.isActive,
-      lowerCategoryId: reverseLowerCategoryMap[item.lowerCategory],
-      upperCategoryId: reverseCategoryMap[item.upperCategory],
+      benefitRate: item.benefitRate - 1,
     }));
   };
 
@@ -88,12 +65,12 @@ const ChangeBenefitsPage = () => {
         });
 
       if (!response.ok) {
-
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const responsedata = await response.json();
       setChangeableData(responsedata.data);
       if (responsedata.data && responsedata.data) {
+
         setButtonText(responsedata.data);
       }
       console.log(responsedata.data);
@@ -101,7 +78,7 @@ const ChangeBenefitsPage = () => {
       console.error('Error - 혜택 변경 페이지: ', error.message);
       setError(error.message);
     }
-  }
+  };
 
   const fetchBenefitData = async () => {
     try {
@@ -113,23 +90,33 @@ const ChangeBenefitsPage = () => {
         },
         credentials: "include",
       });
-
       if (!response.ok) {
-
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      setBenefitData(data.data);
-      setCardSequenceId(data.data[0].cardSequenceId);
+      const transformedData = transformBenefitData(data.data);
+      setBenefitData(transformedData);
       console.log('Received benefitData:', data.data);
+      setCardSequenceId(data.data[0].cardSequenceId);
+
     } catch (error) {
       console.error('Error - 혜택 변경 페이지: ', error.message);
       setError(error.message);
     }
   };
 
+  const transformBenefitData = (data) => {
+    return data.map(item => ({
+      ...item,
+      benefitRate: item.benefitRate + 1,
+    }));
+  };
+
   useEffect(() => {
-    fetchBenefitData();
+    const fetchData = async () => {
+      await fetchBenefitData();
+    };
+    fetchData();
   }, []);
 
   useEffect(() => {
@@ -137,12 +124,6 @@ const ChangeBenefitsPage = () => {
       getChangerabledate(cardSequenceId);
     }
   }, [cardSequenceId]);
-
-  useEffect(() => {
-    if (!benefitData) {
-      return
-    }
-  }, [])
 
   if (error) {
     return <div>문제가 발생했습니다. 다시 시도해 주세요: {error}</div>
@@ -152,15 +133,15 @@ const ChangeBenefitsPage = () => {
     return <div>로딩 중...</div>;
   }
 
-  const transformedBenefitData = benefitData ? transformBackendData(benefitData) : [];
-
   return (
     <div>
+
       <ChangeBenefitHeader />
-      <BenefitProvider>
-        <ChangeBenefitBody1 labels={labels} benefitData={transformedBenefitData} />
-        <ChangeBenefitBody2 labels={labels} benefitData={transformedBenefitData} />
-        <ChangeBenefitBody3 labels={labels} benefitData={transformedBenefitData} />
+
+      <BenefitProvider benefitData={benefitData}>
+        <ChangeBenefitBody1 labels={labels} />
+        <ChangeBenefitBody2 labels={labels} />
+        <ChangeBenefitBody3 labels={labels} />
       </BenefitProvider>
 
       <span className="flex justify-center"> 포인트 혜택은 30일 마다 변경이 가능하며 변경 수수료 1,000 원이 익월 청구됩니다.</span>
