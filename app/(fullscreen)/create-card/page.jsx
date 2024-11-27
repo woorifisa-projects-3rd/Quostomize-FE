@@ -10,6 +10,7 @@ import SelectDesign1 from '../../../components/create-card/select-design/select-
 import SelectDesign3 from '../../../components/create-card/select-design/select-design3';
 import SelectBenefit1 from '../../../components/create-card/select-benefit/select-benefitHeader';
 import SelectBenefit2 from '../../../components/create-card/select-benefit/select-benefit2';
+import Terms from '../../../components/create-card/terms-agreement/terms';
 import { BenefitProvider } from '../../../components/create-card/select-benefit/BenefitContext';
 import CardDetailHeader from '../../../components/create-card/card-detail/CardDetailHeader';
 import UserDetailHeader from '../../../components/create-card/user-detail/UserDetailHeader';
@@ -17,8 +18,9 @@ import CardApplicantInfo1 from '../../../components/create-card/user-detail/card
 import IdentityVerification1 from '../../../components/create-card/user-detail/identityVerification1';
 import TermsAgreementHeader from '../../../components/create-card/terms-agreement/TermsAgreementHeader';
 import InputAddressHeader from '../../../components/create-card/input-address/InputAddressHeader';
+import SelectOtherInfo from '../../../components/create-card/input-address/SelectOtherInfo';
 import CheckInformationHeader from '../../../components/create-card/check-information/CheckInformationHeader';
-
+import CheckInformation from '../../../components/create-card/check-information/CheckInformation';
 
 import React, { useState } from "react";
 
@@ -95,7 +97,6 @@ const CreateCardPage = () => {
           {/*UserDetail - 사용자 상세 정보 */}
           <CardApplicantInfo1 />
           <IdentityVerification1 />
-
         </div>;
 
       case 6:
@@ -103,7 +104,7 @@ const CreateCardPage = () => {
           <header>
             <TermsAgreementHeader onClick={handlePrevPage} />
           </header>
-          {/*TermsAgreementHeader - 약관 동의 */}
+          <Terms />
         </div>;
 
       case 7:
@@ -112,6 +113,7 @@ const CreateCardPage = () => {
             <InputAddressHeader onClick={handlePrevPage} />
           </header>
           {/*InputAddressHeader - 배송지 입력 */}
+          <SelectOtherInfo />
         </div>;
 
       case 8:
@@ -120,6 +122,7 @@ const CreateCardPage = () => {
             <CheckInformationHeader onClick={handlePrevPage} />
           </header>
           {/*CheckInformationHeader - 입력 정보 확인 */}
+          <CheckInformation/>
         </div>;
     }
   };

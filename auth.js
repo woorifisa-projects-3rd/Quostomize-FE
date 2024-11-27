@@ -1,5 +1,6 @@
 import NextAuth from "next-auth"
 import Credentials from "next-auth/providers/credentials"
+import { redirect } from "next/dist/server/api-utils";
 
 // Redis 또는 다른 저장소를 사용하는 것이 좋지만, 임시로 Map을 사용
 // Singleton 패턴으로 토큰 갱신 상태 관리
@@ -61,6 +62,7 @@ class TokenRefreshManager {
           redirect: true,
           redirectTo: "/login"
         })
+        return;
       }
 
       const result = await response.json();
@@ -81,7 +83,11 @@ class TokenRefreshManager {
       };
     } catch (error) {
       console.error('Token refresh failed:', error);
-      throw error;
+      await signOut({
+        redirect: true,
+        redirectTo: "/login"
+      })
+      return;
     }
   }
 }
