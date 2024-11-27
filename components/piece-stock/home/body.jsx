@@ -4,7 +4,7 @@ import React from 'react'
 
 const HomeBody = ({ data }) => {
 
-    const myStock = data?.output1.map((stock) => ({
+    const myStock = data?.output1?.map((stock) => ({
         stockName: stock?.prdtName,
         stockNumber: stock?.hldgQty,
         stockImage: stock?.stockImage,

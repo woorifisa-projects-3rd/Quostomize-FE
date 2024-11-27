@@ -1,19 +1,31 @@
-import { GET } from "../../api/piece-stock/home/route";
 import HomeHeader from "../../../components/piece-stock/home/header"
 import HomeBody from "../../../components/piece-stock/home/body"
+import { cookies } from "next/headers";
 
+export async function cardIdInfo() {
+  const cookieList = await cookies();
+  try {
+    const response = await fetch(`${process.env.NEXT_URL}/api/piece-stock/home`, {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+        Cookie: cookieList
+      },
+      credentials: "include",
+    });
+    return await response.json()
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+}
 
 const PieceStockHome = async () => {
-
-  const response = await GET(); // 여기에 API 엔드포인트를 호출(증권계좌에 연결된 주식 종목)
-  const data = await response.json() // NextResponse 타입 데이터 추출 진행
-
+  const data = await cardIdInfo();
   return (
     <>
       <HomeHeader data={data} />
       <HomeBody data={data} />
     </>
-  )
-}
-
+  );
+};
 export default PieceStockHome;
