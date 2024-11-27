@@ -11,12 +11,8 @@ const getRandomColor = () => {
 };
 
 const ChangeBenefitBody1 = ({ labels }) => {
-    const { categoryValues, benefitData } = useBenefitContext();
+    const { categoryValues } = useBenefitContext();
     const [borderColor, setBorderColor] = useState(getRandomColor());
-
-    const chartRate = benefitData && Array.isArray(benefitData)
-        ? benefitData.map(item => item.benefitRate)
-        : categoryValues;
 
     useEffect(() => {
         setBorderColor(getRandomColor());
@@ -30,7 +26,7 @@ const ChangeBenefitBody1 = ({ labels }) => {
                 datasets={[
                     {
                         label: 'My Dataset',
-                        data: chartRate,
+                        data: categoryValues,
                         backgroundColor: 'rgba(255, 99, 132, 0.2)',
                     },
                 ]}

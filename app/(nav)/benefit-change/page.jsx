@@ -6,7 +6,7 @@ import ChangeBenefitBody2 from "../../../components/change-benefits/ChangeBenefi
 import ChangeBenefitBody3 from "../../../components/change-benefits/ChangeBenefitBody3";
 import ChangeBenefitFoot from "../../../components/change-benefits/ChangeBenefitFoot";
 import { BenefitProvider } from "../../../components/create-card/select-benefit/BenefitContext";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 const ChangeBenefitsPage = () => {
   const [benefitData, setBenefitData] = useState(null);
@@ -14,6 +14,8 @@ const ChangeBenefitsPage = () => {
   const [error, setError] = useState(null);
   const [cardSequenceId, setCardSequenceId] = useState(null);
   const [buttonText, setButtonText] = useState('');
+
+
 
   const categoryMap = {
     1: '쇼핑',
@@ -50,6 +52,11 @@ const ChangeBenefitsPage = () => {
       benefitRate: item.benefitRate - 1,
     }));
   };
+
+  useEffect(() => {
+    console.log("ㅎㅇㅎㅇ")
+    console.log(benefitData)
+  }, [benefitData])
 
 
   const getChangerabledate = async (cardSequenceId) => {
@@ -140,8 +147,8 @@ const ChangeBenefitsPage = () => {
 
       <BenefitProvider benefitData={benefitData}>
         <ChangeBenefitBody1 labels={labels} />
-        <ChangeBenefitBody2 labels={labels} />
-        <ChangeBenefitBody3 labels={labels} />
+        <ChangeBenefitBody2 labels={labels} categoryMap={categoryMap} lowerCategoryMap={lowerCategoryMap} />
+        <ChangeBenefitBody3 labels={labels} lowerCategoryMap={lowerCategoryMap} />
       </BenefitProvider>
 
       <span className="flex justify-center"> 포인트 혜택은 30일 마다 변경이 가능하며 변경 수수료 1,000 원이 익월 청구됩니다.</span>
