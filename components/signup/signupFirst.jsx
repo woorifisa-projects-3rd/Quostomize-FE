@@ -42,15 +42,15 @@ const SignupFirst = ({ setPage, firstForm, setFirstForm }) => {
     }
 
     const toNextPage = () => {
-        if (validateRePassword() && firstForm[0].value !== "" && firstForm[1].value !== "" && firstForm[2].value !== "" && firstForm[3].length >= 8) {
-            const newData = [false, true, false, false]
-            setPage(newData)
-        } else {
-            setError(true)
-            setTimeout(() => {
-                setError(false)
-            }, 1000);
-        }
+        // if (validateRePassword() && firstForm[0].value !== "" && firstForm[1].value !== "" && firstForm[2].value !== "") {
+        const newData = [false, true, false, false]
+        setPage(newData)
+        // } else {
+        //     setError(true)
+        //     setTimeout(() => {
+        //         setError(false)
+        //     }, 1000);
+        // }
     }
 
     const validatePassword = (password) => {
@@ -75,7 +75,7 @@ const SignupFirst = ({ setPage, firstForm, setFirstForm }) => {
         const rePasswrodData = newData[4]?.value
         const passwordData = newData[3]?.value
         // 비밀번호값의 일치여부를 검사
-        if (rePasswrodData == passwordData && passwordData !== "") {
+        if (rePasswrodData == passwordData && passwordData !== "" && passwordData.length > 7) {
             return true;
         } else {
             return false;

@@ -9,20 +9,26 @@ const SignupSecond = ({ setPage, secondForm, setSecondForm }) => {
     const router = useRouter()
 
     const changeInfo = (value, index) => {
-        const newData = [...secondForm]
-        const addData = { placeholder: newData[index]?.placeholder, value: value, type: newData[index].type }
-        newData.splice(index, 1, addData)
 
-        // 비밀번호 필드인 경우에만 검증
-        if (newData[index].placeholder === "주민등록번호 입력") {
-            if (!validateRegionNumber(value)) {
-                setError(true); // 조건 불만족 시 오류 상태 업데이트
-            } else {
-                setError(false); // 조건 만족 시 오류 상태 해제
+        // 숫자만 입력 가능하도록 처리
+        if (!/^\d*$/.test(value)) {
+            value = '';
+            return;
+        } else {
+            const newData = [...secondForm]
+            const addData = { placeholder: newData[index]?.placeholder, value: value, type: newData[index].type }
+            newData.splice(index, 1, addData)
+
+            // 비밀번호 필드인 경우에만 검증
+            if (newData[index].placeholder === "주민등록번호 입력") {
+                if (!validateRegionNumber(value)) {
+                    setError(true); // 조건 불만족 시 오류 상태 업데이트
+                } else {
+                    setError(false); // 조건 만족 시 오류 상태 해제
+                }
             }
+            setSecondForm(newData)
         }
-
-        setSecondForm(newData)
     }
     const toLogin = () => {
         router.push("/login")
@@ -86,6 +92,22 @@ const SignupSecond = ({ setPage, secondForm, setSecondForm }) => {
         }
     }
 
+    const handleInput = (value, index) => {
+        const newData = [...secondForm]
+        const addData = { placeholder: newData[index]?.placeholder, value: value, type: newData[index].type }
+        newData.splice(index, 1, addData)
+
+        // 비밀번호 필드인 경우에만 검증
+        if (newData[index].placeholder === "주민등록번호 입력") {
+            if (!validateRegionNumber(value)) {
+                setError(true); // 조건 불만족 시 오류 상태 업데이트
+            } else {
+                setError(false); // 조건 만족 시 오류 상태 해제
+            }
+        }
+        setSecondForm(newData)
+    }
+
     return (
         <>
             <button className="material-icons cursor-pointer m-6" onClick={toBeforePage}>arrow_back_ios</button>
@@ -116,6 +138,19 @@ const SignupSecond = ({ setPage, secondForm, setSecondForm }) => {
                                     value={signupInfo?.value}
                                     onChange={(e) => changeInfo(e.target.value, index)}
                                     maxLength={13}
+                                />
+                            </div>
+                        )
+                    }
+                    else if (secondForm[index]?.placeholder === "주소입력") {
+                        return (
+                            <div key={key} className='flex'>
+                                <input
+                                    className="w-full m-2 p-4 rounded-xl font2 bg-gray-200"
+                                    type={signupInfo?.type}
+                                    placeholder={signupInfo?.placeholder}
+                                    value={signupInfo?.value}
+                                    onChange={(e) => handleInput(e.target.value, index)}
                                 />
                             </div>
                         )
