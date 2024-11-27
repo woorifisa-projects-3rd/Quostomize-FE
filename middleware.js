@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server';
 import { auth } from "./auth";
 
 export default auth((req) => {
-
     const session = req.auth;
     const goalURL = req.nextUrl.pathname.slice(1);
 
@@ -27,6 +26,7 @@ export const config = {
         "/change-benefits/:path*",
         "/my-card/:path*",
         "/lotto/:path*",
-        "/piece-stock/:path*"
+        "/piece-stock/:path*",
+        "/my-page/:path*"
     ] 
 };

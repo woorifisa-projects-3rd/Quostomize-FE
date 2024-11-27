@@ -1,6 +1,8 @@
-'use-client'
+'use client'
 
-import { redirect } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { IoWarningOutline } from 'react-icons/io5';
 
 import LogoutButton from "../../../components/button/logoutButton";
 import MyPageHeader from "../../../components/my-page/myPageHeader";
@@ -8,6 +10,7 @@ import EmailForm from "../../../components/create-card/input-address/EmailForm";
 import AddressForm from "../../../components/create-card/input-address/AddressForm";
 
 const MyPage = () => {
+  const router = useRouter();
   const [memberName, setMemberName] = useState("")
   const [memberLoginId, setMemberLoginId] = useState("");
   const [formData, setFormData] = useState({
@@ -22,25 +25,29 @@ const MyPage = () => {
   const [originalPhoneNumber, setOriginalPhoneNumber] = useState("");
   const [originalAddress, setOriginalAddress] = useState({});
   const [errors, setErrors] = useState({});
+  const [displayedPhoneNumber, setDisplayedPhoneNumber] = useState("");
+  const [touched, setTouched] = useState({});
 
   const getMyInfo = async() => {
-    const response = await fetch(`${process.env.NEXT_URL}/api/my-page`,
+    const response = await fetch(`/api/my-page`,
       {
         method: "GET",
         headers: {
-            "Content-type": "application/json";
+          "Content-type": "application/json"
         },
         credentials: "include",
-        cache: "force-cache"
+        cache: "no-store"
       },
     );
-  
-    if (response.url.includes("/login")) {
-      return redirect("/login?to=my-page")
+    console.log(response);
+
+    if (response.redirected) {
+        router.push("/login?to=my-page");
     }
   
     const result = await response.json();
     const memberInfo = result.data;
+    console.log(memberInfo);
     const fullEmail = memberInfo.memberEmail;
     const [memberEmailId, memberEmailDomain] = fullEmail.split("@");
     setMemberName(memberInfo.memberName);
@@ -66,6 +73,7 @@ const MyPage = () => {
         detailAddress: memberInfo.memberDetailInfo,
       }
     })
+    setDisplayedPhoneNumber(memberInfo.memberPhoneNumber)
   }
 
   const validateField = (field, value) => {
@@ -126,16 +134,32 @@ const MyPage = () => {
       }));
   };
 
+  const phoneNumberTransform = (phoneNumber) => {
+    let transformed;
+    if (phoneNumber.length >= 8) {
+      transformed = phoneNumber.slice(0,3)+"-"+phoneNumber.slice(3,7)+"-"+phoneNumber.slice(7);
+    } else if (phoneNumber.length >= 4) {
+      transformed = phoneNumber.slice(0,3)+"-"+phoneNumber.slice(3,7);
+    } else {
+      transformed = phoneNumber
+    }
+    return transformed;
+  }
+
+  useEffect(() => {
+    getMyInfo();
+  },[])
+
   return (
     <>
     <MyPageHeader />
     <div className="bg-slate-300">
         <div className="h-28 bg-blue-500 px-4 py-8">
           <div className="text-3xl">
-            {memberInfo.memberName}
+            {memberName}
           </div>
           <div className="flex justify-between">
-            <div>{memberInfo.memberLoginId}</div>
+            <div>{memberLoginId}</div>
             <LogoutButton />
           </div>
         </div>
@@ -146,7 +170,7 @@ const MyPage = () => {
                 <input
                     type="text"
                     name="phoneNumber"
-                    value={formData.phoneNumber}
+                    value={phoneNumberTransform(formData.phoneNumber)}
                     onChange={(e) => {
                         const value = e.target.value.replace(/[^0-9]/g, '');
                         if (value.length <= 11) {
@@ -166,7 +190,7 @@ const MyPage = () => {
                     </div>
                 )}
             </div>
-            <AddressForm type={"home"} formData={formData} setFormData={setFormData} handleInputChange={handleInputChange} handleBlur={handleBlur} handleCheckSameAddress={handleCheckSameAddress} errors={errors}/>
+            <AddressForm type={"residential"} formData={formData} setFormData={setFormData} handleInputChange={handleInputChange} handleBlur={handleBlur} handleCheckSameAddress={handleCheckSameAddress} errors={errors} isApplicant={false}/>
             <EmailForm formData={formData} handleInputChange={handleInputChange} validateField={validateField} handleBlur={handleBlur} errors={errors}/>
             <div className="mt-6">적용하기 버튼</div>
           </div>

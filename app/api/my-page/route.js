@@ -1,11 +1,11 @@
-'use server' 
 import { NextResponse } from "next/server";
 import { auth } from "../../../auth";
 
 export async function GET(request) {
-    console.log("요청 왔어");
-    const session = await auth();
     
+    const session = await auth();
+    console.log("session = ");
+    console.log(session);
     if (!session || !session.accessToken) {
         return NextResponse.redirect(new URL("/login", `${process.env.NEXT_URL}`));
     }
@@ -20,10 +20,9 @@ export async function GET(request) {
                 "Authorization": `Bearer ${accessToken}`
             },
             credentials: "include",
-            cache: "force-cache"
+            cache: "no-store"
         }
     );
-    console.log(response);
     
     if (response.status != 200) {
         console.log("오류");

@@ -43,7 +43,6 @@ class TokenRefreshManager {
   }
 
   async doRefresh(token) {
-    console.log("리프레시 요청")
     try {
       const response = await fetch(
         `${process.env.SERVER_URL}/v1/api/auth/reissue`,
@@ -168,7 +167,6 @@ export const authConfig = {
       try {
         return await TokenRefreshManager.getInstance().refreshToken(token);
       } catch (error) {
-        console.log("여기서 에러가 났어!!!")
         await signOut({
           redirectTo: "login",
           redirect: true
