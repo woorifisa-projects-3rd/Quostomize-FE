@@ -7,7 +7,7 @@ import OtherInfoForm from './OtherInfoForm';
 import CardPasswordForm from './CardPasswordForm';
 import PasswordInput from './PasswordInput';
 
-const InputAddress = () => {
+const SelectOtherInfo = () => {
     const [formData, setFormData] = useState({
         deliveryPostalCode: '',
         deliveryAddress: '',
@@ -181,4 +181,4 @@ const InputAddress = () => {
     );
 };
 
-export default InputAddress;
+export default SelectOtherInfo;

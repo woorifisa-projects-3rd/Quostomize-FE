@@ -18,7 +18,7 @@ import CardApplicantInfo1 from '../../../components/create-card/user-detail/card
 import IdentityVerification1 from '../../../components/create-card/user-detail/identityVerification1';
 import TermsAgreementHeader from '../../../components/create-card/terms-agreement/TermsAgreementHeader';
 import InputAddressHeader from '../../../components/create-card/input-address/InputAddressHeader';
-import InputAddress from '../../../components/create-card/input-address/InputAddress';
+import SelectOtherInfo from '../../../components/create-card/input-address/SelectOtherInfo';
 import CheckInformationHeader from '../../../components/create-card/check-information/CheckInformationHeader';
 import CheckInformation from '../../../components/create-card/check-information/CheckInformation';
 
@@ -113,7 +113,7 @@ const CreateCardPage = () => {
             <InputAddressHeader onClick={handlePrevPage} />
           </header>
           {/*InputAddressHeader - 배송지 입력 */}
-          <InputAddress />
+          <SelectOtherInfo />
         </div>;
 
       case 8:
