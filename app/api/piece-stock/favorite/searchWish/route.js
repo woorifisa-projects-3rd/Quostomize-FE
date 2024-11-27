@@ -10,7 +10,7 @@ export async function GET(request) { // 위시조회
         {
             method: "GET",
             headers: {
-                "Content-type": "application",
+                "Content-type": "application/json",
                 "Authorization": `Bearer ${session.accessToken}`
             },
             credentials: "include",

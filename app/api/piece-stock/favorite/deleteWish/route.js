@@ -14,7 +14,7 @@ export async function DELETE(request) { // 위시삭제
         {
             method: "DELETE",
             headers: {
-                "Content-type": "application",
+                "Content-type": "application/json",
                 "Authorization": `Bearer ${session.accessToken}`
             },
             credentials: "include",

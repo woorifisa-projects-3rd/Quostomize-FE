@@ -47,9 +47,9 @@ const favoriteBody = ({ cardId, orderInfo, setOrderInfo, setWishInfo, wishInfo, 
                 },
             });
 
-            // if (!response.ok) {
-            //     throw new Error('값이 조회되지 않았습니다.');
-            // }
+            if (!response.ok) {
+                throw new Error('값이 조회되지 않았습니다.');
+            }
         } catch (error) {
             console.error('데이터 가져오기 오류:', error);
         }
