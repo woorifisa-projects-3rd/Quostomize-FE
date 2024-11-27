@@ -10,19 +10,15 @@ export const metadata = {
 
 export default function NavLayout({ children }) {
   const menuItems = [
-    {title: "홈", icon: <MdHome />, path: "home"},
-    {title: "나의카드", icon: <FaCreditCard />, path: "my-card"},
-    {title: "투자", icon: <FaChartLine />, path: "piece-stock/home"},
+    {title: "홈", icon: <MdHome />, path: "/home"},
+    {title: "나의카드", icon: <FaCreditCard />, path: "/my-card"},
+    {title: "투자", icon: <FaChartLine />, path: "/piece-stock/home"},
     {title: "전체", icon: <GiHamburgerMenu />, path: ""},
   ]
 
   return (
     <>
-      <div className={`h-full overflow-scroll bg-slate-50 [&::-webkit-scrollbar]:hidden`}
-        style={{
-          scrollbarWidth: 'none',
-          msOverflowStyle: 'none',
-        }}>
+      <div className="w-[36rem] h-[calc(100%-4rem)] bg-white">
         {children}
       </div>
       <Nav menuItems={menuItems} />

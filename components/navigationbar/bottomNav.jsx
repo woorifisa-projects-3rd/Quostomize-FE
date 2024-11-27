@@ -13,14 +13,14 @@ const Nav = ({menuItems}) => {
 
   const selectMenu = (path) => {
     router.push(path);
-    setPath(path);
   }
 
   // 현재 path를 감지해서 선택된 메뉴 변경
   useEffect(() => {
+    console.log("router push 후 변경된 pathName =" +pathName);
     setPath((prev) => {
       if (prev !== pathName) {
-        return pathName.split("/").pop();
+        return pathName;
       } else {
         return prev;
       }
@@ -29,7 +29,7 @@ const Nav = ({menuItems}) => {
 
   return (
     <>
-      <div className="sticky z-10 bottom-0 right-0 h-16 bg-slate-300 flex justify-around items-center text-[0.6rem]">
+      <div className="sticky z-10 bottom-0 right-0 h-16 bg-slate-300 flex justify-around items-center">
         {menuItems.map((item, index) => {
           return <NavButton iconTitle={item.title} icon={item.icon} path={item.path} currentPath={currentPath} selectMenu={selectMenu} setHamburgerMenuOpen={setHamburgerMenuOpen} key={index}/>;
         })}

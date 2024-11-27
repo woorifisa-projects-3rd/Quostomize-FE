@@ -10,6 +10,11 @@ import { useRouter } from "next/navigation";
 const HamburgerMenu = ({hamburgerMenuOpen, setHamburgerMenuOpen}) => {
     const router = useRouter();
 
+    const routePage = (path) => {
+        router.push(path);
+        setHamburgerMenuOpen(false);
+    }
+
     const menuItems = [
         {title: "혜택변경", icon: <MdCurrencyExchange />, path:"/benefit-change" },
         {title: "복권", icon: <FaTrophy />, path:"/lotto" },
@@ -41,7 +46,7 @@ const HamburgerMenu = ({hamburgerMenuOpen, setHamburgerMenuOpen}) => {
                                 return (
                                     <div 
                                         className="flex justify-start items-center text-2xl w-44 h-12 border-b-2 cursor-pointer"
-                                        onClick = {() => router.push(item.path)}
+                                        onClick = {() => routePage(item.path)}
                                         key={index}
                                     >
                                         <div className="ml-4">

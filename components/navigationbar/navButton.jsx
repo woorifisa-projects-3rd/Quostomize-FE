@@ -2,6 +2,7 @@
 
 import 'material-icons/iconfont/material-icons.css';
 
+
 const NavButton = ({iconTitle, icon, path, currentPath, selectMenu, setHamburgerMenuOpen}) => {
 
   if (iconTitle === "전체") {
@@ -12,7 +13,7 @@ const NavButton = ({iconTitle, icon, path, currentPath, selectMenu, setHamburger
         <div className='text-xl'>
           {icon}
         </div>
-        <span className='font-bold'>{iconTitle}</span>
+        <span className='text-xs font-semibold'>{iconTitle}</span>
       </div>
   } else if (path === currentPath) {
     return (
@@ -23,19 +24,19 @@ const NavButton = ({iconTitle, icon, path, currentPath, selectMenu, setHamburger
         <div className='text-xl'>
           {icon}
         </div>
-        <span className='font-bold'>{iconTitle}</span>
+        <span className='text-xs font-bold'>{iconTitle}</span>
       </div>
     );
   } else {
     return (
       <div 
-      className="flex flex-col justify-center items-center w-12 h-12 cursor-pointer"
-      onClick={() => {selectMenu(path)}}
+        className="flex flex-col justify-center items-center w-12 h-12 cursor-pointer"
+        onClick={() => {selectMenu(path)}}
       >
         <div className='text-xl'>
           {icon}
         </div>
-        <span>{iconTitle}</span>
+        <span className='text-xs'>{iconTitle}</span>
       </div>
     );
   }
