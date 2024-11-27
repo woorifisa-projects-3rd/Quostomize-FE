@@ -1,15 +1,13 @@
 'use client'
 
 import WinnerCard from "../../../../components/card/WinnerCard";
-import SquareButton from "../../../../components/button/square-button";
 import { redirect, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import BottomDrawer from "../../../../components/overlay/bottomDrawer"
+import Calendar from "../../../../components/calendar/calendar"
 
 
-const LottoMain = () => {
-    const router = useRouter();
+const LottoPast = () => {
     const searchParams = useSearchParams();
     const [date, setDate] = useState(searchParams.get("date"));
 
@@ -43,6 +41,7 @@ const LottoMain = () => {
     },[searchParams])
 
     useEffect(() => {
+        console.log(date);
         getWinners(date);
     },[date])
 
@@ -75,10 +74,10 @@ const LottoMain = () => {
                             "서버에서 오류가 발생했습니다.\n 잠시 후 다시 시도해주세요."
                     }
                 </div>
-                <BottomDrawer isOpen={isDrawerOpen} setIsOpen={setDrawerOpen} />
+                <BottomDrawer isOpen={isDrawerOpen} setIsOpen={setDrawerOpen} height={"h-[30rem]"} children={<Calendar date={date} setDate={setDate} isDrawerOpen={isDrawerOpen} setDrawerOpen={setDrawerOpen}/>} />
             </div>
-        </Suspense>
+      </Suspense>
     );
 }
 
-export default LottoMain;
+export default LottoPast;
