@@ -1,7 +1,9 @@
 
 import { cookies } from "next/headers";
-import LogoutButton from "../../../components/button/logoutButton"
 import { redirect } from "next/navigation";
+
+import LogoutButton from "../../../components/button/logoutButton"
+import MyPageHeader from "../../../components/my-page/myPageHeader"
 
 const MyPage = async () => {
   const cookieList = await cookies(); 
@@ -26,25 +28,29 @@ const MyPage = async () => {
   const memberInfo = result.data;
 
   return (
-    <div>
-      <div>
-        <div className="px-4 text-3xl">
-          {memberInfo.memberName}
+    <>
+    <MyPageHeader />
+    <div className="bg-slate-300">
+        <div className="h-28 bg-blue-500 px-4 py-8">
+          <div className="text-3xl">
+            {memberInfo.memberName}
+          </div>
+          <div className="flex justify-between">
+            <div>{memberInfo.memberLoginId}</div>
+            <LogoutButton />
+          </div>
         </div>
-        <div className="flex justify-between px-4">
-          <div>{memberInfo.memberLoginId}</div>
-          <LogoutButton />
+        <div>
+          <div className="mx-4 mt-8 px-4 py-6 rounded-xl bg-slate-100 flex flex-col gap-4 justify-around">
+            <div>휴대전화</div>
+            <div>주소</div>
+            <div>이메일</div>
+            <div className="mt-6">적용하기 버튼</div>
+          </div>
         </div>
+        <div>비밀번호 변경 버튼</div>
       </div>
-      <div>
-        <div>휴대전화</div>
-        <div>주소</div>
-        <div>이메일</div>
-        
-      </div>
-      <div>적용하기 버튼</div>
-      <div>비밀번호 변경 버튼</div>
-    </div>
+    </>
   );
 }
 

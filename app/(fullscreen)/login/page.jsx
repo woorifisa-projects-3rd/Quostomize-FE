@@ -26,13 +26,16 @@ const LoginPage = () => {
       if (response.error) {
         window.alert("아이디, 비밀번호 확인");
       }
-
     } catch (err) {
       isAuthed = false;
       window.alert(err.message);
     } finally {
       if (isAuthed) {
-        router.push(redirectTo);
+        if (goalURL) {
+          router.replace(redirectTo);
+        } else {
+          router.push(redirectTo);
+        }
       }
     }
     

@@ -3,8 +3,6 @@ import { NextResponse } from "next/server";
 import { auth } from "../../../auth";
 
 export async function GET(request) {
-    console.log(request);
-
     const session = await auth();
 
     const response = await fetch(`${process.env.SERVER_URL}/v1/api/lottery`,
