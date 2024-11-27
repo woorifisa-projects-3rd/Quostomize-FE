@@ -53,12 +53,6 @@ const ChangeBenefitsPage = () => {
     }));
   };
 
-  useEffect(() => {
-    console.log("ㅎㅇㅎㅇ")
-    console.log(benefitData)
-  }, [benefitData])
-
-
   const getChangerabledate = async (cardSequenceId) => {
     try {
       const response = await fetch(`/api/benefit-change/changerable?cardSequenceId=${cardSequenceId}`,

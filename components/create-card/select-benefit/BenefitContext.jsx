@@ -12,26 +12,30 @@ export function BenefitProvider({ children, benefitData }) {
   useEffect(() => {
     if (benefitData && Array.isArray(benefitData)) {
       const updatedCategoryValues = [1, 1, 1, 1, 1];
+      const updatedSelectedOptions = [null, null, null, null, null];
 
+      benefitData.forEach((item) => {
+        const categoryIndex = item.upperCategoryId - 1;
 
-      benefitData.forEach((item, index) => {
-        if (item.upperCategoryId) {
-          updatedCategoryValues[item.upperCategoryId - 1] = 4;
-        }
-        if (item.lowerCategoryId) {
-          if (updatedCategoryValues[item.lowerCategoryId - 1] !== 4) {
-            updatedCategoryValues[item.upperCategoryId - 1] = 5;
+        if (categoryIndex >= 0 && categoryIndex < updatedCategoryValues.length) {
+          if (item.upperCategoryId) {
+            updatedCategoryValues[categoryIndex] = 4;
           }
-          setSelectedOptions(prev => {
-            const newOptions = [...prev];
-            newOptions[index] = item.lowerCategoryId;
-            return newOptions;
-          });
+          if (item.lowerCategoryId) {
+            if (updatedCategoryValues[item.lowerCategoryId - 1] !== 4) {
+              updatedCategoryValues[categoryIndex] = 5;
+            }
+            updatedSelectedOptions[categoryIndex] = item.lowerCategoryId;
+          }
         }
       });
+
       setCategoryValues(updatedCategoryValues);
+      setSelectedOptions(updatedSelectedOptions);
     }
   }, [benefitData]);
+
+
 
   const updateCategory = (index, value) => {
     setCategoryValues(prev => {
