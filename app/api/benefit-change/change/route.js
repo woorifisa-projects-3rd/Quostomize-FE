@@ -3,16 +3,33 @@ import { auth } from '../../../../auth'
 
 export async function PATCH(request) {
     const session = await auth();
-    const searchParams = await request.nextUrl.searchParams;
-    const cardSequenceId = searchParams.get('cardSequenceId');
     const accessToken = session.accessToken;
 
     try {
         const body = await request.json();
-        const { cardSequenceId, benefitRate, lowerCategoryId, upperCategoryId } = body;
+        const { cardSequenceId, benefitRate, lowerCategoryId, upperCategoryId, secondaryAuthCode } = body;
 
         if (!session || !session.accessToken) {
             return NextResponse.redirect(new URL("/login", `${process.env.NEXT_URL}`));
+        }
+
+        if (!cardSequenceId || !benefitRate || lowerCategoryId === undefined || upperCategoryId === undefined) {
+            return NextResponse.json({
+                message: "필수 필드가 누락되었습니다.",
+                status: 400
+            });
+        }
+        if (!secondaryAuthCode) {
+            return NextResponse.json({
+                message: "2차 인증 코드가 누락되었습니다.",
+                status: 400,
+            });
+        }
+        if (secondaryAuthCode !== storedAuthCode) {
+            return NextResponse.json({
+                message: "2차 인증번호가 일치하지 않습니다. 다시 입력해주세요.",
+                status: 400,
+            });
         }
 
         const backendResponse = await fetch(
@@ -33,7 +50,6 @@ export async function PATCH(request) {
                 { message: errorData.message || '서버 오류 발생', status: backendResponse.status }
             );
         }
-        // const result = await backendResponse.json();
         return new Response(null, {
             status: 204,
         });

@@ -14,8 +14,12 @@ const ChangeBenefitsPage = () => {
   const [error, setError] = useState(null);
   const [cardSequenceId, setCardSequenceId] = useState(null);
   const [buttonText, setButtonText] = useState('');
+  const [authSuccess, setAuthSuccess] = useState(null);
 
-
+  const [benefitRate, setBenefitRate] = useState(null);
+  const [lowerCategoryId, setLowerCategoryId] = useState(null);
+  const [upperCategoryId, setUpperCategoryId] = useState(null);
+  const [secondaryAuthCode, setSecondaryAuthCode] = useState("");
 
   const categoryMap = {
     1: '쇼핑',
@@ -45,14 +49,6 @@ const ChangeBenefitsPage = () => {
 
   const labels = Object.values(categoryMap);
 
-
-  // 프론트엔드 데이터 → 백엔드 데이터로 변환
-  const prepareBackendPayload = (data) => {
-    return data.map(item => ({
-      benefitRate: item.benefitRate - 1,
-    }));
-  };
-
   const getChangerabledate = async (cardSequenceId) => {
     try {
       const response = await fetch(`/api/benefit-change/changerable?cardSequenceId=${cardSequenceId}`,
@@ -76,7 +72,6 @@ const ChangeBenefitsPage = () => {
       }
       // console.log(responsedata.data);
     } catch (error) {
-      console.error('Error - 혜택 변경 페이지: ', error.message);
       setError(error.message);
     }
   };
@@ -97,11 +92,9 @@ const ChangeBenefitsPage = () => {
       const data = await response.json();
       const transformedData = transformBenefitData(data.data);
       setBenefitData(transformedData);
-      // console.log('Received benefitData:', data.data);
+      console.log('Received benefitData:', data.data);
       setCardSequenceId(data.data[0].cardSequenceId);
-
     } catch (error) {
-      console.error('Error - 혜택 변경 페이지: ', error.message);
       setError(error.message);
     }
   };
@@ -111,6 +104,65 @@ const ChangeBenefitsPage = () => {
       ...item,
       benefitRate: item.benefitRate + 1,
     }));
+  };
+
+  const prepareBackendPayload = (benefitData) => {
+    return benefitData.map(item => ({
+      benefitRate: item.benefitRate - 1,  // benefitRate 값에서 1을 뺌
+      cardSequenceId: item.cardSequenceId,
+      lowerCategoryId: item.lowerCategoryId,
+      upperCategoryId: item.upperCategoryId,
+    }));
+  };
+
+  const prepareFilteredData = (benefitData) => {
+    return benefitData.map(({ cardSequenceId, benefitRate, lowerCategoryId, upperCategoryId }) => ({
+      cardSequenceId,
+      benefitRate,
+      lowerCategoryId,
+      upperCategoryId,
+    }));
+  };
+
+  const handleBenefitUpdate = async (actionType) => {
+    const filteredData = prepareFilteredData(benefitData);
+
+    const payload = filteredData.map(item => ({
+      cardSequenceId: item.cardSequenceId,
+      benefitRate: benefitRate !== null ? benefitRate : item.benefitRate,
+      lowerCategoryId: lowerCategoryId !== null ? lowerCategoryId : item.lowerCategoryId,
+      upperCategoryId: upperCategoryId !== null ? upperCategoryId : item.upperCategoryId,
+      secondaryAuthCode,
+    }));
+
+    const backendPayload = prepareBackendPayload(payload);
+
+    try {
+      const response = await fetch(`/api/benefit-change/${actionType}`,
+        {
+          method: "PATCH",
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify(backendPayload)
+        });
+
+
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || '서버 오류 발생');
+      }
+
+      const result = await response.json();
+      setAuthSuccess(result.authSuccess);
+
+    } catch (error) {
+      console.error('Error updating stock status: ', error);
+      setError(error.message);
+    }
+    console.log(filteredData);
   };
 
   useEffect(() => {
@@ -148,10 +200,10 @@ const ChangeBenefitsPage = () => {
       <span className="flex justify-center"> 포인트 혜택은 30일 마다 변경이 가능하며 변경 수수료 1,000 원이 익월 청구됩니다.</span>
 
 
-      <ChangeBenefitFoot modalTitle="혜택 변경" exitDirection="/my-card" buttonText={buttonText} />
+      <ChangeBenefitFoot modalTitle="혜택 변경" exitDirection="/my-card" buttonText={buttonText} onChangeBenefit={() => handleBenefitUpdate('change')}
+        onReserveBenefit={() => handleBenefitUpdate('reserve')} authSuccess={authSuccess} />
 
     </div>
   );
 }
-
 export default ChangeBenefitsPage;
