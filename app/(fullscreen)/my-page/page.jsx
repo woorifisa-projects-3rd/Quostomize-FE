@@ -25,10 +25,10 @@ const MyPage = () => {
   const [originalPhoneNumber, setOriginalPhoneNumber] = useState("");
   const [originalAddress, setOriginalAddress] = useState({});
   const [errors, setErrors] = useState({});
-  const [displayedPhoneNumber, setDisplayedPhoneNumber] = useState("");
   const [touched, setTouched] = useState({});
+  const [buttonActive, setButtonActive] = useState(false);
 
-  const [changedForms, setChangedForms] = useState(new Set());
+  const [isLoading, setLoading] = useState(false);
 
   const getMyInfo = async() => {
     const response = await fetch(`/api/my-page`,
@@ -48,7 +48,6 @@ const MyPage = () => {
   
     const result = await response.json();
     const memberInfo = result.data;
-    console.log(memberInfo);
     const fullEmail = memberInfo.memberEmail;
     const [memberEmailId, memberEmailDomain] = fullEmail.split("@");
     setMemberName(memberInfo.memberName);
@@ -65,16 +64,15 @@ const MyPage = () => {
       }
     })
     setOriginalEmail(memberInfo.memberEmail);
-    setOriginalPhoneNumber(memberInfo.memberPhoneNumber);
+    setOriginalPhoneNumber(memberInfo.phoneNumber);
     setOriginalAddress((prev) => {
       return {
         ...prev,
         zipCode: memberInfo.zipCode,
-        address: memberInfo.memberAddress,
-        detailAddress: memberInfo.memberDetailInfo,
+        address: memberInfo.residentialAddress,
+        detailAddress: memberInfo.memberDetail,
       }
     })
-    setDisplayedPhoneNumber(memberInfo.memberPhoneNumber)
   }
 
   const validateField = (field, value) => {
@@ -117,30 +115,6 @@ const MyPage = () => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     validateField(name, value);
-    
-    if (name.includes("phoneNumber")) {
-      setChangedForms((prev) => {
-        const newSet = new Set([...prev]);
-        newSet.add("phone");
-        return newSet;
-      })
-    }
-    
-    if (name.includes("Address")) {
-      setChangedForms((prev) => {
-        const newSet = new Set([...prev]);
-        newSet.add("address");
-        return newSet;
-      })
-    }
-
-    if (name.includes("email")) {
-      setChangedForms((prev) => {
-        const newSet = new Set([...prev]);
-        newSet.add("email");
-        return newSet;
-      })
-    }
   };
 
   const handleBlur = (field) => {
@@ -171,13 +145,16 @@ const MyPage = () => {
     return transformed;
   }
   
-  const submitChangePhoneNumber = async () => {
+  const submitUpdatePhoneNumber = async () => {
+    if (errors.length >= 1) {
+      return;
+    }
     if (originalPhoneNumber !== formData.phoneNumber) {
       try {
         const response = await fetch("/api/my-page/updatePhone",
           {
             body: JSON.stringify({phoneNumber: formData.phoneNumber}),
-            method: "POST",
+            method: "PATCH",
             headers: {
               "Content-type": "application/json"
             },
@@ -189,53 +166,113 @@ const MyPage = () => {
         if (response.redirected) {
           router.push(`${response.url}`);
         }
-        const result = await response.json();
-        setFormData((prev) => {
-          return {
-              ...prev,
-              phoneNumber: result.data.phoneNumber
-          }
-        })
-        setOriginalPhoneNumber = result.data.phoneNumber;
+        setOriginalPhoneNumber(formData.phoneNumber);
       } catch (err) {
         console.log(err);
       }
     }
   }
 
-  const submitChangeAddress = async () => {
+  const submitUpdateAddress = async () => {
+    if (errors.length >= 1) {
+      return;
+    }
+
+
     let checkChange = false;
 
-    if (formData.residentialAddress !== originalAddress)
+    if (formData.residentialAddress !== originalAddress.address) {
+      checkChange= true;
+    }
 
-    if (originalPhoneNumber !== formData.phoneNumber) {
+    if (formData.detailedResidentialAddress !== originalAddress.detailAddress) {
+      checkChange = true;
+    }
+
+    if (formData.residentialPostalCode !== originalAddress.zipCode) {
+      checkChange = true;
+    }
+
+    if (checkChange === false) {
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/my-page/updateAddress",
+        {
+          method: "PATCH",
+          headers: {
+            "Content-type": "application/json"
+          },
+          cache: "no-store",
+          credentials: "include",
+          body: JSON.stringify(
+            {
+              zipCode: formData.residentialPostalCode,
+              newAddress: formData.residentialAddress,
+              newDetailAddress: formData.detailedResidentialAddress
+            }
+          ),
+        }
+        
+      );
+      if (response.redirected) {
+        router.push(`${response.url}`);
+      }
+      
+      setOriginalAddress((prev) => {
+        return {
+          ...prev,
+          zipCode: formData.residentialPostalCode,
+          address: formData.residentialAddress,
+          detailAddress: formData.detailedResidentialAddress
+        }
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  const submitUpdateEmail = async () => {
+    if (errors.length >= 1) {
+      return;
+    }
+
+    const formEmail = formData.emailId+"@"+formData.emailDomain;
+
+    if (originalEmail !== formEmail) {
+
       try {
-        const response = await fetch("/api/my-page/updatePhone",
+        const response = await fetch("/api/my-page/updateEmail",
           {
-            method: "POST",
+            method: "PATCH",
             headers: {
               "Content-type": "application/json"
             },
             cache: "no-store",
             credentials: "include",
+            body: JSON.stringify({newEmail: formEmail}),
           }
           
         );
         if (response.redirected) {
           router.push(`${response.url}`);
         }
-        const result = await response.json();
-        setFormData((prev) => {
-          return {
-              ...prev,
-              phoneNumber: result.data.phoneNumber
-          }
-        })
-        setOriginalPhoneNumber = result.data.phoneNumber;
+        setOriginalEmail(formEmail);
       } catch (err) {
         console.log(err);
       }
     }
+  }
+
+  const submitChange = async () => {
+    setLoading(true);
+    await Promise.all([
+      submitUpdatePhoneNumber(),
+      submitUpdateAddress(),
+      submitUpdateEmail()
+    ])
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -244,50 +281,67 @@ const MyPage = () => {
 
   return (
     <>
-    <MyPageHeader />
-    <div className="bg-slate-300">
-        <div className="h-28 bg-blue-500 px-4 py-8">
-          <div className="text-3xl">
+      <MyPageHeader />
+      <div className="relative bg-slate-300 min-h-screen">
+        <div className="h-[7.5rem] mx-4 bg-slate-200 px-8 py-8 rounded-b-xl ">
+          <div className="text-3xl tracking-widest font-bold">
             {memberName}
           </div>
           <div className="flex justify-between">
             <div>{memberLoginId}</div>
-            <LogoutButton />
+            <div>
+              <LogoutButton />
+            </div>
           </div>
         </div>
         <div>
           <div className="mx-4 mt-8 px-4 py-6 rounded-xl bg-slate-100 flex flex-col gap-4 justify-around">
-          <div className="relative">
-                <label className="block text-base font-medium text-gray-700 mb-3">전화번호</label>
-                <input
-                    type="text"
-                    name="phoneNumber"
-                    value={phoneNumberTransform(formData.phoneNumber)}
-                    onChange={(e) => {
-                        const value = e.target.value.replace(/[^0-9]/g, '');
-                        if (value.length <= 11) {
-                            handleInputChange({ target: { name: 'phoneNumber', value } });
-                            validateField('phoneNumber', value);
-                        }
-                    }}
-                    className={`w-full p-3 border-2 rounded-xl transition-all duration-300 outline-none ${
-                        errors.phoneNumber ? 'border-red-500 bg-red-50' : 'border-gray-200 bg-gray-50 focus:border-blue-500 focus:bg-white'
-                    }`}
-                    placeholder="'-'없이 입력해주세요"
-                />
-                {errors.phoneNumber && (
-                    <div className="flex items-center mt-2 text-red-500">
-                        <IoWarningOutline className="mr-2 text-lg" />
-                        <p className="text-sm">{errors.phoneNumber}</p>
-                    </div>
-                )}
+            <div className="relative">
+              <label className="block text-base font-medium text-gray-700 mb-3">전화번호</label>
+              <input
+                type="text"
+                name="phoneNumber"
+                value={phoneNumberTransform(formData.phoneNumber)}
+                onChange={(e) => {
+                    const value = e.target.value.replace(/[^0-9]/g, '');
+                    if (value.length <= 11) {
+                        handleInputChange({ target: { name: 'phoneNumber', value } });
+                        validateField('phoneNumber', value);
+                    }
+                }}
+                className={`w-full p-3 border-2 rounded-xl transition-all duration-300 outline-none ${
+                    errors.phoneNumber ? 'border-red-500 bg-red-50' : 'border-gray-200 bg-gray-50 focus:border-blue-500 focus:bg-white'
+                }`}
+                placeholder="'-'없이 입력해주세요"
+              />
+              {errors.phoneNumber && (
+                  <div className="flex items-center mt-2 text-red-500">
+                      <IoWarningOutline className="mr-2 text-lg" />
+                      <p className="text-sm">{errors.phoneNumber}</p>
+                  </div>
+              )}
             </div>
             <AddressForm type={"residential"} formData={formData} setFormData={setFormData} handleInputChange={handleInputChange} handleBlur={handleBlur} handleCheckSameAddress={handleCheckSameAddress} errors={errors} isApplicant={false}/>
             <EmailForm formData={formData} handleInputChange={handleInputChange} validateField={validateField} handleBlur={handleBlur} errors={errors}/>
-            <div className="mt-6">적용하기 버튼</div>
+            <div className="mt-4 w-full flex justify-end pr-4">
+              <div 
+                className="bg-blue-500 w-20 h-10 leading-10 text-center px-1 rounded-xl text-white hover:bg-blue-600 hover:font-bold select-none cursor-pointer"
+                onClick={() => {submitChange()}}
+              >
+                적용하기
+              </div>
+            </div>
           </div>
         </div>
-        <div>비밀번호 변경 버튼</div>
+        {
+          isLoading
+          ? <div className="absolute inset-0 flex justify-center items-center bg-black/25 text-white">
+              <div>
+                로딩중!!!!!!!!!!!
+              </div>
+            </div>
+          : <></>
+        }
       </div>
     </>
   );

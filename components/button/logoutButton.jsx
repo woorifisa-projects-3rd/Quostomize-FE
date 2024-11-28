@@ -8,11 +8,12 @@ const LogoutButton = () => {
 
   const logout = async () => {
     try {
-      await fetch('/auth/logout', {
+      await fetch("api/auth/logout", {
         method: "POST",
         headers: {
           "Content-type": "application/json"
         },
+        cache:"no-store",
         credentials: "include"
       });
       

@@ -1,8 +1,11 @@
+import { NextResponse } from "next/server";
+import { auth } from "../../../../auth"
+
 export async function POST(request) {
   const session = await auth();
   const accessToken = session.accessToken;
 
-  await fetch(`${process.env.SERVER_URL}/v1/api/auth/logout`,
+  const response = await fetch(`${process.env.SERVER_URL}/v1/api/auth/logout`,
       {
           method: "POST",
           headers: {
@@ -13,4 +16,6 @@ export async function POST(request) {
           cache: "force-cache"
       }
   );
+
+  return NextResponse.redirect(new URL("/login", `${process.env.NEXT_URL}`));
 };

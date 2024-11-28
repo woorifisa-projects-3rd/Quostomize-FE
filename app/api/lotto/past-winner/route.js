@@ -18,7 +18,6 @@ export async function GET(request) {
             cache: "force-cache"
         }
     );
-    console.log(response);
     if (response.status != 200) {
       const result = await response.json();
       console.log(result);

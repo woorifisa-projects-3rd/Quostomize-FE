@@ -6,7 +6,7 @@ export async function PATCH(request) {
     const session = await auth();
     const body = request.body;
     try {
-        const response = await fetch(`${process.env.SERVER_URL}/v1/api/member/change-phone`,
+        const response = await fetch(`${process.env.SERVER_URL}/v1/api/member/change-address`,
             {
                 method: "PATCH",
                 headers: {
