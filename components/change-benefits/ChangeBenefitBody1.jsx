@@ -1,9 +1,9 @@
-'use client'
+"use client"
 
-import { useBenefitContext } from './BenefitContext';
-import { useState, useEffect } from 'react';
-import InteractiveRadarGraph from '../../graph/interactive-radar-graph';
-import SelectBenefit3 from './select-benefit3';
+import React, { useEffect, useState } from 'react'
+
+import { useBenefitContext } from '../create-card/select-benefit/BenefitContext';
+import InteractiveRadarGraph from '../graph/interactive-radar-graph';
 import InteractiveTabContentBox from '../box/InteractiveTabContentBox';
 
 const getRandomColor = () => {
@@ -11,7 +11,8 @@ const getRandomColor = () => {
     return colors[Math.floor(Math.random() * colors.length)];
 };
 
-const SelectBenefit2 = () => {
+const ChangeBenefitBody1 = () => {
+
     const { categoryValues } = useBenefitContext();
     const [borderColor, setBorderColor] = useState(getRandomColor());
     const labels = ['쇼핑', '생활', '푸드', '여행', '문화'];
@@ -20,8 +21,9 @@ const SelectBenefit2 = () => {
         setBorderColor(getRandomColor());
     }, []);
 
+
     return (
-        <div className='flex flex-col items-center space-y-8'>
+        <div>
             <InteractiveRadarGraph
                 labels={labels}
                 datasets={[
@@ -35,10 +37,8 @@ const SelectBenefit2 = () => {
                 min={0}
                 borderColor={borderColor}
             />
-            <InteractiveTabContentBox />
-            <SelectBenefit3 labels={labels} data={categoryValues.map(value => value - 1)} />
         </div>
-    );
-};
+    )
+}
 
-export default SelectBenefit2;
+export default ChangeBenefitBody1
