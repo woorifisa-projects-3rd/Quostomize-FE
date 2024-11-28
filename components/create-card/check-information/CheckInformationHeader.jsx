@@ -8,6 +8,7 @@ function CheckInformationHeader({ onClick }) {
 
         <div>
             <Header
+                modaltitle="카드 생성"
                 showArrowButton={true}
                 onArrowClick={onClick}
                 exitDirection="/home"
