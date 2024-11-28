@@ -4,8 +4,6 @@ import { auth } from "../../../auth";
 export async function GET(request) {
     
     const session = await auth();
-    console.log("session = ");
-    console.log(session);
     if (!session || !session.accessToken) {
         return NextResponse.redirect(new URL("/login", `${process.env.NEXT_URL}`));
     }
@@ -25,11 +23,11 @@ export async function GET(request) {
     );
     
     if (response.status != 200) {
-        console.log("오류");
-        return NextResponse.redirect(new URL("/login"));
+        if (response.status === 403 || response.status === 401) {
+            return NextResponse.redirect(new URL("/login"));
+        }
     } else {
         const result = await response.json();
-        console.log(result);
         return NextResponse.json(result, {status:200});
     }
 };

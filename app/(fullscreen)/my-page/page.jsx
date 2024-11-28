@@ -28,6 +28,8 @@ const MyPage = () => {
   const [displayedPhoneNumber, setDisplayedPhoneNumber] = useState("");
   const [touched, setTouched] = useState({});
 
+  const [changedForms, setChangedForms] = useState(new Set());
+
   const getMyInfo = async() => {
     const response = await fetch(`/api/my-page`,
       {
@@ -39,7 +41,6 @@ const MyPage = () => {
         cache: "no-store"
       },
     );
-    console.log(response);
 
     if (response.redirected) {
         router.push("/login?to=my-page");
@@ -68,7 +69,7 @@ const MyPage = () => {
     setOriginalAddress((prev) => {
       return {
         ...prev,
-        zioCode: memberInfo.zipCode,
+        zipCode: memberInfo.zipCode,
         address: memberInfo.memberAddress,
         detailAddress: memberInfo.memberDetailInfo,
       }
@@ -116,6 +117,30 @@ const MyPage = () => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     validateField(name, value);
+    
+    if (name.includes("phoneNumber")) {
+      setChangedForms((prev) => {
+        const newSet = new Set([...prev]);
+        newSet.add("phone");
+        return newSet;
+      })
+    }
+    
+    if (name.includes("Address")) {
+      setChangedForms((prev) => {
+        const newSet = new Set([...prev]);
+        newSet.add("address");
+        return newSet;
+      })
+    }
+
+    if (name.includes("email")) {
+      setChangedForms((prev) => {
+        const newSet = new Set([...prev]);
+        newSet.add("email");
+        return newSet;
+      })
+    }
   };
 
   const handleBlur = (field) => {
@@ -144,6 +169,73 @@ const MyPage = () => {
       transformed = phoneNumber
     }
     return transformed;
+  }
+  
+  const submitChangePhoneNumber = async () => {
+    if (originalPhoneNumber !== formData.phoneNumber) {
+      try {
+        const response = await fetch("/api/my-page/updatePhone",
+          {
+            body: JSON.stringify({phoneNumber: formData.phoneNumber}),
+            method: "POST",
+            headers: {
+              "Content-type": "application/json"
+            },
+            cache: "no-store",
+            credentials: "include",
+          }
+          
+        );
+        if (response.redirected) {
+          router.push(`${response.url}`);
+        }
+        const result = await response.json();
+        setFormData((prev) => {
+          return {
+              ...prev,
+              phoneNumber: result.data.phoneNumber
+          }
+        })
+        setOriginalPhoneNumber = result.data.phoneNumber;
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  }
+
+  const submitChangeAddress = async () => {
+    let checkChange = false;
+
+    if (formData.residentialAddress !== originalAddress)
+
+    if (originalPhoneNumber !== formData.phoneNumber) {
+      try {
+        const response = await fetch("/api/my-page/updatePhone",
+          {
+            method: "POST",
+            headers: {
+              "Content-type": "application/json"
+            },
+            cache: "no-store",
+            credentials: "include",
+          }
+          
+        );
+        if (response.redirected) {
+          router.push(`${response.url}`);
+        }
+        const result = await response.json();
+        setFormData((prev) => {
+          return {
+              ...prev,
+              phoneNumber: result.data.phoneNumber
+          }
+        })
+        setOriginalPhoneNumber = result.data.phoneNumber;
+      } catch (err) {
+        console.log(err);
+      }
+    }
   }
 
   useEffect(() => {
