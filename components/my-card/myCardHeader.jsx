@@ -2,8 +2,6 @@ import React from 'react'
 import HeaderV2 from "../header/prev-name-exit-v2";
 
 function MyCardHeader({ onClick }) {
-  console.log("onClick received:", onClick);
-
   return (
 
     <div>

@@ -49,6 +49,32 @@ const CreateCardPage = () => {
     },
   };
 
+  const categoryMap = {
+    1: '쇼핑',
+    2: '생활',
+    3: '푸드',
+    4: '여행',
+    5: '문화',
+  };
+
+  const lowerCategoryMap = {
+    100: '백화점(더현대, 신세계, 롯데백화점)',
+    101: '온라인쇼핑(무신사, 에이블리, 쿠팡)',
+    102: '마트(이마트, 홈플러스)',
+    200: '주유소(SK, GS칼텍스)',
+    201: '통신(SKT, KT, LGU+)',
+    202: '대중교통(버스, 지하철, 택시)',
+    300: '편의점(CU, GS25)',
+    301: '카페(스타벅스, 투썸플레이스)',
+    302: '배달(배달의민족, 쿠팡이츠)',
+    400: '항공(인터파크 투어, 네이버 항공)',
+    401: '렌트(쏘카, 그린카)',
+    402: '숙소(야놀자, 여기어때)',
+    500: 'OTT(넷플릭스, 티빙)',
+    501: '영화(CGV, 롯데시네마)',
+    502: '도서(교보문고, 밀리의서재)',
+  };
+
   // 현재 페이지에 따라 렌더링할 콘텐츠
   const renderContent = () => {
     switch (currentPage) {
@@ -68,7 +94,7 @@ const CreateCardPage = () => {
             <SelectBenefit1 onClick={handlePrevPage} />
           </header>
           <BenefitProvider>
-            <SelectBenefit2 />
+            <SelectBenefit2 categoryMap={categoryMap} lowerCategoryMap={lowerCategoryMap} />
           </BenefitProvider>
         </div>;
 
@@ -122,7 +148,7 @@ const CreateCardPage = () => {
             <CheckInformationHeader onClick={handlePrevPage} />
           </header>
           {/*CheckInformationHeader - 입력 정보 확인 */}
-          <CheckInformation/>
+          <CheckInformation />
         </div>;
     }
   };

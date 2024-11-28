@@ -1,15 +1,30 @@
-import { useState } from 'react'
+import {useEffect, useState} from 'react'
 import { Switch } from '@headlessui/react'
 
-function MyToggle({ isEnabled }) {
+function MyToggle({ isEnabled, onToggle, disabled }) {
     const [enabled, setEnabled] = useState(isEnabled);
+
+    useEffect(() => {
+        setEnabled(isEnabled);
+    }, [isEnabled]);
+
+    const handleToggle = () => {
+        if (!disabled) {
+            const newState = !enabled;
+            setEnabled(newState);
+            if (onToggle) {
+                onToggle(newState);
+            }
+        }
+    };
 
     return (
         <Switch
             checked={enabled}
-            onChange={setEnabled}
+            onChange={handleToggle}
             className={`${enabled ? 'bg-blue-500' : 'bg-gray-200'
                 } relative inline-flex h-6 w-11 items-center rounded-full`}
+            disabled={disabled}
         >
             <span className="sr-only">Enable notifications</span>
             <span

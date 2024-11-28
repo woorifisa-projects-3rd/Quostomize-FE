@@ -11,7 +11,7 @@ const getRandomColor = () => {
     return colors[Math.floor(Math.random() * colors.length)];
 };
 
-const SelectBenefit2 = () => {
+const SelectBenefit2 = (categoryMap, lowerCategoryMap) => {
     const { categoryValues } = useBenefitContext();
     const [borderColor, setBorderColor] = useState(getRandomColor());
     const labels = ['쇼핑', '생활', '푸드', '여행', '문화'];
@@ -35,8 +35,8 @@ const SelectBenefit2 = () => {
                 min={0}
                 borderColor={borderColor}
             />
-            <InteractiveTabContentBox />
-            <SelectBenefit3 labels={labels} data={categoryValues.map(value => value - 1)} />
+            <InteractiveTabContentBox categoryMap={categoryMap} lowerCategoryMap={lowerCategoryMap} />
+            <SelectBenefit3 labels={labels} lowerCategoryMap={lowerCategoryMap} data={categoryValues.map(value => value - 1)} />
         </div>
     );
 };
