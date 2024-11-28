@@ -1,12 +1,41 @@
 'use client'
 
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
 const BenefitContext = createContext(undefined);
 
-export function BenefitProvider({ children }) {
+export function BenefitProvider({ children, benefitData }) {
   const [categoryValues, setCategoryValues] = useState([1, 1, 1, 1, 1]);
   const [selectedOptions, setSelectedOptions] = useState([null, null, null, null, null]);
+
+
+  useEffect(() => {
+    if (benefitData && Array.isArray(benefitData)) {
+      const updatedCategoryValues = [1, 1, 1, 1, 1];
+      const updatedSelectedOptions = [null, null, null, null, null];
+
+      benefitData.forEach((item) => {
+        const categoryIndex = item.upperCategoryId - 1;
+
+        if (categoryIndex >= 0 && categoryIndex < updatedCategoryValues.length) {
+          if (item.upperCategoryId) {
+            updatedCategoryValues[categoryIndex] = 4;
+          }
+          if (item.lowerCategoryId) {
+            if (updatedCategoryValues[item.lowerCategoryId - 1] !== 4) {
+              updatedCategoryValues[categoryIndex] = 5;
+            }
+            updatedSelectedOptions[categoryIndex] = item.lowerCategoryId;
+          }
+        }
+      });
+
+      setCategoryValues(updatedCategoryValues);
+      setSelectedOptions(updatedSelectedOptions);
+    }
+  }, [benefitData]);
+
+
 
   const updateCategory = (index, value) => {
     setCategoryValues(prev => {
@@ -28,6 +57,7 @@ export function BenefitProvider({ children }) {
     setCategoryValues([1, 1, 1, 1, 1]);
     setSelectedOptions([null, null, null, null, null]);
   }
+  // console.log('benefitData:', benefitData);
 
   return (
     <BenefitContext.Provider value={{
@@ -35,7 +65,8 @@ export function BenefitProvider({ children }) {
       selectedOptions,
       updateCategory,
       updateOption,
-      resetContext
+      resetContext,
+      benefitData
     }}>
       {children}
     </BenefitContext.Provider>
