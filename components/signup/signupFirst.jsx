@@ -42,15 +42,15 @@ const SignupFirst = ({ setPage, firstForm, setFirstForm }) => {
     }
 
     const toNextPage = () => {
-        // if (validateRePassword() && firstForm[0].value !== "" && firstForm[1].value !== "" && firstForm[2].value !== "") {
-        const newData = [false, true, false, false]
-        setPage(newData)
-        // } else {
-        //     setError(true)
-        //     setTimeout(() => {
-        //         setError(false)
-        //     }, 1000);
-        // }
+        if (validateRePassword() && firstForm[0].value !== "" && firstForm[1].value !== "" && firstForm[2].value !== "") {
+            const newData = [false, true, false, false]
+            setPage(newData)
+        } else {
+            setError(true)
+            setTimeout(() => {
+                setError(false)
+            }, 1000);
+        }
     }
 
     const validatePassword = (password) => {
@@ -98,55 +98,59 @@ const SignupFirst = ({ setPage, firstForm, setFirstForm }) => {
 
     return (
         <>
-            <button className="material-icons cursor-pointer m-6" onClick={toHome}>arrow_back_ios</button>
-            <h1 className="font-bold font5 p-3 mb-16">회원가입</h1>
-            <form action={toNextPage}>
-                {firstForm.map((signupInfo, index) => {
-                    if (firstForm[index]?.placeholder === "아이디") {
-                        return (
-                            <div key={index} className='flex'>
-                                <input
-                                    className="w-full m-2 p-4 rounded-xl font2 bg-gray-200"
-                                    type={signupInfo?.type}
-                                    placeholder={signupInfo?.placeholder}
-                                    value={signupInfo?.value}
-                                    onChange={(e) => changeInfo(e.target.value, index)}
-                                    maxLength={15}
-                                />
-                            </div>
-                        )
-                    } else {
-                        return (
-                            <div key={index} className='flex justify-center'>
-                                <input
-                                    className="w-full m-2 p-4 rounded-xl font2 bg-gray-200"
-                                    type={signupInfo.type}
-                                    placeholder={signupInfo.placeholder}
-                                    value={signupInfo.value}
-                                    onChange={(e) => { changeInfo(e.target.value, index) }}
-                                />
-                            </div>
-                        )
-                    }
-                })}
+            <div className='bg-slate-100'>
+                <button className="material-icons cursor-pointer m-6" onClick={toHome}>arrow_back_ios</button>
+                <h1 className="font-bold font5 p-3 mb-16 ml-5 text-blue-500">회원가입</h1>
+                <div className='m-5 p-4 bg-white rounded-xl shadow-md'>
+                    {firstForm.map((signupInfo, index) => {
+                        if (firstForm[index]?.placeholder === "아이디") {
+                            return (
+                                <div key={index} className='flex flex-col justify-center'>
+                                    <span className='ml-6 mb-4 font-medium'>{signupInfo?.placeholder}</span>
+                                    <input
+                                        className="w-11/12 ml-5 mb-4 p-4 rounded-xl font2 bg-gray-100"
+                                        type={signupInfo?.type}
+                                        value={signupInfo?.value}
+                                        placeholder={`${signupInfo?.placeholder} 을(를) 입력해주세요`}
+                                        onChange={(e) => changeInfo(e.target.value, index)}
+                                        maxLength={15}
+                                    />
+                                </div>
+                            )
+                        } else {
+                            return (
+                                <div key={index} className='flex flex-col justify-center'>
+                                    <span className='ml-6 mb-4 font-medium'>{signupInfo?.placeholder}</span>
+                                    <input
+                                        className="w-11/12 ml-5 mb-4 p-4 rounded-xl font2 bg-gray-100"
+                                        type={signupInfo.type}
+                                        value={signupInfo.value}
+                                        placeholder={`${signupInfo?.placeholder} 을(를) 입력해주세요`}
+                                        onChange={(e) => { changeInfo(e.target.value, index) }}
+                                    />
+                                </div>
+                            )
+                        }
+                    })}
 
-                {/* 오류 메시지 */}
-                {error && (
-                    <div className="flex justify-center text-red-500 mt-2">
-                        <p>입력값이 올바르지 않거나 값이 없습니다. 다시 입력해주세요</p>
+                    {/* 오류 메시지 */}
+                    {error && (
+                        <div className="flex justify-center text-red-500 mt-2">
+                            <p>입력값이 올바르지 않거나 값이 없습니다. 다시 입력해주세요</p>
+                        </div>
+                    )}
+
+                    <div className='flex justify-center'>
+                        <button className="bg-slate-200 rounded-xl w-11/12 h-20 font3 font-sans text-slate-400 font-semibold mt-8 hover:bg-blue-600 hover:text-white" onClick={toNextPage}>다음</button>
                     </div>
-                )}
 
-                <div className='flex justify-center'>
-                    <button className="bg-black rounded-3xl w-5/6 h-20 font3 font-sans text-white font-semibold mt-8">다음</button>
                 </div>
-            </form>
 
-            <div className='flex justify-center mt-16'>
-                <p>이미 계정이 있으신가요?</p>
-                <button className="font-bold" onClick={toLogin}> 로그인 하기</button>
+                <div className='flex justify-center mt-8'>
+                    <p>이미 계정이 있으신가요?</p>
+                    <button className="font-bold" onClick={toLogin}> 로그인 하기</button>
+                </div>
             </div>
-
         </>
     )
 }

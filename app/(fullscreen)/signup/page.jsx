@@ -15,11 +15,19 @@ const SignupPage = () => {
   { placeholder: "비밀번호", value: "", type: "password" },
   { placeholder: "비밀번호 확인", value: "", type: "password" }])
 
-  const [secondForm, setSecondForm] = useState([{ placeholder: "주민등록번호 입력", value: "", type: "password" },
-  { placeholder: "주소입력", value: "", type: "text" },
-  { placeholder: "핸드폰 번호 입력", value: "", type: "text" },
-  { placeholder: "2차 인증 번호 입력", value: "", type: "password" },
-  { placeholder: "2차 인증 번호 확인", value: "", type: "password" }])
+  const [secondForm, setSecondForm] = useState([
+    { placeholder: "우편 번호", value: "", type: "text" },
+    { placeholder: "주소", value: "", type: "text" },
+    { placeholder: "상세 주소", value: "", type: "text" },
+    { placeholder: "핸드폰 번호", value: "", type: "text" },
+    { placeholder: "2차 인증 번호", value: "", type: "password" },
+    { placeholder: "2차 인증 번호 확인", value: "", type: "password" }])
+
+  const [regionNumber, setRegionNumber] = useState([
+    { placeholder: "주민등록번호 앞자리", value: "", type: "password" },
+    { placeholder: "주민등록번호 뒷자리", value: "", type: "password" }
+  ])
+
   /*
   ※ 단일 페이지 기법으로 할 것
   
@@ -37,7 +45,7 @@ const SignupPage = () => {
   return (
     <>
       {isPage[0] === true && <SignupFirst setPage={setPage} firstForm={firstForm} setFirstForm={setFirstForm} />}
-      {isPage[1] === true && <SignupSecond setPage={setPage} secondForm={secondForm} setSecondForm={setSecondForm} firstForm={firstForm} />}
+      {isPage[1] === true && <SignupSecond setPage={setPage} secondForm={secondForm} setSecondForm={setSecondForm} firstForm={firstForm} regionNumber={regionNumber} setRegionNumber={setRegionNumber} />}
       {isPage[2] === true && <AuthorizationMessageNumber setPage={setPage} secondForm={secondForm} />}
       {isPage[3] === true && <SignupComplete setPage={setPage} />}
     </>

@@ -5,8 +5,8 @@ import 'material-icons/iconfont/material-icons.css';
 import { useRouter } from 'next/navigation';
 
 const AuthorizationMessageNumber = ({ setPage, secondForm }) => {
-    const inputRefs = [useRef(null), useRef(null), useRef(null), useRef(null)];
-    const [authNumber, setAuthNumber] = useState(["", "", "", ""])
+    const inputRefs = [useRef(null), useRef(null), useRef(null), useRef(null), useRef(null), useRef(null)];
+    const [authNumber, setAuthNumber] = useState(["", "", "", "", "", ""])
 
     useEffect(() => {
         // 페이지 진입시 첫 번째 입력칸에 포커스
@@ -96,9 +96,14 @@ const AuthorizationMessageNumber = ({ setPage, secondForm }) => {
             setAuthNumber(newData)
         }
 
-        if (value.length === 1 && index < 3) {
+        if (value.length === 1 && index < 5) {
             inputRefs[index + 1].current?.focus();
         }
+    }
+
+    const sendAuthNumber = () => {
+        // 해당 번호를 전송해야한다.
+        const sendingData = `${authNumber[0]}${authNumber[1]}${authNumber[2]}${authNumber[3]}${authNumber[4]}${authNumber[5]}`
 
 
     }
@@ -106,20 +111,23 @@ const AuthorizationMessageNumber = ({ setPage, secondForm }) => {
     return (
         <>
             <button className="material-icons cursor-pointer m-6" onClick={toBeforePage}>arrow_back_ios</button>
-            <h1 className="font-bold font5 p-3">휴대폰 문자 인증</h1>
-            <h2 className="font-semibold font3 p-3 mb-16 text-slate-400">휴대폰 번호로 인증번호가 전송되었습니다.</h2>
-            <form action={toCheckPage}>
-                <div className='flex'>
-                    {inputRefs.map((ref, index) => {
-                        return (
-                            <input key={`${ref}*${index}`} ref={ref} className='text-center w-1/4 p-10 font5 flex justify-center' type="text" placeholder='0' maxLength={1} onChange={(e) => handleInput(e, index)} />
-                        )
-                    })}
-                </div>
-                <div className='flex justify-center'>
-                    <button className="bg-black rounded-3xl w-5/6 h-20 font3 font-sans text-white font-semibold mt-8">제출</button>
-                </div>
-            </form>
+            <h1 className="font-bold font5  ml-5 text-blue-500">휴대폰 문자 인증</h1>
+            <h2 className="font-medium font3 mb-16 ml-5 text-black ">휴대폰 번호로 인증번호가 전송되었습니다.</h2>
+            <div className='m-5 p-4 bg-white rounded-xl shadow-md'>
+                <h1 className='font4 font-extralight flex justify-center mb-5'>인증번호</h1>
+                <form action={toCheckPage}>
+                    <div className='flex'>
+                        {inputRefs.map((ref, index) => {
+                            return (
+                                <input key={`${ref}*${index}`} ref={ref} className='text-center border w-1/6 p-5 font5 flex justify-center focus:outline-none' type="text" placeholder='0' maxLength={1} onChange={(e) => handleInput(e, index)} />
+                            )
+                        })}
+                    </div>
+                    <div className='flex justify-center'>
+                        <button className="bg-blue-600 rounded-3xl w-5/6 h-20 font3 font-sans text-white font-semibold mt-8 hover:bg-blue-700" onClick={sendAuthNumber}>제출</button>
+                    </div>
+                </form>
+            </div>
 
             <div className='flex justify-center mt-16'>
                 <p>문자를 못 받으셨나요?</p>
