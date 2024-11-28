@@ -11,6 +11,11 @@ const AuthorizationMessageNumber = ({ setPage, secondForm }) => {
     useEffect(() => {
         // 페이지 진입시 첫 번째 입력칸에 포커스
         inputRefs[0].current?.focus();
+        const authData = {
+            phone: secondForm?.[3]?.value,
+            certificationNumber: ""
+        }
+        // authorizationByMessage(authData)
     }, []);
 
     useEffect(() => {
@@ -18,15 +23,13 @@ const AuthorizationMessageNumber = ({ setPage, secondForm }) => {
     }, [authNumber])
 
     // // 백엔드에서 GET 위시리스트 조회시, 위시리스트의 priority, stockName, stockPresentPrice, stockImage 를 갖고온다.
-    const authorizationByMessage = async () => {
-        const authData = [{ phone: secondForm[2].value }, { certificationNumber: secondForm[3].value }]
+    const authorizationByMessage = async (authData) => {
         try {
-            const response = await fetch(`http://localhost:8080/v1/api/sms/send`, {
+            const response = await fetch(`/api/signup/requestMessage`, {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',  // 요청 본문이 JSON임을 지정
-                    'Authorization': `Bearer ${session.accessToken}`, // JWT 토큰을 Authorization 헤더에 포함
                 },
                 body: JSON.stringify(authData),
             });
@@ -34,7 +37,7 @@ const AuthorizationMessageNumber = ({ setPage, secondForm }) => {
             if (!response.ok) {
                 throw new Error('값이 조회되지 않았습니다.');
             }
-            //   const data = await response.json(); // 응답을 JSON으로 파싱
+
         } catch (error) {
             console.error('데이터 가져오기 오류:', error);
         }
@@ -42,14 +45,12 @@ const AuthorizationMessageNumber = ({ setPage, secondForm }) => {
 
     // // 백엔드에서 GET 위시리스트 조회시, 위시리스트의 priority, stockName, stockPresentPrice, stockImage 를 갖고온다.
     const checkAuthorizationAboutMessage = async () => {
-        const authData = [{ phone: secondForm[2].value }, { certificationNumber: secondForm[3].value }]
         try {
-            const response = await fetch(`http://localhost:8080/v1/api/sms/confirm`, {
+            const response = await fetch(`/api/sigup/authorizingAuthNumber`, {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',  // 요청 본문이 JSON임을 지정
-                    'Authorization': `Bearer ${session.accessToken}`, // JWT 토큰을 Authorization 헤더에 포함
                 },
                 body: JSON.stringify(authData),
             });
@@ -57,7 +58,6 @@ const AuthorizationMessageNumber = ({ setPage, secondForm }) => {
             if (!response.ok) {
                 throw new Error('값이 조회되지 않았습니다.');
             }
-            //   const data = await response.json(); // 응답을 JSON으로 파싱
         } catch (error) {
             console.error('데이터 가져오기 오류:', error);
         }
@@ -104,8 +104,12 @@ const AuthorizationMessageNumber = ({ setPage, secondForm }) => {
     const sendAuthNumber = () => {
         // 해당 번호를 전송해야한다.
         const sendingData = `${authNumber[0]}${authNumber[1]}${authNumber[2]}${authNumber[3]}${authNumber[4]}${authNumber[5]}`
+        const authData = {
+            phone: secondForm?.[3]?.value,
+            certificationNumber: sendingData
+        }
 
-
+        // checkAuthorizationAboutMessage(authData) // ->  인증번호 요청
     }
 
     return (

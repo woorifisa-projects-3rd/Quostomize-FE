@@ -108,7 +108,7 @@ const SignupFirst = ({ setPage, firstForm, setFirstForm }) => {
                                 <div key={index} className='flex flex-col justify-center'>
                                     <span className='ml-6 mb-4 font-medium'>{signupInfo?.placeholder}</span>
                                     <input
-                                        className="w-11/12 ml-5 mb-4 p-4 rounded-xl font2 bg-gray-100"
+                                        className="w-11/12 ml-5 mb-4 p-4 rounded-xl font2 bg-gray-100 focus:outline-none"
                                         type={signupInfo?.type}
                                         value={signupInfo?.value}
                                         placeholder={`${signupInfo?.placeholder} 을(를) 입력해주세요`}
@@ -122,7 +122,7 @@ const SignupFirst = ({ setPage, firstForm, setFirstForm }) => {
                                 <div key={index} className='flex flex-col justify-center'>
                                     <span className='ml-6 mb-4 font-medium'>{signupInfo?.placeholder}</span>
                                     <input
-                                        className="w-11/12 ml-5 mb-4 p-4 rounded-xl font2 bg-gray-100"
+                                        className="w-11/12 ml-5 mb-4 p-4 rounded-xl font2 bg-gray-100 focus:outline-none"
                                         type={signupInfo.type}
                                         value={signupInfo.value}
                                         placeholder={`${signupInfo?.placeholder} 을(를) 입력해주세요`}

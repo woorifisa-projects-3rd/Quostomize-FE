@@ -3,9 +3,15 @@
 import React, { useState } from 'react'
 import 'material-icons/iconfont/material-icons.css';
 import { useRouter } from 'next/navigation';
+import CheckModal from '../../components/signup/checkModal'
+import CheckModal2 from '../../components/signup/checkModal2'
 
 const SignupSecond = ({ setPage, secondForm, setSecondForm, regionNumber, setRegionNumber, firstForm }) => {
     const [error, setError] = useState(false);
+    const [isModal, setModal] = useState(false)
+    const [isReModal, setReModal] = useState(false)
+    const [number, setNumber] = useState([]) // 2차인증번호
+    const [reNumber, setReNumber] = useState([]) //2차인증확인번호
     const router = useRouter();
 
     const changeInfo = (value, index) => {
@@ -73,20 +79,17 @@ const SignupSecond = ({ setPage, secondForm, setSecondForm, regionNumber, setReg
         // } else{
 
         // }
-        // if (validateRePassword() && secondForm[0].value !== "" && secondForm[1].value !== "" && secondForm[2].value !== "") {
-        // const newData = [false, false, false, true]
-        // setPage(newData)
-        // } else {
-        //     setError(true)
-        //     setTimeout(() => {
-        //         setError(false)
-        //     }, 1000);
-        // }
-        // const newData = [false, false, false, true]
-        // setPage(newData)
-        // console.log(firstForm) -> 이메일,이름,아이디,비밀번호,비밀번호확인
-        // console.log(secondForm) -> 우편번호, 주소, 상세 주소, 2차인증번호, 2차인증번호  확인
-        // console.log(regionNumber)   -> 주민등록번호 앞자리 , 주민등록번호 뒷자리
+        if (validateRePassword() && secondForm[0].value !== "" && secondForm[1].value !== "" && secondForm[2].value !== "") {
+            const newData = [false, false, false, true]
+            setPage(newData)
+        } else {
+            setError(true)
+            setTimeout(() => {
+                setError(false)
+            }, 1000);
+        }
+        const newData = [false, false, false, true]
+        setPage(newData)
 
         const newNumber = `${regionNumber[0].value + regionNumber[1].value}` // 주민등록번호 완성
         const setData = []
@@ -111,13 +114,17 @@ const SignupSecond = ({ setPage, secondForm, setSecondForm, regionNumber, setReg
                 setData.push(info.value)
             }
         })
+
+        //배열로 저장했던 2차인증번호 스트링값으로 바꾸기
+        const restoreNumber = `${number[0]}${number[1]}${number[2]}${number[3]}${number[4]}${number[5]}`
+
         const data2 = {
             residenceNumber: newNumber,
             zipCode: setData[4],
             memberAddress: setData[5],
             memberDetailAddress: setData[6],
             memberPhoneNumber: setData[7],
-            secondaryAuthCode: setData[8]
+            secondaryAuthCode: restoreNumber
         }
         const total = { ...data1, ...data2 }
         console.log(total)
@@ -155,42 +162,43 @@ const SignupSecond = ({ setPage, secondForm, setSecondForm, regionNumber, setReg
         setSecondForm(newData)
     }
 
+    // 주민등록번호 츨력 코드
     const renderFiled0 = (reginInfo, i) => {
         const key = `${reginInfo?.placeholder}-${i}}`
         if (i === 0) {
             return (
-                <>
-                    <div key={key} className='flex flex-col'>
-                        <span className='mx-5 mt-3  mb-2'>{reginInfo?.placeholder}</span>
-                        <input
-                            className="w-5/6 p-4 ml-5 mb-5 rounded-xl font2 bg-gray-100 shadow-md focus:outline-none"
-                            placeholder={reginInfo.placeholder}
-                            value={reginInfo.value}
-                            onChange={(e) => changeRegin(e.target.value, i)}
-                            type="text"
-                            maxLength={6}
-                        />
-                    </div>
-                </>
+
+                <div key={key} className='flex flex-col'>
+                    <span className='mx-5 mt-3  mb-2'>{reginInfo?.placeholder}</span>
+                    <input
+                        className="w-5/6 p-4 ml-5 mb-5 rounded-xl font2 bg-gray-100 shadow-md focus:outline-none"
+                        placeholder={reginInfo.placeholder}
+                        value={reginInfo.value}
+                        onChange={(e) => changeRegin(e.target.value, i)}
+                        type="text"
+                        maxLength={6}
+                    />
+                </div>
+
             )
         } else {
             return (
-                <>
-                    <div key={key} className='flex flex-col'>
-                        <span className='mx-12 mt-3 mb-2'>{reginInfo?.placeholder}</span>
-                        <div className='flex'>
-                            <span className="mx-2 mt-6 mr-8">-</span>
-                            <input
-                                className="w-full p-4 mr-5 mb-5 rounded-xl font2 bg-gray-100 shadow-md focus:outline-none "
-                                placeholder={reginInfo.placeholder}
-                                value={reginInfo.value}
-                                onChange={(e) => changeRegin(e.target.value, i)}
-                                type="password"
-                                maxLength={7}
-                            />
-                        </div>
+
+                <div key={key} className='flex flex-col'>
+                    <span className='mx-12 mt-3 mb-2'>{reginInfo?.placeholder}</span>
+                    <div className='flex'>
+                        <span className="mx-2 mt-6 mr-8">-</span>
+                        <input
+                            className="w-full p-4 mr-5 mb-5 rounded-xl font2 bg-gray-100 shadow-md focus:outline-none "
+                            placeholder={reginInfo.placeholder}
+                            value={reginInfo.value}
+                            onChange={(e) => changeRegin(e.target.value, i)}
+                            type="password"
+                            maxLength={7}
+                        />
                     </div>
-                </>
+                </div>
+
             )
         }
     }
@@ -258,7 +266,7 @@ const SignupSecond = ({ setPage, secondForm, setSecondForm, regionNumber, setReg
                 </div>
             )
         }
-        else {
+        else if (secondForm[index]?.placeholder === "2차 인증 번호") {
             return (
                 <div key={key} className='flex flex-col'>
                     <span className='mx-5 mt-3 mb-2'>{signupInfo?.placeholder}</span>
@@ -266,9 +274,22 @@ const SignupSecond = ({ setPage, secondForm, setSecondForm, regionNumber, setReg
                         className="w-11/12 ml-5 mb-4 p-4 rounded-xl font2 bg-gray-100 focus:outline-none"
                         type={signupInfo?.type}
                         placeholder={`${signupInfo?.placeholder} 을(를) 입력해주세요`}
-                        value={signupInfo?.value}
-                        onChange={(e) => changeInfo(e.target.value, index)}
+                        onClick={() => setModal(true)}
                     />
+                    {isModal && <CheckModal onClose={() => setModal(false)} setNumber={setNumber} number1={number} />}
+                </div>
+            )
+        } else {
+            return (
+                <div key={key} className='flex flex-col'>
+                    <span className='mx-5 mt-3 mb-2'>{signupInfo?.placeholder}</span>
+                    <input
+                        className="w-11/12 ml-5 mb-4 p-4 rounded-xl font2 bg-gray-100 focus:outline-none"
+                        type={signupInfo?.type}
+                        placeholder={`${signupInfo?.placeholder} 을(를) 입력해주세요`}
+                        onClick={() => setReModal(true)}
+                    />
+                    {isReModal && <CheckModal2 onClose={() => setReModal(false)} setReNumber={setReNumber} reNumber={reNumber} />}
                 </div>
             )
         }
