@@ -74,7 +74,7 @@ const ChangeBenefitsPage = () => {
 
         setButtonText(responsedata.data);
       }
-      console.log(responsedata.data);
+      // console.log(responsedata.data);
     } catch (error) {
       console.error('Error - 혜택 변경 페이지: ', error.message);
       setError(error.message);
@@ -97,7 +97,7 @@ const ChangeBenefitsPage = () => {
       const data = await response.json();
       const transformedData = transformBenefitData(data.data);
       setBenefitData(transformedData);
-      console.log('Received benefitData:', data.data);
+      // console.log('Received benefitData:', data.data);
       setCardSequenceId(data.data[0].cardSequenceId);
 
     } catch (error) {

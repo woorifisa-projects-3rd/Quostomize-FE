@@ -20,14 +20,6 @@ const InteractiveTabContentBox = ({ categoryMap, lowerCategoryMap }) => {
         categoryGroup.map((categoryId) => lowerCategoryMap[categoryId])
     );
 
-    //     const mappedOptions = options.map((categoryGroup) =>
-    //   categoryGroup.map((categoryId) => {
-    //     console.log('categoryId:', categoryId);  // categoryId 값 확인
-    //     return lowerCategoryMap[categoryId];
-    //   })
-    // );
-
-
     const optionicon = [
         [Icons.departmentstore, Icons.online, Icons.mart],
         [Icons.oil, Icons.telephone, Icons.transportation],

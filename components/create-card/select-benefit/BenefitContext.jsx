@@ -57,7 +57,7 @@ export function BenefitProvider({ children, benefitData }) {
     setCategoryValues([1, 1, 1, 1, 1]);
     setSelectedOptions([null, null, null, null, null]);
   }
-  console.log('benefitData:', benefitData);
+  // console.log('benefitData:', benefitData);
 
   return (
     <BenefitContext.Provider value={{
