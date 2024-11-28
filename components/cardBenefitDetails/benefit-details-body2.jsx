@@ -1,10 +1,11 @@
 import BrandBox from '../box/brand-box'
 import 'material-icons/iconfont/material-icons.css';
+import Icons from '../../public/icons/icons'
 
 const BenefitDetailsBody2 = () => {
     const brands = [
         {
-            iconSrc: 'https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Wrapped%20Gift.png',
+            icon: Icons.shoppoing,
             category: '쇼핑',
             descriptions: [
                 '백화점 - 더현대, 신세계, 롯데백화점',
@@ -13,7 +14,7 @@ const BenefitDetailsBody2 = () => {
             ]
         },
         {
-            iconSrc: "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Automobile.png",
+            icon: Icons.life,
             category: '생활',
             descriptions: [
                 '주유소 - SK, GS칼텍스',
@@ -22,7 +23,7 @@ const BenefitDetailsBody2 = () => {
             ]
         },
         {
-            iconSrc: "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Food/Hamburger.png",
+            icon: Icons.food,
             category: '푸드',
             descriptions: [
                 '편의점 - CU, GS25',
@@ -32,7 +33,7 @@ const BenefitDetailsBody2 = () => {
         },
         {
 
-            iconSrc: "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Airplane.png",
+            icon: Icons.travel,
             category: '여행',
             descriptions: [
                 '투어 - 인터파크투어, 마이리얼트립',
@@ -41,7 +42,7 @@ const BenefitDetailsBody2 = () => {
             ]
         },
         {
-            iconSrc: "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Mirror%20Ball.png",
+            icon: Icons.culture,
             category: '문화',
             descriptions: [
                 'OTT - 넷플릭스, 티빙',
@@ -58,7 +59,7 @@ const BenefitDetailsBody2 = () => {
             {brands.map((brand, index) => (
                 <BrandBox
                     key={index}
-                    iconSrc={brand.iconSrc}
+                    icon={brand.icon}
                     category={brand.category}
                     descriptions={brand.descriptions}
                 />
