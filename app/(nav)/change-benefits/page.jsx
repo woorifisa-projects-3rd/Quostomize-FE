@@ -14,7 +14,6 @@ const ChangeBenefitsPage = () => {
         <ChangeBenefitBody2 />
       </BenefitProvider>
 
-
     </div>
   );
 }
