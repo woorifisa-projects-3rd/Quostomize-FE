@@ -14,7 +14,6 @@ const ChangeBenefitBody1 = ({ labels }) => {
     const { categoryValues } = useBenefitContext();
     const [borderColor, setBorderColor] = useState(getRandomColor());
 
-
     useEffect(() => {
         setBorderColor(getRandomColor());
     }, []);

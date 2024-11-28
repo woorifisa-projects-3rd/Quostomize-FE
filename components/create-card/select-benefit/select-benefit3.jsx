@@ -1,7 +1,7 @@
 import React from 'react';
 import { useBenefitContext } from './BenefitContext';
 
-const SelectBenefit3 = ({ labels, data }) => {
+const SelectBenefit3 = ({ labels, data, lowerCategoryMap }) => {
     const { selectedOptions, resetContext } = useBenefitContext();
 
     return (
@@ -26,14 +26,17 @@ const SelectBenefit3 = ({ labels, data }) => {
                         <div className="text-blue-600">{data[index]}</div>
                         {selectedOptions[index] && (
                             <div className="text-sm text-gray-600 mt-1">
-                                {selectedOptions[index]}
+                                {lowerCategoryMap[selectedOptions[index]] || "선택 없음"}
                             </div>
-                        )}
+                        )
+                        }
                     </div>
                 ))}
             </div>
         </div>
+
     );
+
 };
 
 export default SelectBenefit3;

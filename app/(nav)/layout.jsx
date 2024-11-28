@@ -1,4 +1,7 @@
 import Nav from "../../components/navigationbar/bottomNav.jsx";
+import { MdHome } from "react-icons/md";
+import { FaCreditCard, FaChartLine } from "react-icons/fa";
+import { GiHamburgerMenu } from "react-icons/gi";
 
 export const metadata = {
   title: "Create Next App",
@@ -7,20 +10,15 @@ export const metadata = {
 
 export default function NavLayout({ children }) {
   const menuItems = [
-    { title: "홈", iconName: "home", path: "home" },
-    { title: "나의카드", iconName: "credit_card", path: "my-card" },
-    { title: "혜택변경", iconName: "price_change", path: "change-benefits" },
-    { title: "서비스", iconName: "stars", path: "service" },
-    { title: "내정보", iconName: "account_circle", path: "my-page" },
+    { title: "홈", icon: <MdHome />, path: "/home" },
+    { title: "나의카드", icon: <FaCreditCard />, path: "/my-card" },
+    { title: "투자", icon: <FaChartLine />, path: "/piece-stock/home" },
+    { title: "전체", icon: <GiHamburgerMenu />, path: "" },
   ]
 
   return (
     <>
-      <div className={`h-full overflow-scroll bg-slate-50 [&::-webkit-scrollbar]:hidden`}
-        style={{
-          scrollbarWidth: 'none',
-          msOverflowStyle: 'none',
-        }}>
+      <div className="h-full overflow-scroll bg-slate-50 [&::-webkit-scrollbar]:hidden">
         {children}
       </div>
       <Nav menuItems={menuItems} />
