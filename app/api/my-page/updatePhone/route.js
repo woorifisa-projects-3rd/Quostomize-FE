@@ -1,23 +1,25 @@
 'use server' 
 import { NextResponse } from "next/server";
-import { auth } from "../../../auth";
+import { auth } from "../../../../auth";
 
-export async function GET(request) {
+export async function PATCH(request) {
     const session = await auth();
+    const body = request.body;
     try {
-        const response = await fetch(`${process.env.SERVER_URL}/v1/api/lottery`,
+        const response = await fetch(`${process.env.SERVER_URL}/v1/api/member/change-phone`,
             {
-                method: "GET",
+                method: "PATCH",
                 headers: {
                     "Content-type": "application/json",
                     "Authorization": `Bearer ${session.accessToken}`
                 },
                 credentials: "include",
-                cache: "force-cache"
+                cache: "force-cache",
+                body: body
             }
         );
         
-        if (response.status != 200) {
+        if (response.status === 401 || response.status === 403) {
             return NextResponse.redirect(new URL("/login", `${process.env.NEXT_URL}`));
         } else {
             const result = await response.json();
