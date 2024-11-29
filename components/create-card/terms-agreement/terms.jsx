@@ -3,7 +3,7 @@
 import 'material-icons/iconfont/material-icons.css';
 import { useEffect, useState, useRef } from "react";
 
-const Terms = () => {
+const Terms = ({ isAccepted, setAccepted }) => {
 
   const termNames = [
     "(필수) 개인 회원 약관", "(필수) 특정 금융거래 보고 및 이용에 관한 안내" ,"(필수) 개인 (신용)정보 수집·이용·제공 동의", 
@@ -13,7 +13,6 @@ const Terms = () => {
   const essentialsAgrees = useRef(0);
   const optinalsAgrees = useRef(0); 
 
-  const [isAccepted, setAccepted] = useState([false,false,false,false,false,false]);
   const updateAccepted = (index) => {
     setAccepted((prevAccepted) => {
       if (prevAccepted[index] === true) {
