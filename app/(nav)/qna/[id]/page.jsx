@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import Icons from '../../../../public/icons/icons'
+import Image from 'next/image';
 
 export default function QnaDetailPage() {
     const { id } = useParams();
@@ -37,7 +39,6 @@ export default function QnaDetailPage() {
             const response = await fetch(`/api/qna/${id}`, {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${session?.accessToken}`
                 }
             });
             const result = await response.json();
@@ -47,7 +48,6 @@ export default function QnaDetailPage() {
                 const answerResponse = await fetch(`/api/qna/${id}/answer`, {
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${session?.accessToken}`
                     }
                 });
                 if (answerResponse.ok) {
@@ -71,7 +71,6 @@ export default function QnaDetailPage() {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${session?.accessToken}`
                 },
                 body: JSON.stringify({ responseContent: newAnswer }),
             });
@@ -99,7 +98,7 @@ export default function QnaDetailPage() {
 
     if (isLoading) {
         return (
-            <div className="flex justify-center items-center h-screen">
+            <div className="flex justify-center items-center h-screen select-none">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
             </div>
         );
@@ -144,11 +143,11 @@ export default function QnaDetailPage() {
                         {question.isPrivate && (
                             <span className="px-3 py-1 bg-stone-100 rounded-full">
                                 <div className="flex items-center gap-1">
-                                    <img 
-                                        src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Locked.png" 
+                                    <Image 
+                                        src={Icons.locked}
                                         alt="Locked" 
-                                        width="20" 
-                                        height="20" 
+                                        width={20}
+                                        height={20} 
                                     />
                                     <span>비공개</span>
                                 </div>
