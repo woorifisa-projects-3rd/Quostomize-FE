@@ -31,7 +31,6 @@ export default function QnaWritePage() {
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${session?.accessToken}`
                 },
                 body: JSON.stringify(formData),
             });
@@ -63,13 +62,13 @@ export default function QnaWritePage() {
                                     focus:border-blue-400 outline-none transition-all"
                             required
                         >
-														<option value="">선택해주세요</option>
-														<option value="0">카드</option>
-														<option value="1">주식</option>
-														<option value="2">보험</option>
-														<option value="3">펀드</option>
-														<option value="4">적금</option>
-														<option value="5">기타</option>
+                            <option value="">선택해주세요</option>
+                            <option value="0">카드</option>
+                            <option value="1">주식</option>
+                            <option value="2">보험</option>
+                            <option value="3">펀드</option>
+                            <option value="4">적금</option>
+                            <option value="5">기타</option>
                         </select>
                     </div>
 
