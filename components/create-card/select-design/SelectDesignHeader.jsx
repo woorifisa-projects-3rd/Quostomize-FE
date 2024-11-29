@@ -9,6 +9,7 @@ function SelectDesign({ onClick }) {
 
         <div>
             <Header
+                modaltitle="카드 생성"
                 showArrowButton={false}
                 onArrowClick={onClick}
                 exitDirection="/home"

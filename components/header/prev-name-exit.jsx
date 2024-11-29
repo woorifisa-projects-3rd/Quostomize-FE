@@ -4,7 +4,7 @@ import React from "react";
 import ArrowButton from "../button/arrow-button";
 import ExitButton from "../button/exit-button";
 
-function Header({ children, onArrowClick, exitDirection, showArrowButton }) {
+function Header({ children, onArrowClick, exitDirection, showArrowButton, modaltitle, description }) {
     return (
         <div className="flex justify-between items-center p-8 w-full">
             {showArrowButton && (
@@ -15,7 +15,7 @@ function Header({ children, onArrowClick, exitDirection, showArrowButton }) {
                 {children}
             </div>
 
-            <ExitButton direction={exitDirection} />
+            <ExitButton direction={exitDirection} title={modaltitle} description={description} />
         </div>
     );
 }
