@@ -28,7 +28,6 @@ const SignupFirst = ({ setPage, firstForm, setFirstForm }) => {
             }
             const data = await response.json()
             setCheck(data)
-            console.log(data)
 
         } catch (error) {
             console.error('데이터 가져오기 오류:', error);

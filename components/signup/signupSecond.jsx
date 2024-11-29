@@ -66,7 +66,6 @@ const SignupSecond = ({ setPage, secondForm, setSecondForm, regionNumber, setReg
                     'Content-Type': 'application/json',  // 요청 본문이 JSON임을 지정
                 }, body: JSON.stringify(member),
             });
-            console.log(member)
         } catch (error) {
             console.error('데이터 가져오기 오류:', error);
         }
@@ -115,11 +114,7 @@ const SignupSecond = ({ setPage, secondForm, setSecondForm, regionNumber, setReg
             secondaryAuthCode: restoreNumber
         }
         const total = { ...data1, ...data2 }
-        console.log(total)
-        console.log(setData)
-        console.log(number.length)
-        console.log(number)
-        console.log(reNumber)
+       
         if (validateRePassword() && number.length === 6 && secondForm[0].value !== "" && secondForm[1].value !== "" && secondForm[2].value !== "" ) {
             const newData = [false, false, false, true]
             setPage(newData)

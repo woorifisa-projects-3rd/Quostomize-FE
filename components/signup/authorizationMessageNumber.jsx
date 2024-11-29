@@ -16,13 +16,8 @@ const AuthorizationMessageNumber = ({ setPage, secondForm, setBlock }) => {
             "phone": secondForm?.[3]?.value,
             "certificationNumber": ""
         }
-        // console.log(authData)
         authorizationByMessage(authData)
     }, []);
-
-    useEffect(() => {
-        console.log(authNumber)
-    }, [authNumber])
 
     // 메세지 인증번호를 요청한다.
     const authorizationByMessage = async (authData) => {
@@ -35,7 +30,6 @@ const AuthorizationMessageNumber = ({ setPage, secondForm, setBlock }) => {
                 },
                 body: JSON.stringify(authData),
             });
-            // console.log(authData)
             if (!response.ok) {
                 throw new Error('값이 조회되지 않았습니다.');
             }
@@ -79,7 +73,7 @@ const AuthorizationMessageNumber = ({ setPage, secondForm, setBlock }) => {
           setPage(newData)
           setBlock(true)
         } else{
-            console.log("아직 값이 다 입력되지 않았습니다.")
+            // console.log("아직 값이 다 입력되지 않았습니다.")
         }
     }
 
@@ -89,7 +83,7 @@ const AuthorizationMessageNumber = ({ setPage, secondForm, setBlock }) => {
     }
 
     const reRequestMessage = () => {
-        console.log("문자 재요청")
+        // console.log("문자 재요청")
         // 문자요청 api 를 실행하는 장소
     }
 

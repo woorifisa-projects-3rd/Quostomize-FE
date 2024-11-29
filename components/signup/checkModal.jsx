@@ -25,8 +25,6 @@ const CheckModal = ({ onClose, onComplete, isConfirm, setNumber, number1 }) => {
             const immediatedData = [...number1]
             immediatedData.push(digit)
             setNumber(immediatedData);
-
-            console.log("인증 번호 :" + number1)
         }
         if (number1.length + 1 === MAX_LENGTH) {
             setTimeout(() => onClose(false), 100);
@@ -37,7 +35,6 @@ const CheckModal = ({ onClose, onComplete, isConfirm, setNumber, number1 }) => {
         const immediatedData = [...number1]
         immediatedData.pop()
         setNumber(immediatedData);
-        console.log("인증 번호 :" + number1)
     };
 
     return (

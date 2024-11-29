@@ -25,8 +25,6 @@ const CheckModal2 = ({ onClose, onComplete, isConfirm, setReNumber, reNumber }) 
             const immediatedData = [...reNumber]
             immediatedData.push(digit)
             setReNumber(immediatedData);
-
-            console.log("확인 번호 :" + reNumber)
         }
         if (reNumber.length + 1 === MAX_LENGTH) {
             setTimeout(() => onClose(false), 100);
@@ -37,7 +35,6 @@ const CheckModal2 = ({ onClose, onComplete, isConfirm, setReNumber, reNumber }) 
         const immediatedData = [...reNumber]
         immediatedData.pop()
         setReNumber(immediatedData);
-        console.log("확인 번호 :" + reNumber)
     };
 
     return (
