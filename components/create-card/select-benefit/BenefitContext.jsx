@@ -5,64 +5,84 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 const BenefitContext = createContext(undefined);
 
 export function BenefitProvider({ children, benefitData }) {
-  const [categoryValues, setCategoryValues] = useState([1, 1, 1, 1, 1]);
-  const [selectedOptions, setSelectedOptions] = useState([null, null, null, null, null]);
-
+  const [benefitState, setBenefitState] = useState({
+    categoryValues: [1, 1, 1, 1, 1],
+    selectedCategories: [null, null, null, null, null],
+    selectedOptions: [null, null, null, null, null],
+  });
 
   useEffect(() => {
-    if (benefitData && Array.isArray(benefitData)) {
-      const updatedCategoryValues = [1, 1, 1, 1, 1];
-      const updatedSelectedOptions = [null, null, null, null, null];
+    console.log(benefitData);
 
-      benefitData.forEach((item) => {
-        const categoryIndex = item.upperCategoryId - 1;
-
-        if (categoryIndex >= 0 && categoryIndex < updatedCategoryValues.length) {
-          if (item.upperCategoryId) {
-            updatedCategoryValues[categoryIndex] = 4;
-          }
-          if (item.lowerCategoryId) {
-            if (updatedCategoryValues[item.lowerCategoryId - 1] !== 4) {
-              updatedCategoryValues[categoryIndex] = 5;
-            }
-            updatedSelectedOptions[categoryIndex] = item.lowerCategoryId;
-          }
-        }
-      });
-
-      setCategoryValues(updatedCategoryValues);
-      setSelectedOptions(updatedSelectedOptions);
+    if (!benefitData) {
+      return;
     }
+
+    const updatedCategoryValues = [...benefitState.categoryValues];
+    const updatedCategories = [...benefitState.selectedCategories];
+    const updatedSelectedOptions = [...benefitState.selectedOptions];
+
+    benefitData.forEach((item) => {
+      console.log(item);
+
+      const categoryIndex = item.upperCategoryId - 1;
+
+
+      if (categoryIndex >= 0 && categoryIndex < updatedCategoryValues.length) {
+        if (item.upperCategoryId) {
+          updatedCategoryValues[categoryIndex] = 4;
+          updatedCategories[categoryIndex] = item.upperCategoryId;
+        }
+        if (item.lowerCategoryId) {
+          if (updatedCategoryValues[item.lowerCategoryId - 1] !== 4) {
+            updatedCategoryValues[categoryIndex] = 5;
+          }
+          updatedSelectedOptions[categoryIndex] = item.lowerCategoryId;
+        }
+      }
+      console.log(updatedCategoryValues);
+      console.log(updatedCategories);
+      console.log(updatedSelectedOptions);
+
+      setBenefitState((prev) => {
+        return {
+          ...prev,
+          categoryValues: updatedCategoryValues,
+          selectedCategories: updatedCategories,
+          selectedOptions: updatedSelectedOptions,
+        }
+      })
+    })
   }, [benefitData]);
 
+ 
 
 
   const updateCategory = (index, value) => {
-    setCategoryValues(prev => {
-      const newValues = [...prev];
-      newValues[index] = Math.min(value, 5);
-      return newValues;
-    });
+    setBenefitState((prevState) => ({
+      ...prevState,
+      categoryValues: prevState.categoryValues.map((v, i) => (i === index ? Math.min(value, 5) : v)),
+    }));
   };
 
   const updateOption = (categoryIndex, option) => {
-    setSelectedOptions(prev => {
-      const newOptions = [...prev];
-      newOptions[categoryIndex] = option;
-      return newOptions;
-    });
+    setBenefitState((prevState) => ({
+      ...prevState,
+      selectedOptions: prevState.selectedOptions.map((v, i) => (i === categoryIndex ? option : v)),
+    }));
   };
 
   const resetContext = () => {
-    setCategoryValues([1, 1, 1, 1, 1]);
-    setSelectedOptions([null, null, null, null, null]);
+    setBenefitState({
+      categoryValues: [1, 1, 1, 1, 1],
+      selectedCategories: [null, null, null, null, null],
+      selectedOptions: [null, null, null, null, null],
+    });
   }
-  // console.log('benefitData:', benefitData);
 
   return (
     <BenefitContext.Provider value={{
-      categoryValues,
-      selectedOptions,
+      benefitState,
       updateCategory,
       updateOption,
       resetContext,

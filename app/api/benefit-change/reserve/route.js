@@ -1,10 +1,9 @@
 import { NextResponse } from "next/server";
 import { auth } from '../../../../auth'
 
-export async function PATCH(response, request) {
+export async function PATCH(request) {
     const session = await auth();
     const accessToken = session.accessToken;
-    const storedAuthCode = session.secondaryAuthCode;
 
     try {
         const body = await request.json();
@@ -20,16 +19,10 @@ export async function PATCH(response, request) {
                 status: 400
             });
         }
+
         if (!secondaryAuthCode) {
             return NextResponse.json({
                 message: "2차 인증 코드가 누락되었습니다.",
-                status: 400,
-            });
-        }
-
-        if (secondaryAuthCode !== storedAuthCode) {
-            return NextResponse.json({
-                message: "2차 인증번호가 일치하지 않습니다. 다시 입력해주세요.",
                 status: 400,
             });
         }
@@ -51,14 +44,15 @@ export async function PATCH(response, request) {
             return NextResponse.json(
                 { message: errorData.message || '서버 오류 발생', status: backendResponse.status }
             );
+
         }
         return new Response(null, {
             status: 204,
         });
     } catch (error) {
-        console.error('lottoUpdate Error:', error);
+        console.error('Error:', error);
         return NextResponse.json(
-            { message: '서버 오류 발생', status: 500 }
+            { authSuccess: false, message: '서버 오류 발생', status: 500 }
         );
     }
 }

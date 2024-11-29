@@ -6,11 +6,11 @@ import SelectBenefit3 from '../create-card/select-benefit/select-benefit3'
 
 const ChangeBenefitBody3 = ({ labels, lowerCategoryMap }) => {
 
-  const { categoryValues } = useBenefitContext();
+  const { benefitState } = useBenefitContext();
 
   return (
     <div>
-      <SelectBenefit3 labels={labels} lowerCategoryMap={lowerCategoryMap} data={categoryValues.map(value => value - 1)} />
+      <SelectBenefit3 labels={labels} lowerCategoryMap={lowerCategoryMap} data={benefitState.categoryValues.map(value => value - 1)} />
     </div>
   )
 }

@@ -12,7 +12,7 @@ const getRandomColor = () => {
 };
 
 const SelectBenefit2 = () => {
-    const { categoryValues } = useBenefitContext();
+    const { benefitState } = useBenefitContext();
     const [borderColor, setBorderColor] = useState(getRandomColor());
 
     const categoryMap = {
@@ -54,7 +54,7 @@ const SelectBenefit2 = () => {
                 datasets={[
                     {
                         label: 'My Dataset',
-                        data: categoryValues,
+                        data: benefitState.categoryValues,
                         backgroundColor: 'rgba(255, 99, 132, 0.2)',
                     },
                 ]}
@@ -63,7 +63,7 @@ const SelectBenefit2 = () => {
                 borderColor={borderColor}
             />
             <InteractiveTabContentBox categoryMap={categoryMap} lowerCategoryMap={lowerCategoryMap} />
-            <SelectBenefit3 labels={labels} lowerCategoryMap={lowerCategoryMap} data={categoryValues.map(value => value - 1)} />
+            <SelectBenefit3 labels={labels} lowerCategoryMap={lowerCategoryMap} data={benefitState.categoryValues.map(value => value - 1)} />
         </div>
     );
 };

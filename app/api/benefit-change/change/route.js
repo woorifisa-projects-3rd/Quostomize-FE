@@ -4,9 +4,13 @@ import { auth } from '../../../../auth'
 export async function PATCH(request) {
     const session = await auth();
     const accessToken = session.accessToken;
+    console.log(request);
+
 
     try {
         const body = await request.json();
+        console.log(body);
+
         const { cardSequenceId, benefitRate, lowerCategoryId, upperCategoryId, secondaryAuthCode } = body;
 
         if (!session || !session.accessToken) {
@@ -25,12 +29,6 @@ export async function PATCH(request) {
                 status: 400,
             });
         }
-        if (secondaryAuthCode !== storedAuthCode) {
-            return NextResponse.json({
-                message: "2차 인증번호가 일치하지 않습니다. 다시 입력해주세요.",
-                status: 400,
-            });
-        }
 
         const backendResponse = await fetch(
             `${process.env.SERVER_URL}/v1/api/benefit-change/change`,
@@ -44,8 +42,13 @@ export async function PATCH(request) {
                 credentials: "include",
             });
 
+        console.log(backendResponse);
+
+
         if (!backendResponse.status === 204) {
             const errorData = await backendResponse.json();
+            console.log(errorData);
+
             return NextResponse.json(
                 { message: errorData.message || '서버 오류 발생', status: backendResponse.status }
             );
@@ -54,9 +57,11 @@ export async function PATCH(request) {
             status: 204,
         });
     } catch (error) {
-        console.error('lottoUpdate Error:', error);
+        console.error('Error:', error);
         return NextResponse.json(
-            { message: '서버 오류 발생', status: 500 }
+            {
+                authSuccess: false, message: '서버 오류 발생', status: 500
+            }
         );
     }
 }

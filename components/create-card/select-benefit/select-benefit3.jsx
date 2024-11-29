@@ -2,7 +2,7 @@ import React from 'react';
 import { useBenefitContext } from './BenefitContext';
 
 const SelectBenefit3 = ({ labels, data, lowerCategoryMap }) => {
-    const { selectedOptions, resetContext } = useBenefitContext();
+    const { benefitState, resetContext } = useBenefitContext();
 
     return (
         <div className="w-full max-w-2xl p-6 border-2 border-gray-300 rounded-md">
@@ -24,9 +24,9 @@ const SelectBenefit3 = ({ labels, data, lowerCategoryMap }) => {
                     <div key={index} className="text-center">
                         <div className="font-medium">{label}</div>
                         <div className="text-blue-600">{data[index]}</div>
-                        {selectedOptions[index] && (
+                        {benefitState.selectedOptions[index] && (
                             <div className="text-sm text-gray-600 mt-1">
-                                {lowerCategoryMap[selectedOptions[index]] || "선택 없음"}
+                                {lowerCategoryMap[benefitState.selectedOptions[index]] || "선택 없음"}
                             </div>
                         )
                         }

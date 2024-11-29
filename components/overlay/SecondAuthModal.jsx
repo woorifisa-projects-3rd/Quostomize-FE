@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 
 const SecondAuthModal = ({ isOpen, onClose, onComplete, isConfirm }) => {
     if (!isOpen) return null;
-    const [password, setPassword] = useState('');
+    const [authCode, setAuthCode] = useState("");
     const [shuffledNumbers, setShuffledNumbers] = useState([]);
     const MAX_LENGTH = 6;
 
@@ -14,10 +14,11 @@ const SecondAuthModal = ({ isOpen, onClose, onComplete, isConfirm }) => {
 
     useEffect(() => {
 
-        if (password.length === MAX_LENGTH) {
-            onComplete(password);
+        if (authCode.length === MAX_LENGTH) {
+            console.log("authCode", authCode);
+            onComplete(authCode);
         }
-    }, [password, onComplete]);
+    }, [authCode]);
 
     const shuffleNumbers = () => {
         const numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
@@ -29,14 +30,14 @@ const SecondAuthModal = ({ isOpen, onClose, onComplete, isConfirm }) => {
     };
 
     const handleKeyPress = (digit) => {
-        if (password.length < MAX_LENGTH) {
-            const updatedPassword = password + digit;
-            setPassword(updatedPassword);
+        if (authCode.length < MAX_LENGTH) {
+            const updatedAuthCode = authCode + digit;
+            setAuthCode(updatedAuthCode);
         }
     };
 
     const handleDelete = () => {
-        setPassword(password.slice(0, -1));
+        setAuthCode(authCode.slice(0, -1));
     };
 
     return (
@@ -59,7 +60,7 @@ const SecondAuthModal = ({ isOpen, onClose, onComplete, isConfirm }) => {
                         .map((_, idx) => (
                             <div
                                 key={idx}
-                                className={`w-2 h-2 rounded-full ${idx < password.length ? 'bg-gray-300' : 'bg-gray-600'
+                                className={`w-2 h-2 rounded-full ${idx < authCode.length ? 'bg-gray-300' : 'bg-gray-600'
                                     }`}
                             />
                         ))}
