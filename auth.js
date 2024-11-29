@@ -167,6 +167,10 @@ export const authConfig = {
       try {
         return await TokenRefreshManager.getInstance().refreshToken(token);
       } catch (error) {
+        await signOut({
+          redirectTo: "login",
+          redirect: true
+        })
         return {
           ...token,
           error: 'RefreshAccessTokenError',

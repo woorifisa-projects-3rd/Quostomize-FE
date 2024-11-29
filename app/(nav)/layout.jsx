@@ -18,7 +18,7 @@ export default function NavLayout({ children }) {
 
   return (
     <>
-      <div className="w-[36rem] h-[calc(100%-4rem)] bg-white">
+      <div className="w-[36rem] h-[calc(100%-4rem)] bg-white overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
         {children}
       </div>
       <Nav menuItems={menuItems} />

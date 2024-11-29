@@ -17,7 +17,6 @@ const Nav = ({menuItems}) => {
 
   // 현재 path를 감지해서 선택된 메뉴 변경
   useEffect(() => {
-    console.log("router push 후 변경된 pathName =" +pathName);
     setPath((prev) => {
       if (prev !== pathName) {
         return pathName;
