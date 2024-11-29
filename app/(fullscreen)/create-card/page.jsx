@@ -26,6 +26,32 @@ import React, { useState } from "react";
 
 const CreateCardPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedCardIndex, setSelectedCardIndex] = useState(0); // 카드 번호 상태 관리
+
+  const [activeOptions, setActiveOptions] = useState([]);
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [showToast, setShowToast] = useState(false);
+
+  const [formData, setFormData] = useState({
+    deliveryPostalCode: '',
+    deliveryAddress: '',
+    detailedDeliveryAddress: '',
+    residentialPostalCode: '',
+    residentialAddress: '',
+    detailedResidentialAddress: '',
+    paymentHistoryReceiveMethod: '',
+    cardPassword: '',
+    confirmCardPassword: '',
+    emailId: '',
+    emailDomain: '',
+    phoneNumber: '',
+    isSameAsDeliveryAddress: false,
+  });
+  const [errors, setErrors] = useState({});
+  const [touched, setTouched] = useState({});
+  const [isPasswordModalOpen, setPasswordModalOpen] = useState(false);
+  const [isConfirmPasswordModalOpen, setConfirmPasswordModalOpen] = useState(false);
+
 
   const TOTAL_PAGES = 8;
   const handleNextPage = () => {
@@ -58,7 +84,10 @@ const CreateCardPage = () => {
           <header>
             <SelectDesign onClick={handlePrevPage} />
           </header>
-          <SelectDesign1 />
+          <SelectDesign1
+              selectedCardIndex={selectedCardIndex} // 선택된 카드 인덱스 전달
+              onCardChange={setSelectedCardIndex} // 상태 변경 핸들러 전달
+          />
           <SelectDesign3 />
         </div>;
 
@@ -77,7 +106,14 @@ const CreateCardPage = () => {
           <header>
             <SelectPoint1 onClick={handlePrevPage} />
           </header>
-          <SelectPoint2 />
+          <SelectPoint2
+              activeOptions={activeOptions}
+              setActiveOptions={setActiveOptions}
+              hoveredIndex={hoveredIndex}
+              setHoveredIndex={setHoveredIndex}
+              showToast={showToast}
+              setShowToast={setShowToast}
+          />
         </div>;
 
       case 4:
@@ -85,7 +121,8 @@ const CreateCardPage = () => {
           <header>
             <CardDetailHeader onClick={handlePrevPage} />
           </header>
-          <SelectCardImage />
+          {/* 선택된 카드 정보를 이미지로 보여주는 컴포넌트 */}
+          <SelectCardImage selectedCardIndex={selectedCardIndex} />
           <SelectCardDetail />
         </div>;
 
@@ -113,7 +150,18 @@ const CreateCardPage = () => {
             <InputAddressHeader onClick={handlePrevPage} />
           </header>
           {/*InputAddressHeader - 배송지 입력 */}
-          <SelectOtherInfo />
+          <SelectOtherInfo
+              formData={formData}
+              setFormData={setFormData}
+              errors={errors}
+              setErrors={setErrors}
+              touched={touched}
+              setTouched={setTouched}
+              isPasswordModalOpen={isPasswordModalOpen}
+              setPasswordModalOpen={setPasswordModalOpen}
+              isConfirmPasswordModalOpen={isConfirmPasswordModalOpen}
+              setConfirmPasswordModalOpen={setConfirmPasswordModalOpen}
+          />
         </div>;
 
       case 8:
