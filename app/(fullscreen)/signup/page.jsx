@@ -8,6 +8,7 @@ import { useEffect, useState } from "react"
 
 const SignupPage = () => {
   const [isPage, setPage] = useState([true, false, false, false]);
+  const [isBlocked, setBlock] = useState(false) // 두번쨰 폼 블럭 활성화 여부
 
   const [firstForm, setFirstForm] = useState([{ placeholder: "이메일", value: "", type: "text" },
   { placeholder: "이름", value: "", type: "text" },
@@ -45,8 +46,8 @@ const SignupPage = () => {
   return (
     <>
       {isPage[0] === true && <SignupFirst setPage={setPage} firstForm={firstForm} setFirstForm={setFirstForm} />}
-      {isPage[1] === true && <SignupSecond setPage={setPage} secondForm={secondForm} setSecondForm={setSecondForm} firstForm={firstForm} regionNumber={regionNumber} setRegionNumber={setRegionNumber} />}
-      {isPage[2] === true && <AuthorizationMessageNumber setPage={setPage} secondForm={secondForm} />}
+      {isPage[1] === true && <SignupSecond setPage={setPage} secondForm={secondForm} setSecondForm={setSecondForm} firstForm={firstForm} regionNumber={regionNumber} setRegionNumber={setRegionNumber} isBlocked={isBlocked} />}
+      {isPage[2] === true && <AuthorizationMessageNumber setPage={setPage} secondForm={secondForm} setBlock={setBlock}/>}
       {isPage[3] === true && <SignupComplete setPage={setPage} />}
     </>
   );

@@ -4,25 +4,27 @@ import React, { useEffect, useRef, useState } from 'react'
 import 'material-icons/iconfont/material-icons.css';
 import { useRouter } from 'next/navigation';
 
-const AuthorizationMessageNumber = ({ setPage, secondForm }) => {
+const AuthorizationMessageNumber = ({ setPage, secondForm, setBlock }) => {
     const inputRefs = [useRef(null), useRef(null), useRef(null), useRef(null), useRef(null), useRef(null)];
-    const [authNumber, setAuthNumber] = useState(["", "", "", "", "", ""])
+    const [authNumber, setAuthNumber] = useState(["","","","","",""])
 
     useEffect(() => {
+        setAuthNumber(["","","","","",""])
         // 페이지 진입시 첫 번째 입력칸에 포커스
         inputRefs[0].current?.focus();
         const authData = {
-            phone: secondForm?.[3]?.value,
-            certificationNumber: ""
+            "phone": secondForm?.[3]?.value,
+            "certificationNumber": ""
         }
-        // authorizationByMessage(authData)
+        // console.log(authData)
+        authorizationByMessage(authData)
     }, []);
 
     useEffect(() => {
         console.log(authNumber)
     }, [authNumber])
 
-    // // 백엔드에서 GET 위시리스트 조회시, 위시리스트의 priority, stockName, stockPresentPrice, stockImage 를 갖고온다.
+    // 메세지 인증번호를 요청한다.
     const authorizationByMessage = async (authData) => {
         try {
             const response = await fetch(`/api/signup/requestMessage`, {
@@ -33,7 +35,7 @@ const AuthorizationMessageNumber = ({ setPage, secondForm }) => {
                 },
                 body: JSON.stringify(authData),
             });
-
+            // console.log(authData)
             if (!response.ok) {
                 throw new Error('값이 조회되지 않았습니다.');
             }
@@ -43,10 +45,10 @@ const AuthorizationMessageNumber = ({ setPage, secondForm }) => {
         }
     }
 
-    // // 백엔드에서 GET 위시리스트 조회시, 위시리스트의 priority, stockName, stockPresentPrice, stockImage 를 갖고온다.
-    const checkAuthorizationAboutMessage = async () => {
+    // 메세지를 검증합니다.
+    const checkAuthorizationAboutMessage = async (authData) => {
         try {
-            const response = await fetch(`/api/sigup/authorizingAuthNumber`, {
+            const response = await fetch(`/api/signup/authorizingAuthNumber`, {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
@@ -64,13 +66,21 @@ const AuthorizationMessageNumber = ({ setPage, secondForm }) => {
     }
 
     const toCheckPage = () => {
-        // if( ){
-        // 이곳은 , 문자인증이 정상적으로 진행 시 회원가입 두번째 페이지로 이동하는 코드를 작성한다.
-        // } else{
-
-        // }
-        const newData = [false, true, false, false]
-        setPage(newData)
+        if(authNumber.every(value => value !== "") ){
+         // 해당 번호를 전송해야한다.
+         const sendingData = `${authNumber[0]}${authNumber[1]}${authNumber[2]}${authNumber[3]}${authNumber[4]}${authNumber[5]}`
+         const authData = {
+             phone: secondForm?.[3]?.value,
+             certificationNumber: sendingData
+         }
+         console.log(authData)
+          checkAuthorizationAboutMessage(authData) // ->  인증번호 요청
+          const newData = [false, true, false, false]
+          setPage(newData)
+          setBlock(true)
+        } else{
+            console.log("아직 값이 다 입력되지 않았습니다.")
+        }
     }
 
     const toBeforePage = () => {
@@ -90,26 +100,14 @@ const AuthorizationMessageNumber = ({ setPage, secondForm }) => {
         if (!/^\d*$/.test(value)) {
             e.target.value = '';
             return;
-        } else {
-            const newData = [...authNumber]
-            newData.splice(index, 1, e.target.value)
-            setAuthNumber(newData)
-        }
+        } 
+        const newData = [...authNumber]
+                newData.splice(index,1,value)
+                setAuthNumber(newData)
 
         if (value.length === 1 && index < 5) {
             inputRefs[index + 1].current?.focus();
         }
-    }
-
-    const sendAuthNumber = () => {
-        // 해당 번호를 전송해야한다.
-        const sendingData = `${authNumber[0]}${authNumber[1]}${authNumber[2]}${authNumber[3]}${authNumber[4]}${authNumber[5]}`
-        const authData = {
-            phone: secondForm?.[3]?.value,
-            certificationNumber: sendingData
-        }
-
-        // checkAuthorizationAboutMessage(authData) // ->  인증번호 요청
     }
 
     return (
@@ -128,7 +126,7 @@ const AuthorizationMessageNumber = ({ setPage, secondForm }) => {
                         })}
                     </div>
                     <div className='flex justify-center'>
-                        <button className="bg-blue-600 rounded-3xl w-5/6 h-20 font3 font-sans text-white font-semibold mt-8 hover:bg-blue-700" onClick={sendAuthNumber}>제출</button>
+                        <button className="bg-blue-600 rounded-3xl w-5/6 h-20 font3 font-sans text-white font-semibold mt-8 hover:bg-blue-700">제출</button>
                     </div>
                 </form>
             </div>

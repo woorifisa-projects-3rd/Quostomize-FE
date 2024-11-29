@@ -7,11 +7,13 @@ export async function POST(request) {
 
     const body = await request.json();  // 요청 본문을 JSON으로 파싱
 
+    console.log(request)
+    console.log(JSON.stringify(body))
     const response = await fetch(`${process.env.SERVER_URL}/v1/api/sms/send`,
         {
             method: "POST",
             headers: {
-                "Content-type": "application/json/",
+                "Content-type": "application/json",
                 "Authorization": `Bearer ${session.accessToken}`
             },
             body: JSON.stringify(body),

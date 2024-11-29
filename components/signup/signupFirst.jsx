@@ -6,9 +6,36 @@ import { useRouter } from 'next/navigation';
 
 const SignupFirst = ({ setPage, firstForm, setFirstForm }) => {
     const [error, setError] = useState(false) // 비밀번호 오류 상태 추가
+    const [isChecked, setCheck] = useState(false)
     const router = useRouter()
+    const param = new URLSearchParams()
 
-    const changeInfo = (value, index) => {
+
+    // 아이디 값을 조회한다.
+    const checkMemberId = async () => {
+        param.append("memberId",firstForm[2].value)
+        try {
+            const response = await fetch(`/api/signup/checkMemberId?${param}`, {
+                method: 'GET',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',  // 요청 본문이 JSON임을 지정
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('값이 조회되지 않았습니다.');
+            }
+            const data = await response.json()
+            setCheck(data)
+            console.log(data)
+
+        } catch (error) {
+            console.error('데이터 가져오기 오류:', error);
+        }
+    }
+
+const changeInfo = (value, index) => {
         const newData = [...firstForm]
         const addData = { placeholder: newData[index].placeholder, value: value, type: newData[index].type }
         newData.splice(index, 1, addData)
@@ -107,6 +134,7 @@ const SignupFirst = ({ setPage, firstForm, setFirstForm }) => {
                             return (
                                 <div key={index} className='flex flex-col justify-center'>
                                     <span className='ml-6 mb-4 font-medium'>{signupInfo?.placeholder}</span>
+                                    <div className='flex'>
                                     <input
                                         className="w-11/12 ml-5 mb-4 p-4 rounded-xl font2 bg-gray-100 focus:outline-none"
                                         type={signupInfo?.type}
@@ -115,6 +143,8 @@ const SignupFirst = ({ setPage, firstForm, setFirstForm }) => {
                                         onChange={(e) => changeInfo(e.target.value, index)}
                                         maxLength={15}
                                     />
+                                    <button type="button" className={`w-1/4 mb-4 p-4  ml-4 mr-6 rounded-xl font1 font-sans font-semibold ${isChecked === true ? `bg-blue-700 text-white `:`text-slate-400 bg-slate-200 hover:bg-blue-700 hover:text-white`}`} onClick={()=>checkMemberId()}>중복확인</button>
+                                    </div>
                                 </div>
                             )
                         } else {
@@ -137,6 +167,11 @@ const SignupFirst = ({ setPage, firstForm, setFirstForm }) => {
                     {error && (
                         <div className="flex justify-center text-red-500 mt-2">
                             <p>입력값이 올바르지 않거나 값이 없습니다. 다시 입력해주세요</p>
+                        </div>
+                    )}
+                    {!isChecked && (
+                        <div className="flex justify-center text-red-500">
+                            <p>아이디가 이미 존재합니다. 다시 입력해주세요</p>
                         </div>
                     )}
 

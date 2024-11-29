@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import CheckModal from '../../components/signup/checkModal'
 import CheckModal2 from '../../components/signup/checkModal2'
 
-const SignupSecond = ({ setPage, secondForm, setSecondForm, regionNumber, setRegionNumber, firstForm }) => {
+const SignupSecond = ({ setPage, secondForm, setSecondForm, regionNumber, setRegionNumber, firstForm, isBlocked }) => {
     const [error, setError] = useState(false);
     const [isModal, setModal] = useState(false)
     const [isReModal, setReModal] = useState(false)
@@ -15,7 +15,6 @@ const SignupSecond = ({ setPage, secondForm, setSecondForm, regionNumber, setReg
     const router = useRouter();
 
     const changeInfo = (value, index) => {
-
         // 숫자만 입력 가능하도록 처리
         if (!/^\d*$/.test(value)) {
             value = '';
@@ -79,18 +78,7 @@ const SignupSecond = ({ setPage, secondForm, setSecondForm, regionNumber, setReg
         // } else{
 
         // }
-        if (validateRePassword() && secondForm[0].value !== "" && secondForm[1].value !== "" && secondForm[2].value !== "") {
-            const newData = [false, false, false, true]
-            setPage(newData)
-        } else {
-            setError(true)
-            setTimeout(() => {
-                setError(false)
-            }, 1000);
-        }
-        const newData = [false, false, false, true]
-        setPage(newData)
-
+        
         const newNumber = `${regionNumber[0].value + regionNumber[1].value}` // 주민등록번호 완성
         const setData = []
         firstForm.forEach((info) => {
@@ -105,7 +93,7 @@ const SignupSecond = ({ setPage, secondForm, setSecondForm, regionNumber, setReg
             memberName: setData[1],
             memberLoginId: setData[2],
             memberPassword: setData[3]
-
+            
         }
         secondForm.forEach((info) => {
             if (info.placeholder === "2차 인증 번호 확인") {
@@ -114,10 +102,10 @@ const SignupSecond = ({ setPage, secondForm, setSecondForm, regionNumber, setReg
                 setData.push(info.value)
             }
         })
-
+        
         //배열로 저장했던 2차인증번호 스트링값으로 바꾸기
         const restoreNumber = `${number[0]}${number[1]}${number[2]}${number[3]}${number[4]}${number[5]}`
-
+        
         const data2 = {
             residenceNumber: newNumber,
             zipCode: setData[4],
@@ -129,9 +117,21 @@ const SignupSecond = ({ setPage, secondForm, setSecondForm, regionNumber, setReg
         const total = { ...data1, ...data2 }
         console.log(total)
         console.log(setData)
-        joinAuth(total)
+        console.log(number.length)
+        console.log(number)
+        console.log(reNumber)
+        if (validateRePassword() && number.length === 6 && secondForm[0].value !== "" && secondForm[1].value !== "" && secondForm[2].value !== "" ) {
+            const newData = [false, false, false, true]
+            setPage(newData)
+            joinAuth(total)
+        } else {
+            setError(true)
+            setTimeout(() => {
+                setError(false)
+            }, 1000);
+        }
     }
-
+    
     // 핸드폰 인증을 위한 페이지로 이동
     const checkPhonenumber = (e) => {
         e.preventDefault();
@@ -141,8 +141,7 @@ const SignupSecond = ({ setPage, secondForm, setSecondForm, regionNumber, setReg
 
     // 비밀번호 확인
     const validateRePassword = () => {
-        const [password, rePassword] = [secondForm[3]?.value, secondForm[4]?.value];
-        return password === rePassword && password.length === 6;
+        return number.every((x, i) => x === reNumber[i])
     }
 
 
@@ -215,12 +214,12 @@ const SignupSecond = ({ setPage, secondForm, setSecondForm, regionNumber, setReg
                         <input
                             className="w-11/12 ml-5 mb-4 p-4 rounded-xl font2 bg-gray-100 focus:outline-none"
                             type={signupInfo?.type}
-                            placeholder={`${signupInfo?.placeholder} 을(를) 입력해주세요`}
+                            placeholder={`${signupInfo?.placeholder}를 입력해주세요`}
                             value={signupInfo?.value}
                             onChange={(e) => changeInfo(e.target.value, index)}
                             maxLength={11}
                         />
-                        <button type="button" className="w-1/4 mb-4 p-4  ml-4 mr-6   rounded-xl font2 font-sans font-semibold text-slate-400 bg-slate-200 hover:bg-blue-700 hover:text-white" onClick={(e) => checkPhonenumber(e)}>인증</button>
+                        <button type="button" className={`w-1/4 mb-4 p-4  ml-4 mr-6   rounded-xl font2 font-sans font-semibold ${isBlocked === true ? `bg-blue-700 text-white` : `text-slate-400 bg-slate-200 hover:bg-blue-700 hover:text-white`}`} onClick={(e) => checkPhonenumber(e)} disabled={isBlocked}>인증</button>
                     </div>
                 </div>
             )
@@ -231,7 +230,7 @@ const SignupSecond = ({ setPage, secondForm, setSecondForm, regionNumber, setReg
                     <input
                         className="w-11/12 ml-5 mb-4 p-4 rounded-xl font2 bg-gray-100 focus:outline-none"
                         type={signupInfo?.type}
-                        placeholder={`${signupInfo?.placeholder} 을(를) 입력해주세요`}
+                        placeholder={`${signupInfo?.placeholder}를 입력해주세요`}
                         value={signupInfo?.value}
                         onChange={(e) => changeInfo(e.target.value, index)}
                         maxLength={5}
@@ -246,7 +245,7 @@ const SignupSecond = ({ setPage, secondForm, setSecondForm, regionNumber, setReg
                     <input
                         className="w-11/12 ml-5 mb-4 p-4 rounded-xl font2 bg-gray-100 focus:outline-none"
                         type={signupInfo?.type}
-                        placeholder={`${signupInfo?.placeholder} 을(를) 입력해주세요`}
+                        placeholder={`${signupInfo?.placeholder}를 입력해주세요`}
                         value={signupInfo?.value}
                         onChange={(e) => handleInput(e.target.value, index)}
                     />
@@ -259,7 +258,7 @@ const SignupSecond = ({ setPage, secondForm, setSecondForm, regionNumber, setReg
                     <input
                         className="w-11/12 ml-5 mb-4 p-4 rounded-xl font2 bg-gray-100 focus:outline-none"
                         type={signupInfo?.type}
-                        placeholder={`${signupInfo?.placeholder} 을(를) 입력해주세요`}
+                        placeholder={`${signupInfo?.placeholder}를 입력해주세요`}
                         value={signupInfo?.value}
                         onChange={(e) => handleInput(e.target.value, index)}
                     />
@@ -273,7 +272,7 @@ const SignupSecond = ({ setPage, secondForm, setSecondForm, regionNumber, setReg
                     <input
                         className="w-11/12 ml-5 mb-4 p-4 rounded-xl font2 bg-gray-100 focus:outline-none"
                         type={signupInfo?.type}
-                        placeholder={`${signupInfo?.placeholder} 을(를) 입력해주세요`}
+                        placeholder={number.length > 0 ? `******`:`${signupInfo?.placeholder}를 입력해주세요` }
                         onClick={() => setModal(true)}
                     />
                     {isModal && <CheckModal onClose={() => setModal(false)} setNumber={setNumber} number1={number} />}
@@ -286,7 +285,7 @@ const SignupSecond = ({ setPage, secondForm, setSecondForm, regionNumber, setReg
                     <input
                         className="w-11/12 ml-5 mb-4 p-4 rounded-xl font2 bg-gray-100 focus:outline-none"
                         type={signupInfo?.type}
-                        placeholder={`${signupInfo?.placeholder} 을(를) 입력해주세요`}
+                        placeholder={reNumber .length> 0 ? `******`:`${signupInfo?.placeholder}을 입력해주세요` }
                         onClick={() => setReModal(true)}
                     />
                     {isReModal && <CheckModal2 onClose={() => setReModal(false)} setReNumber={setReNumber} reNumber={reNumber} />}
