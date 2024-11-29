@@ -67,7 +67,6 @@ const AuthorizationMessageNumber = ({ setPage, secondForm, setBlock }) => {
              phone: secondForm?.[3]?.value,
              certificationNumber: sendingData
          }
-         console.log(authData)
           checkAuthorizationAboutMessage(authData) // ->  인증번호 요청
           const newData = [false, true, false, false]
           setPage(newData)
