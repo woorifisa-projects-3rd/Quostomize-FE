@@ -1,35 +1,58 @@
-'use client'
+'use client';
 
-import { useRouter, useSearchParams } from "next/navigation";
-import { signIn } from "next-auth/react"
-import LogoutButton from "../../../components/button/logoutButton";
+import { useRouter, useSearchParams } from 'next/navigation';
+import { signIn, useSession } from 'next-auth/react';
+import { useState, useEffect } from 'react';
+import LoginForm from './LoginForm';
+import LoginLoading from './LoginLoading';
+import ErrorModal from './ErrorModal';
 
 const LoginPage = () => {
+  const { data: session } = useSession();
   const serachParams = useSearchParams();
   const router = useRouter();
-  let redirectTo;
-  const goalURL = serachParams.get("to");
-  if (goalURL) {
-    redirectTo = "/"+ goalURL;
-  } else {
-    redirectTo = "/home";
-  }
-  
-  const login = async(formData) => {
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [formData, setFormData] = useState({
+    memberLoginId: '',
+    memberPassword: '',
+  });
+  const [isFormValid, setIsFormValid] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (session) {
+      router.push('/home');
+    }
+  }, [session, router]);
+
+  useEffect(() => {
+    setIsFormValid(
+      formData.memberLoginId.length > 0 && formData.memberPassword.length > 0
+    );
+  }, [formData]);
+
+  let redirectTo = serachParams.get('to') ? '/' + serachParams.get('to') : '/home';
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
     let isAuthed = true;
+    setIsLoading(true);
+
     try {
-      const response = await signIn("credentials", {
-        memberLoginId: formData.get("memberLoginId"),
-        memberPassword: formData.get("memberPassword"),
+      const response = await signIn('credentials', {
+        memberLoginId: formData.memberLoginId,
+        memberPassword: formData.memberPassword,
         redirect: false,
       });
       if (response.error) {
-        window.alert("아이디, 비밀번호 확인");
+        setShowErrorModal(true);
+        isAuthed = false;
       }
     } catch (err) {
       isAuthed = false;
-      window.alert(err.message);
+      setShowErrorModal(true);
     } finally {
+      setIsLoading(false);
       if (isAuthed) {
         if (goalURL) {
           router.replace(redirectTo);
@@ -38,30 +61,68 @@ const LoginPage = () => {
         }
       }
     }
-    
+  };
 
-  }
-    return (
-      <div>
-        <form
-          action={login}
-          className="flex flex-col"
-        >
-          <label>
-            아이디
-            <input name="memberLoginId" type="text" className="border-2 border-green-400"/>
-          </label>
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
-          <label>
-            비밀번호
-            <input name="memberPassword" type="password" className="border-2 border-green-400"/>
-          </label>
-
-          <button type="submit" className="border-4 border-solid bg-red-400">Sign In</button>
-        </form>
-        <LogoutButton />
+  return (
+    <div className="min-h-screen">
+      <div className="w-full px-6 pt-12 pb-28">
+        <div className="max-w-md mx-auto">
+          <h1 className="text-3xl font-bold color1 mb-3">
+            커스터마이징 카드
+          </h1>
+          <p className="text-base text-gray-900">
+            서비스 이용을 위해 로그인해주세요.
+          </p>
+        </div>
       </div>
-    );
-  }
-  
-  export default LoginPage;
+
+      <div className="relative">
+        <div className="absolute inset-x-0 -top-20">
+          <div className="max-w-lg mx-auto px-5">
+            <div className="bg-white rounded-3xl shadow-xl p-8">
+              <h2 className="text-2xl font-bold text-center mb-8">로그인</h2>
+              <LoginForm
+                formData={formData}
+                handleInputChange={handleInputChange}
+                isFormValid={isFormValid}
+                onSubmit={handleLogin}
+              />
+              <div className="mt-6 flex items-center justify-center space-x-4 text-sm">
+                <button className="text-gray-500 hover:text-blue-500 transition-colors duration-200">
+                  아이디 찾기
+                </button>
+                <span className="text-gray-300">|</span>
+                <button className="text-gray-500 hover:text-blue-500 transition-colors duration-200">
+                  비밀번호 찾기
+                </button>
+                <span className="text-gray-300">|</span>
+                <button
+                  onClick={() => router.push('/signup')}
+                  className="text-gray-500 hover:text-blue-500 transition-colors duration-200"
+                >
+                  회원가입
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {isLoading && <LoginLoading />}
+      <ErrorModal
+        isOpen={showErrorModal}
+        onClose={() => setShowErrorModal(false)}
+      />
+    </div>
+  );
+};
+
+export default LoginPage;
