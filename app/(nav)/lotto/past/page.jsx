@@ -41,7 +41,6 @@ const LottoPast = () => {
     },[searchParams])
 
     useEffect(() => {
-        console.log(date);
         getWinners(date);
     },[date])
 

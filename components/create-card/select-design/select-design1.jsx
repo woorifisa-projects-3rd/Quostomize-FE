@@ -18,7 +18,7 @@ const SelectDesign1 = ({ selectedCardIndex, onCardChange }) => {
                 <GradientText
                     text={ColorInfo[selectedCardIndex].name}
                     style={ColorInfo[selectedCardIndex].style}
-                    />
+                />
             </span>
         </div >
     )
