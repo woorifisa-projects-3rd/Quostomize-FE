@@ -2,7 +2,7 @@
 
 import { Dialog, DialogPanel, DialogTitle, Description } from "@headlessui/react";
 
-const AlertModal = ({ isOpen, setIsOpen, onClose, title, description }) => {
+const AlertModal = ({ isOpen, setIsOpen, onClose, title, description = "정말 나가시겠습니까?" }) => {
   return (
     <Dialog
       open={isOpen}
