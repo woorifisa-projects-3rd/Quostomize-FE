@@ -9,7 +9,7 @@ import ErrorModal from './ErrorModal';
 
 const LoginPage = () => {
   const { data: session } = useSession();
-  const serachParams = useSearchParams();
+  const searchParams = useSearchParams();
   const router = useRouter();
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [formData, setFormData] = useState({
@@ -31,7 +31,7 @@ const LoginPage = () => {
     );
   }, [formData]);
 
-  let redirectTo = serachParams.get('to') ? '/' + serachParams.get('to') : '/home';
+  let redirectTo = searchParams.get('to') ? '/' + searchParams.get('to') : '/home';
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -54,9 +54,7 @@ const LoginPage = () => {
     } finally {
       setIsLoading(false);
       if (isAuthed) {
-        if (goalURL) {
-          router.replace(redirectTo);
-        } else {
+        if (isAuthed) {
           router.push(redirectTo);
         }
       }
