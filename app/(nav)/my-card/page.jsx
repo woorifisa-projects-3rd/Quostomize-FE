@@ -6,6 +6,8 @@ import MyCardHeader from '../../../components/my-card/myCardHeader'
 import MyToggle from '../../../components/button/toggleButton'
 import MyFullButton from "../../../components/button/full-button";
 import Icons from "../../../public/icons/icons"
+import GradientText from "../../../components/card/gradientText";
+import ColorInfo from "../../../components/card/colorInfo";
 
 const MyCardPage = () => {
   const [cardData, setCardData] = useState(null);
@@ -159,40 +161,6 @@ const MyCardPage = () => {
       return true;
     })
   }
-
-  const colorInfo = [
-    {
-      gradient: 'animate-gradient-purple',
-      style: {
-        backgroundImage: 'linear-gradient(-45deg, #a855f7, #6366f1, #a855f7, #6366f1)',
-      }
-    },
-    {
-      gradient: 'animate-gradient-black',
-      style: {
-        backgroundImage: 'linear-gradient(-45deg, #5555f7, #536d94, #445063, #000000)',
-      }
-    },
-    {
-      gradient: 'animate-gradient-red',
-      style: {
-        backgroundImage: 'linear-gradient(-45deg, #f7555d, #f17f63, #f75855, #ff0000)',
-      }
-    },
-    {
-      gradient: 'animate-gradient-green',
-      style: {
-        backgroundImage: 'linear-gradient(-45deg, #22c55e, #15803d, #22c55e, #15803d)',
-      }
-    },
-    {
-      gradient: 'animate-gradient-milk',
-      style: {
-        backgroundImage: 'linear-gradient(-45deg, #c0c0c0, #99bbff, #d4d4d4, #99bbff)',
-      }
-    }
-  ];
-
   const filteredCardColor = uniqueBy(cardData.filter(card => card.cardColor), "cardColor");
   const cardColor = filteredCardColor.length > 0 ? filteredCardColor[0].cardColor : null;
 
@@ -229,23 +197,11 @@ const MyCardPage = () => {
           </div>
 
           <div className="flex gap-4 -mt-8 justify-around">
-            <p className="font3 font-bold mb-6">현재 적용된 혜택률
-              <span
-                className={`text-transparent bg-clip-text animate-gradient-text bg-[length:400%_400%]`}
-                style={colorInfo[currentColorIndex].style}
-              > {totalBenefitRate}</span>%</p>
-
-            <style jsx global>{`
-                @keyframes gradient-text {
-                    0% {background-position: 0% 50%;}
-                    50% {background-position: 100% 50%;}
-                    100% {background-position: 0% 50%;}
-                }
-                .animate-gradient-text {
-                    animation: gradient-text 3s ease infinite;
-                }
-            `}
-            </style>
+            <p className="font3 font-bold mb-6">현재 적용된 혜택률{' '}
+              <span>
+                <GradientText text={totalBenefitRate}
+                style={ColorInfo[currentColorIndex].style}/>
+                </span>%</p>
           </div>
           <div>
             {filteredUpperCategories.length > 0 ? (
@@ -263,7 +219,7 @@ const MyCardPage = () => {
 
         </div>
         <div className="mb-20 flex">
-          <MyFullButton href={"/change-beenfit"} children={"혜택 새로 고르기"} />
+          <MyFullButton href={"/benefit-change"} children={"혜택 새로 고르기"} />
 
         </div>
 
