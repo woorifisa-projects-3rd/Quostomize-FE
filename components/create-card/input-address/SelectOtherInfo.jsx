@@ -7,18 +7,13 @@ import OtherInfoForm from './OtherInfoForm';
 import CardPasswordForm from './CardPasswordForm';
 import PasswordInput from './PasswordInput';
 
-const SelectOtherInfo = ({
-                                  formData,
-                                  setFormData,
-                                  errors,
-                                  setErrors,
-                                  touched,
-                                  setTouched,
-                                  isPasswordModalOpen,
-                                  setPasswordModalOpen,
-                                  isConfirmPasswordModalOpen,
-                                  setConfirmPasswordModalOpen,
-                              }) => {
+const SelectOtherInfo = ({formData, setFormData}) => {
+    const [errors, setErrors] = useState({});
+    const [touched, setTouched] = useState({});
+    const [isPasswordModalOpen, setPasswordModalOpen] = useState(false);
+    const [isConfirmPasswordModalOpen, setConfirmPasswordModalOpen] = useState(false);
+
+
     const validateField = (field, value) => {
         const newErrors = { ...errors };
 
