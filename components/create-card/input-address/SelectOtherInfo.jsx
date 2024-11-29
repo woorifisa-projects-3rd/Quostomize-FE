@@ -122,6 +122,7 @@ const SelectOtherInfo = ({formData, setFormData}) => {
                     errors={errors}
                     isSameAsDeliveryAddress={formData.isSameAsDeliveryAddress}
                     handleCheckSameAddress={handleCheckSameAddress}
+                    isApplicant={true}
                 />
             </div>
 
