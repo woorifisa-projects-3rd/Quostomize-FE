@@ -4,10 +4,13 @@ import React, { createContext, useContext, useState } from 'react';
 
 const BenefitContext = createContext(undefined);
 
-export function BenefitProvider({ children }) {
-  const [categoryValues, setCategoryValues] = useState([1, 1, 1, 1, 1]);
-  const [selectedOptions, setSelectedOptions] = useState([null, null, null, null, null]);
-
+export function BenefitProvider({
+                                  children,
+                                  categoryValues,
+                                  setCategoryValues,
+                                  selectedOptions,
+                                  setSelectedOptions,
+                                }) {
   const updateCategory = (index, value) => {
     setCategoryValues(prev => {
       const newValues = [...prev];
