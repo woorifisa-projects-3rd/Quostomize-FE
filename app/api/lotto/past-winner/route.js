@@ -1,4 +1,4 @@
-'use server' 
+'use server'
 import { NextResponse } from "next/server";
 import { auth } from "../../../../auth";
 
@@ -19,14 +19,14 @@ export async function GET(request) {
         }
     );
     if (response.status != 200) {
-      const result = await response.json();
-      console.log(result);
-      if (result.code === "I-201") {
-        return NextResponse.json({data: null}, {status: 500});
-      }
-      return NextResponse.redirect(new URL("/login", `${process.env.NEXT_URL}`));
+        const result = await response.json();
+        console.log(result);
+        if (result.code === "I-201") {
+            return NextResponse.json({ data: null }, { status: 500 });
+        }
+        return NextResponse.redirect(new URL("/login", `${process.env.NEXT_URL}`));
     } else {
         const result = await response.json();
-        return NextResponse.json({data: result.data}, {status:200});
+        return NextResponse.json({ data: result.data }, { status: 200 });
     }
 };
