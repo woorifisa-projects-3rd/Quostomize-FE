@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import Image from "Next/image"
+import Image from "next/image"
 import Motion from "../../../components/piece-stock/etc/motion"
 import InverseMotion from "../../../components/piece-stock/etc/inverseMotion"
 
@@ -10,29 +10,27 @@ const favoriteBody = ({ cardId, orderInfo, setOrderInfo, setWishInfo, wishInfo, 
     const [hoveredIndex, setHoveredIndex] = useState([{ order: 0 }, { order: 0 }, { order: 0 }]); // Hover된 항목의 인덱스를 관리
     const param = new URLSearchParams();
 
+
     useEffect(() => {
-        if (status === "authenticated") {
-            searchWishStocks();
-        }
-    }, [status]);
+        searchWishStocks();
+    }, []);
 
     // 백엔드에서 GET 위시리스트 조회시, 위시리스트의 priority, stockName, stockPresentPrice, stockImage 를 갖고온다.
     const searchWishStocks = async () => {
         param.append("cardId", cardId)
         try {
-            const response = await fetch(`http://localhost:8080/v1/api/stocks/select?${param}`, {
+            const response = await fetch(`/api/piece-stock/favorite/searchWish?${param}`, {
                 method: 'GET',
                 credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',  // 요청 본문이 JSON임을 지정
-                    'Authorization': `Bearer ${session.accessToken}`, // JWT 토큰을 Authorization 헤더에 포함
                 },
             });
             if (!response.ok) {
                 throw new Error('값이 조회되지 않았습니다.');
             }
             const data = await response.json(); // 응답을 JSON으로 파싱
-            setWishInfo(data.data);
+            setWishInfo(data);
         } catch (error) {
             console.error('데이터 가져오기 오류:', error);
         }
@@ -41,12 +39,11 @@ const favoriteBody = ({ cardId, orderInfo, setOrderInfo, setWishInfo, wishInfo, 
     // delete 요청
     const deleteStocks = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/v1/api/stocks/select?${param}`, {
+            const response = await fetch(`/api/piece-stock/favorite/deleteWish?${param}`, {
                 method: 'DELETE',
                 credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',  // 요청 본문이 JSON임을 지정
-                    'Authorization': `Bearer ${session.accessToken}`, // JWT 토큰을 Authorization 헤더에 포함
                 },
             });
 

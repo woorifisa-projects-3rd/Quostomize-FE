@@ -3,33 +3,33 @@
 import MyFullButton from '../button/full-button'
 import BenefitBox from '../box/benefit-box'
 import FadeInSection from "../fade-in/fade-in-section";
-import 'material-icons/iconfont/material-icons.css';
+import Icons from '../../public/icons/icons'
 
 
 const HomeBody3 = () => {
     const benefits = [
         {
-            icon: "shopping_bag",  // 쇼핑 아이콘
+            icon: Icons.shoppoing,
             category: "쇼핑",
             description: "나만의 스타일을 온오프라인에서"
         },
         {
-            icon: "card_giftcard",  // 포인트 아이콘
-            category: "상품",
+            icon: Icons.life,
+            category: "생활",
             description: "어디서나 이동하고 부담없이 연락할 수 있는"
         },
         {
-            icon: "fastfood",  // 음식 아이콘
+            icon: Icons.food,
             category: "푸드",
             description: "맛있는 선택과 함께하는"
         },
         {
-            icon: "airplane_ticket",  // 여행 아이콘
+            icon: Icons.travel,
             category: "여행",
             description: "떠나고 싶은 순간, 나에게 딱 맞는"
         },
         {
-            icon: "movie",  // 문화 아이콘
+            icon: Icons.culture,
             category: "문화",
             description: "취향을 담은 여가생활을 지원하는"
         }

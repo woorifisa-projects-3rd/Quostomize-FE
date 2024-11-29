@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import LargeModal from "../../../components/overlay/largeModal";
 import RecommendAlertmodal from "../etc/recommendAlertModal"
-import Image from "Next/image"
+import Image from "next/image"
 
 const favoriteBottom = ({ orderInfo, cardId, wishInfo, setWishInfo, session, setRecommend, recommendStockInfo, isClickButton, setClickButton }) => {
 
@@ -18,15 +18,13 @@ const favoriteBottom = ({ orderInfo, cardId, wishInfo, setWishInfo, session, set
 
 
     // 스위치 요청
-    const switchStock = async () => {
+    const switchStock = async (orderInfo) => {
         try {
-            const response = await fetch("http://localhost:8080/v1/api/stocks/select/change-rank", {
+            const response = await fetch("/api/piece-stock/favorite/switchWish", {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',  // 요청 본문이 JSON임을 지정
-                    'Authorization': `Bearer ${session.accessToken}`, // JWT 토큰을 Authorization 헤더에 포함
-                },
-                body: JSON.stringify(orderInfo),
+                }, body: JSON.stringify( orderInfo ),
             });
             console.log(orderInfo)
         } catch (error) {
@@ -189,7 +187,7 @@ const favoriteBottom = ({ orderInfo, cardId, wishInfo, setWishInfo, session, set
         <>
             <div className="flex justify-between p-4">
                 <button className="px-4 py-2 border rounded border-black font-bold" onClick={openModal}>종목 자동 추천</button>
-                <button className="px-4 py-2 border rounded border-black font-bold" onClick={switchStock}>저장</button>
+                <button className="px-4 py-2 border rounded border-black font-bold" onClick={()=>switchStock(orderInfo)}>저장</button>
             </div>
             <div>
                 {isOpen && <LargeModal className="bg-white rounded-t-3xl p-6 w-full"
