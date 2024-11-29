@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Pagination from './Pagination';
+import Icons from '../../../public/icons/icons'
+import Image from 'next/image';
 
 export default function QnaPage() {
     const { data: session } = useSession();
@@ -27,7 +29,6 @@ export default function QnaPage() {
             const response = await fetch(`/api/qna?page=${currentPage}`, {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${session?.accessToken}`
                 },
             });
             const result = await response.json();
@@ -66,7 +67,7 @@ export default function QnaPage() {
 
     if (isLoading) {
         return (
-            <div className="flex justify-center items-center h-screen">
+            <div className="flex justify-center items-center h-screen select-none">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
             </div>
         );
@@ -107,11 +108,11 @@ export default function QnaPage() {
                             <div className="col-span-5 flex items-center text-gray-800">
                                 {question.isPrivate && (
                                     <span className="mr-1">
-                                        <img 
-                                        src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Locked.png" 
+                                        <Image 
+                                        src={Icons.locked}
                                         alt="Locked" 
-                                        width="20" 
-                                        height="20" 
+                                        width={20} 
+                                        height={20} 
                                         />
                                     </span>
                                 )}
