@@ -8,6 +8,7 @@ import MyFullButton from "../../../components/button/full-button";
 import Icons from "../../../public/icons/icons"
 import GradientText from "../../../components/card/gradientText";
 import ColorInfo from "../../../components/card/colorInfo";
+import PointUsageBox from "../../../components/box/pointUsageBox";
 
 const MyCardPage = () => {
   const [cardData, setCardData] = useState(null);
@@ -151,7 +152,6 @@ const MyCardPage = () => {
     return <div>로딩 중</div>;
   }
 
-  // 중복 제거 처리
   const uniqueBy = (array, key) => {
     const seen = new Set();
     return array.filter(item => {
@@ -196,9 +196,9 @@ const MyCardPage = () => {
             )}
           </div>
 
-          <div className="flex gap-4 -mt-8 justify-around">
+          <div className="flex gap-4 -mt-16 justify-around">
             <p className="font3 font-bold mb-6">현재 적용된 혜택률{' '}
-              <span>
+              <span className="font6">
                 <GradientText text={totalBenefitRate}
                 style={ColorInfo[currentColorIndex].style}/>
                 </span>%</p>
@@ -229,64 +229,52 @@ const MyCardPage = () => {
           <p className="text-center mb-14"> 포인트 사용처를 자유롭게 켜고 끌 수 있어요</p>
           <div className="flex gap-10">
             {lottoBox && (
-              <div
-                  className={`rounded-lg shadow-lg ${lottoBox.isLotto ? "bg-blue-100" : "bg-white"}
-                  ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
-              >
-                <div className="space-y-4 p-4 m-2 w-24 h-42 flex flex-col items-center justify-center">
-                  <div className="font-bold">일일복권</div>
-                  <div><img src={Icons.lotto} alt="일일복권 아이콘" /></div>
-                  <MyToggle isEnabled={lottoBox.isLotto}
-                            onToggle={() => handleLottoToggle(
-                                lottoBox.cardSequenceId,
-                                lottoBox.pointUsageTypeId,
-                                lottoBox.isLotto
-                            )}
-                            disabled={isLoading}
-                  />
-                </div>
-              </div>
+                <PointUsageBox
+                    title={"일일복권"}
+                    icon={Icons.lotto}
+                    isEnabled={lottoBox.isLotto}
+                    onToggle={() =>
+                      handleLottoToggle(
+                          lottoBox.cardSequenceId,
+                          lottoBox.pointUsageTypeId,
+                          lottoBox.isLotto
+                      )
+                }
+                    isLoading={isLoading}
+                    backgroundClass={lottoBox.isLotto ? "bg-blue-100" : "bg-white"}
+                />
             )}
 
             {stockBox && (
-                <div
-                    className={`rounded-lg shadow-lg ${stockBox.isPieceStock ? "bg-blue-100" : "bg-white"}
-                  ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
-                >
-                  <div className="space-y-4 p-4 m-2 w-24 h-42 flex flex-col items-center justify-center">
-                    <div className="font-bold">조각투자</div>
-                    <div><img src={Icons.stockpiece} alt="조각투자 아이콘" /></div>
-                    <MyToggle isEnabled={stockBox.isPieceStock}
-                              onToggle={() => handleStockToggle(
-                                  stockBox.cardSequenceId,
-                                  stockBox.pointUsageTypeId,
-                                  stockBox.isPieceStock
-                              )}
-                              disabled={isLoading}
-                    />
-                  </div>
-                </div>
+                <PointUsageBox
+                  title={"조각투자"}
+                  icon={Icons.stockpiece}
+                  isEnabled={stockBox.isPieceStock}
+                  onToggle={() =>
+                      handleStockToggle(
+                          stockBox.cardSequenceId,
+                          stockBox.pointUsageTypeId,
+                          stockBox.isPieceStock
+                      )
+                }
+                  isLoading={isLoading}
+                  backgroundClass={stockBox.isPieceStock ? "bg-blue-100" : "bg-white"}
+                />
             )}
 
             {paybackBox && (
-              <div
-                className={`rounded-lg shadow-lg ${paybackBox.isPayback ? "bg-blue-100" : "bg-white"}
-                ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
-              >
-                <div className="space-y-4 p-4 m-2 w-24 h-42 flex flex-col items-center justify-center">
-                  <div className="font-bold">페이백</div>
-                  <div><img src={Icons.payback} alt="페이백 아이콘" /></div>
-                  <MyToggle
-                      isEnabled={paybackBox.isPayback}
-                      onToggle={() => handlePaybackToggle(
-                          paybackBox.cardSequenceId,
-                          paybackBox.pointUsageTypeId,
-                          paybackBox.isPayback
-                      )}
-                      disabled={isLoading}
-                  />
-                </div>
-              </div>
+                <PointUsageBox
+                  title={"페이백"}
+                  icon={Icons.payback}
+                  isEnabled={paybackBox.isPayback}
+                  onToggle={() => handlePaybackToggle(
+                      paybackBox.cardSequenceId,
+                      paybackBox.pointUsageTypeId,
+                      paybackBox.isPayback
+                )}
+                  isLoading={isLoading}
+                  backgroundClass={paybackBox.isPayback ? "bg-blue-100" : "bg-white"}
+                />
             )}
           </div>
         </div>
