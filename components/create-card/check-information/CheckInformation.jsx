@@ -12,20 +12,6 @@ const CheckInformation = ({
                               isOverseasPaymentBlocked,
                               isTransportationEnabled,
                           }) => {
-    // const [formData, setFormData] = useState({
-    //     residenceNumber: '',
-    //     residenceNumber2: '',
-    //     name: '',
-    //     englishName: '',
-    //     deliveryFullAddress: '', // 우편번호 + 도로명주소 + 상세주소
-    //     residentialFullAddress: '', // 우편번호 + 도로명주소 + 상세주소
-    //     email: '', // emailId + @ + emailDomain
-    //     phoneNumber: '',
-    //     paymentHistoryReceiveMethod: '',
-    //     isOverseasPaymentBlocked: true,
-    //     isTransportationEnabled: true
-    // });
-
     return (
         <div className="w-full max-w-2xl mx-auto px-5 py-10">
             <div className="mb-10 pl-5">

@@ -7,10 +7,6 @@ import GradientText from "../../card/gradientText";
 
 const SelectDesign1 = ({ selectedCardIndex, onCardChange }) => {
 
-    // const handleCardChange = (index) => {
-    //     selectedCardIndex(index);
-    // };
-
     return (
         <div className='flex flex-col items-center gap-4 font-bold font4'>
             <CarouselCard onCardChange={onCardChange} />
