@@ -18,7 +18,7 @@ const HamburgerMenu = ({hamburgerMenuOpen, setHamburgerMenuOpen}) => {
     const menuItems = [
         {title: "혜택변경", icon: <MdCurrencyExchange />, path:"/benefit-change" },
         {title: "복권", icon: <FaTrophy />, path:"/lotto" },
-        {title: "Q&A", icon: <FaQuestionCircle />, path:"/qa" },
+        {title: "Q&A", icon: <FaQuestionCircle />, path:"/qna" },
         {title: "마이페이지", icon: <MdAccountCircle />, path:"/my-page" },
         ];
 
