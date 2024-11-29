@@ -7,29 +7,21 @@ import OtherInfoForm from './OtherInfoForm';
 import CardPasswordForm from './CardPasswordForm';
 import PasswordInput from './PasswordInput';
 
-const SelectOtherInfo = () => {
-    const [formData, setFormData] = useState({
-        deliveryPostalCode: '',
-        deliveryAddress: '',
-        detailedDeliveryAddress: '',
-        residentialPostalCode: '',
-        residentialAddress: '',
-        detailedResidentialAddress: '',
-        paymentHistoryReceiveMethod: '',
-        cardPassword: '',
-        confirmCardPassword: '',
-        emailId: '',
-        emailDomain: '',
-        phoneNumber: '',
-        isSameAsDeliveryAddress: false,
-    });
-    const [errors, setErrors] = useState({});
-    const [touched, setTouched] = useState({});
-    const [isPasswordModalOpen, setPasswordModalOpen] = useState(false);
-    const [isConfirmPasswordModalOpen, setConfirmPasswordModalOpen] = useState(false);
-
+const SelectOtherInfo = ({
+                                  formData,
+                                  setFormData,
+                                  errors,
+                                  setErrors,
+                                  touched,
+                                  setTouched,
+                                  isPasswordModalOpen,
+                                  setPasswordModalOpen,
+                                  isConfirmPasswordModalOpen,
+                                  setConfirmPasswordModalOpen,
+                              }) => {
     const validateField = (field, value) => {
         const newErrors = { ...errors };
+
         switch (field) {
             case 'emailId':
             case 'emailDomain':
