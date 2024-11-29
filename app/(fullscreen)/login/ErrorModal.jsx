@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Icons from '../../../public/icons/icons'
 
 const ErrorModal = ({ isOpen, onClose }) => {
     if (!isOpen) return null;
@@ -8,7 +9,7 @@ const ErrorModal = ({ isOpen, onClose }) => {
             <div className="bg-white rounded-2xl p-6 shadow-xl">
                 <div className="flex items-center mb-4">
                     <Image
-                        src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Anxious%20Face%20with%20Sweat.png"
+                        src={Icons.anxious}
                         alt="Error"
                         width={40}
                         height={40}

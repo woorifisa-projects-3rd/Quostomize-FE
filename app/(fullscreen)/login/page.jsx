@@ -54,7 +54,11 @@ const LoginPage = () => {
     } finally {
       setIsLoading(false);
       if (isAuthed) {
-        router.push(redirectTo);
+        if (goalURL) {
+          router.replace(redirectTo);
+        } else {
+          router.push(redirectTo);
+        }
       }
     }
   };
