@@ -12,6 +12,16 @@ const nextConfig = {
         ],
     },
 
+    images: {
+        remotePatterns: [
+            {
+            protocol: 'https',
+            hostname: 'raw.githubusercontent.com',
+            pathname: '/Tarikul-Islam-Anik/Animated-Fluent-Emojis/**'
+            }
+        ]
+    }, 
+    
     reactStrictMode: false,
 }
 export default nextConfig;
