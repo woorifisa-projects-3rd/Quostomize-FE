@@ -4,8 +4,8 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn, useSession } from 'next-auth/react';
 import { useState, useEffect } from 'react';
 import LoginForm from './LoginForm';
-import LoginLoading from './LoginLoading';
 import ErrorModal from './ErrorModal';
+import LoadingSpinner from '../../../components/overlay/loadingSpinner'
 
 const LoginPage = () => {
   const { data: session } = useSession();
@@ -114,7 +114,7 @@ const LoginPage = () => {
         </div>
       </div>
 
-      {isLoading && <LoginLoading />}
+      {isLoading && <LoadingSpinner message="로그인 중입니다..." />}
       <ErrorModal
         isOpen={showErrorModal}
         onClose={() => setShowErrorModal(false)}
