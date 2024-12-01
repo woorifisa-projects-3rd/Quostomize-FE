@@ -4,13 +4,14 @@ import SquareButton from "../../../components/button/square-button";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import getYYYYMMDDDate from "../../../utils/getYYYYMMDDDate" 
-
+import LottoHeader from "../../../components/lotto/lottoHeader"
+import Lottie from "../../../components/LottieComponent/lottieComponent"
+import LottoLottie from "../../../public/lotties/lottery.json";
 
 const LottoMain = async () => {
     const cookieList = await cookies(); 
 
     const today = getYYYYMMDDDate();
-
     const getTodayParticipants = async () => {
         const response = await fetch(
             `${process.env.NEXT_URL}/api/lotto`
@@ -61,25 +62,26 @@ const LottoMain = async () => {
         getTodayWinners(),
     ]);
     
-    
     return (
-        <div className="flex flex-col h-full items-center p-2">
-            <div className="w-5/6 text-xl mb-2">
-                일일 복권
-            </div>
-            <ParticipantCard men={stringValue} />
-            <div className="w-5/6 flex justify-between items-end mt-3">
-                <div className="text-xl align-bottom">
-                    오늘 당첨자
+        <>
+            <LottoHeader />
+            <div className="flex flex-col h-full items-center p-2">
+                <div className="w-40 h-40">
+                    <Lottie animationData={LottoLottie} loop={false} />
                 </div>
-                <SquareButton href={`/lotto/past?date=${today}`} message={"과거 당첨자 확인"}/>
+                <ParticipantCard men={stringValue} />
+                <div className="flex w-full items-center mt-4">
+                    <div className="w-[35%] h-0 border-gray-300 border-[1px]"></div>
+                    <div className="w-[30%] h-10 leading-10 bg-gray-300 rounded-3xl text-center ">어제 당첨자 명단</div>
+                    <div className="w-[35%] h-0 border-gray-300 border-[1px]"></div>
+                </div>
+                <div className=" flex-auto flex flex-col gap-4 items-center py-1 w-full">
+                    {todayWinners.map((winner) => {
+                        return <WinnerCard name={winner.customerName} key={winner.winnerId}/>
+                    })}
+                </div>
             </div>
-            <div className=" flex-auto flex flex-col gap-4 items-center py-1 w-full h-[67%] overflow-scroll [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-                {todayWinners.map((winner) => {
-                    return <WinnerCard name={winner.customerName} key={winner.winnerId}/>
-                })}
-            </div>
-        </div>
+        </>
     );
 }
 

@@ -2,7 +2,7 @@ import SlotCounter from 'react-slot-counter';
 
 const ParticipantCard = ({men}) => {
   return (
-    <div className="shrink-0 relative w-5/6 h-[128px] bg-white rounded-lg shadow-lg items-center">
+    <div className="shrink-0 relative w-5/6 h-[100px] bg-white rounded-lg shadow-lg items-center">
 
       {/* Card Content */}
       <div className="mt-6 ml-10 z-10">
