@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 export async function POST(request) {
     try {
         const body = await request.json();
+        
         const response = await fetch(
             `${process.env.SERVER_URL}/v1/api/auth/search-password/confirm`,
             {
@@ -16,8 +17,9 @@ export async function POST(request) {
         );
 
         if (!response.ok) {
+            const errorData = await response.json();
             return NextResponse.json(
-                { error: "인증번호가 일치하지 않습니다." },
+                { error: errorData.message || "인증번호가 일치하지 않습니다." },
                 { status: response.status }
             );
         }
