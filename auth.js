@@ -124,9 +124,17 @@ export const authConfig = {
         const expires = setCookie[2].split("=")[1];
         const path = setCookie[3].split("=")[1];
 
+        const result = await response.json();
+        const memberId = result.memberId;
+        const memberRole = result.memberRole;
+        const cardStatus = result.cardStatus;
+        const memberName = result.memberName;
+
         const user = {
-          id: accessToken,
-          name: credentials.memberLoginId,
+          id: memberId,
+          name: memberName,
+          role: memberRole,
+          cardStatus: cardStatus,          
           accessToken: accessToken,
           refreshToken: refreshToken,
           accessExpires: new Date().valueOf() + 1800000,
@@ -149,6 +157,10 @@ export const authConfig = {
       if (account && user) {
         return {
           ...token,
+          memberId: user.id,
+          memberName: user.memberName,
+          memberRole: user.role,
+          cardStatus: user.cardStatus,
           accessToken: user.accessToken,
           refreshToken: user.refreshToken,
           accessExpires: user.accessExpires,
