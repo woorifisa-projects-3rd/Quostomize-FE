@@ -26,30 +26,23 @@ export default function FindIdPage() {
       const result = await response.json();
       
       if (!response.ok) {
-          // 백엔드에서 전달하는 에러 메시지 처리
-          if (result.message) {
-              throw new Error(result.message);
-          } else if (result.error) {
-              throw new Error(result.message);
-          } else {
-              throw new Error('아이디를 찾을 수 없습니다.');
-          }
+          throw new Error(result.message || result.error || '아이디를 찾을 수 없습니다.');
       }
 
-      // 성공적으로 데이터를 받았을 때
-      if (result.data?.memberLoginId) {
-          setFoundId(result.data.memberLoginId);
+      // 응답 구조에 맞게 수정
+      if (result.memberLoginId) {
+          setFoundId(result.memberLoginId);
+          setError('');
       } else {
           setError('일치하는 회원 정보가 없습니다.');
       }
-  } catch (error) {
-      // 에러 메시지 표시
-      setError(error.message || '아이디 찾기에 실패했습니다.');
-      console.error('Error:', error);
-  } finally {
-      setIsLoading(false);
-  }
-};
+    } catch (error) {
+        setError(error.message || '아이디 찾기에 실패했습니다.');
+        console.error('Error:', error);
+    } finally {
+        setIsLoading(false);
+    }
+  };
 
   const validatePhoneNumber = (number) => {
     return number.replace(/[^0-9]/g, '').slice(0, 11);
