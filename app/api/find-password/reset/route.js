@@ -4,16 +4,17 @@ import { NextResponse } from "next/server";
 export async function POST(request) {
     try {
         const body = await request.json();
+        const token = request.headers.get('Authorization');
         
         const response = await fetch(
             `${process.env.SERVER_URL}/v1/api/auth/search-password/reset-password`,
             {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': token
                 },
                 body: JSON.stringify({
-                    phone: body.phone,
                     newPassword: body.newPassword
                 })
             }
