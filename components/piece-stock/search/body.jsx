@@ -1,4 +1,4 @@
-import Image from "Next/image"
+import Image from 'next/image'
 import React from 'react'
 
 const SearchBody = ({ searchInfo, setSelectedStocks, selectedStocks }) => {

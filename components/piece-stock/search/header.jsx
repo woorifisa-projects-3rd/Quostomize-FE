@@ -14,12 +14,11 @@ const searchHeader = ({ setValue, value, setSearchInfo, searchInfo, session }) =
         param.append("keyword", value)
         console.log(param)
         try {
-            const response = await fetch(`http://localhost:8080/v1/api/stocks/search?${param}`, {
+            const response = await fetch(`/api/piece-stock/search/searchStock?${param}`, {
                 method: 'GET',
                 credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',  // 요청 본문이 JSON임을 지정
-                    'Authorization': `Bearer ${session.accessToken}`, // JWT 토큰을 Authorization 헤더에 포함
                 },
             });
 
@@ -27,7 +26,7 @@ const searchHeader = ({ setValue, value, setSearchInfo, searchInfo, session }) =
                 throw new Error('값이 조회되지 않았습니다.');
             }
             const data = await response.json(); // 응답을 JSON으로 파싱
-            setSearchInfo(data.data);
+            setSearchInfo(data);
         } catch (error) {
             console.error('데이터 가져오기 오류:', error);
         }

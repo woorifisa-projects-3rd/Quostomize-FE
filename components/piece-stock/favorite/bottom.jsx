@@ -26,7 +26,6 @@ const favoriteBottom = ({ orderInfo, cardId, wishInfo, setWishInfo, session, set
                     'Content-Type': 'application/json',  // 요청 본문이 JSON임을 지정
                 }, body: JSON.stringify( orderInfo ),
             });
-            console.log(orderInfo)
         } catch (error) {
             console.error('데이터 가져오기 오류:', error);
         }
@@ -37,17 +36,16 @@ const favoriteBottom = ({ orderInfo, cardId, wishInfo, setWishInfo, session, set
         try {
             param.append("cardId", cardId)
             param.append("isRecommendByCardBenefit", true)
-            const response = await fetch(`http://localhost:8080/v1/api/stocks/recommendations?${param}`,
+            const response = await fetch(`/api/piece-stock/favorite/searchRecommend?${param}`,
                 {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',  // 요청 본문이 JSON임을 지정
-                        'Authorization': `Bearer ${session.accessToken}`, // JWT 토큰을 Authorization 헤더에 포함
                     }
                 }
             )
             const data = await response.json()
-            setRecommend(data.data)
+            setRecommend(data)
         } catch (error) {
             console.error('데이터 가져오기 오류:', error);
         }
@@ -56,12 +54,10 @@ const favoriteBottom = ({ orderInfo, cardId, wishInfo, setWishInfo, session, set
     // 저장 요청
     const saveStocks = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/v1/api/stocks/recommendations/add?${paramSave}`, {
+            const response = await fetch(`/api/piece-stock/favorite/createWish?${paramSave}`, {
                 method: 'GET',
-                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',  // 요청 본문이 JSON임을 지정
-                    'Authorization': `Bearer ${session.accessToken}`, // JWT 토큰을 Authorization 헤더에 포함
                 },
             });
 

@@ -20,12 +20,11 @@ const SearchBottom = ({ selectedStocks, cardId, session, status }) => {
     const searchWishStocks = async () => {
         param.append("cardId", cardId)
         try {
-            const response = await fetch(`http://localhost:8080/v1/api/stocks/select?${param}`, {
+            const response = await fetch(`/api/piece-stock/search/searchWish?${param}`, {
                 method: 'GET',
                 credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',  // 요청 본문이 JSON임을 지정
-                    'Authorization': `Bearer ${session.accessToken}`, // JWT 토큰을 Authorization 헤더에 포함
                 },
             });
 
@@ -33,7 +32,7 @@ const SearchBottom = ({ selectedStocks, cardId, session, status }) => {
                 throw new Error('값이 조회되지 않았습니다.');
             }
             const data = await response.json(); // 응답을 JSON으로 파싱
-            setWishInfo(data.data);
+            setWishInfo(data);
         } catch (error) {
             console.error('데이터 가져오기 오류:', error);
         }
@@ -42,12 +41,11 @@ const SearchBottom = ({ selectedStocks, cardId, session, status }) => {
     // 저장 요청
     const saveStocks = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/v1/api/stocks/recommendations/add?${param}`, {
+            const response = await fetch(`/api/piece-stock/search/saveStocks?${param}`, {
                 method: 'GET',
                 credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',  // 요청 본문이 JSON임을 지정
-                    'Authorization': `Bearer ${session.accessToken}`, // JWT 토큰을 Authorization 헤더에 포함
                 },
             });
 
