@@ -1,21 +1,21 @@
 'use server';
 import { NextResponse } from "next/server";
 
-export async function POST(request) {
+export async function PATCH(request) {
     try {
         const body = await request.json();
         const token = request.headers.get('Authorization');
         
         const response = await fetch(
-            `${process.env.SERVER_URL}/v1/api/auth/search-password/reset-password`,
+            `${process.env.SERVER_URL}/v1/api/member/update/password`,
             {
-                method: 'POST',
+                method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': token
                 },
                 body: JSON.stringify({
-                    newPassword: body.newPassword
+                    password: body.password
                 })
             }
         );
