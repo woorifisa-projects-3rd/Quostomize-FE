@@ -9,7 +9,12 @@ import { useEffect, useState } from "react";
 
 const ChangeBenefitsPage = () => {
 
-  const [benefitState, setBenefitState] = useState();
+  const [benefitState, setBenefitState] = useState({
+    categoryValues: [1, 1, 1, 1, 1],
+    selectedCategories: [null, null, null, null, null],
+    selectedOptions: [null, null, null, null, null],
+  });
+
   const [error, setError] = useState(null);
   const [cardSequenceId, setCardSequenceId] = useState(null);
   const [buttonText, setButtonText] = useState('');
@@ -123,16 +128,23 @@ const ChangeBenefitsPage = () => {
     const dd = String(date.getDate()).padStart(2, '0');
 
     const formattedDate = `${yyyy}-${mm}-${dd}`;
-    console.log(benefitState);
+    console.log("여기는 제대로 들어옴?", benefitState.categoryValues);
 
+    const filteredCategories = selectedCategories
+      .map((upperCategoryId, index) => ({
+        upperCategoryId,
+        categoryValue: categoryValues[index],
+        selectedOption: selectedOptions[index],
+      }))
+      .filter(item => item.upperCategoryId !== null);
 
-    const requestBody = selectedCategories.map((upperCategoryId, index) => ({
+    const requestBody = filteredCategories.map((item) => ({
       benefitEffectiveDate: formattedDate,
-      benefitRate: categoryValues[index] - 1,
+      benefitRate: item.categoryValue - 1,
       isActive: true,
       cardSequenceId,
-      upperCategoryId: upperCategoryId,
-      lowerCategoryId: selectedOptions[index],
+      upperCategoryId: item.upperCategoryId,
+      lowerCategoryId: item.selectedOption,
       secondaryAuthCode: authCode,
     }));
 
@@ -181,10 +193,17 @@ const ChangeBenefitsPage = () => {
   };
 
   // 사용자 입력에 따라 update
-  const updateCategory = (index, value) => {
+  const updateCategoryValue = (index, value) => {
     setBenefitState((prevState) => ({
       ...prevState,
       categoryValues: prevState.categoryValues.map((v, i) => (i === index ? Math.min(value, 5) : v)),
+    }));
+  };
+
+  const updateCategory = (index, value) => {
+    setBenefitState((prevState) => ({
+      ...prevState,
+      selectedCategories: prevState.selectedCategories.map((v, i) => (i === index ? value : v)),
     }));
   };
 
@@ -203,6 +222,8 @@ const ChangeBenefitsPage = () => {
     });
   }
 
+  const isButtonDisabled = () => benefitState.categoryValues.every(value => value === 1);
+
   useEffect(() => {
     const fetchData = async () => {
       await fetchBenefitData();
@@ -215,6 +236,11 @@ const ChangeBenefitsPage = () => {
       getChangerabledate(cardSequenceId);
     }
   }, [cardSequenceId]);
+
+  useEffect(() => {
+    console.log(benefitState);
+
+  }, [benefitState])
 
   if (error) {
     return <div>문제가 발생했습니다. 다시 시도해 주세요: {error}</div>
@@ -230,13 +256,13 @@ const ChangeBenefitsPage = () => {
       <ChangeBenefitHeader />
 
       <ChangeBenefitBody1 labels={labels} benefitState={benefitState} />
-      <ChangeBenefitBody2 labels={labels} benefitState={benefitState} categoryMap={categoryMap} lowerCategoryMap={lowerCategoryMap} updateCategory={updateCategory} updateOption={updateOption} />
+      <ChangeBenefitBody2 labels={labels} benefitState={benefitState} categoryMap={categoryMap} lowerCategoryMap={lowerCategoryMap} updateCategoryValue={updateCategoryValue} updateCategory={updateCategory} updateOption={updateOption} />
       <ChangeBenefitBody3 labels={labels} benefitState={benefitState} resetContext={resetContext} lowerCategoryMap={lowerCategoryMap} />
 
       <span className="flex justify-center"> 포인트 혜택은 30일 마다 변경이 가능하며 변경 수수료 1,000 원이 익월 청구됩니다.</span>
 
       <ChangeBenefitFoot modalTitle="혜택 변경" exitDirection="/my-card" buttonText={buttonText} onChangeBenefit={handleBenefitChange}
-        onReserveBenefit={handleBenefitReserve} authSuccess={authSuccess} cardSequenceId={cardSequenceId} authTrigger={authTrigger} />
+        onReserveBenefit={handleBenefitReserve} authSuccess={authSuccess} cardSequenceId={cardSequenceId} authTrigger={authTrigger} isButtonDisabled={isButtonDisabled} />
 
     </div>
   );
