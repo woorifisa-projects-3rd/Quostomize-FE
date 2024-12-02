@@ -11,7 +11,7 @@ import IsLooser from "./isLoser";
 const WinningModal = (isWinner) => {
   const [isOpen, setIsOpen] = useState(false);
   const [currentComponent, setCurrentComponent] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(false);
+  // const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {
     if (Cookies.get("winner_checked") == "false") {
@@ -48,7 +48,15 @@ const WinningModal = (isWinner) => {
 
 
   const handleComponentTransition = () => {
-    setCurrentComponent((prev) => (prev + 1) % components.length); // 다음 컴포넌트로 전환
+    setCurrentComponent((prev) => {
+        if (prev === 0) {
+          return prev + 1;
+        } else {
+          setIsOpen(false);
+          return 0;
+        }
+      }
+    )
   };
   
   return (

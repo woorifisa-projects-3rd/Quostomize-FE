@@ -12,6 +12,8 @@ import WinningModal from "../../../components/lotto/winningModal"
 
 import LottoLottie from "../../../public/lotties/lottery.json";
 import StarLottie from "../../../public/lotties/star.json";
+import Image from "next/image";
+import Icons from "../../../public/icons/icons";
 
 const LottoMain = async () => {
     const session = await auth();
@@ -111,12 +113,14 @@ const LottoMain = async () => {
                         isParticipant
                         ?
                             <>
-                                <Lottie animationData={StarLottie} loop={true} />
+                                {/* <Lottie animationData={StarLottie} loop={true} /> */}
+                                <Image width={128} height={128} src={Icons.star} alt="별 아이콘" />
                                 <div>오늘 복권 <span className="color1"> 참여완료!</span></div>
                             </>
                         :
                             <>
-                                <Lottie animationData={LottoLottie} loop={false} />
+                                {/* <Lottie animationData={LottoLottie} loop={false} /> */}
+                                <Image width={128} height={128} src={Icons.ticket} alt="티켓 아이콘" />
                                 <Link href={"my-card"}>
                                     <div className="cursor-hover">오늘 복권 <span className="color1"> 참여하기</span></div>
                                 </Link>
