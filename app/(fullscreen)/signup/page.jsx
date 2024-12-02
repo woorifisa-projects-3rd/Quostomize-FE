@@ -29,20 +29,6 @@ const SignupPage = () => {
     { placeholder: "주민등록번호 뒷자리", value: "", type: "password" }
   ])
 
-  /*
-  ※ 단일 페이지 기법으로 할 것
-  
-  절차
-  1. 회원가입 1번페이지 컴퍼넌트<singupFirst>
-  2. 회원가입 2번페이지<signupSecond>
-  2-1. 휴대폰 문자인증 클릭 시 문자번호인증 페이지 따로 연결<authorizationMessageNumber> 
-  3. 회원가입 완료 <signupComplete>
-
-  + 이때 화면 전환은 true 여부로 이동한다.
-  */
-
-
-
   return (
     <>
       {isPage[0] === true && <SignupFirst setPage={setPage} firstForm={firstForm} setFirstForm={setFirstForm} />}

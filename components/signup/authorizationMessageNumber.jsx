@@ -2,21 +2,19 @@
 
 import React, { useEffect, useRef, useState } from 'react'
 import 'material-icons/iconfont/material-icons.css';
-import { useRouter } from 'next/navigation';
+import { handleInput } from './common/enterValueList';
 
 const AuthorizationMessageNumber = ({ setPage, secondForm, setBlock }) => {
     const inputRefs = [useRef(null), useRef(null), useRef(null), useRef(null), useRef(null), useRef(null)];
-    const [authNumber, setAuthNumber] = useState(["","","","","",""])
+    const [authNumber, setAuthNumber] = useState(Array(6).fill(""));
 
     useEffect(() => {
-        setAuthNumber(["","","","","",""])
-        // 페이지 진입시 첫 번째 입력칸에 포커스
-        inputRefs[0].current?.focus();
-        const authData = {
-            "phone": secondForm?.[3]?.value,
-            "certificationNumber": ""
-        }
-        authorizationByMessage(authData)
+        setAuthNumber(Array(6).fill("")); // 초기화
+        inputRefs[0].current?.focus(); // 첫번째 칸 포커스
+        authorizationByMessage({
+                    phone: secondForm?.[3]?.value,
+                    certificationNumber: "",
+                });
     }, []);
 
     // 메세지 인증번호를 요청한다.
@@ -61,7 +59,6 @@ const AuthorizationMessageNumber = ({ setPage, secondForm, setBlock }) => {
 
     const toCheckPage = () => {
         if(authNumber.every(value => value !== "") ){
-         // 해당 번호를 전송해야한다.
          const sendingData = `${authNumber[0]}${authNumber[1]}${authNumber[2]}${authNumber[3]}${authNumber[4]}${authNumber[5]}`
          const authData = {
              phone: secondForm?.[3]?.value,
@@ -81,27 +78,12 @@ const AuthorizationMessageNumber = ({ setPage, secondForm, setBlock }) => {
         setPage(newData)
     }
 
-    const reRequestMessage = () => {
-        // console.log("문자 재요청")
-        // 문자요청 api 를 실행하는 장소
-    }
-
-    const handleInput = (e, index) => {
-        const value = e.target.value;
-
-        // 숫자만 입력 가능하도록 처리
-        if (!/^\d*$/.test(value)) {
-            e.target.value = '';
-            return;
-        } 
-        const newData = [...authNumber]
-                newData.splice(index,1,value)
-                setAuthNumber(newData)
-
-        if (value.length === 1 && index < 5) {
-            inputRefs[index + 1].current?.focus();
-        }
-    }
+    const reRequestMessage = () => [
+        authorizationByMessage({
+                    phone: secondForm?.[3]?.value,
+                    certificationNumber: "",
+                })
+    ]
 
     return (
         <>
@@ -114,7 +96,7 @@ const AuthorizationMessageNumber = ({ setPage, secondForm, setBlock }) => {
                     <div className='flex'>
                         {inputRefs.map((ref, index) => {
                             return (
-                                <input key={`${ref}*${index}`} ref={ref} className='text-center border w-1/6 p-5 font5 flex justify-center focus:outline-none' type="text" placeholder='0' maxLength={1} onChange={(e) => handleInput(e, index)} />
+                                <input key={`${ref}*${index}`} ref={ref} className='text-center border w-1/6 p-5 font5 flex justify-center focus:outline-none' type="text" placeholder='0' maxLength={1} onChange={(e) => handleInput(e.target.value, index,authNumber, setAuthNumber, inputRefs)} />
                             )
                         })}
                     </div>
