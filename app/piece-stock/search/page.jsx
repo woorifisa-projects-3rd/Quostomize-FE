@@ -7,17 +7,15 @@ import SearchBottom from "../../../components/piece-stock/search/bottom"
 import { useSession } from "next-auth/react";
 
 const SearchPage = () => {
+
   const [value, setValue] = useState(""); // 입력값
   const [searchInfo, setSearchInfo] = useState([]);
   const [selectedStocks, setSelectedStocks] = useState([]);
   const [cardData, setCardData] = useState([]) // 카드데이터-카드아이디뽑기용
-  const { data: session, status } = useSession()
 
   useEffect(() => {
-    if (status === "authenticated") {
-      searchCardInfo();
-    }
-  }, [status]);
+    searchCardInfo()
+  }, []);
 
   const cardId = cardData[0]?.cardSequenceId
 
@@ -44,11 +42,11 @@ const SearchPage = () => {
 
   return (
     <div className="p-4">
-      <SearchHeader setValue={setValue} setSearchInfo={setSearchInfo} searchInfo={searchInfo} value={value} session={session} />
+      <SearchHeader setValue={setValue} setSearchInfo={setSearchInfo} searchInfo={searchInfo} value={value}/>
 
       {cardId !== undefined && <SearchBody searchInfo={searchInfo} setSelectedStocks={setSelectedStocks} selectedStocks={selectedStocks} />}
 
-      {cardId !== undefined && <SearchBottom selectedStocks={selectedStocks} cardId={cardId} session={session} status={status} />}
+      {cardId !== undefined && <SearchBottom selectedStocks={selectedStocks} cardId={cardId}/>}
     </div>
   );
 }

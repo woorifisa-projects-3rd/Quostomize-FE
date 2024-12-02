@@ -1,21 +1,16 @@
 import React, { useEffect } from 'react'
 import RecommendAlertmodal from "../../../components/piece-stock/etc/recommendAlertModal"
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 
-const SearchBottom = ({ selectedStocks, cardId, session, status }) => {
+const SearchBottom = ({ selectedStocks, cardId, setPage}) => {
     const [isAlert, setAlert] = useState(false);
     const [wishInfo, setWishInfo] = useState([]);
 
     const param = new URLSearchParams();
 
-    const router = useRouter()
-
     useEffect(() => {
-        if (status === "authenticated") {
             searchWishStocks()
-        }
-    }, [status])
+    }, [])
 
     const searchWishStocks = async () => {
         param.append("cardId", cardId)
@@ -103,7 +98,7 @@ const SearchBottom = ({ selectedStocks, cardId, session, status }) => {
                     } else {
                         console.log("다음 추천주식 인덱스로")
                     }
-                    router.push("/piece-stock/favorite")
+                    setPage([true,false,false])
                 }
             })
         }
@@ -115,17 +110,17 @@ const SearchBottom = ({ selectedStocks, cardId, session, status }) => {
     return (
         <>
             {selectedStocks.length > 0 && (
-                <div className="mt-4">
+                <div className="fixed left-1/2 top-3/4 -translate-x-1/2 -translate-y-1/2 z-50 outline-none text-white px-10 py-3 rounded-lg flex items-center gap-2">
                     <button
-                        className="w-full bg-blue-500 text-white py-2 rounded-lg"
+                        className="w-full bg-blue-500 text-white px-10 py-5 rounded-lg"
                         onClick={() => check()}
                     >
-                        선택 완료
+                        관심 목록에 추가하기
                     </button>
                 </div>
             )}
             {isAlert && <RecommendAlertmodal
-                title={"3개 이상이 선택되어있어요 삭제하고 선택해주세요."}
+                title={"관심 목록은 최대 3개까지 담을 수 있어요 기존 목록을 수정해 주세요"}
             >
             </RecommendAlertmodal>}
         </>

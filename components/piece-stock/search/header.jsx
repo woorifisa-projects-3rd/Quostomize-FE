@@ -1,14 +1,15 @@
-import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
-const searchHeader = ({ setValue, value, setSearchInfo, searchInfo, session }) => {
-
-    const router = useRouter()
+const searchHeader = ({ setValue, value, setSearchInfo, searchInfo, setPage }) => {
+    const [inSearch, setSearch] = useState(true)
     const param = new URLSearchParams();
 
-    useEffect(() => {
-        console.log(searchInfo)
-    }, [searchInfo])
+    useEffect(()=>{
+        if(inSearch){
+            searchStock()
+            setSearch(false)
+        }
+    },[value])
 
     const searchStock = async () => {
         param.append("keyword", value)
@@ -37,25 +38,28 @@ const searchHeader = ({ setValue, value, setSearchInfo, searchInfo, session }) =
     }
 
     const toFavorite = () => {
-        router.push("/piece-stock/favorite")
+        setPage([true,false,false])
     }
 
     return (
         <>
-            <div className="flex items-center gap-2 mb-4">
-                <span className="material-icons cursor-pointer" onClick={toFavorite}>chevron_left</span>
-                <div className="flex-1 relative">
-                    <input
-                        type="text"
-                        placeholder="Search"
-                        className="w-full p-2 pl-8 rounded-lg border"
-                        onKeyDown={(e) => e.key === "Enter" ? searchData() : null}
-                        onChange={(e) => setValue(e.target.value)}
-                    />
-                    <span className="material-icons absolute left-2 top-1/2 -translate-y-1/2 text-gray-400">
-                        search
-                    </span>
-                </div>
+            <div className='flex justify-between mb-10 mt-5'>
+                <span className="material-icons cursor-pointer" onClick={()=>toFavorite()}>chevron_left</span>
+                <h1 className='font3'>종목검색</h1>
+                <span className="material-icons cursor-pointer" onClick={()=>toFavorite()}>close</span>
+            </div>
+            <div className="flex-1 relative">
+                <input
+                    type="text"
+                    placeholder="관심있는 주식을 검색해보세요"
+                    className="w-full py-5 font3 px-4 bg-gray-100 rounded-xl text-sm focus:outline-none"
+                    value={value}
+                    onKeyDown={(e) => e.key === "Enter" ? searchData() : null}
+                    onChange={(e) => setValue(e.target.value)}
+                />
+                <span className="material-icons absolute right-2 top-1/2 -translate-y-1/2 text-gray-400">
+                    search
+                </span>
             </div>
         </>
     )
