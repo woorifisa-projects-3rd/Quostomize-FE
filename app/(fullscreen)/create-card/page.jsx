@@ -229,6 +229,7 @@ const CreateCardPage = () => {
             <CheckInformationHeader onClick={handlePrevPage} />
           </header>
           {/*CheckInformationHeader - 입력 정보 확인 */}
+
           <CheckInformation
               residenceNumber={applicantInfo.residenceNumber}
               residenceNumber2={applicantInfo.residenceNumber2}
