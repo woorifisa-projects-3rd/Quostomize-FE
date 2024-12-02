@@ -3,13 +3,8 @@
 import React, { useState } from 'react'
 import { BsInfoCircle } from "react-icons/bs"
 
-function SelectCardForm() {
-    const [cardOptions, setCardOptions] = useState({
-        cardBrand: 'VISA',
-        isAppCard: null,
-        isForeignBlocked: false,
-        isPostpaidTransport: false
-    });
+function SelectCardForm({ cardOptions, setCardOptions}) {
+
     const [showEcoAlert, setShowEcoAlert] = useState(false);
 
     const handleAppCardSelect = (isApp) => {
