@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import Icons from '../../public/icons/icons';
 
-const InteractiveTabContentBox = ({ categoryMap, lowerCategoryMap, benefitState, updateOption, updateCategory }) => {
+const InteractiveTabContentBox = ({ categoryMap, lowerCategoryMap, benefitState, updateOption, updateCategory, updateCategoryValue }) => {
     const [activeTab, setActiveTab] = useState(null);
     const [selectedOptionIndex, setSelectedOptionIndex] = useState(Array(5).fill(null));
 
+    const categoryKeys = [1, 2, 3, 4, 5];
     const categories = Object.values(categoryMap);
     const options = [
         [100, 101, 102],
@@ -31,7 +32,8 @@ const InteractiveTabContentBox = ({ categoryMap, lowerCategoryMap, benefitState,
     const handleTabClick = (index) => {
         if (activeTab === index) {
             setActiveTab(null);
-            updateCategory(index, 1);
+            updateCategoryValue(index, 1);
+
             setSelectedOptionIndex((prev) => {
                 const updated = [...prev];
                 updated[index] = null;
@@ -40,14 +42,15 @@ const InteractiveTabContentBox = ({ categoryMap, lowerCategoryMap, benefitState,
             updateOption(index, null);
         } else {
             setActiveTab(index);
-            updateCategory(index, 4);
+            updateCategoryValue(index, 4);
+            updateCategory(index, categoryKeys[index]);
         }
     };
 
     const handleOptionSelect = (optionIndex) => {
         if (activeTab !== null) {
             if (selectedOptionIndex[activeTab] === optionIndex) {
-                updateCategory(activeTab, 4);
+                updateCategoryValue(activeTab, 4);
                 updateOption(activeTab, null);
                 setSelectedOptionIndex((prev) => {
                     const updated = [...prev];
@@ -55,7 +58,7 @@ const InteractiveTabContentBox = ({ categoryMap, lowerCategoryMap, benefitState,
                     return updated;
                 });
             } else {
-                updateCategory(activeTab, 5);
+                updateCategoryValue(activeTab, 5);
                 updateOption(activeTab, options[activeTab][optionIndex]);
                 setSelectedOptionIndex((prev) => {
                     const updated = [...prev];

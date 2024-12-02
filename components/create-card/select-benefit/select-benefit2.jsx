@@ -104,12 +104,20 @@ const SelectBenefit2 = () => {
     }, [benefitState]);
 
 
-    const updateCategory = (index, value) => {
+    const updateCategoryValue = (index, value) => {
         setBenefitState((prevState) => ({
             ...prevState,
             categoryValues: prevState.categoryValues.map((v, i) => (i === index ? Math.min(value, 5) : v)),
         }));
     };
+
+    const updateCategory = (index, value) => {
+        setBenefitState((prevState) => ({
+            ...prevState,
+            selectedCategories: prevState.selectedCategories.map((v, i) => (i === index ? value : v)),
+        }));
+    };
+
 
     const updateOption = (categoryIndex, option) => {
         setBenefitState((prevState) => ({
@@ -134,7 +142,7 @@ const SelectBenefit2 = () => {
                 min={0}
                 borderColor={borderColor}
             />
-            <InteractiveTabContentBox categoryMap={categoryMap} lowerCategoryMap={lowerCategoryMap} benefitState={benefitState} updateCategory={updateCategory} updateOption={updateOption} />
+            <InteractiveTabContentBox categoryMap={categoryMap} lowerCategoryMap={lowerCategoryMap} benefitState={benefitState} updateCategoryValue={updateCategoryValue} updateCategory={updateCategory} updateOption={updateOption} />
             <SelectBenefit3 labels={labels} lowerCategoryMap={lowerCategoryMap} data={benefitState.categoryValues.map(value => value - 1)} benefitState={benefitState} resetContext={resetContext} />
         </div>
     );
