@@ -42,8 +42,8 @@ const InteractiveTabContentBox = ({ categoryMap, lowerCategoryMap, benefitState,
             updateOption(index, null);
         } else {
             setActiveTab(index);
-            updateCategoryValue(index, 4);
             updateCategory(index, categoryKeys[index]);
+            updateCategoryValue(index, 4);
         }
     };
 

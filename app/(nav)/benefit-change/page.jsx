@@ -9,7 +9,12 @@ import { useEffect, useState } from "react";
 
 const ChangeBenefitsPage = () => {
 
-  const [benefitState, setBenefitState] = useState();
+  const [benefitState, setBenefitState] = useState({
+    categoryValues: [1, 1, 1, 1, 1],
+    selectedCategories: [null, null, null, null, null],
+    selectedOptions: [null, null, null, null, null],
+  });
+
   const [error, setError] = useState(null);
   const [cardSequenceId, setCardSequenceId] = useState(null);
   const [buttonText, setButtonText] = useState('');
@@ -123,6 +128,7 @@ const ChangeBenefitsPage = () => {
     const dd = String(date.getDate()).padStart(2, '0');
 
     const formattedDate = `${yyyy}-${mm}-${dd}`;
+    console.log("여기는 제대로 들어옴?", benefitState.categoryValues);
 
     const filteredCategories = selectedCategories
       .map((upperCategoryId, index) => ({
@@ -134,11 +140,11 @@ const ChangeBenefitsPage = () => {
 
     const requestBody = filteredCategories.map((item) => ({
       benefitEffectiveDate: formattedDate,
-      benefitRate: item.categoryValues - 1,
+      benefitRate: item.categoryValue - 1,
       isActive: true,
       cardSequenceId,
       upperCategoryId: item.upperCategoryId,
-      lowerCategoryId: item.selectedOptions,
+      lowerCategoryId: item.selectedOption,
       secondaryAuthCode: authCode,
     }));
 

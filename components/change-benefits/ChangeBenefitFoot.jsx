@@ -14,6 +14,7 @@ const ChangeBenefitFoot = ({ exitDirection, modalTitle, buttonText, onChangeBene
         isRetryAuthModalOpen: false,
     });
     const [isToastOpen, setIsToastOpen] = useState(false);
+    const [isButtonDisabledState, setIsButtonDisabledState] = useState(false);
 
     const handleConfirmAlert = () => {
         setModalState(prevState => ({ ...prevState, isAlertModalOpen: false, isSecondAuthModalOpen: true }));
@@ -108,7 +109,8 @@ const ChangeBenefitFoot = ({ exitDirection, modalTitle, buttonText, onChangeBene
     };
 
     const handleClick = () => {
-        if (isButtonDisabled) {
+        const disabled = isButtonDisabled();
+        if (disabled) {
             setIsToastOpen(true);
             setTimeout(() => {
                 setIsToastOpen(false);
@@ -116,13 +118,17 @@ const ChangeBenefitFoot = ({ exitDirection, modalTitle, buttonText, onChangeBene
         } else {
             handleButtonClick();
         }
-    }
+        setIsButtonDisabledState(disabled);
+    };
+
 
     const getDescription = () => {
         return buttonText === '예약하기'
             ? '혜택 변경을 예약하시겠습니까?'
             : '변경 사항을 저장하시겠습니까?';
     };
+
+
 
     return (
         <div>
