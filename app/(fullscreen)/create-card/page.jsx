@@ -72,8 +72,121 @@ const CreateCardPage = () => {
 
 
 
+  const submitCardApplication = async () => {
+
+    console.log("Hello Bro");
+    try {
+      const lowerCategoryMapping = {
+        "백화점(더현대, 신세계, 롯데백화점)": 100,
+        "온라인쇼핑(쿠팡, G마켓)": 101,
+        "마트(이마트, 홈플러스)": 102,
+        "주유소(SK, GS칼텍스)": 200,
+        "통신(핸드폰 요금)": 201,
+        "대중교통(버스, 지하철)": 202,
+        "편의점(CU, GS25)": 300,
+        "커피(스타벅스, 투썸)": 301,
+        "배달(배달의민족, 요기요)": 302,
+        "투어(여행 패키지)": 400,
+        "차량(렌터카, 차량 대여)": 401,
+        "숙소(호텔, 에어비앤비)": 402,
+        "OTT(넷플릭스, 유튜브 프리미엄)": 500,
+        "영화관(CGV, 롯데시네마)": 501,
+        "도서(교보문고, 예스24)": 502,
+      };
+
+      console.log(lowerCategoryMapping);
+
+      const mapCategoryToId = (categoryIndex, selectedOption) => {
+        // Map upperCategoryIds based on order: 쇼핑 (1), 생활 (2), 푸드 (3), 여행 (4), 문화 (5)
+        const upperCategoryId = categoryIndex + 1;
+
+
+        // 매핑 상태 디버깅
+        // if (!lowerCategoryId && selectedOption) {
+        //   console.error(`Mapping failed for: ${selectedOption}`);
+        // }
+
+        return {
+          upperCategoryId,
+          // lowerCategoryId,
+          benefitRate: Math.min(categoryValues[categoryIndex] - 1, 4), // 할인율 제한 (0-4)
+        };
+      };
+
+
+      const cardApplicationData = {
+        // 카드 기본 정보
+        cardColor: selectedCardIndex,
+        cardBrand: cardOptions.cardBrand,
+        isAppCard: cardOptions.isAppCard,
+        isForeignBlocked: cardOptions.isForeignBlocked,
+        isPostpaidTransport: cardOptions.isPostpaidTransport,
+        cardPassword: formData.cardPassword,
+        cardPasswordConfirm: formData.confirmCardPassword,
+
+        // optionalTerms 값 설정
+        optionalTerms: (() => {
+          const fifth = isAccepted[4]; // 5번째 값
+          const sixth = isAccepted[5]; // 6번째 값
+          if (fifth && sixth) return 3;
+          if (fifth) return 1;
+          if (sixth) return 2;
+          return 0;
+        })(),
+        paymentReceiptMethods: formData.paymentHistoryReceiveMethod,
+
+        // 카드 혜택 정보
+        benefits: selectedOptions.map((option, index) => mapCategoryToId(index, option)),
+
+
+        // 포인트 사용 방법
+        isLotto: activeOptions.includes('일일 복권'),
+        isPayback: activeOptions.includes('페이백'),
+        isPieceStock: activeOptions.includes('조각 투자'),
+
+
+        // 신청자 정보
+        residenceNumber: `${applicantInfo.residenceNumber}${applicantInfo.residenceNumber2}`,
+        applicantName: applicantInfo.name,
+        englishName: applicantInfo.englishName,
+        zipCode: formData.deliveryPostalCode,
+        shippingAddress: formData.deliveryAddress,
+        shippingDetailAddress: formData.detailedDeliveryAddress,
+        applicantEmail: `${formData.emailId}@${formData.emailDomain}`,
+        phoneNumber: formData.phoneNumber,
+        homeAddress: formData.residentialAddress,
+        homeDetailAddress: formData.detailedResidentialAddress
+      };
+
+      console.log("Card Application Data:", cardApplicationData);
+      console.log("selectedOption:", selectedOptions);
+
+      const response = await fetch('/api/create-card', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(cardApplicationData)
+      });
+
+      if (!response.ok) {
+        throw new Error('카드 신청에 실패했습니다');
+      }
+
+      const result = await response.json();
+      // 성공 처리 로직 (예: 성공 페이지로 이동)
+
+    } catch (error) {
+      setShowAlertModal(true);
+    }
+  };
+
+
+
   const TOTAL_PAGES = 8;
   const handleNextPage = () => {
+    if (currentPage === TOTAL_PAGES) return;
+
     if (currentPage === 4 && cardOptions.isAppCard === null) {
       setShowAlertModal(true);
       return;
@@ -242,7 +355,7 @@ const CreateCardPage = () => {
     <div>
       <div style={styles.content}>{renderContent()}</div>
       <CreateCardBottom
-        onClick={currentPage < TOTAL_PAGES ? handleNextPage : null}
+        onClick={currentPage === TOTAL_PAGES ? submitCardApplication : handleNextPage}
         currentPage={currentPage}
         totalPage={TOTAL_PAGES}
       />
