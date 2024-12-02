@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { useBenefitContext } from '../create-card/select-benefit/BenefitContext';
 import Icons from '../../public/icons/icons';
 
-const InteractiveTabContentBox = ({ categoryMap, lowerCategoryMap }) => {
-    const { updateCategory, updateOption, benefitState } = useBenefitContext();
+const InteractiveTabContentBox = ({ categoryMap, lowerCategoryMap, benefitState, updateOption, updateCategory }) => {
     const [activeTab, setActiveTab] = useState(null);
     const [selectedOptionIndex, setSelectedOptionIndex] = useState(Array(5).fill(null));
 
@@ -27,6 +25,8 @@ const InteractiveTabContentBox = ({ categoryMap, lowerCategoryMap }) => {
         [Icons.airplane, Icons.rent, Icons.hotel],
         [Icons.ott, Icons.movie, Icons.books],
     ];
+
+
 
     const handleTabClick = (index) => {
         if (activeTab === index) {

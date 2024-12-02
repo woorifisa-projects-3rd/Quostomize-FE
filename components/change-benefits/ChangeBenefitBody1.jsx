@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from 'react'
 
-import { useBenefitContext } from '../create-card/select-benefit/BenefitContext';
 import InteractiveRadarGraph from '../graph/interactive-radar-graph';
 
 const getRandomColor = () => {
@@ -10,8 +9,7 @@ const getRandomColor = () => {
     return colors[Math.floor(Math.random() * colors.length)];
 };
 
-const ChangeBenefitBody1 = ({ labels }) => {
-    const { benefitState } = useBenefitContext();
+const ChangeBenefitBody1 = ({ labels, benefitState }) => {
     const [borderColor, setBorderColor] = useState(getRandomColor());
 
     useEffect(() => {

@@ -1,8 +1,6 @@
 import React from 'react';
-import { useBenefitContext } from './BenefitContext';
 
-const SelectBenefit3 = ({ labels, data, lowerCategoryMap }) => {
-    const { benefitState, resetContext } = useBenefitContext();
+const SelectBenefit3 = ({ labels, data, lowerCategoryMap, resetContext, benefitState }) => {
 
     return (
         <div className="w-full max-w-2xl p-6 border-2 border-gray-300 rounded-md">
@@ -14,7 +12,6 @@ const SelectBenefit3 = ({ labels, data, lowerCategoryMap }) => {
                     onClick={resetContext}
                     className="px-6 py-2 bg-red-200 text-white rounded-lg hover:bg-red-500"
                 > 선택 초기화 </button>
-
 
             </div>
 

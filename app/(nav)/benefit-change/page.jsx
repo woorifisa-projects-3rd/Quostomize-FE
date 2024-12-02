@@ -5,27 +5,10 @@ import ChangeBenefitBody1 from "../../../components/change-benefits/ChangeBenefi
 import ChangeBenefitBody2 from "../../../components/change-benefits/ChangeBenefitBody2";
 import ChangeBenefitBody3 from "../../../components/change-benefits/ChangeBenefitBody3";
 import ChangeBenefitFoot from "../../../components/change-benefits/ChangeBenefitFoot";
-import { BenefitProvider, useBenefitContext } from "../../../components/create-card/select-benefit/BenefitContext";
 import { useEffect, useState } from "react";
 
 const ChangeBenefitsPage = () => {
-  return (
-    <BenefitProvider>
-      <ChangeBenefitsPageContent />
-    </BenefitProvider>
-  );
-};
 
-const ChangeBenefitsPageContent = () => {
-
-  const [benefitData, setBenefitData] = useState();
-  const [changeableData, setChangeableData] = useState(null);
-  const [error, setError] = useState(null);
-  const [cardSequenceId, setCardSequenceId] = useState(null);
-  const [buttonText, setButtonText] = useState('');
-  const [authSuccess, setAuthSuccess] = useState(null);
-  const { benefitState } = useBenefitContext();
-  const [authCode, setAuthCode] = useState('');
 
   const categoryMap = {
     1: '쇼핑',
@@ -98,14 +81,26 @@ const ChangeBenefitsPageContent = () => {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
+
       const transformedData = transformBenefitData(data.data);
-      setBenefitData(transformedData);
-      console.log('Received benefitData:', data.data);
-      setCardSequenceId(data.data[0].cardSequenceId);
+      setBenefitState(transformedData);
+
+      const updatedState = {
+        categoryValues: transformedData.map(item => item.benefitRate),
+        selectedCategories: transformedData.map(item => item.upperCategoryId),
+        selectedOptions: transformedData.map(item => item.lowerCategoryId),
+      };
+      setBenefitState(updatedState);
+
+      console.log('Updated benefitState:', updatedState);
+      setCardSequenceId(data.data[0].cardSequenceId); // 기존 cardSequenceId 설정 유지
     } catch (error) {
       setError(error.message);
     }
   };
+
+
+
 
   const transformBenefitData = (data) => {
     return data.map(item => ({
@@ -114,7 +109,16 @@ const ChangeBenefitsPageContent = () => {
     }));
   };
 
-  
+
+  const [benefitState, setBenefitState] = useState();
+  const [changeableData, setChangeableData] = useState(null);
+  const [error, setError] = useState(null);
+  const [cardSequenceId, setCardSequenceId] = useState(null);
+  const [buttonText, setButtonText] = useState('');
+  const [authSuccess, setAuthSuccess] = useState(null);
+  const [authCode, setAuthCode] = useState('');
+
+
   // useEffect(() => {
   //   console.log("benefitStateupdated");
   //   console.log(benefitState);
@@ -230,6 +234,20 @@ const ChangeBenefitsPageContent = () => {
   //   setAuthCode(authCode);
   // };
 
+  const updateCategory = (index, value) => {
+    setBenefitState((prevState) => ({
+        ...prevState,
+        categoryValues: prevState.categoryValues.map((v, i) => (i === index ? Math.min(value, 5) : v)),
+    }));
+};
+
+const updateOption = (categoryIndex, option) => {
+    setBenefitState((prevState) => ({
+        ...prevState,
+        selectedOptions: prevState.selectedOptions.map((v, i) => (i === categoryIndex ? option : v)),
+    }));
+};
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -248,7 +266,7 @@ const ChangeBenefitsPageContent = () => {
   //   return <div>문제가 발생했습니다. 다시 시도해 주세요: {error}</div>
   // }
 
-  if (!benefitData) {
+  if (!benefitState) {
     return <div>로딩 중...</div>;
   }
 
@@ -257,17 +275,15 @@ const ChangeBenefitsPageContent = () => {
 
       <ChangeBenefitHeader />
 
-      <BenefitProvider benefitData={benefitData}>
-        <ChangeBenefitBody1 labels={labels} />
-        <ChangeBenefitBody2 labels={labels} categoryMap={categoryMap} lowerCategoryMap={lowerCategoryMap} />
-        <ChangeBenefitBody3 labels={labels} lowerCategoryMap={lowerCategoryMap} />
-      </BenefitProvider>
+      <ChangeBenefitBody1 labels={labels} benefitState={benefitState} />
+      <ChangeBenefitBody2 labels={labels} benefitState={benefitState} categoryMap={categoryMap} lowerCategoryMap={lowerCategoryMap} updateCategory={updateCategory} updateOption={updateOption} />
+      <ChangeBenefitBody3 labels={labels} benefitState={benefitState} lowerCategoryMap={lowerCategoryMap} />
 
       <span className="flex justify-center"> 포인트 혜택은 30일 마다 변경이 가능하며 변경 수수료 1,000 원이 익월 청구됩니다.</span>
 
 
       <ChangeBenefitFoot modalTitle="혜택 변경" exitDirection="/my-card" buttonText={buttonText} onChangeBenefit={handleBenefitChange}
-        onReserveBenefit={handleBenefitReserve} authSuccess={authSuccess} cardSequenceId={cardSequenceId} />
+        onReserveBenefit={handleBenefitReserve} authSuccess={authSuccess} cardSequenceId={cardSequenceId} authCode={authCode} />
 
     </div>
   );
