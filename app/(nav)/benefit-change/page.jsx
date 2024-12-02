@@ -9,6 +9,13 @@ import { useEffect, useState } from "react";
 
 const ChangeBenefitsPage = () => {
 
+  const [benefitState, setBenefitState] = useState();
+  const [error, setError] = useState(null);
+  const [cardSequenceId, setCardSequenceId] = useState(null);
+  const [buttonText, setButtonText] = useState('');
+  const [authSuccess, setAuthSuccess] = useState(null);
+  const [authTrigger, setAuthTrigger] = useState(0);
+
 
   const categoryMap = {
     1: '쇼핑',
@@ -38,6 +45,7 @@ const ChangeBenefitsPage = () => {
 
   const labels = Object.values(categoryMap);
 
+  // 예약 or 변경
   const getChangerabledate = async (cardSequenceId) => {
     try {
       const response = await fetch(`/api/benefit-change/changerable?cardSequenceId=${cardSequenceId}`,
@@ -55,8 +63,6 @@ const ChangeBenefitsPage = () => {
 
       const responsedata = await response.json();
 
-      setChangeableData(responsedata.data);
-
       if (responsedata.data && responsedata.data) {
 
         setButtonText(responsedata.data);
@@ -67,6 +73,7 @@ const ChangeBenefitsPage = () => {
     }
   };
 
+  // 기존 정보 get
   const fetchBenefitData = async () => {
     try {
       const response = await fetch('/api/benefit-change', {
@@ -83,7 +90,6 @@ const ChangeBenefitsPage = () => {
       const data = await response.json();
 
       const transformedData = transformBenefitData(data.data);
-      setBenefitState(transformedData);
 
       const updatedState = {
         categoryValues: transformedData.map(item => item.benefitRate),
@@ -93,15 +99,13 @@ const ChangeBenefitsPage = () => {
       setBenefitState(updatedState);
 
       console.log('Updated benefitState:', updatedState);
-      setCardSequenceId(data.data[0].cardSequenceId); // 기존 cardSequenceId 설정 유지
+      setCardSequenceId(data.data[0].cardSequenceId);
     } catch (error) {
       setError(error.message);
     }
   };
 
-
-
-
+  // fetch 할 때 data 변환
   const transformBenefitData = (data) => {
     return data.map(item => ({
       ...item,
@@ -109,145 +113,94 @@ const ChangeBenefitsPage = () => {
     }));
   };
 
-
-  const [benefitState, setBenefitState] = useState();
-  const [changeableData, setChangeableData] = useState(null);
-  const [error, setError] = useState(null);
-  const [cardSequenceId, setCardSequenceId] = useState(null);
-  const [buttonText, setButtonText] = useState('');
-  const [authSuccess, setAuthSuccess] = useState(null);
-  const [authCode, setAuthCode] = useState('');
-
-
-  // useEffect(() => {
-  //   console.log("benefitStateupdated");
-  //   console.log(benefitState);
-  // }, [benefitState]);
-
-
-  // 사용자가 데이터를 변경한게 반영이 안됨--> 되게 하셈
-  const handleBenefitChange = async (cardSequenceId, authCode) => {
-
+  // patch 할때 공통적으로 쓰이는 부분
+  const updateBenefit = async (url, cardSequenceId, authCode) => {
     const { categoryValues, selectedCategories, selectedOptions } = benefitState;
-    console.log("post에서의 ", benefitState);
 
-    const benefitEffectiveDate = new Date().toString();
+    const date = new Date();
+    const yyyy = date.getFullYear();
+    const mm = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
+    const dd = String(date.getDate()).padStart(2, '0');
 
-    const requestBody = {
-      benefitEffectiveDate,
-      benefitRate: categoryValues,
+    const formattedDate = `${yyyy}-${mm}-${dd}`;
+
+
+    const requestBody = selectedCategories.map((upperCategoryId, index) => ({
+      benefitEffectiveDate: formattedDate,
+      benefitRate: categoryValues[index],
       isActive: true,
-      cardSequenceId: cardSequenceId,
-      upperCategoryId: selectedCategories,
-      lowerCategoryId: selectedOptions,
+      cardSequenceId,
+      upperCategoryId,
+      lowerCategoryId: selectedOptions[index],
       secondaryAuthCode: authCode,
-    };
-    console.log(authCode);
+    }));
 
-    console.log('Request body being sent:', requestBody);
+    console.log("Request Body:", JSON.stringify(requestBody));
 
     try {
-      const response = await fetch(`/api/benefit-change/change`,
-        {
-          method: "PATCH",
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          credentials: 'include',
-          body: JSON.stringify(requestBody)
-        });
-
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || '서버 오류 발생');
-      }
-
-      const result = await response.json();
-      console.log(result);
-
-      if (result.authSuccess === false) {
-        setAuthSuccess(false);
-      } else {
-        setAuthSuccess(true);
-      }
-
-    } catch (error) {
-      console.error('Error updating stock status: ', error);
-      setError(error.message);
-    }
-  };
-
-  const handleBenefitReserve = async (cardSequenceId, authCode) => {
-    const { categoryValues, selectedCategories, selectedOptions } = benefitState;
-    const benefitEffectiveDate = new Date().toString();
-    console.log("post에서의 ", benefitState);
-
-    const requestBody = {
-      benefitEffectiveDate,
-      benefitRate: categoryValues,
-      isActive: true,
-      cardSequenceId: cardSequenceId,
-      upperCategoryId: selectedCategories,
-      lowerCategoryId: selectedOptions,
-      secondaryAuthCode: authCode,
-    };
-    console.log(authCode);
-
-    console.log('Request body being sent:', requestBody);
-
-    try {
-      const response = await fetch(`/api/benefit-change/reserve`,
-        {
-          method: "PATCH",
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          credentials: 'include',
-          body: JSON.stringify(requestBody)
-        });
-      console.log("여기 문제야?");
-
+      const response = await fetch(url, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        cache: "no-store",
+        body: JSON.stringify(requestBody),
+      });
+      console.log("Request Body:", JSON.stringify(requestBody));
       console.log(response);
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || '서버 오류 발생');
+        const errorText = await response.text();
+        console.error("Error response:", errorText);
+        throw new Error(errorText);
+
       }
 
-      const result = await response.json();
+      const responseText = await response.text();
+      if (!responseText) {
+        throw new Error("Empty response body");
+      }
 
+      const result = JSON.parse(responseText);
+      console.log(result);
 
-      if (result.authSuccess === false) {
-        setAuthSuccess(false);
-      } else {
-        setAuthSuccess(true);
-      };
+      setAuthSuccess(result.status === 400 ? "400" : "200");
 
+      setAuthTrigger(prev => prev + 1);
     } catch (error) {
-      console.error('Error updating stock status: ', error);
       setError(error.message);
     }
   };
 
-  // const handleAuthCodeUpdate = (authCode) => {
-  //   setAuthCode(authCode);
-  // };
+  const handleBenefitChange = (cardSequenceId, authCode) => {
+    updateBenefit(`/api/benefit-change/change`, cardSequenceId, authCode);
+  };
 
+  const handleBenefitReserve = (cardSequenceId, authCode) => {
+    updateBenefit(`/api/benefit-change/reserve`, cardSequenceId, authCode);
+  };
+
+  // 사용자 입력에 따라 update
   const updateCategory = (index, value) => {
     setBenefitState((prevState) => ({
-        ...prevState,
-        categoryValues: prevState.categoryValues.map((v, i) => (i === index ? Math.min(value, 5) : v)),
+      ...prevState,
+      categoryValues: prevState.categoryValues.map((v, i) => (i === index ? Math.min(value, 5) : v)),
     }));
-};
+  };
 
-const updateOption = (categoryIndex, option) => {
+  const updateOption = (categoryIndex, option) => {
     setBenefitState((prevState) => ({
-        ...prevState,
-        selectedOptions: prevState.selectedOptions.map((v, i) => (i === categoryIndex ? option : v)),
+      ...prevState,
+      selectedOptions: prevState.selectedOptions.map((v, i) => (i === categoryIndex ? option : v)),
     }));
-};
+  };
 
+  const resetContext = () => {
+    setBenefitState({
+      categoryValues: [1, 1, 1, 1, 1],
+      selectedCategories: [null, null, null, null, null],
+      selectedOptions: [null, null, null, null, null],
+    });
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -262,9 +215,11 @@ const updateOption = (categoryIndex, option) => {
     }
   }, [cardSequenceId]);
 
-  // if (error) {
-  //   return <div>문제가 발생했습니다. 다시 시도해 주세요: {error}</div>
-  // }
+
+
+  if (error) {
+    return <div>문제가 발생했습니다. 다시 시도해 주세요: {error}</div>
+  }
 
   if (!benefitState) {
     return <div>로딩 중...</div>;
@@ -277,13 +232,13 @@ const updateOption = (categoryIndex, option) => {
 
       <ChangeBenefitBody1 labels={labels} benefitState={benefitState} />
       <ChangeBenefitBody2 labels={labels} benefitState={benefitState} categoryMap={categoryMap} lowerCategoryMap={lowerCategoryMap} updateCategory={updateCategory} updateOption={updateOption} />
-      <ChangeBenefitBody3 labels={labels} benefitState={benefitState} lowerCategoryMap={lowerCategoryMap} />
+      <ChangeBenefitBody3 labels={labels} benefitState={benefitState} resetContext={resetContext} lowerCategoryMap={lowerCategoryMap} />
 
       <span className="flex justify-center"> 포인트 혜택은 30일 마다 변경이 가능하며 변경 수수료 1,000 원이 익월 청구됩니다.</span>
 
 
       <ChangeBenefitFoot modalTitle="혜택 변경" exitDirection="/my-card" buttonText={buttonText} onChangeBenefit={handleBenefitChange}
-        onReserveBenefit={handleBenefitReserve} authSuccess={authSuccess} cardSequenceId={cardSequenceId} authCode={authCode} />
+        onReserveBenefit={handleBenefitReserve} authSuccess={authSuccess} cardSequenceId={cardSequenceId} authTrigger={authTrigger} />
 
     </div>
   );

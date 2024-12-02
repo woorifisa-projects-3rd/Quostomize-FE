@@ -4,30 +4,24 @@ import { auth } from '../../../../auth'
 export async function PATCH(request) {
     const session = await auth();
     const accessToken = session.accessToken;
-    console.log(request);
-
 
     try {
         const body = await request.json();
-        console.log(body);
-
-        const { cardSequenceId, benefitRate, lowerCategoryId, upperCategoryId, secondaryAuthCode } = body;
 
         if (!session || !session.accessToken) {
             return NextResponse.redirect(new URL("/login", `${process.env.NEXT_URL}`));
         }
 
-        if (!cardSequenceId || !benefitRate || lowerCategoryId === undefined || upperCategoryId === undefined) {
-            return NextResponse.json({
-                message: "필수 필드가 누락되었습니다.",
-                status: 400
-            });
-        }
-        if (!secondaryAuthCode) {
-            return NextResponse.json({
-                message: "2차 인증 코드가 누락되었습니다.",
-                status: 400,
-            });
+        for (let item of body) {
+            const cardSequenceId = item.cardSequenceId;
+            const benefitRate = item.benefitRate;
+            const secondaryAuthCode = item.secondaryAuthCode;
+            if (!cardSequenceId || !benefitRate) {
+                return NextResponse.json({
+                    message: "필수 필드가 누락되었습니다.",
+                    status: 400
+                });
+            }
         }
 
         const backendResponse = await fetch(
@@ -35,24 +29,21 @@ export async function PATCH(request) {
             {
                 method: "PATCH",
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": 'application/json',
                     "Authorization": `Bearer ${accessToken}`
                 },
                 body: JSON.stringify(body),
+                cache: "no-store",
                 credentials: "include",
             });
 
-        console.log(backendResponse);
-
-
-        if (!backendResponse.status === 204) {
+        if (backendResponse.status !== 204) {
             const errorData = await backendResponse.json();
-            console.log(errorData);
-
             return NextResponse.json(
-                { message: errorData.message || '서버 오류 발생', status: backendResponse.status }
+                { message: errorData.message, status: backendResponse.status }
             );
         }
+
         return new Response(null, {
             status: 204,
         });

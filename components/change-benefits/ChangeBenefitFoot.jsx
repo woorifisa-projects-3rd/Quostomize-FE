@@ -5,7 +5,7 @@ import SecondAuthModal from '../overlay/SecondAuthModal';
 import AlertModal from '../overlay/alertModal';
 
 
-const ChangeBenefitFoot = ({ exitDirection, modalTitle, buttonText, onChangeBenefit, onReserveBenefit, authSuccess, cardSequenceId }) => {
+const ChangeBenefitFoot = ({ exitDirection, modalTitle, buttonText, onChangeBenefit, onReserveBenefit, authSuccess, cardSequenceId, authTrigger }) => {
     const [modalState, setModalState] = useState({
         isAlertModalOpen: false,
         isSecondAuthModalOpen: false,
@@ -34,15 +34,13 @@ const ChangeBenefitFoot = ({ exitDirection, modalTitle, buttonText, onChangeBene
 
     // authSuccess가 동일한 결과를 반환할 때 안됨 ->> 되게 만드셈
     useEffect(() => {
-        console.log(authSuccess);
         if (authSuccess === null) return;
-
         setModalState(prevState => ({
             ...prevState,
-            isSuccessModalOpen: authSuccess,
-            isRetryAuthModalOpen: !authSuccess,
+            isSuccessModalOpen: authSuccess !== "400",
+            isRetryAuthModalOpen: authSuccess === "400",
         }));
-    }, []);
+    }, [authTrigger]);
 
     const handleAuthCompleteAndChange = (authCode) => {
         if (cardSequenceId && authCode) {
@@ -52,12 +50,20 @@ const ChangeBenefitFoot = ({ exitDirection, modalTitle, buttonText, onChangeBene
             } else {
                 onChangeBenefit(cardSequenceId, authCode);
             }
+            setModalState(prevState => {
+                return {
+                    ...prevState,
+                    isSuccessModalOpen: true
+                }
+            }
+            )
+            setTimeout(() => {
+                setModalState(prevState => ({
+                    ...prevState,
+                    isSecondAuthModalOpen: false,
+                }));
+            }, 500);
 
-            setModalState(prevState => ({
-                ...prevState,
-                isSecondAuthModalOpen: false,
-                isSuccessModalOpen: true,
-            }));
         } else {
 
             setModalState(prevState => ({
@@ -65,6 +71,7 @@ const ChangeBenefitFoot = ({ exitDirection, modalTitle, buttonText, onChangeBene
                 isRetryAuthModalOpen: true,
                 isSecondAuthModalOpen: false,
             }));
+
         }
     };
 

@@ -7,24 +7,23 @@ export async function PATCH(request) {
 
     try {
         const body = await request.json();
-        const { cardSequenceId, benefitRate, lowerCategoryId, upperCategoryId, secondaryAuthCode } = body;
 
         if (!session || !session.accessToken) {
             return NextResponse.redirect(new URL("/login", `${process.env.NEXT_URL}`));
         }
 
-        if (!cardSequenceId || !benefitRate || lowerCategoryId === undefined || upperCategoryId === undefined) {
-            return NextResponse.json({
-                message: "필수 필드가 누락되었습니다.",
-                status: 400
-            });
-        }
 
-        if (!secondaryAuthCode) {
-            return NextResponse.json({
-                message: "2차 인증 코드가 누락되었습니다.",
-                status: 400,
-            });
+        for (let item of body) {
+            const cardSequenceId = item.cardSequenceId;
+            const benefitRate = item.benefitRate;
+            const secondaryAuthCode = item.secondaryAuthCode;
+
+            if (!cardSequenceId || !benefitRate) {
+                return NextResponse.json({
+                    message: "필수 필드가 누락되었습니다.",
+                    status: 400
+                });
+            }
         }
 
         const backendResponse = await fetch(
@@ -36,6 +35,7 @@ export async function PATCH(request) {
                     "Authorization": `Bearer ${accessToken}`
                 },
                 body: JSON.stringify(body),
+                cache: "no-store",
                 credentials: "include",
             });
 

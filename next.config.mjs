@@ -10,6 +10,7 @@ const nextConfig = {
                 pathname: "/image/*",
             },
         ],
+        domains: ["raw.githubusercontent.com"]
     },
 
     reactStrictMode: false,
