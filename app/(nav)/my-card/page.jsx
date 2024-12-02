@@ -6,6 +6,9 @@ import MyCardHeader from '../../../components/my-card/myCardHeader'
 import MyToggle from '../../../components/button/toggleButton'
 import MyFullButton from "../../../components/button/full-button";
 import Icons from "../../../public/icons/icons"
+import GradientText from "../../../components/card/gradientText";
+import ColorInfo from "../../../components/card/colorInfo";
+import PointUsageBox from "../../../components/box/pointUsageBox";
 
 const MyCardPage = () => {
   const [cardData, setCardData] = useState(null);
@@ -149,7 +152,6 @@ const MyCardPage = () => {
     return <div>로딩 중</div>;
   }
 
-  // 중복 제거 처리
   const uniqueBy = (array, key) => {
     const seen = new Set();
     return array.filter(item => {
@@ -159,40 +161,6 @@ const MyCardPage = () => {
       return true;
     })
   }
-
-  const colorInfo = [
-    {
-      gradient: 'animate-gradient-purple',
-      style: {
-        backgroundImage: 'linear-gradient(-45deg, #a855f7, #6366f1, #a855f7, #6366f1)',
-      }
-    },
-    {
-      gradient: 'animate-gradient-black',
-      style: {
-        backgroundImage: 'linear-gradient(-45deg, #5555f7, #536d94, #445063, #000000)',
-      }
-    },
-    {
-      gradient: 'animate-gradient-red',
-      style: {
-        backgroundImage: 'linear-gradient(-45deg, #f7555d, #f17f63, #f75855, #ff0000)',
-      }
-    },
-    {
-      gradient: 'animate-gradient-green',
-      style: {
-        backgroundImage: 'linear-gradient(-45deg, #22c55e, #15803d, #22c55e, #15803d)',
-      }
-    },
-    {
-      gradient: 'animate-gradient-milk',
-      style: {
-        backgroundImage: 'linear-gradient(-45deg, #c0c0c0, #99bbff, #d4d4d4, #99bbff)',
-      }
-    }
-  ];
-
   const filteredCardColor = uniqueBy(cardData.filter(card => card.cardColor), "cardColor");
   const cardColor = filteredCardColor.length > 0 ? filteredCardColor[0].cardColor : null;
 
@@ -228,24 +196,12 @@ const MyCardPage = () => {
             )}
           </div>
 
-          <div className="flex gap-4 -mt-8 justify-around">
-            <p className="font3 font-bold mb-6">현재 적용된 혜택률
-              <span
-                className={`text-transparent bg-clip-text animate-gradient-text bg-[length:400%_400%]`}
-                style={colorInfo[currentColorIndex].style}
-              > {totalBenefitRate}</span>%</p>
-
-            <style jsx global>{`
-                @keyframes gradient-text {
-                    0% {background-position: 0% 50%;}
-                    50% {background-position: 100% 50%;}
-                    100% {background-position: 0% 50%;}
-                }
-                .animate-gradient-text {
-                    animation: gradient-text 3s ease infinite;
-                }
-            `}
-            </style>
+          <div className="flex gap-4 -mt-16 justify-around">
+            <p className="font3 font-bold mb-6">현재 적용된 혜택률{' '}
+              <span className="font6">
+                <GradientText text={totalBenefitRate}
+                style={ColorInfo[currentColorIndex].style}/>
+                </span>%</p>
           </div>
           <div>
             {filteredUpperCategories.length > 0 ? (
@@ -263,7 +219,7 @@ const MyCardPage = () => {
 
         </div>
         <div className="mb-20 flex">
-          <MyFullButton href={"/change-beenfit"} children={"혜택 새로 고르기"} />
+          <MyFullButton href={"/benefit-change"} children={"혜택 새로 고르기"} />
 
         </div>
 
@@ -273,64 +229,52 @@ const MyCardPage = () => {
           <p className="text-center mb-14"> 포인트 사용처를 자유롭게 켜고 끌 수 있어요</p>
           <div className="flex gap-10">
             {lottoBox && (
-              <div
-                  className={`rounded-lg shadow-lg ${lottoBox.isLotto ? "bg-blue-100" : "bg-white"}
-                  ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
-              >
-                <div className="space-y-4 p-4 m-2 w-24 h-42 flex flex-col items-center justify-center">
-                  <div className="font-bold">일일복권</div>
-                  <div><img src={Icons.lotto} alt="일일복권 아이콘" /></div>
-                  <MyToggle isEnabled={lottoBox.isLotto}
-                            onToggle={() => handleLottoToggle(
-                                lottoBox.cardSequenceId,
-                                lottoBox.pointUsageTypeId,
-                                lottoBox.isLotto
-                            )}
-                            disabled={isLoading}
-                  />
-                </div>
-              </div>
+                <PointUsageBox
+                    title={"일일복권"}
+                    icon={Icons.lotto}
+                    isEnabled={lottoBox.isLotto}
+                    onToggle={() =>
+                      handleLottoToggle(
+                          lottoBox.cardSequenceId,
+                          lottoBox.pointUsageTypeId,
+                          lottoBox.isLotto
+                      )
+                }
+                    isLoading={isLoading}
+                    backgroundClass={lottoBox.isLotto ? "bg-blue-100" : "bg-white"}
+                />
             )}
 
             {stockBox && (
-                <div
-                    className={`rounded-lg shadow-lg ${stockBox.isPieceStock ? "bg-blue-100" : "bg-white"}
-                  ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
-                >
-                  <div className="space-y-4 p-4 m-2 w-24 h-42 flex flex-col items-center justify-center">
-                    <div className="font-bold">조각투자</div>
-                    <div><img src={Icons.stockpiece} alt="조각투자 아이콘" /></div>
-                    <MyToggle isEnabled={stockBox.isPieceStock}
-                              onToggle={() => handleStockToggle(
-                                  stockBox.cardSequenceId,
-                                  stockBox.pointUsageTypeId,
-                                  stockBox.isPieceStock
-                              )}
-                              disabled={isLoading}
-                    />
-                  </div>
-                </div>
+                <PointUsageBox
+                  title={"조각투자"}
+                  icon={Icons.stockpiece}
+                  isEnabled={stockBox.isPieceStock}
+                  onToggle={() =>
+                      handleStockToggle(
+                          stockBox.cardSequenceId,
+                          stockBox.pointUsageTypeId,
+                          stockBox.isPieceStock
+                      )
+                }
+                  isLoading={isLoading}
+                  backgroundClass={stockBox.isPieceStock ? "bg-blue-100" : "bg-white"}
+                />
             )}
 
             {paybackBox && (
-              <div
-                className={`rounded-lg shadow-lg ${paybackBox.isPayback ? "bg-blue-100" : "bg-white"}
-                ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
-              >
-                <div className="space-y-4 p-4 m-2 w-24 h-42 flex flex-col items-center justify-center">
-                  <div className="font-bold">페이백</div>
-                  <div><img src={Icons.payback} alt="페이백 아이콘" /></div>
-                  <MyToggle
-                      isEnabled={paybackBox.isPayback}
-                      onToggle={() => handlePaybackToggle(
-                          paybackBox.cardSequenceId,
-                          paybackBox.pointUsageTypeId,
-                          paybackBox.isPayback
-                      )}
-                      disabled={isLoading}
-                  />
-                </div>
-              </div>
+                <PointUsageBox
+                  title={"페이백"}
+                  icon={Icons.payback}
+                  isEnabled={paybackBox.isPayback}
+                  onToggle={() => handlePaybackToggle(
+                      paybackBox.cardSequenceId,
+                      paybackBox.pointUsageTypeId,
+                      paybackBox.isPayback
+                )}
+                  isLoading={isLoading}
+                  backgroundClass={paybackBox.isPayback ? "bg-blue-100" : "bg-white"}
+                />
             )}
           </div>
         </div>

@@ -1,6 +1,5 @@
 'use client'
 
-import { useBenefitContext } from './BenefitContext';
 import { useState, useEffect } from 'react';
 import InteractiveRadarGraph from '../../graph/interactive-radar-graph';
 import SelectBenefit3 from './select-benefit3';
@@ -12,7 +11,19 @@ const getRandomColor = () => {
 };
 
 const SelectBenefit2 = () => {
-    const { categoryValues } = useBenefitContext();
+    const initialState = {
+        categoryValues: [1, 1, 1, 1, 1],
+        selectedCategories: [null, null, null, null, null],
+        selectedOptions: [null, null, null, null, null],
+    };
+
+    const [benefitState, setBenefitState] = useState(initialState);
+
+    const resetContext = () => {
+        setBenefitState(initialState);
+    };
+
+
     const [borderColor, setBorderColor] = useState(getRandomColor());
 
     const categoryMap = {
@@ -47,6 +58,67 @@ const SelectBenefit2 = () => {
         setBorderColor(getRandomColor());
     }, []);
 
+    const processBenefitState = () => {
+        const updatedCategoryValues = [...benefitState.categoryValues];
+        const updatedCategories = [...benefitState.selectedCategories];
+        const updatedSelectedOptions = [...benefitState.selectedOptions];
+
+        let isUpdated = false;
+
+        Object.values(benefitState).forEach((item) => {
+            if (!item || !item.upperCategoryId) return;
+
+            const categoryIndex = item.upperCategoryId - 1;
+            if (categoryIndex >= 0 && categoryIndex < updatedCategoryValues.length) {
+                updatedCategoryValues[categoryIndex] = 4;
+                updatedCategories[categoryIndex] = item.upperCategoryId;
+                isUpdated = true;
+
+                if (item.lowerCategoryId) {
+                    updatedCategoryValues[categoryIndex] = 5;
+                    updatedSelectedOptions[categoryIndex] = item.lowerCategoryId;
+                    isUpdated = true;
+                }
+            }
+        });
+
+        if (isUpdated) {
+            setBenefitState((prev) => ({
+                ...prev,
+                categoryValues: updatedCategoryValues,
+                selectedCategories: updatedCategories,
+                selectedOptions: updatedSelectedOptions,
+            }));
+        }
+
+        console.log("Updated values before state update:", {
+            updatedCategoryValues,
+            updatedCategories,
+            updatedSelectedOptions,
+        });
+
+    };
+
+    useEffect(() => {
+        processBenefitState();
+    }, [benefitState]);
+
+
+    const updateCategory = (index, value) => {
+        setBenefitState((prevState) => ({
+            ...prevState,
+            categoryValues: prevState.categoryValues.map((v, i) => (i === index ? Math.min(value, 5) : v)),
+        }));
+    };
+
+    const updateOption = (categoryIndex, option) => {
+        setBenefitState((prevState) => ({
+            ...prevState,
+            selectedOptions: prevState.selectedOptions.map((v, i) => (i === categoryIndex ? option : v)),
+        }));
+    };
+
+
     return (
         <div className='flex flex-col items-center space-y-8'>
             <InteractiveRadarGraph
@@ -54,7 +126,7 @@ const SelectBenefit2 = () => {
                 datasets={[
                     {
                         label: 'My Dataset',
-                        data: categoryValues,
+                        data: benefitState.categoryValues,
                         backgroundColor: 'rgba(255, 99, 132, 0.2)',
                     },
                 ]}
@@ -62,8 +134,8 @@ const SelectBenefit2 = () => {
                 min={0}
                 borderColor={borderColor}
             />
-            <InteractiveTabContentBox categoryMap={categoryMap} lowerCategoryMap={lowerCategoryMap} />
-            <SelectBenefit3 labels={labels} lowerCategoryMap={lowerCategoryMap} data={categoryValues.map(value => value - 1)} />
+            <InteractiveTabContentBox categoryMap={categoryMap} lowerCategoryMap={lowerCategoryMap} benefitState={benefitState} updateCategory={updateCategory} updateOption={updateOption} />
+            <SelectBenefit3 labels={labels} lowerCategoryMap={lowerCategoryMap} data={benefitState.categoryValues.map(value => value - 1)} benefitState={benefitState} resetContext={resetContext} />
         </div>
     );
 };
