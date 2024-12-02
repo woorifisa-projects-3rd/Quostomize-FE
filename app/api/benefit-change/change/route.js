@@ -16,7 +16,7 @@ export async function PATCH(request) {
             const cardSequenceId = item.cardSequenceId;
             const benefitRate = item.benefitRate;
             const secondaryAuthCode = item.secondaryAuthCode;
-            if (!cardSequenceId || !benefitRate) {
+            if (!cardSequenceId || benefitRate === null) {
                 return NextResponse.json({
                     message: "필수 필드가 누락되었습니다.",
                     status: 400

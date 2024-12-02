@@ -105,7 +105,7 @@ const ChangeBenefitsPage = () => {
     }
   };
 
-  // fetch 할 때 data 변환
+  // get 할 때 data 변환
   const transformBenefitData = (data) => {
     return data.map(item => ({
       ...item,
@@ -119,23 +119,25 @@ const ChangeBenefitsPage = () => {
 
     const date = new Date();
     const yyyy = date.getFullYear();
-    const mm = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
+    const mm = String(date.getMonth() + 1).padStart(2, '0');
     const dd = String(date.getDate()).padStart(2, '0');
 
     const formattedDate = `${yyyy}-${mm}-${dd}`;
+    console.log(benefitState);
 
 
     const requestBody = selectedCategories.map((upperCategoryId, index) => ({
       benefitEffectiveDate: formattedDate,
-      benefitRate: categoryValues[index],
+      benefitRate: categoryValues[index] - 1,
       isActive: true,
       cardSequenceId,
-      upperCategoryId,
+      upperCategoryId: upperCategoryId,
       lowerCategoryId: selectedOptions[index],
       secondaryAuthCode: authCode,
     }));
 
     console.log("Request Body:", JSON.stringify(requestBody));
+
 
     try {
       const response = await fetch(url, {
@@ -145,7 +147,6 @@ const ChangeBenefitsPage = () => {
         cache: "no-store",
         body: JSON.stringify(requestBody),
       });
-      console.log("Request Body:", JSON.stringify(requestBody));
       console.log(response);
 
       if (!response.ok) {
