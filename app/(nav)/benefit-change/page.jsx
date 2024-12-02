@@ -203,6 +203,8 @@ const ChangeBenefitsPage = () => {
     });
   }
 
+  const isButtonDisabled = () => benefitState.categoryValues.every(value => value === 1);
+
   useEffect(() => {
     const fetchData = async () => {
       await fetchBenefitData();
@@ -215,6 +217,11 @@ const ChangeBenefitsPage = () => {
       getChangerabledate(cardSequenceId);
     }
   }, [cardSequenceId]);
+
+  useEffect(() => {
+    console.log(benefitState);
+
+  }, [benefitState])
 
   if (error) {
     return <div>문제가 발생했습니다. 다시 시도해 주세요: {error}</div>
@@ -236,7 +243,7 @@ const ChangeBenefitsPage = () => {
       <span className="flex justify-center"> 포인트 혜택은 30일 마다 변경이 가능하며 변경 수수료 1,000 원이 익월 청구됩니다.</span>
 
       <ChangeBenefitFoot modalTitle="혜택 변경" exitDirection="/my-card" buttonText={buttonText} onChangeBenefit={handleBenefitChange}
-        onReserveBenefit={handleBenefitReserve} authSuccess={authSuccess} cardSequenceId={cardSequenceId} authTrigger={authTrigger} />
+        onReserveBenefit={handleBenefitReserve} authSuccess={authSuccess} cardSequenceId={cardSequenceId} authTrigger={authTrigger} isButtonDisabled={isButtonDisabled} />
 
     </div>
   );
