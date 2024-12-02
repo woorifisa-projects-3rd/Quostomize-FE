@@ -1,40 +1,24 @@
 import React, { useState } from 'react';
-import { useBenefitContext } from './BenefitContext';
-import Icons from '../../../public/icons/icons';
+import { useBenefitContext } from '../create-card/select-benefit/BenefitContext';
+import Icons from '../../public/icons/icons';
 
-const InteractiveTabContentBox = () => {
-    const { updateCategory, updateOption, categoryValues, selectedOptions } = useBenefitContext();
-    const [activeTab, setActiveTab] = useState(null); // null indicates no tab selected
+const InteractiveTabContentBox = ({ categoryMap, lowerCategoryMap }) => {
+    const { updateCategory, updateOption, benefitState } = useBenefitContext();
+    const [activeTab, setActiveTab] = useState(null);
     const [selectedOptionIndex, setSelectedOptionIndex] = useState(Array(5).fill(null));
 
-    const categories = ['쇼핑', '생활', '푸드', '여행', '문화'];
+    const categories = Object.values(categoryMap);
     const options = [
-        [
-            '백화점(더현대, 신세계, 롯데백화점)',
-            '온라인쇼핑(무신사, 에이블리, 쿠팡)',
-            '마트(이마트, 홈플러스)',
-        ],
-        [
-            '주유소(SK, GS칼텍스)',
-            '통신(SKT, KT, LGU+)',
-            '대중교통(버스, 지하철, 택시)',
-        ],
-        [
-            '편의점(CU, GS25)',
-            '카페(스타벅스, 투썸플레이스)',
-            '배달(배달의민족, 쿠팡이츠)',
-        ],
-        [
-            '항공(인터파크 투어, 네이버 항공)',
-            '렌트(쏘카, 그린카)',
-            '숙소(야놀자, 여기어때)',
-        ],
-        [
-            'OTT(넷플릭스, 티빙)',
-            '영화(CGV, 롯데시네마)',
-            '도서(교보문고, 밀리의서재)',
-        ],
+        [100, 101, 102],
+        [200, 201, 202],
+        [300, 301, 302],
+        [400, 401, 402],
+        [500, 501, 502],
     ];
+
+    const mappedOptions = options.map((categoryGroup) =>
+        categoryGroup.map((categoryId) => lowerCategoryMap[categoryId])
+    );
 
     const optionicon = [
         [Icons.departmentstore, Icons.online, Icons.mart],
@@ -89,7 +73,7 @@ const InteractiveTabContentBox = () => {
                     <button
                         key={index}
                         onClick={() => handleTabClick(index)}
-                        className={`px-4 py-2 font-bold transition-colors ${categoryValues[index] >= 4
+                        className={`px-4 py-2 font-bold transition-colors ${benefitState.categoryValues[index] >= 4
                             ? 'text-white bg-blue-500 rounded-lg border-b-2 border-blue-500'
                             : 'text-gray-600 hover:bg-gray-50'
                             }`}
@@ -101,7 +85,7 @@ const InteractiveTabContentBox = () => {
             <div className="p-8 bg-white border border-t-0 border-gray-200">
                 {activeTab !== null && (
                     <div className="space-y-4">
-                        {options[activeTab].map((option, index) => (
+                        {mappedOptions[activeTab].map((option, index) => (
                             <button
                                 key={index}
                                 onClick={() => handleOptionSelect(index)}

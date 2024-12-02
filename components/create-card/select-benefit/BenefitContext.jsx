@@ -1,41 +1,92 @@
 'use client'
 
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
 const BenefitContext = createContext(undefined);
 
-export function BenefitProvider({ children }) {
-  const [categoryValues, setCategoryValues] = useState([1, 1, 1, 1, 1]);
-  const [selectedOptions, setSelectedOptions] = useState([null, null, null, null, null]);
+export function BenefitProvider({ children, benefitData }) {
+  const [benefitState, setBenefitState] = useState({
+    categoryValues: [1, 1, 1, 1, 1],
+    selectedCategories: [null, null, null, null, null],
+    selectedOptions: [null, null, null, null, null],
+  });
+
+  useEffect(() => {
+    console.log(benefitData);
+
+    if (!benefitData) {
+      return;
+    }
+
+    const updatedCategoryValues = [...benefitState.categoryValues];
+    const updatedCategories = [...benefitState.selectedCategories];
+    const updatedSelectedOptions = [...benefitState.selectedOptions];
+
+    benefitData.forEach((item) => {
+      console.log(item);
+
+      const categoryIndex = item.upperCategoryId - 1;
+
+
+      if (categoryIndex >= 0 && categoryIndex < updatedCategoryValues.length) {
+        if (item.upperCategoryId) {
+          updatedCategoryValues[categoryIndex] = 4;
+          updatedCategories[categoryIndex] = item.upperCategoryId;
+        }
+        if (item.lowerCategoryId) {
+          if (updatedCategoryValues[item.lowerCategoryId - 1] !== 4) {
+            updatedCategoryValues[categoryIndex] = 5;
+          }
+          updatedSelectedOptions[categoryIndex] = item.lowerCategoryId;
+        }
+      }
+      console.log(updatedCategoryValues);
+      console.log(updatedCategories);
+      console.log(updatedSelectedOptions);
+
+      setBenefitState((prev) => {
+        return {
+          ...prev,
+          categoryValues: updatedCategoryValues,
+          selectedCategories: updatedCategories,
+          selectedOptions: updatedSelectedOptions,
+        }
+      })
+    })
+  }, [benefitData]);
+
+ 
+
 
   const updateCategory = (index, value) => {
-    setCategoryValues(prev => {
-      const newValues = [...prev];
-      newValues[index] = Math.min(value, 5);
-      return newValues;
-    });
+    setBenefitState((prevState) => ({
+      ...prevState,
+      categoryValues: prevState.categoryValues.map((v, i) => (i === index ? Math.min(value, 5) : v)),
+    }));
   };
 
   const updateOption = (categoryIndex, option) => {
-    setSelectedOptions(prev => {
-      const newOptions = [...prev];
-      newOptions[categoryIndex] = option;
-      return newOptions;
-    });
+    setBenefitState((prevState) => ({
+      ...prevState,
+      selectedOptions: prevState.selectedOptions.map((v, i) => (i === categoryIndex ? option : v)),
+    }));
   };
 
   const resetContext = () => {
-    setCategoryValues([1, 1, 1, 1, 1]);
-    setSelectedOptions([null, null, null, null, null]);
+    setBenefitState({
+      categoryValues: [1, 1, 1, 1, 1],
+      selectedCategories: [null, null, null, null, null],
+      selectedOptions: [null, null, null, null, null],
+    });
   }
 
   return (
     <BenefitContext.Provider value={{
-      categoryValues,
-      selectedOptions,
+      benefitState,
       updateCategory,
       updateOption,
-      resetContext
+      resetContext,
+      benefitData
     }}>
       {children}
     </BenefitContext.Provider>
