@@ -89,6 +89,10 @@ export default function FindPasswordPage() {
 
   const handleVerifyCode = async (e) => {
     e.preventDefault();
+    if (!validatePhoneNumber(phoneNumber)) {
+      setError('올바른 전화번호 형식이 아닙니다.');
+      return;
+    }
     if (timeLeft === 0) {
         setError('인증번호가 만료되었습니다. 다시 시도해주세요.');
         setStep(1);
@@ -114,13 +118,10 @@ export default function FindPasswordPage() {
           throw new Error(data.error || '인증번호 확인에 실패했습니다.');
       }
 
-      if (response.ok) {
-        const data = await response.json();
-        // 인증 토큰 저장
-        localStorage.setItem('resetToken', data.data.accessToken);
-        setTimerActive(false);
-        setStep(3);
-      }
+      // 성공 시 토큰 저장
+      localStorage.setItem('resetToken', data.accessToken);
+      setTimerActive(false);
+      setStep(3);
     } catch (error) {
       setError(error.message);
     } finally {
@@ -146,32 +147,29 @@ export default function FindPasswordPage() {
 
     setIsLoading(true);
     try {
-      const resetToken = localStorage.getItem('resetToken');
-      const response = await fetch('/api/find-password/reset', {
-        method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${resetToken}`
-        },
-        body: JSON.stringify({
-          phone: phoneNumber,
-          newPassword: passwords.newPassword
-        }),
-      });
-      
-      const data = await response.json();
-      
-      if (!response.ok) {
-          throw new Error(data.error || '비밀번호 변경에 실패했습니다.');
-      }
+        const token = localStorage.getItem('resetToken');
+        const response = await fetch('/api/find-password/reset', {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                password: passwords.newPassword
+            }),
+        });
+
+        if (!response.ok) {
+            throw new Error('비밀번호 변경에 실패했습니다.');
+        }
 
       // 토큰 제거
-      localStorage.removeItem('resetToken');
-      setStep(4);
+        localStorage.removeItem('resetToken');
+        setStep(4);
     } catch (error) {
-      setPasswordError(error.message);
+        setError(error.message);
     } finally {
-      setIsLoading(false);
+        setIsLoading(false);
     }
   };
 
