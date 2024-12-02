@@ -6,12 +6,11 @@ import { auth } from "../../../auth";
 
 import ParticipantCard from "../../../components/card/ParticipantCard";
 import WinnerCard from "../../../components/card/WinnerCard";
-import LottoHeader from "../../../components/lotto/lottoHeader"
-import Lottie from "../../../components/lottie/lottieComponent";
-import WinningModal from "../../../components/lotto/winningModal"
+import LottoHeader from "../../../components/lotto/lottoHeader";
+import WinningModal from "../../../components/lotto/winningModal";
+import Bubble from "../../../components/bubble/bubble";
 
-import LottoLottie from "../../../public/lotties/lottery.json";
-import StarLottie from "../../../public/lotties/star.json";
+import { FaArrowRight } from "react-icons/fa";
 import Image from "next/image";
 import Icons from "../../../public/icons/icons";
 
@@ -108,22 +107,25 @@ const LottoMain = async () => {
         <>
             <LottoHeader />
             <div className="flex flex-col h-full items-center p-2">
-                <div className="w-32 h-32">
+                <div className="w-full h-32">
                     {
                         isParticipant
                         ?
                             <>
-                                {/* <Lottie animationData={StarLottie} loop={true} /> */}
-                                <Image width={128} height={128} src={Icons.star} alt="별 아이콘" />
-                                <div>오늘 복권 <span className="color1"> 참여완료!</span></div>
+                                <div className="flex justify-center">
+                                    <Image width={128} height={128} src={Icons.star} alt="별 아이콘" />
+                                </div>
+                                <div className="text-2xl w-full text-center">오늘 복권 <span className="color1"> 참여완료!</span></div>
                             </>
                         :
-                            <>
-                                {/* <Lottie animationData={LottoLottie} loop={false} /> */}
-                                <Image width={128} height={128} src={Icons.ticket} alt="티켓 아이콘" />
-                                <Link href={"my-card"}>
-                                    <div className="cursor-hover">오늘 복권 <span className="color1"> 참여하기</span></div>
-                                </Link>
+                        <>
+                                <div class="relative w-full flex flex-col items-center">
+                                    <Bubble message= {"복권 발견!"} x={"-translate-x-6"} y={"-translate-y-4"}/>
+                                    <Image width={128} height={128} src={Icons.ticket} alt="티켓 아이콘" className="-rotate-12" />
+                                    <Link href={"my-card"} className="cursor-hover">
+                                        <div className="flex text-2xl w-full h-10 leading-10 align-middle">오늘 복권 <span className="flex  color1">&nbsp;참여하기<FaArrowRight className="h-full align-center" /></span></div>
+                                    </Link>
+                                </div>
                             </>
                     }
                 </div>
