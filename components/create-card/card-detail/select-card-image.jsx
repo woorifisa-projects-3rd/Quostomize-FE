@@ -4,9 +4,9 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 import FlipCard from '../../../components/card/flip-card'
 
-function SelectCardImage() {
+function SelectCardImage({ selectedCardIndex }) {
     // 임시
-    const i = 1;
+    const i = selectedCardIndex + 1;
 
     return (
         <div>

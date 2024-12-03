@@ -1,5 +1,6 @@
 import NextAuth from "next-auth"
 import Credentials from "next-auth/providers/credentials"
+import { redirect } from "next/dist/server/api-utils";
 
 // Redis 또는 다른 저장소를 사용하는 것이 좋지만, 임시로 Map을 사용
 // Singleton 패턴으로 토큰 갱신 상태 관리
@@ -57,7 +58,11 @@ class TokenRefreshManager {
       );
 
       if (!response.ok) {
-        throw new Error('Token refresh failed');
+        await signOut({
+          redirect: true,
+          redirectTo: "/login"
+        })
+        return;
       }
 
       const result = await response.json();
@@ -72,13 +77,17 @@ class TokenRefreshManager {
         ...token,
         accessToken: result.accessToken,
         refreshToken: newRefreshToken,
-        accessExpires: Date.now() + 150000,
+        accessExpires: Date.now() + 1800000,
         refreshExpires: expires,
         path: path,
       };
     } catch (error) {
       console.error('Token refresh failed:', error);
-      throw error;
+      await signOut({
+        redirect: true,
+        redirectTo: "/login"
+      })
+      return;
     }
   }
 }
@@ -120,7 +129,7 @@ export const authConfig = {
           name: credentials.memberLoginId,
           accessToken: accessToken,
           refreshToken: refreshToken,
-          accessExpires: new Date().valueOf() + 150000,
+          accessExpires: new Date().valueOf() + 1800000,
           refreshExpires: expires,
           path: path,
         }
@@ -135,19 +144,6 @@ export const authConfig = {
   },
 
   callbacks: {
-    authorized: ({ auth, request }) => {
-
-      // 보호된 경로에 대한 명시적 권한 확인
-      const isProtectedRoute = [
-        '/change-benefits',
-        '/lotto',
-        '/my-card',
-        '/piece-stock'
-      ].some(route => request.nextUrl.pathname.startsWith(route));
-      
-      // 보호된 경로일 경우에만 인증 여부 확인
-      return isProtectedRoute ? !!auth : true;
-    },
 
     async jwt({ token, account, user }) {
       if (account && user) {
@@ -171,6 +167,10 @@ export const authConfig = {
       try {
         return await TokenRefreshManager.getInstance().refreshToken(token);
       } catch (error) {
+        await signOut({
+          redirectTo: "login",
+          redirect: true
+        })
         return {
           ...token,
           error: 'RefreshAccessTokenError',
