@@ -192,6 +192,10 @@ export const authConfig = {
 
     async session({ session, token }) {
       if (token) {
+        session.memberId = token.memberId;
+        session.memberName = token.memberName;
+        session.memberRole = token.memberRolel;
+        session.cardStatus = token.cardStatus;
         session.accessToken = token.accessToken;
         session.refreshToken = token.refreshToken;
         session.accessExpires = token.accessExpires;
