@@ -5,10 +5,14 @@ import SelectPointUsageBox from '../../box/select-point-usage-box'
 import Icons from '../../../public/icons/icons'
 import Toast from '../../overlay/toast';
 
-function SelectPoint2() {
-    const [activeOptions, setActiveOptions] = useState([]);
-    const [hoveredIndex, setHoveredIndex] = useState(null);
-    const [showToast, setShowToast] = useState(false);
+function SelectPoint2({
+                          activeOptions,
+                          setActiveOptions,
+                          hoveredIndex,
+                          setHoveredIndex,
+                          showToast,
+                          setShowToast,
+                      }) {
 
     const selectoptions = [
         {
@@ -29,25 +33,46 @@ function SelectPoint2() {
     ]
 
     const handleBoxClick = (index) => {
-        // 잘못된 선택 (페이백과 조각 투자 선택 시 오류 메시지)
-        if (selectoptions[index].title === '페이백' && activeOptions.includes('조각 투자')) {
+        const selectedOption = selectoptions[index].title;
+
+        // 페이백과 조각 투자 항목 선택 시 오류 메시지
+        if (
+            (selectedOption === '페이백' && activeOptions.includes('조각 투자')) ||
+            (selectedOption === '조각 투자' && activeOptions.includes('페이백'))
+        ) {
             setShowToast(true);
-            setTimeout(() => setShowToast(false), 3000);  // 3초 후 토스트 사라짐
-            return;
-        }
-        if (selectoptions[index].title === '조각 투자' && activeOptions.includes('페이백')) {
-            setShowToast(true);
-            setTimeout(() => setShowToast(false), 3000);  // 3초 후 토스트 사라짐
+            setTimeout(() => setShowToast(false), 3000);
+
+            // 페이백과 조각 투자 둘 중 하나만 선택되게 하기
+            if (selectedOption === '페이백') {
+                // '페이백'만 활성화하고 '조각 투자'는 비활성화
+                setActiveOptions(['페이백', ...activeOptions.filter(option => option !== '조각 투자')]);
+            } else if (selectedOption === '조각 투자') {
+                // '조각 투자'만 활성화하고 '페이백'은 비활성화
+                setActiveOptions(['조각 투자', ...activeOptions.filter(option => option !== '페이백')]);
+            }
             return;
         }
 
-        // 선택 항목 토글
-        if (activeOptions.includes(selectoptions[index].title)) {
-            setActiveOptions(activeOptions.filter(option => option !== selectoptions[index].title));
+        // '일일 복권'은 독립적으로 작동하게 하기
+        if (selectedOption === '일일 복권') {
+            // 일일 복권을 선택하거나 해제할 때는 다른 항목에 영향을 주지 않도록 처리
+            if (activeOptions.includes('일일 복권')) {
+                setActiveOptions(activeOptions.filter(option => option !== '일일 복권'));
+            } else {
+                setActiveOptions([...activeOptions, '일일 복권']);
+            }
         } else {
-            setActiveOptions([...activeOptions, selectoptions[index].title]);
+            // 페이백과 조각 투자 외의 항목에 대해서만 기존 로직 적용
+            if (activeOptions.includes(selectedOption)) {
+                setActiveOptions(activeOptions.filter(option => option !== selectedOption));
+            } else {
+                setActiveOptions([...activeOptions, selectedOption]);
+            }
         }
     }
+
+
 
     const handleBoxHover = (index) => {
         setHoveredIndex(index);

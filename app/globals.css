@@ -99,3 +99,20 @@ body {
   color: #4A4A4A;
   /* text-gray-700 진한 회색 - hover */
 }
+
+/* gradient.css */
+@keyframes gradient-text {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradient-text {
+  animation: gradient-text 3s ease infinite;
+}
