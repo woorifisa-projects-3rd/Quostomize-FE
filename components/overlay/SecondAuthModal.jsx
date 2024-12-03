@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 
 const SecondAuthModal = ({ isOpen, onClose, onComplete, isConfirm }) => {
-    if (!isOpen) return null;
+    
     const [authCode, setAuthCode] = useState("");
     const [shuffledNumbers, setShuffledNumbers] = useState([]);
     const MAX_LENGTH = 6;
@@ -39,6 +39,8 @@ const SecondAuthModal = ({ isOpen, onClose, onComplete, isConfirm }) => {
     const handleDelete = () => {
         setAuthCode(authCode.slice(0, -1));
     };
+
+    if (!isOpen) return <></>;
 
     return (
         <div className="absolute inset-0 flex justify-center items-center z-50">
