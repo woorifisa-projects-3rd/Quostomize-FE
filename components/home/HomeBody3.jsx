@@ -1,7 +1,7 @@
 "use client";
 
 import MyFullButton from '../button/full-button'
-import BenefitBox from '../box/benefit-box'
+import BenefitBox from '../box/BenefitBox'
 import FadeInSection from "../fade-in/fade-in-section";
 import Icons from '../../public/icons/icons'
 
@@ -36,12 +36,14 @@ const HomeBody3 = () => {
     ];
 
     return (
-        <div className='flex flex-col justify-center items-center mt-32'>
+        <div className='flex flex-col justify-center items-center mt-32'
+            style={{
+                letterSpacing: '0.1em'
+            }}>
             <FadeInSection>
                 <div className='flex flex-col justify-center items-center'>
                     <h1 className='font4 font-semibold'>내 라이프스타일에 맞춰</h1>
                     <h1 className='font4 color1 font-semibold'>내가 정하는 혜택</h1>
-
                 </div>
             </FadeInSection>
             <FadeInSection>

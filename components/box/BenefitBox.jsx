@@ -2,7 +2,7 @@
 
 const BenefitBox = ({ icon, category, description }) => {
     return (
-        <div className="flex items-center w-full max-w-md h-16 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors cursor-default">
+        <div className="flex items-center w-full max-w-md h-16 bg-[#f9fafb] rounded-lg cursor-default">
             {/* 아이콘 영역 */}
             <div className="w-16 h-full flex items-center justify-center pl-6">
                 <img
@@ -18,9 +18,9 @@ const BenefitBox = ({ icon, category, description }) => {
                 <p className="text-sm text-gray-500">
                     {description}
                 </p>
-                <div className="font-semibold text-lg" style={{ color: "#0083CA" }}>
+                <div className="font-semibold text-lg" style={{ color: "#0B5CD8" }}>
                     {category}
-                    <span className="text-[#333d4b] ml-2">혜택</span>
+                    <span className="text-[#4A4A4A] ml-2">혜택</span>
                 </div>
             </div>
         </div>

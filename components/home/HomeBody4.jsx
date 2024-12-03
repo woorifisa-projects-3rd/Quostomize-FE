@@ -1,12 +1,42 @@
 "use client";
 
 import NoticeToggleBox from '../box/noitce-toggle-box';
-import PointBox from '../box/point-notice-box';
-import HomeFoot from '../home/home-foot';
+import PointBox from '../box/PointNoticeBox';
+import HomeFoot from './HomeFoot';
 import FadeInSection from "../fade-in/fade-in-section";
 import Icons from "../../public/icons/icons"
+import confetti from 'canvas-confetti';
+import { useEffect } from 'react';
+import { useRef } from 'react';
+
+const shootConfetti = () => {
+    confetti({
+        spread: 360,
+        ticks: 50,
+        gravity: 0,
+        decay: 0.94,
+        startVelocity: 30,
+        colors: ['FFE400', 'FFBD00', 'E89400', 'FFCA6C', 'FDFFB8'],
+        particleCount: 40,
+        scalar: 1.2,
+        shapes: ['star']
+    });
+
+    confetti({
+        spread: 360,
+        ticks: 50,
+        gravity: 0,
+        decay: 0.94,
+        startVelocity: 30,
+        colors: ['FFE400', 'FFBD00', 'E89400', 'FFCA6C', 'FDFFB8'],
+        particleCount: 10,
+        scalar: 0.75,
+        shapes: ['circle']
+    });
+};
 
 const HomeBody4 = () => {
+
     const points = [
         {
             icon: Icons.stockpiece,
@@ -41,11 +71,41 @@ const HomeBody4 = () => {
         }
     ];
 
+    const bodyRef = useRef(null);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    shootConfetti();
+                }
+            },
+            { threshold: 0.5 }
+        );
+
+        if (bodyRef.current) {
+            observer.observe(bodyRef.current);
+        }
+
+        return () => {
+            if (bodyRef.current) {
+                observer.unobserve(bodyRef.current);
+            }
+        };
+    }, []);
+
+
     return (
 
-        <div className='flex flex-col justify-center items-center mt-32'>
+        <div className='flex flex-col justify-center items-center mt-32' ref={bodyRef}
+            style={{
+                letterSpacing: '0.1em'
+            }}>
             <FadeInSection>
-                <div className='flex flex-col justify-center items-center'>
+                <div className='flex flex-col justify-center items-center'
+                    style={{
+                        letterSpacing: '0.1em'
+                    }}>
                     <h1 className='font4 font-semibold'>혜택은 다양하게</h1>
                     <h1 className='font4 color1 font-semibold'>사용은 재미있게</h1>
 

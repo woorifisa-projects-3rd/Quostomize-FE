@@ -22,7 +22,7 @@ body {
   /* 기본 폰트 설정 */
   font-size: 1rem;
   line-height: 1.5;
-  color: #333D4B;
+  color: #000000;
   /* 기본 텍스트 색상 */
 }
 
@@ -40,6 +40,10 @@ body {
   /* text-sm 14px */
 }
 
+.font15 {
+  font-size: 1.0rem;
+}
+
 .font2 {
   font-size: 1.25rem;
   /* text-xl 20px */
@@ -50,9 +54,17 @@ body {
   /* text-2xl 24px */
 }
 
+.font35 {
+  font-size: 2.0rem;
+}
+
 .font4 {
   font-size: 2.25rem;
   /* text-4xl 36px */
+}
+
+.font45 {
+  font-size: 2.5rem;
 }
 
 .font5 {
@@ -70,7 +82,11 @@ body {
   /* text-6xl 60px */
 }
 
-.font6 {
+.font65 {
+  font-size: 4.15rem;
+}
+
+.font7 {
   font-size: 4.5rem;
   /* text-7xl 72px */
 }
@@ -80,7 +96,7 @@ body {
 /* font color 클래스 */
 
 .color1 {
-  color: #3384f6;
+  color: #3081F7;
   /* 강조 블루 1 */
 }
 
@@ -100,6 +116,10 @@ body {
   /* text-gray-700 진한 회색 - hover */
 }
 
+.color5{
+  color: #FFFFFF
+}
+
 /* gradient.css */
 @keyframes gradient-text {
   0% {
@@ -115,4 +135,71 @@ body {
 
 .animate-gradient-text {
   animation: gradient-text 3s ease infinite;
+}
+
+.tracking-in-contract {
+	-webkit-animation: tracking-in-contract 0.8s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
+	        animation: tracking-in-contract 0.8s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
+}
+
+@-webkit-keyframes tracking-in-contract {
+  0% {
+    letter-spacing: 1em;
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.6;
+  }
+  100% {
+    letter-spacing: normal;
+    opacity: 1;
+  }
+}
+@keyframes tracking-in-contract {
+  0% {
+    letter-spacing: 1em;
+    opacity: 0;
+  }
+}
+
+.focus-in-contract {
+	-webkit-animation: focus-in-contract 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	        animation: focus-in-contract 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+@-webkit-keyframes focus-in-contract {
+  0% {
+    letter-spacing: 1em;
+    -webkit-filter: blur(12px);
+            filter: blur(12px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-filter: blur(0px);
+            filter: blur(0px);
+    opacity: 1;
+  }
+}
+@keyframes focus-in-contract {
+  0% {
+    letter-spacing: 1em;
+    -webkit-filter: blur(12px);
+            filter: blur(12px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-filter: blur(0px);
+            filter: blur(0px);
+    opacity: 1;
+  }
+}
+
+
+.wave-char, .wave-text {
+  animation: wave 1.5s ease-in-out infinite;
+}
+
+@keyframes wave {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
 }
