@@ -21,7 +21,7 @@ const Search = ({ cardData, setCardData, value, setValue, setPage, wishInfo, set
 
             {cardId !== undefined && <SearchBody searchInfo={searchInfo} setSelectedStocks={setSelectedStocks} selectedStocks={selectedStocks} />}
 
-            {cardId !== undefined && <SearchBottom cardId={cardId} setPage={setPage} wishInfo={wishInfo} setWishInfo={setWishInfo} searchInfo={searchInfo} />}
+            {cardId !== undefined && <SearchBottom selectedStocks={selectedStocks} cardId={cardId} setPage={setPage} wishInfo={wishInfo} setWishInfo={setWishInfo} searchInfo={searchInfo} />}
         </div>
     );
 }

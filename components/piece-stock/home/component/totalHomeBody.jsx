@@ -100,7 +100,6 @@ export function handleDeleteClick(index, param, setWishInfo, wishInfo, cardId) {
         param.append("order", index + 1)
     }
     setWishInfo(newData)
-    console.log("제거진행")
     param.append("cardId", cardId)
     deleteStocks(param)
 }

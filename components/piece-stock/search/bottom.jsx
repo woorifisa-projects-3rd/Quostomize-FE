@@ -2,13 +2,14 @@ import React, { useEffect } from 'react'
 import RecommendAlertModal from "../../../components/piece-stock/etc/recommendAlertModal"
 import { useState } from 'react';
 import { searchWishStocks } from "../../../components/piece-stock/home/apiMethod/apiList"
-import { openModal, closeModal, checkButton, choiceStocks } from "../../../components/piece-stock/home/component/totalSearch"
+import { openModal, closeModal, checkButton, choiceStocks, check } from "../../../components/piece-stock/home/component/totalSearch"
 import LargeModal from '../../overlay/largeModal'
 import Image from 'next/image';
 
-const SearchBottom = ({ wishInfo, setWishInfo, cardId, setPage, searchInfo }) => {
+const SearchBottom = ({ wishInfo, setWishInfo, cardId, setPage, searchInfo, selectedStocks }) => {
     const [recommendStockInfo, setRecommend] = useState([]);
     const [isOpen, setOpen] = useState(false)
+    const [isAlert, setAlert] = useState(false)
     const [showAlertModal, setShowAlertModal] = useState(false);
     const [isClickButton, setClickButton] = useState([false, false, false])
     const param = new URLSearchParams()
@@ -83,6 +84,20 @@ const SearchBottom = ({ wishInfo, setWishInfo, cardId, setPage, searchInfo }) =>
                     ))}
                 </LargeModal>}
             </div >
+            {selectedStocks.length > 0 && (
+                <div className="fixed left-1/2 top-3/4 -translate-x-1/2 -translate-y-1/2 z-50 outline-none text-white px-10 py-3 rounded-lg flex items-center gap-2">
+                    <button
+                        className="w-full bg-blue-500 text-white px-10 py-5 rounded-lg"
+                        onClick={() => check(wishInfo, setAlert, selectedStocks, setPage, param)}
+                    >
+                        관심 목록에 추가하기
+                    </button>
+                </div>
+            )}
+            {isAlert && <RecommendAlertModal
+                title={"관심 목록은 최대 3개까지 담을 수 있어요 기존 목록을 수정해 주세요"}
+            >
+            </RecommendAlertModal>}
         </>
     )
 }
