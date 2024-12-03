@@ -1,15 +1,16 @@
-import {recommendStocks,saveStocks} from "../../../../components/piece-stock/home/apiMethod/apiList"
+import { recommendStocks, saveStocks } from "../../../../components/piece-stock/home/apiMethod/apiList"
 
-export function openModal (setOpen,param,setRecommend,cardId) {
+//추천모달열기
+export function openModal(setOpen, param, setRecommend, cardId) {
     setOpen(true)
-    recommendStocks(param,setRecommend,cardId)
+    recommendStocks(param, setRecommend, cardId)
 }
-
-export function closeModal (setOpen) {
+//추천모달닫기
+export function closeModal(setOpen) {
     setOpen(false)
 }
-
-export function checkButton (index,setClickButton) {
+// 추천종목체크여부저장
+export function checkButton(index, setClickButton) {
     setClickButton((prevState) => {
         const newData = [...prevState];
         newData[index] = !newData[index];
@@ -17,8 +18,8 @@ export function checkButton (index,setClickButton) {
     });
 
 }
-
-export function choiceStocks (wishInfo, isClickButton, setShowAlertModal, recommendStockInfo,totalData,paramSave,saveData, compareData, setWishInfo, setOpen, setPage) {
+// 종목 선택 완료 시 피드백
+export function choiceStocks(wishInfo, isClickButton, setShowAlertModal, recommendStockInfo, totalData, paramSave, saveData, compareData, setWishInfo, setOpen, setPage) {
     if ((wishInfo.length + isClickButton.filter(item => item === true).length) > 3) {
         setShowAlertModal(true)
         setTimeout(() => {
@@ -107,6 +108,6 @@ export function choiceStocks (wishInfo, isClickButton, setShowAlertModal, recomm
             setWishInfo(newData)
         }
         setOpen(false) // 모달을 닫는다
-        setPage([false,true,false])
+        setPage([false, true, false])
     }
 }

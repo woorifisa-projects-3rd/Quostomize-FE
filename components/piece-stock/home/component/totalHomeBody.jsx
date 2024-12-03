@@ -1,23 +1,23 @@
- import {deleteStocks} from "../apiMethod/apiList"
- 
- // 드래그 시작
-export function handleDragStart (e, index,setDragOverIndex) {
+import { deleteStocks } from "../apiMethod/apiList"
+
+// 드래그 시작
+export function handleDragStart(e, index, setDragOverIndex) {
     setDragOverIndex(index);
     e.target.style.opacity = 0.5; // 드래그 중인 항목을 반투명하게 표시
 };
 
 // 드래그 끝
-export function handleDragEnd (e) {
+export function handleDragEnd(e) {
     e.target.style.opacity = ""; // 드래그 종료 후 원래대로 복원
 };
 
 // 드래그된 항목이 다른 항목 위에 올려졌을 때 (이벤트 전파 방지)
-export function handleDragOver (e) {
+export function handleDragOver(e) {
     e.preventDefault(); // 기본 동작을 막아줘야 드롭을 허용
 };
 
 // 드롭할 때 순서를 변경하는 함수
-export function handleDrop (e, dropIndex, wishInfo,dragOverIndex,setOrderInfo,setWishInfo,setDragOverIndex, orderInfo, cardId) {
+export function handleDrop(e, dropIndex, wishInfo, dragOverIndex, setOrderInfo, setWishInfo, setDragOverIndex, cardId) {
     e.preventDefault();
 
     const updatedData = [...wishInfo]; // 전체조회
@@ -57,22 +57,20 @@ export function handleDrop (e, dropIndex, wishInfo,dragOverIndex,setOrderInfo,se
     }
 
     // 이 부분은 백엔드에 보내줄 정보를 정리
-    const total = [...orderInfo];
     const requestOrder = {
         currentOrder: first,
         editOrder: second,
         cardId: cardId
     }
 
-    total.push(requestOrder);
     // 전송
-    setOrderInfo(total)
+    setOrderInfo(requestOrder)
     setWishInfo(updatedData); // 상태 업데이트
     setDragOverIndex(null); // 드래그 중인 인덱스를 초기화
 };
 
 // 삭제시 기능
-export function handleDeleteClick (index,param,setWishInfo,wishInfo,cardId) {
+export function handleDeleteClick(index, param, setWishInfo, wishInfo, cardId) {
     const newData = [...wishInfo]
     if (newData.length === 3) {
         if (index === 0) {
@@ -108,7 +106,7 @@ export function handleDeleteClick (index,param,setWishInfo,wishInfo,cardId) {
 }
 
 // 클릭 했을 때, 각 인덱스에 해당하는 제거박스 선택유무를 수정한다. + 0은 안보여주기 1은 보여주기 를 의미
-export function deleteCheckBox (index,hoveredIndex,setHoveredIndex) {
+export function deleteCheckBox(index, hoveredIndex, setHoveredIndex) {
     const newData = [...hoveredIndex]
     index === 0 || index === 1 || index === 2
         ? newData?.[index]?.order === 0

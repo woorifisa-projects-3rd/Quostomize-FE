@@ -14,7 +14,7 @@ const SearchBody = ({ searchInfo, setSelectedStocks, selectedStocks }) => {
     return (
         <>
             <div className="space-y-4 p-3">
-                {searchInfo && searchInfo.map((stock, index) => (
+                {searchInfo && searchInfo.map((stock) => (
                     <div key={stock.stockName} className={`flex items-center justify-between p-3 border shadow-lg rounded-xl ${selectedStocks.includes(stock.stockName) ? 'bg-slate-100 border border-slate-400' : ''
                         }`}
                         onClick={() => toggleStockSelection(stock.stockName)}>
@@ -23,9 +23,6 @@ const SearchBody = ({ searchInfo, setSelectedStocks, selectedStocks }) => {
                             <div>
                                 <div className="font-semibold">{stock.stockName}</div>
                             </div>
-                        </div>
-                        <div className="text-right">
-                            <div className="font-semibold">{stock.stockPrice}</div>
                         </div>
                     </div>
                 ))}
