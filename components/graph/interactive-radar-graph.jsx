@@ -5,7 +5,7 @@ import React, { useEffect, useRef } from 'react';
 
 Chart.register(RadarController, PointElement, LineElement, Tooltip, Legend, RadialLinearScale);
 
-const InteractiveRadarGraph = ({ labels, datasets, onButtonClick, borderColor, max, min }) => {
+const InteractiveRadarGraph = ({ labels, datasets, borderColor, max, min }) => {
     const chartRef = useRef(null);
     const chartInstanceRef = useRef(null);
 

@@ -11,7 +11,6 @@ import SelectDesign3 from '../../../components/create-card/select-design/select-
 import SelectBenefit1 from '../../../components/create-card/select-benefit/select-benefitHeader';
 import SelectBenefit2 from '../../../components/create-card/select-benefit/select-benefit2';
 import Terms from '../../../components/create-card/terms-agreement/terms';
-import { BenefitProvider } from '../../../components/create-card/select-benefit/BenefitContext';
 import CardDetailHeader from '../../../components/create-card/card-detail/CardDetailHeader';
 import UserDetailHeader from '../../../components/create-card/user-detail/UserDetailHeader';
 import CardApplicantInfo1 from '../../../components/create-card/user-detail/card-applicant-info1';
@@ -97,8 +96,8 @@ const CreateCardPage = () => {
     if (currentPage === 7) {
       // Exclude isSameAsDeliveryAddress from validation check
       const isFormValid = Object.entries(formData)
-          .filter(([key]) => key !== 'isSameAsDeliveryAddress')
-          .every(([_, value]) => value !== '');
+        .filter(([key]) => key !== 'isSameAsDeliveryAddress')
+        .every(([_, value]) => value !== '');
 
       if (!isFormValid) {
         setShowAlertModal(true);
@@ -135,8 +134,8 @@ const CreateCardPage = () => {
             <SelectDesign onClick={handlePrevPage} />
           </header>
           <SelectDesign1
-              selectedCardIndex={selectedCardIndex} // 선택된 카드 인덱스 전달
-              onCardChange={setSelectedCardIndex} // 상태 변경 핸들러 전달
+            selectedCardIndex={selectedCardIndex} // 선택된 카드 인덱스 전달
+            onCardChange={setSelectedCardIndex} // 상태 변경 핸들러 전달
           />
           <SelectDesign3 />
         </div>;
@@ -146,14 +145,7 @@ const CreateCardPage = () => {
           <header>
             <SelectBenefit1 onClick={handlePrevPage} />
           </header>
-          <BenefitProvider
-              categoryValues={categoryValues}
-              setCategoryValues={setCategoryValues}
-              selectedOptions={selectedOptions}
-              setSelectedOptions={setSelectedOptions}
-          >
-            <SelectBenefit2 />
-          </BenefitProvider>
+          <SelectBenefit2 />
         </div>;
 
       case 3:
@@ -162,12 +154,12 @@ const CreateCardPage = () => {
             <SelectPoint1 onClick={handlePrevPage} />
           </header>
           <SelectPoint2
-              activeOptions={activeOptions}
-              setActiveOptions={setActiveOptions}
-              hoveredIndex={hoveredIndex}
-              setHoveredIndex={setHoveredIndex}
-              showToast={showToast}
-              setShowToast={setShowToast}
+            activeOptions={activeOptions}
+            setActiveOptions={setActiveOptions}
+            hoveredIndex={hoveredIndex}
+            setHoveredIndex={setHoveredIndex}
+            showToast={showToast}
+            setShowToast={setShowToast}
           />
         </div>;
 
@@ -179,8 +171,8 @@ const CreateCardPage = () => {
           {/* 선택된 카드 정보를 이미지로 보여주는 컴포넌트 */}
           <SelectCardImage selectedCardIndex={selectedCardIndex} />
           <SelectCardDetail
-              cardOptions={cardOptions}
-              setCardOptions={setCardOptions}
+            cardOptions={cardOptions}
+            setCardOptions={setCardOptions}
           />
         </div>;
 
@@ -191,15 +183,15 @@ const CreateCardPage = () => {
           </header>
           {/*UserDetail - 사용자 상세 정보 */}
           <CardApplicantInfo1
-              applicantInfo={applicantInfo}
-              setApplicantInfo={setApplicantInfo}
-              isVerified={isVerified}
-              setIsVerified={setIsVerified}
+            applicantInfo={applicantInfo}
+            setApplicantInfo={setApplicantInfo}
+            isVerified={isVerified}
+            setIsVerified={setIsVerified}
 
           />
           <IdentityVerification1
-              isVerified={isVerified}
-              setIsVerified={setIsVerified}
+            isVerified={isVerified}
+            setIsVerified={setIsVerified}
           />
         </div>;
 
@@ -218,8 +210,8 @@ const CreateCardPage = () => {
           </header>
           {/*InputAddressHeader - 배송지 입력 */}
           <SelectOtherInfo
-              formData={formData}
-              setFormData={setFormData}
+            formData={formData}
+            setFormData={setFormData}
           />
         </div>;
 
@@ -229,16 +221,17 @@ const CreateCardPage = () => {
             <CheckInformationHeader onClick={handlePrevPage} />
           </header>
           {/*CheckInformationHeader - 입력 정보 확인 */}
+
           <CheckInformation
-              residenceNumber={applicantInfo.residenceNumber}
-              residenceNumber2={applicantInfo.residenceNumber2}
-              deliveryFullAddress={`${formData.deliveryPostalCode} ${formData.deliveryAddress} ${formData.detailedDeliveryAddress}`}
-              residentialFullAddress={`${formData.residentialPostalCode} ${formData.residentialAddress} ${formData.detailedResidentialAddress}`}
-              email={`${formData.emailId}@${formData.emailDomain}`}
-              phoneNumber={formData.phoneNumber}
-              paymentHistoryReceiveMethod={formData.paymentHistoryReceiveMethod}
-              isOverseasPaymentBlocked={cardOptions.isForeignBlocked}
-              isTransportationEnabled={cardOptions.isPostpaidTransport}
+            residenceNumber={applicantInfo.residenceNumber}
+            residenceNumber2={applicantInfo.residenceNumber2}
+            deliveryFullAddress={`${formData.deliveryPostalCode} ${formData.deliveryAddress} ${formData.detailedDeliveryAddress}`}
+            residentialFullAddress={`${formData.residentialPostalCode} ${formData.residentialAddress} ${formData.detailedResidentialAddress}`}
+            email={`${formData.emailId}@${formData.emailDomain}`}
+            phoneNumber={formData.phoneNumber}
+            paymentHistoryReceiveMethod={formData.paymentHistoryReceiveMethod}
+            isOverseasPaymentBlocked={cardOptions.isForeignBlocked}
+            isTransportationEnabled={cardOptions.isPostpaidTransport}
           />
         </div>;
     }
@@ -254,9 +247,9 @@ const CreateCardPage = () => {
         totalPage={TOTAL_PAGES}
       />
       <AlertModal
-          isOpen={showAlertModal}
-          onClose={() => setShowAlertModal(false)}
-          message="모든 항목에 체크를 해주세요"
+        isOpen={showAlertModal}
+        onClose={() => setShowAlertModal(false)}
+        message="모든 항목에 체크를 해주세요"
       />
 
     </div>
