@@ -4,8 +4,8 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn, useSession } from 'next-auth/react';
 import { useState, useEffect } from 'react';
 import LoginForm from './LoginForm';
-import LoginLoading from './LoginLoading';
 import ErrorModal from './ErrorModal';
+import LoadingSpinner from '../../../components/overlay/loadingSpinner'
 
 const LoginPage = () => {
   const { data: session } = useSession();
@@ -69,6 +69,15 @@ const LoginPage = () => {
     }));
   };
 
+  // LoginPage 컴포넌트에서 버튼 핸들러 추가
+  const handleFindId = () => {
+    router.push('/find-id');
+  };
+
+  const handleFindPassword = () => {
+    router.push('/find-password');
+  };
+
   return (
     <div className="min-h-screen">
       <div className="w-full px-6 pt-12 pb-28">
@@ -94,19 +103,25 @@ const LoginPage = () => {
                 onSubmit={handleLogin}
               />
               <div className="mt-6 flex items-center justify-center space-x-4 text-sm">
-                <button className="text-gray-500 hover:text-blue-500 transition-colors duration-200">
-                  아이디 찾기
+                <button 
+                    onClick={handleFindId}
+                    className="text-gray-500 hover:text-blue-500 transition-colors duration-200"
+                >
+                    아이디 찾기
                 </button>
                 <span className="text-gray-300">|</span>
-                <button className="text-gray-500 hover:text-blue-500 transition-colors duration-200">
-                  비밀번호 찾기
+                <button 
+                    onClick={handleFindPassword}
+                    className="text-gray-500 hover:text-blue-500 transition-colors duration-200"
+                >
+                    비밀번호 찾기
                 </button>
                 <span className="text-gray-300">|</span>
                 <button
-                  onClick={() => router.push('/signup')}
-                  className="text-gray-500 hover:text-blue-500 transition-colors duration-200"
+                    onClick={() => router.push('/signup')}
+                    className="text-gray-500 hover:text-blue-500 transition-colors duration-200"
                 >
-                  회원가입
+                    회원가입
                 </button>
               </div>
             </div>
@@ -114,7 +129,7 @@ const LoginPage = () => {
         </div>
       </div>
 
-      {isLoading && <LoginLoading />}
+      {isLoading && <LoadingSpinner message="로그인 중입니다..." />}
       <ErrorModal
         isOpen={showErrorModal}
         onClose={() => setShowErrorModal(false)}
