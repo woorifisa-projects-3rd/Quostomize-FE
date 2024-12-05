@@ -12,7 +12,8 @@ export async function GET0() { // 카드조회
             method: "GET",
             headers: {
                 "Content-type": "application",
-                "Authorization": `Bearer ${session.accessToken}`
+                "Authorization": `Bearer ${session.accessToken}`,
+                "traceId": `${session.traceId}`
             },
             credentials: "include",
             cache: "no-store"

@@ -20,7 +20,8 @@ export async function GET(request) {
             `${process.env.SERVER_URL}/v1/api/qnas?page=${page}`,
             {
                 headers: {
-                    "Authorization": `Bearer ${session.accessToken}`
+                    "Authorization": `Bearer ${session.accessToken}`,
+                    "traceId": `${session.traceId}`
                 }
             }
         );
