@@ -2,7 +2,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "../../../../../auth";
 
-export async function POST(request, context) {
+export async function POST(request, { params }) {
     try {
         const session = await auth();
         if (!session) {
@@ -13,7 +13,7 @@ export async function POST(request, context) {
         }
 
         // params를 비동기로 처리
-        const { id } = await context.params; // 수정된 부분
+        const { id } = await params;
         const body = await request.json();
 
         const response = await fetch(
@@ -24,9 +24,7 @@ export async function POST(request, context) {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${session.accessToken}`
                 },
-                body: JSON.stringify({
-                    responseContent: body.responseContent
-                })
+                body: JSON.stringify(body)
             }
         );
 
