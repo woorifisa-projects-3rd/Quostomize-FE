@@ -11,7 +11,8 @@ export async function GET(request) {
             method: "GET",
             headers: {
                 "Content-type": "application/json",
-                "Authorization": `Bearer ${session.accessToken}`
+                "Authorization": `Bearer ${session.accessToken}`,
+                "traceId": `${session.traceId}`
             },
             credentials: "include",
             cache: "force-cache"

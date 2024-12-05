@@ -14,10 +14,10 @@ export default function QnaDetailPage() {
     const [answer, setAnswer] = useState(null);
     const [newAnswer, setNewAnswer] = useState('');
     const [isLoading, setIsLoading] = useState(true);
-    const isAdmin = session?.user?.role === 'ROLE_ADMIN';
-    const isMember = session?.user?.role === 'ROLE_MEMBER';
-    const isOldMember = session?.user?.role === 'ROLE_OM';
-    const isSuspendedMember = session?.user?.role === 'ROLE_SM';
+    const isAdmin = session?.memberRole === 'ROLE_ADMIN';
+    const isMember = session?.memberRole === 'ROLE_MEMBER';
+    const isOldMember = session?.memberRole === 'ROLE_OM';
+    const isSuspendedMember = session?.memberRole === 'ROLE_SM';
 
     useEffect(() => {
         if (!session) {
@@ -36,29 +36,36 @@ export default function QnaDetailPage() {
     const fetchQuestionDetail = async () => {
         setIsLoading(true);
         try {
-            const response = await fetch(`/api/qna/${id}`, {
+            // 질문 정보 가져오기
+            const questionResponse = await fetch(`/api/qna/${id}`, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
             });
-            const result = await response.json();
-            setQuestion(result.data);
+            
+            if (questionResponse.ok) {
+                const questionResult = await questionResponse.json();
+                setQuestion(questionResult.data);
+            } else {
+                return;
+            }
     
-            try {
-                const answerResponse = await fetch(`/api/qna/${id}/answer`, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                });
-                if (answerResponse.ok) {
-                    const answerData = await answerResponse.json();
-                    setAnswer(answerData.data);
+            // 답변 정보 가져오기
+            const answerResponse = await fetch(`/api/qna/${id}/answer`, {
+                headers: {
+                    'Content-Type': 'application/json',
                 }
-            } catch (error) {
-                console.log('No answer yet');
+            });
+    
+            if (answerResponse.ok) {
+                const answerData = await answerResponse.json();
+                setAnswer(answerData.data);
+            } else {
+                // 답변이 없을 경우
+                setAnswer(null);
             }
         } catch (error) {
-            console.error('Error:', error);
+            console.error('Error fetching question or answer:', error);
         } finally {
             setIsLoading(false);
         }
@@ -120,28 +127,28 @@ export default function QnaDetailPage() {
 
     return (
         <div className="max-w-3xl mx-auto px-6 py-8">
-            <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
+            <div className="bg-sky-50 rounded-xl shadow-lg p-6 mb-6">
                 {/* 상단 정보 영역 */}
                 <div className="flex flex-col gap-4">
                     {/* 메타 정보 */}
                     <div className="flex items-center justify-between gap-2 text-sm text-gray-500">
                         {/* 카테고리 */}
-                        <span className="px-3 py-1 bg-blue-100 rounded-full">
+                        <span className="px-3 py-1 bg-sky-200 rounded-full">
                             {getCategoryName(question.categoryCode)}
                         </span>
                         
                         {/* 답변 상태 */}
                         <span className={`px-3 py-1 rounded-full ${
                             question.isAnswered 
-                                ? 'bg-blue-200 text-blue-400' 
-                                : 'bg-gray-200 text-gray-500'
+                                ? 'bg-blue-300 text-blue-500' 
+                                : 'bg-gray-300 text-gray-500'
                         }`}>
                             {question.isAnswered ? '답변완료' : '답변대기'}
                         </span>
 
                         {/* 비공개 여부 */}
                         {question.isPrivate && (
-                            <span className="px-3 py-1 bg-stone-100 rounded-full">
+                            <span className="px-3 py-1 bg-slate-300 rounded-full">
                                 <div className="flex items-center gap-1">
                                     <Image 
                                         src={Icons.locked}
@@ -168,22 +175,22 @@ export default function QnaDetailPage() {
     
                 {/* 문의 내용 */}
                 <div className="mt-5 prose max-w-none">
-                    <div className="bg-neutral-50 rounded-lg p-4 whitespace-pre-wrap min-h-[160px]">
+                    <div className="bg-white border border-blue-100 rounded-lg p-4 whitespace-pre-wrap min-h-[160px]">
                         {question.questionContent}
                     </div>
                 </div>
             </div>
     
             {/* 답변 영역 */}
-            {answer && (
-                <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
+            {answer && answer.responseContent && (  // 답변이 있고 내용이 있을 때만 표시
+                <div className="bg-pink-50 rounded-xl shadow-lg p-6 mb-6">
                     <div className="flex items-center gap-2 mb-4">
-                        <h2 className="text-lg font-bold">답변</h2>
+                        <h2 className="text-xl font-bold text-gray-500 px-1">관리자 답변</h2>
                         <span className="text-sm text-gray-500">
                             {formatDate(answer.createdAt)}
                         </span>
                     </div>
-                    <div className="bg-blue-50 rounded-lg p-6">
+                    <div className="bg-white border border-pink-100 rounded-lg p-6">
                         <p className="whitespace-pre-wrap text-gray-700">
                             {answer.responseContent}
                         </p>
@@ -192,24 +199,25 @@ export default function QnaDetailPage() {
             )}
 
             {isAdmin && !question.isAnswered && (
-                <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
-                    <h2 className="text-lg font-bold mb-4">답변 작성</h2>
+                // 답변이 작성되지 않은 경우에만 답변 입력 폼 표시
+                <div className="bg-pink-50 rounded-xl shadow-lg p-6 mb-6">
+                    <h2 className="text-xl font-bold text-gray-600 px-1 mb-4">답변 작성</h2>
                     <form onSubmit={handleSubmitAnswer} className="space-y-4">
                         <textarea
                             value={newAnswer}
                             onChange={(e) => setNewAnswer(e.target.value)}
-                            className="w-full p-4 border rounded-lg focus:ring-2 
-                                    focus:ring-blue-500 focus:border-transparent
+                            className="bg-white w-full p-4 border rounded-lg focus:ring-2 
+                                    focus:ring-pink-200 focus:border-transparent
                                     outline-none transition-all duration-200
                                     min-h-[160px] resize-y"
-                            placeholder="답변을 입력하세요..."
+                            placeholder="답변을 입력하세요"
                             required
                         />
                         <div className="flex justify-end">
                             <button
                                 type="submit"
-                                className="px-6 py-2.5 bg-blue-500 text-white rounded-lg
-                                        hover:bg-blue-600 transition-colors duration-200
+                                className="px-4 py-2 bg-pink-300 text-white rounded-lg text-base
+                                        hover:bg-pink-400 transition-colors duration-200
                                         flex items-center gap-2"
                             >
                                 <span>답변 등록</span>
@@ -231,8 +239,8 @@ export default function QnaDetailPage() {
             <div className="flex justify-end items-center mt-8">
                 <button
                     onClick={() => router.push('/qna')}
-                    className="px-6 py-1.5 border border-gray-300 rounded-xl text-gray-500
-                            hover:bg-gray-100 transition-colors duration-200
+                    className="px-6 py-1.5 bg-slate-100 border border-gray-300 rounded-xl text-gray-500
+                            hover:bg-slate-200 transition-colors duration-200
                             flex items-center gap-2"
                 >
                     <span>이전</span>

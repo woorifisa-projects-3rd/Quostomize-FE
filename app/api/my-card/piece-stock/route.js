@@ -22,7 +22,8 @@ export async function PATCH(request) {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${accessToken}`
+                    'Authorization': `Bearer ${accessToken}`,
+                    "traceId": `${session.traceId}`
                 },
                 body: JSON.stringify(body),
                 credentials: "include",

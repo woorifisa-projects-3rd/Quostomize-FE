@@ -129,12 +129,14 @@ export const authConfig = {
         const memberRole = result.memberRole;
         const cardStatus = result.cardStatus;
         const memberName = result.memberName;
+        const traceId = result.traceId;
 
         const user = {
           id: memberId,
           name: memberName,
           role: memberRole,
-          cardStatus: cardStatus,          
+          cardStatus: cardStatus,
+          traceId: traceId,    
           accessToken: accessToken,
           refreshToken: refreshToken,
           accessExpires: new Date().valueOf() + 1800000,
@@ -161,6 +163,7 @@ export const authConfig = {
           memberName: user.memberName,
           memberRole: user.role,
           cardStatus: user.cardStatus,
+          traceId : user.traceId,
           accessToken: user.accessToken,
           refreshToken: user.refreshToken,
           accessExpires: user.accessExpires,
@@ -194,8 +197,9 @@ export const authConfig = {
       if (token) {
         session.memberId = token.memberId;
         session.memberName = token.memberName;
-        session.memberRole = token.memberRolel;
+        session.memberRole = token.memberRole;
         session.cardStatus = token.cardStatus;
+        session.traceId = token.traceId;
         session.accessToken = token.accessToken;
         session.refreshToken = token.refreshToken;
         session.accessExpires = token.accessExpires;

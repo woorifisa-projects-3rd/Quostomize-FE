@@ -5,7 +5,7 @@ import { signIn, useSession } from 'next-auth/react';
 import { useState, useEffect } from 'react';
 import LoginForm from './LoginForm';
 import ErrorModal from './ErrorModal';
-import LoadingSpinner from '../../../components/overlay/loadingSpinner'
+import LoadingSpinner from '../../../components/overlay/LoadingSpinner'
 
 const LoginPage = () => {
   const { data: session } = useSession();
