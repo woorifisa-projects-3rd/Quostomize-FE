@@ -10,14 +10,12 @@ const getRandomColor = () => {
     return colors[Math.floor(Math.random() * colors.length)];
 };
 
-const SelectBenefit2 = () => {
+const SelectBenefit2 = ({ benefitState, setBenefitState }) => {
     const initialState = {
         categoryValues: [1, 1, 1, 1, 1],
         selectedCategories: [null, null, null, null, null],
         selectedOptions: [null, null, null, null, null],
     };
-
-    const [benefitState, setBenefitState] = useState(initialState);
 
     const resetContext = () => {
         setBenefitState(initialState);

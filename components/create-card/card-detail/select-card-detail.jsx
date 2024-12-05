@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import { BsInfoCircle } from "react-icons/bs"
+import Icons from '../../../public/icons/icons';
 
 function SelectCardForm({ cardOptions, setCardOptions}) {
 
@@ -112,7 +113,7 @@ function SelectCardForm({ cardOptions, setCardOptions}) {
             {showEcoAlert && (
                 <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-slate-50 rounded-lg shadow-lg p-6 z-50">
                     <div className="flex flex-col items-center">
-                        <span className="text-4xl mb-3"><img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Animals/Hatching%20Chick.png" alt="Hatching Chick" width="100" height="100" /></span>
+                        <span className="text-4xl mb-3"><img src={Icons.eco} alt="Hatching Chick" width="100" height="100" /></span>
                         <p className="text-lg font-medium text-yellow-500">당신은 환경을 지켰어요!</p>
                     </div>
                 </div>

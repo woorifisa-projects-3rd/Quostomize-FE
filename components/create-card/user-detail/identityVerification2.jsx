@@ -8,6 +8,7 @@ function VerificationModal({ isOpen, onClose }) {
     const [verificationCode, setVerificationCode] = useState('');
     const [timeLeft, setTimeLeft] = useState(180); // 3분 = 180초
     const [isTimerActive, setIsTimerActive] = useState(false);
+    const [isRequesting, setIsRequesting] = useState(false);
 
     useEffect(() => {
         let timer;
@@ -43,20 +44,54 @@ function VerificationModal({ isOpen, onClose }) {
         }
     };
 
-    const requestVerification = () => {
-        if (phoneNumber.length === 11) {
-            setStep(2);
-            setTimeLeft(180);
-            setIsTimerActive(true);
+    const requestVerificationCode = async () => {
+        if (phoneNumber.length === 11 && !isRequesting) {
+            setIsRequesting(true);
+            try {
+                const response = await fetch('/api/create-card/requestMessage', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ phone: phoneNumber, certificationNumber: "" }),
+                });
+
+                if (response.status === 204) {
+                    setStep(2);
+                    setTimeLeft(180);
+                    setIsTimerActive(true);
+                } else {
+                    console.error('Failed to request verification code.');
+                }
+            } catch (error) {
+                console.error('Error requesting verification code:', error);
+            } finally {
+                setIsRequesting(false);
+            }
         }
     };
 
-    const verifyCode = () => {
+    const verifyCode = async () => {
         if (verificationCode.length === 6 && timeLeft > 0) {
-            onClose(true);
+            try {
+                const response = await fetch('/api/create-card/authorizingAuthNumber', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ phone: phoneNumber, certificationNumber: verificationCode }),
+                });
+
+                if (response.status === 204) {
+                    onClose(true); // Verification successful
+                } else {
+                    console.error('Verification failed.');
+                }
+            } catch (error) {
+                console.error('Error verifying code:', error);
+            }
         }
     };
-
     if (!isOpen) return null;
 
     return (
@@ -140,7 +175,7 @@ function VerificationModal({ isOpen, onClose }) {
                             취소
                         </button>
                         <button
-                            onClick={step === 1 ? requestVerification : verifyCode}
+                            onClick={step === 1 ? requestVerificationCode  : verifyCode}
                             disabled={
                                 step === 1 
                                     ? phoneNumber.length !== 11 
