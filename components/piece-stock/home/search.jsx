@@ -16,7 +16,7 @@ const Search = ({ cardData, setCardData, value, setValue, setPage, wishInfo, set
     const cardId = cardData[0]?.cardSequenceId
 
     return (
-        <div className="p-4 h-screen overflow-y-auto">
+        <div className="p-4 h-screen overflow-scroll [&::-webkit-scrollbar]:hidden">
             <SearchHeader setValue={setValue} setSearchInfo={setSearchInfo} searchInfo={searchInfo} value={value} setPage={setPage} />
 
             {cardId !== undefined && <SearchBody searchInfo={searchInfo} setSelectedStocks={setSelectedStocks} selectedStocks={selectedStocks} />}
