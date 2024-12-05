@@ -20,18 +20,36 @@ import InputAddressHeader from '../../../components/create-card/input-address/In
 import SelectOtherInfo from '../../../components/create-card/input-address/SelectOtherInfo';
 import CheckInformationHeader from '../../../components/create-card/check-information/CheckInformationHeader';
 import CheckInformation from '../../../components/create-card/check-information/CheckInformation';
-
-import React, { useState } from "react";
+import Icons from '../../../public/icons/icons';
+import React, { useState, useEffect } from "react";
 import AlertModal from '../../../app/(fullscreen)/create-card/AlertModal';
+import { useRouter } from 'next/navigation';
+import { v4 as uuidv4 } from 'uuid';
 
 const CreateCardPage = () => {
+  const router = useRouter();
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+
   const [currentPage, setCurrentPage] = useState(1);
   const [showAlertModal, setShowAlertModal] = useState(false);
+  const [idempotencyKey, setIdempotencyKey] = useState(null);
+
+  useEffect(() => {
+    // 최초 페이지 로드 시 멱등성 키를 생성하고 상태에 저장
+    if (!idempotencyKey) {
+      setIdempotencyKey(uuidv4());
+    }
+  }, [idempotencyKey]);
+
+
   // 1페이지
   const [selectedCardIndex, setSelectedCardIndex] = useState(0); // 카드 번호 상태 관리
   // 2페이지
-  const [categoryValues, setCategoryValues] = useState([1, 1, 1, 1, 1]);
-  const [selectedOptions, setSelectedOptions] = useState([null, null, null, null, null]);
+  const [benefitState, setBenefitState] = useState({
+    categoryValues: [1, 1, 1, 1, 1],
+    selectedCategories: [null, null, null, null, null],
+    selectedOptions: [null, null, null, null, null],
+  });
   // 3페이지
   const [activeOptions, setActiveOptions] = useState([]);
   const [hoveredIndex, setHoveredIndex] = useState(null);
@@ -71,53 +89,39 @@ const CreateCardPage = () => {
   });
 
 
+  const mapCategoryToId = (categoryIndex, selectedOption) => {
+    const upperCategoryId = categoryIndex + 1;
+
+    // Handle both object and numeric values in selectedOption
+    const lowerCategoryId =
+        typeof selectedOption === "object" ? selectedOption?.id : selectedOption;
+
+    const benefitRate = benefitState.categoryValues[categoryIndex]
+        ? Math.min(benefitState.categoryValues[categoryIndex] - 1, 4) // 할인율 제한 (0-4)
+        : 0; // 기본값 0
+
+    return {
+      upperCategoryId,
+      lowerCategoryId: lowerCategoryId || null,
+      benefitRate,
+    };
+  };
+
+  const paymentMethodMapping = {
+    "이메일": 0,
+    "문자": 1,
+    "우편": 2,
+  };
+
 
   const submitCardApplication = async () => {
 
-    console.log("Hello Bro");
     try {
-      const lowerCategoryMapping = {
-        "백화점(더현대, 신세계, 롯데백화점)": 100,
-        "온라인쇼핑(쿠팡, G마켓)": 101,
-        "마트(이마트, 홈플러스)": 102,
-        "주유소(SK, GS칼텍스)": 200,
-        "통신(핸드폰 요금)": 201,
-        "대중교통(버스, 지하철)": 202,
-        "편의점(CU, GS25)": 300,
-        "커피(스타벅스, 투썸)": 301,
-        "배달(배달의민족, 요기요)": 302,
-        "투어(여행 패키지)": 400,
-        "차량(렌터카, 차량 대여)": 401,
-        "숙소(호텔, 에어비앤비)": 402,
-        "OTT(넷플릭스, 유튜브 프리미엄)": 500,
-        "영화관(CGV, 롯데시네마)": 501,
-        "도서(교보문고, 예스24)": 502,
-      };
-
-      console.log(lowerCategoryMapping);
-
-      const mapCategoryToId = (categoryIndex, selectedOption) => {
-        // Map upperCategoryIds based on order: 쇼핑 (1), 생활 (2), 푸드 (3), 여행 (4), 문화 (5)
-        const upperCategoryId = categoryIndex + 1;
-
-
-        // 매핑 상태 디버깅
-        // if (!lowerCategoryId && selectedOption) {
-        //   console.error(`Mapping failed for: ${selectedOption}`);
-        // }
-
-        return {
-          upperCategoryId,
-          // lowerCategoryId,
-          benefitRate: Math.min(categoryValues[categoryIndex] - 1, 4), // 할인율 제한 (0-4)
-        };
-      };
-
 
       const cardApplicationData = {
         // 카드 기본 정보
         cardColor: selectedCardIndex,
-        cardBrand: cardOptions.cardBrand,
+        cardBrand: cardOptions.cardBrand === 'VISA' ? 1 : cardOptions.cardBrand,
         isAppCard: cardOptions.isAppCard,
         isForeignBlocked: cardOptions.isForeignBlocked,
         isPostpaidTransport: cardOptions.isPostpaidTransport,
@@ -133,17 +137,16 @@ const CreateCardPage = () => {
           if (sixth) return 2;
           return 0;
         })(),
-        paymentReceiptMethods: formData.paymentHistoryReceiveMethod,
+        paymentReceiptMethods: paymentMethodMapping[formData.paymentHistoryReceiveMethod] ?? 0, // 기본값 이메일(0)
+
 
         // 카드 혜택 정보
-        benefits: selectedOptions.map((option, index) => mapCategoryToId(index, option)),
-
+        benefits: benefitState.selectedOptions.map((option, index) => mapCategoryToId(index, option)),
 
         // 포인트 사용 방법
         isLotto: activeOptions.includes('일일 복권'),
         isPayback: activeOptions.includes('페이백'),
         isPieceStock: activeOptions.includes('조각 투자'),
-
 
         // 신청자 정보
         residenceNumber: `${applicantInfo.residenceNumber}${applicantInfo.residenceNumber2}`,
@@ -158,30 +161,34 @@ const CreateCardPage = () => {
         homeDetailAddress: formData.detailedResidentialAddress
       };
 
-      console.log("Card Application Data:", cardApplicationData);
-      console.log("selectedOption:", selectedOptions);
-
-      const response = await fetch('/api/create-card', {
+      const response = await fetch("/api/create-card", {
         method: 'POST',
+        cache: 'no-store',
         headers: {
           'Content-Type': 'application/json',
+          'Idempotency-Key': idempotencyKey,
         },
+        credentials: 'include',
         body: JSON.stringify(cardApplicationData)
       });
 
-      if (!response.ok) {
-        throw new Error('카드 신청에 실패했습니다');
+      if (response.status !== 201) {
+        const errorData = await response.json();
+        console.error("API Error Response:", errorData);
+        throw new Error('카드 신청에 실패했습니다: ' + (errorData.message || 'Unknown error'));
       }
-
       const result = await response.json();
-      // 성공 처리 로직 (예: 성공 페이지로 이동)
+      setShowSuccessAlert(true);
+      setTimeout(() => {
+        setShowSuccessAlert(false);
+        router.push('/home');
+      }, 4000);
 
     } catch (error) {
+      console.log("Hello boy");
       setShowAlertModal(true);
     }
   };
-
-
 
   const TOTAL_PAGES = 8;
   const handleNextPage = () => {
@@ -258,7 +265,10 @@ const CreateCardPage = () => {
           <header>
             <SelectBenefit1 onClick={handlePrevPage} />
           </header>
-          <SelectBenefit2 />
+          <SelectBenefit2
+              benefitState={benefitState}
+              setBenefitState={setBenefitState}
+          />
         </div>;
 
       case 3:
@@ -364,6 +374,16 @@ const CreateCardPage = () => {
         onClose={() => setShowAlertModal(false)}
         message="모든 항목에 체크를 해주세요"
       />
+      {showSuccessAlert && (
+          <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-slate-50 rounded-lg shadow-lg p-6 z-50">
+            <div className="flex flex-col items-center">
+            <span className="text-4xl mb-3">
+              <img src={Icons.eco} alt="Success Icon" width="100" height="100" />
+            </span>
+              <p className="text-lg font-medium text-blue-500">카드 신청이 완료되었습니다</p>
+            </div>
+          </div>
+      )}
 
     </div>
   );
