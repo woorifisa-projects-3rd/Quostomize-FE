@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import ModalHeader from "./modalComponent/ModalHeader"
+import ModalHeader from "./modalComponent/modalHeader"
 import ModalData from "./modalComponent/modalData"
 import ChevronButton from "./modalComponent/chevronButton"
 
