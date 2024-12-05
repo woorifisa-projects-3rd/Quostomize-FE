@@ -17,6 +17,8 @@
     "chart.js": "^4.4.6",
     "chartjs-plugin-datalabels": "^2.2.0",
     "gsap": "^3.12.5",
+    "js-cookie": "^3.0.5",
+    "lottie-web": "^5.12.2",
     "lucide-react": "^0.460.0",
     "material-icons": "^1.13.12",
     "next": "15.0.2",
@@ -29,6 +31,7 @@
     "uuid": "^11.0.3"
   },
   "devDependencies": {
+    "@svgr/webpack": "^8.1.0",
     "@types/node": "22.8.7",
     "@types/react": "18.3.12",
     "postcss": "^8",

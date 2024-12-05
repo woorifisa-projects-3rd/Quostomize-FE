@@ -1,10 +1,6 @@
 import { NextResponse } from "next/server";
-import { auth } from "../../../../auth";
-
 
 export async function GET(request) {
-
-    const session = await auth();
 
     const url = new URL(request.url);
     const memberId = url.searchParams.get('memberId');
@@ -14,7 +10,6 @@ export async function GET(request) {
             method: "GET",
             headers: {
                 "Content-type": "application/json",
-                "Authorization": `Bearer ${session.accessToken}`
             },
             credentials: "include",
             cache: "no-store"

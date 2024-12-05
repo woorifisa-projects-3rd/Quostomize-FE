@@ -103,7 +103,6 @@ const ChangeBenefitsPage = () => {
       };
       setBenefitState(updatedState);
 
-      console.log('Updated benefitState:', updatedState);
       setCardSequenceId(data.data[0].cardSequenceId);
     } catch (error) {
       setError(error.message);
@@ -128,28 +127,25 @@ const ChangeBenefitsPage = () => {
     const dd = String(date.getDate()).padStart(2, '0');
 
     const formattedDate = `${yyyy}-${mm}-${dd}`;
-    console.log("여기는 제대로 들어옴?", benefitState.categoryValues);
 
-    const filteredCategories = selectedCategories
-      .map((upperCategoryId, index) => ({
-        upperCategoryId,
-        categoryValue: categoryValues[index],
-        selectedOption: selectedOptions[index],
-      }))
-      .filter(item => item.upperCategoryId !== null);
+    const requestBody = selectedCategories
+        .map((upperCategoryId, index) => {
+          // benefitRate가 0인 경우도 유효한 값으로 처리
+          const benefitRate = Math.max(0, categoryValues[index] - 1);
 
-    const requestBody = filteredCategories.map((item) => ({
-      benefitEffectiveDate: formattedDate,
-      benefitRate: item.categoryValue - 1,
-      isActive: true,
-      cardSequenceId,
-      upperCategoryId: item.upperCategoryId,
-      lowerCategoryId: item.selectedOption,
-      secondaryAuthCode: authCode,
-    }));
+          if (upperCategoryId === null) return null;
 
-    console.log("Request Body:", JSON.stringify(requestBody));
-
+          return {
+            benefitEffectiveDate: formattedDate,
+            benefitRate,
+            isActive: true,
+            cardSequenceId,
+            upperCategoryId,
+            lowerCategoryId: selectedOptions[index] || null,
+            secondaryAuthCode: authCode,
+          };
+        })
+        .filter(Boolean);
 
     try {
       const response = await fetch(url, {
@@ -159,7 +155,7 @@ const ChangeBenefitsPage = () => {
         cache: "no-store",
         body: JSON.stringify(requestBody),
       });
-      console.log(response);
+
 
       if (!response.ok) {
         const errorText = await response.text();
@@ -167,16 +163,6 @@ const ChangeBenefitsPage = () => {
         throw new Error(errorText);
 
       }
-
-      const responseText = await response.text();
-      if (!responseText) {
-        throw new Error("Empty response body");
-      }
-
-      const result = JSON.parse(responseText);
-      console.log(result);
-
-      setAuthSuccess(result.status === 400 ? "400" : "200");
 
       setAuthTrigger(prev => prev + 1);
     } catch (error) {
