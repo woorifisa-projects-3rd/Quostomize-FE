@@ -24,9 +24,8 @@ const favoriteBottom = ({ orderInfo, cardId, wishInfo, setWishInfo, session, set
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',  // 요청 본문이 JSON임을 지정
-                }, body: JSON.stringify( orderInfo ),
+                }, body: JSON.stringify(orderInfo),
             });
-            console.log(orderInfo)
         } catch (error) {
             console.error('데이터 가져오기 오류:', error);
         }
@@ -37,17 +36,16 @@ const favoriteBottom = ({ orderInfo, cardId, wishInfo, setWishInfo, session, set
         try {
             param.append("cardId", cardId)
             param.append("isRecommendByCardBenefit", true)
-            const response = await fetch(`http://localhost:8080/v1/api/stocks/recommendations?${param}`,
+            const response = await fetch(`/api/piece-stock/favorite/searchRecommend?${param}`,
                 {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',  // 요청 본문이 JSON임을 지정
-                        'Authorization': `Bearer ${session.accessToken}`, // JWT 토큰을 Authorization 헤더에 포함
                     }
                 }
             )
             const data = await response.json()
-            setRecommend(data.data)
+            setRecommend(data)
         } catch (error) {
             console.error('데이터 가져오기 오류:', error);
         }
@@ -56,12 +54,10 @@ const favoriteBottom = ({ orderInfo, cardId, wishInfo, setWishInfo, session, set
     // 저장 요청
     const saveStocks = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/v1/api/stocks/recommendations/add?${paramSave}`, {
+            const response = await fetch(`/api/piece-stock/favorite/createWish?${paramSave}`, {
                 method: 'GET',
-                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',  // 요청 본문이 JSON임을 지정
-                    'Authorization': `Bearer ${session.accessToken}`, // JWT 토큰을 Authorization 헤더에 포함
                 },
             });
 
@@ -106,13 +102,8 @@ const favoriteBottom = ({ orderInfo, cardId, wishInfo, setWishInfo, session, set
                     const stockName = recommendStockInfo[i] // 해당하는 인덱스의 위시주식과 비교해서
                     wishInfo.forEach((whishStock, index) => { // 내 위시주식 정보에서
                         if (whishStock.stockName === stockName.stockName) { // 만일 위시주식 안에 추천주식명이 없다면 통과
-                            console.log("중복이 존재한다 : " + index)
                             duplicated.push(true) // 중복일떄 true를 넣는다.
                         } else {    //중복이 있다면 체크
-                            console.log("주식의 중복이 없다면 : " + index)
-                            console.log(whishStock.stockName)
-                            console.log(stockName.stockName)
-                            console.log("===============")
                             duplicated.push(false) // 중복이 아닐떄 false를 넣는다.
                         }
                     })
@@ -123,21 +114,19 @@ const favoriteBottom = ({ orderInfo, cardId, wishInfo, setWishInfo, session, set
                 }
 
                 if (duplicated.includes(true)) {
-                    console.log("위시주식에 이미 해당 주식이 존재합니다.");
+                    // console.log("위시주식에 이미 해당 주식이 존재합니다.");
                 } else {
                     if (check === true) {
                         testName.forEach((recommendName, index) => {
 
                             paramSave.append("stockName", recommendName.stockName)
-                            console.log(paramSave)
+
                             saveStocks(); // 저장하는 함수 호출 (주석 처리된 상태)
                             saveData.push(recommendName)
-                            console.log(recommendName)
-                            console.log("위시주식 저장");
                             paramSave.delete("stockName")
                         })
                     } else {
-                        console.log("다음 추천주식 인덱스로")
+                        // console.log("다음 추천주식 인덱스로")
                     }
 
                 }
@@ -145,7 +134,6 @@ const favoriteBottom = ({ orderInfo, cardId, wishInfo, setWishInfo, session, set
             if (saveData.length > 0) {
                 if (wishInfo.length === 1) {
                     compareData = saveData.map((data, i) => {
-                        console.log(data)
                         return (
                             {
                                 ...data,
@@ -155,7 +143,6 @@ const favoriteBottom = ({ orderInfo, cardId, wishInfo, setWishInfo, session, set
                     })
                 } else if (wishInfo.length === 2) {
                     compareData = saveData.map((data, i) => {
-                        console.log(data)
                         return (
                             {
                                 ...data,
@@ -165,7 +152,6 @@ const favoriteBottom = ({ orderInfo, cardId, wishInfo, setWishInfo, session, set
                     })
                 } else {
                     compareData = saveData.map((data, i) => {
-                        console.log(data)
                         return (
                             {
                                 ...data,
@@ -175,8 +161,6 @@ const favoriteBottom = ({ orderInfo, cardId, wishInfo, setWishInfo, session, set
                     })
                 }
                 const newData = [...wishInfo, ...compareData]
-                console.log(wishInfo)
-                console.log(newData)
                 setWishInfo(newData)
             }
             setOpen(false) // 모달을 닫는다
@@ -187,7 +171,7 @@ const favoriteBottom = ({ orderInfo, cardId, wishInfo, setWishInfo, session, set
         <>
             <div className="flex justify-between p-4">
                 <button className="px-4 py-2 border rounded border-black font-bold" onClick={openModal}>종목 자동 추천</button>
-                <button className="px-4 py-2 border rounded border-black font-bold" onClick={()=>switchStock(orderInfo)}>저장</button>
+                <button className="px-4 py-2 border rounded border-black font-bold" onClick={() => switchStock(orderInfo)}>저장</button>
             </div>
             <div>
                 {isOpen && <LargeModal className="bg-white rounded-t-3xl p-6 w-full"
