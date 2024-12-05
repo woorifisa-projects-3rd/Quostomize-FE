@@ -3,13 +3,8 @@
 import React, { useState } from 'react';
 import { IoWarningOutline } from 'react-icons/io5';
 
-function CardApplicantInfo1() {
-    const [applicantInfo, setApplicantInfo] = useState({
-        residenceNumber: '',
-        residenceNumber2: '',
-        name: '',
-        englishName: '',
-    });
+function CardApplicantInfo1({ applicantInfo, setApplicantInfo }) {
+
     const [errors, setErrors] = useState({});
     const [touched, setTouched] = useState({});
 

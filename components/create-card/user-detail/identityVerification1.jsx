@@ -3,9 +3,9 @@
 import React, { useState } from 'react';
 import IdentityVerification2 from './identityVerification2';
 
-function IdentityVerification1() {
+function IdentityVerification1({isVerified, setIsVerified} ) {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [isVerified, setIsVerified] = useState(false);
+
 
     const handleModalClose = (verified = false) => {
         setIsModalOpen(false);
