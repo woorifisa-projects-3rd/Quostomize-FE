@@ -158,7 +158,6 @@ const favoriteBody = ({ cardId, orderInfo, setOrderInfo, setWishInfo, wishInfo, 
             param.append("order", index + 1)
         }
         setWishInfo(newData)
-        console.log("제거진행")
         param.append("cardId", cardId)
         deleteStocks()
     }
