@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import LoadingSpinner from '../../../components/overlay/LoadingSpinner';
+import LoadingSpinner from '../../../components/overlay/loadingSpinner';
 
 export default function FindPasswordPage() {
   const router = useRouter();
