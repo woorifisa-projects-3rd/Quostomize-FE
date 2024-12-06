@@ -33,7 +33,7 @@ const SignupPage = () => {
     <>
       {isPage[0] === true && <SignupFirst setPage={setPage} firstForm={firstForm} setFirstForm={setFirstForm} />}
       {isPage[1] === true && <SignupSecond setPage={setPage} secondForm={secondForm} setSecondForm={setSecondForm} firstForm={firstForm} regionNumber={regionNumber} setRegionNumber={setRegionNumber} isBlocked={isBlocked} />}
-      {isPage[2] === true && <AuthorizationMessageNumber setPage={setPage} secondForm={secondForm} setBlock={setBlock}/>}
+      {isPage[2] === true && <AuthorizationMessageNumber setPage={setPage} secondForm={secondForm} setBlock={setBlock} />}
       {isPage[3] === true && <SignupComplete setPage={setPage} />}
     </>
   );

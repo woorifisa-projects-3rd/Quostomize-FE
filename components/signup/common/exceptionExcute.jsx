@@ -52,4 +52,12 @@ export const validateEmail = (email) => {
     }
 }
 
+export const validateId = (id) => {
+    const hasNoSpecialChar = /^[a-zA-Z0-9]*$/.test(id);
+    if (id.length < 4) {
+        return false;
+    } else if (hasNoSpecialChar) {
+        return true;
+    }
+}
 
