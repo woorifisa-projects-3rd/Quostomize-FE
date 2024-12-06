@@ -1,13 +1,13 @@
-const WinnerCard = ({name}) => {
-  return (
-    <div className="shrink-0 relative w-5/6 h-[128px] bg-white rounded-lg shadow-lg flex items-center">
-      
-      <div className="absolute top-4 -left-4 w-1/5 aspect-square bg-orange-500/80 rounded-md shadow-[1px_6px_6px_0_rgb(254,138,24,0.4)]" ></div>
+import RandomProfile from "../../utils/getRandomProfile"
+import getRandomHello from "../../utils/getRandomHello";
 
-      {/* Card Content */}
-      <div className="ml-24 z-10">
-        <div className="text-3xl font-bold mt-2 tracking-wider">{name}</div>
-      </div>
+const WinnerCard = ({name}) => {
+  const message = getRandomHello();
+  return (
+    <div className="shrink-0 relative w-5/6 h-14 bg-white rounded-lg shadow-[0px_10px_25px_-3px_rgba(0,0,0,0.1)] flex items-center px-4">
+      <RandomProfile />
+      <div className="ml-6 z-10 text-xl tracking-wider w-32 truncate">{name}</div>
+      <div className="ml-4 w-60 truncate">{message}</div>
     </div>
   );
 };

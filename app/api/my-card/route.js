@@ -9,7 +9,8 @@ export async function GET() {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
-                "Authorization": `Bearer ${accessToken}`
+                "Authorization": `Bearer ${accessToken}`,
+                "traceId": `${session.traceId}`
             },
             credentials: "include",
         });

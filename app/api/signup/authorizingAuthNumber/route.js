@@ -1,9 +1,7 @@
 import { NextResponse } from "next/server";
-import { auth } from "../../../../auth";
 
 export async function POST(request) {
 
-    const session = await auth();
 
     const body = await request.json();  // 요청 본문을 JSON으로 파싱
 
@@ -12,7 +10,6 @@ export async function POST(request) {
             method: "POST",
             headers: {
                 "Content-type": "application/json",
-                "Authorization": `Bearer ${session.accessToken}`
             },
             body: JSON.stringify(body),
             credentials: "include",
