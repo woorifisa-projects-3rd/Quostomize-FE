@@ -4,7 +4,9 @@ import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { signIn } from "next-auth/react";
 
+import LoadingSpinner from "../overlay/loadingSpinner";
 import LoginForm from "./loginForm";
 import ErrorModal from "./errorModal";
 
@@ -81,7 +83,6 @@ const LoginContent = () => {
 
     return (
         <div className="w-full px-6 pt-12 pb-28">
-        <div className="min-h-screen">
           <div className="max-w-md mx-auto">
             <h1 className="text-3xl font-bold color1 mb-3">
               커스터마이징 카드
@@ -90,10 +91,9 @@ const LoginContent = () => {
               서비스 이용을 위해 로그인해주세요.
             </p>
           </div>
-        </div>
 
-        <div className="relative">
-          <div className="absolute inset-x-0 -top-20">
+        <div className="relative mt-20">
+          <div className="inset-x-0 -top-20">
             <div className="max-w-lg mx-auto px-5">
               <div className="bg-white rounded-3xl shadow-xl p-8">
                 <h2 className="text-2xl font-bold text-center mb-8">로그인</h2>
