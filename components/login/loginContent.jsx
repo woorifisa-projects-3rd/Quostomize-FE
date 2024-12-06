@@ -5,6 +5,9 @@ import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
+import LoginForm from "./loginForm";
+import ErrorModal from "./errorModal";
+
 const LoginContent = () => {
     const { data: session } = useSession();
     const searchParams = useSearchParams();

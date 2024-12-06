@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import Icons from '../../../public/icons/icons'
+import Icons from '../../public/icons/icons'
 
 const ErrorModal = ({ isOpen, onClose }) => {
     if (!isOpen) return null;

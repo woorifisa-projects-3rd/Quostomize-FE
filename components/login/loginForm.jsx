@@ -1,6 +1,6 @@
 'use client'
 
-import { validateLoginId, validatePassword } from '../../../utils/loginValid/validation';
+import { validateLoginId, validatePassword } from '../../utils/loginValid/validation';
 import { useState } from 'react';
 
 const LoginForm = ({ formData, handleInputChange, isFormValid, onSubmit }) => {
