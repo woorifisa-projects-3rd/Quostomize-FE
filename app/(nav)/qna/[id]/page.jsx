@@ -24,14 +24,8 @@ export default function QnaDetailPage() {
             router.push('/login');
             return;
         }
-
-        if (isSuspendedMember) {
-            router.push('/access-denied');
-            return;
-        }
-
         fetchQuestionDetail();
-    }, [session, isSuspendedMember]);
+    }, [session]);
 
     const fetchQuestionDetail = async () => {
         setIsLoading(true);
@@ -126,8 +120,8 @@ export default function QnaDetailPage() {
     };
 
     return (
-        <div className="max-w-3xl mx-auto px-6 py-8">
-            <div className="bg-sky-50 rounded-xl shadow-lg p-6 mb-6">
+        <div className="max-w-3xl mx-auto px-6 py-12">
+            <div className="bg-blue-50 rounded-xl shadow-lg p-6 mb-6">
                 {/* 상단 정보 영역 */}
                 <div className="flex flex-col gap-4">
                     {/* 메타 정보 */}
@@ -183,14 +177,14 @@ export default function QnaDetailPage() {
     
             {/* 답변 영역 */}
             {answer && answer.responseContent && (  // 답변이 있고 내용이 있을 때만 표시
-                <div className="bg-pink-50 rounded-xl shadow-lg p-6 mb-6">
+                <div className="bg-gray-100 rounded-xl shadow-lg p-6 mb-6">
                     <div className="flex items-center gap-2 mb-4">
                         <h2 className="text-xl font-bold text-gray-500 px-1">관리자 답변</h2>
                         <span className="text-sm text-gray-500">
                             {formatDate(answer.createdAt)}
                         </span>
                     </div>
-                    <div className="bg-white border border-pink-100 rounded-lg p-6">
+                    <div className="bg-white border border-gray-300 rounded-lg p-6">
                         <p className="whitespace-pre-wrap text-gray-700">
                             {answer.responseContent}
                         </p>
@@ -200,14 +194,14 @@ export default function QnaDetailPage() {
 
             {isAdmin && !question.isAnswered && (
                 // 답변이 작성되지 않은 경우에만 답변 입력 폼 표시
-                <div className="bg-pink-50 rounded-xl shadow-lg p-6 mb-6">
+                <div className="bg-gray-100 rounded-xl shadow-lg p-6 mb-6">
                     <h2 className="text-xl font-bold text-gray-600 px-1 mb-4">답변 작성</h2>
                     <form onSubmit={handleSubmitAnswer} className="space-y-4">
                         <textarea
                             value={newAnswer}
                             onChange={(e) => setNewAnswer(e.target.value)}
                             className="bg-white w-full p-4 border rounded-lg focus:ring-2 
-                                    focus:ring-pink-200 focus:border-transparent
+                                    focus:ring-gray-300 focus:border-transparent
                                     outline-none transition-all duration-200
                                     min-h-[160px] resize-y"
                             placeholder="답변을 입력하세요"
@@ -216,8 +210,8 @@ export default function QnaDetailPage() {
                         <div className="flex justify-end">
                             <button
                                 type="submit"
-                                className="px-4 py-2 bg-pink-300 text-white rounded-lg text-base
-                                        hover:bg-pink-400 transition-colors duration-200
+                                className="px-4 py-2 bg-gray-400 text-white rounded-lg text-base
+                                        hover:bg-gray-500 transition-colors duration-200
                                         flex items-center gap-2"
                             >
                                 <span>답변 등록</span>
