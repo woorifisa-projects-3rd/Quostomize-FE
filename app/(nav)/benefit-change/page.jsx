@@ -6,9 +6,11 @@ import ChangeBenefitBody2 from "../../../components/change-benefits/ChangeBenefi
 import ChangeBenefitBody3 from "../../../components/change-benefits/ChangeBenefitBody3";
 import ChangeBenefitFoot from "../../../components/change-benefits/ChangeBenefitFoot";
 import { useEffect, useState } from "react";
+import { useRouter } from 'next/navigation';
+import CardNotFoundModal from "../../../components/my-card/CardNotFoundModal";
 
 const ChangeBenefitsPage = () => {
-
+  const router = useRouter();
   const [benefitState, setBenefitState] = useState({
     categoryValues: [1, 1, 1, 1, 1],
     selectedCategories: [null, null, null, null, null],
@@ -20,7 +22,7 @@ const ChangeBenefitsPage = () => {
   const [buttonText, setButtonText] = useState('');
   const [authSuccess, setAuthSuccess] = useState(null);
   const [authTrigger, setAuthTrigger] = useState(0);
-
+  const [showNoCardModal, setShowNoCardModal] = useState(false); // 카드가 없는 경우 모달 상태
 
   const categoryMap = {
     1: '쇼핑',
@@ -69,10 +71,8 @@ const ChangeBenefitsPage = () => {
       const responsedata = await response.json();
 
       if (responsedata.data && responsedata.data) {
-
         setButtonText(responsedata.data);
       };
-
     } catch (error) {
       setError(error.message);
     }
@@ -94,6 +94,11 @@ const ChangeBenefitsPage = () => {
       }
       const data = await response.json();
 
+      if (!data.data || data.data.length === 0) {
+        setShowNoCardModal(true); // 카드가 없으면 모달을 띄우도록 설정
+        return;
+      }
+      
       const transformedData = transformBenefitData(data.data);
 
       const updatedState = {
@@ -232,6 +237,18 @@ const ChangeBenefitsPage = () => {
     return <div>문제가 발생했습니다. 다시 시도해 주세요: {error}</div>
   }
 
+  if (showNoCardModal) {
+    return (
+      <CardNotFoundModal
+        isOpen={showNoCardModal}
+        onClose={() => {
+          setShowNoCardModal(false);
+          router.push('/home');
+        }}
+      />
+    );
+  }
+  
   if (!benefitState) {
     return <div>로딩 중...</div>;
   }
