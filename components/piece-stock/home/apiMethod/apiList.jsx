@@ -45,7 +45,7 @@ export async function switchStock(orderInfo) {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',  // 요청 본문이 JSON임을 지정
-            }, body: JSON.stringify(orderInfo),
+            }, body: JSON.stringify([orderInfo]),
         });
     } catch (error) {
         console.error('데이터 가져오기 오류:', error);
