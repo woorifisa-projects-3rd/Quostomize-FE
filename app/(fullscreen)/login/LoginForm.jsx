@@ -1,4 +1,4 @@
-'use client';
+'use client'
 
 import { validateLoginId, validatePassword } from '../../../utils/loginValid/validation';
 import { useState } from 'react';
