@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import FlipCard from '../../../components/card/flip-card'
 import MyCardHeader from '../../../components/my-card/myCardHeader'
-import MyToggle from '../../../components/button/toggleButton'
 import MyFullButton from "../../../components/button/full-button";
 import Icons from "../../../public/icons/icons"
 import GradientText from "../../../components/card/gradientText";
