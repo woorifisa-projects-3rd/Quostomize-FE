@@ -39,7 +39,7 @@ const WinningModal = (isWinner) => {
         23, 59, 59, 999
     );
 
-    Cookies.set("winner_checked", true,
+    Cookies.set("winner_checked", "true",
       {
         expires: endOfDay.getTime()
       }
@@ -63,8 +63,8 @@ const WinningModal = (isWinner) => {
     <Dialog
       open={isOpen}
       onClose={() => { 
-        setIsOpen(false);
         setCookie();
+        setIsOpen(false);
      }}
     >
       <div className="fixed inset-0 flex w-screen h-full bg-black/15 items-center justify-center p-4 z-30">
