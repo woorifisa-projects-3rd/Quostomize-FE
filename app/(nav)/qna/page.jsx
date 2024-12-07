@@ -76,7 +76,7 @@ export default function QnaPage() {
     return (
         <div className="max-w-6xl mx-auto px-6 py-8">
             <div className="flex justify-between items-center mb-8">
-                <h1 className="p-3 px-6 text-3xl font-bold text-blue-300">Q&A</h1>
+                <h1 className="p-3 px-6 text-3xl font-bold text-blue-400">Q&A</h1>
                 <button 
                     onClick={() => router.push('/qna/write')}
                     className="px-7 py-2 bg-blue-200 text-gray-600 rounded-lg hover:bg-blue-400 transition-colors"
