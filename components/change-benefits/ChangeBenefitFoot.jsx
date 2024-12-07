@@ -132,7 +132,7 @@ const ChangeBenefitFoot = ({ exitDirection, modalTitle, buttonText, onChangeBene
 
     return (
         <div>
-            <div className='flex flex-col p-4 justify-center items-center'>
+            <div className='flex flex-col px-4 py-2 justify-center items-center'>
                 <Button
                     className={`font-bold font2 w-full rounded py-3 px-3 ${isButtonDisabled() ? 'bg-gray-400 text-white cursor-not-allowed' : 'bg-blue-600 text-white'}`}
                     onClick={handleClick}

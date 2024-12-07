@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import Icons from '../../public/icons/icons';
 
-const InteractiveTabContentBox = ({ categoryMap, lowerCategoryMap, benefitState, updateOption, updateCategory, updateCategoryValue }) => {
-    const [activeTab, setActiveTab] = useState(null);
+const InteractiveTabContentBox = ({ labels, categoryMap, lowerCategoryMap, benefitState, data, updateOption, updateCategory, updateCategoryValue }) => {
+    const [activeTab, setActiveTab] = useState(0);
     const [selectedOptionIndex, setSelectedOptionIndex] = useState(Array(5).fill(null));
 
     const categoryKeys = [1, 2, 3, 4, 5];
@@ -70,53 +70,60 @@ const InteractiveTabContentBox = ({ categoryMap, lowerCategoryMap, benefitState,
     };
 
     return (
-        <div className="w-full max-w-2xl">
-            <div className="px-8 w-full flex justify-between items-center border-b border-gray-200">
-                {categories.map((category, index) => (
-                    <React.Fragment key={index}>
-                        <button
-                            onClick={() => handleTabClick(index)}
-                            className={`px-4 py-2 font-bold transition-colors ${benefitState.categoryValues[index] >= 4
-                                ? 'text-white bg-blue-500 rounded-lg border-b-2 border-blue-500'
-                                : 'text-gray-600 hover:bg-gray-50'
-                                }`}
-                        >
-                            {category}
-                        </button>
-                        {index < categories.length - 1 && (
-                            <span className="text-gray-300 mx-2">|</span>
-                        )}
-                    </React.Fragment>
-                ))}
-            </div>
-
-
-            <div className="p-8 bg-white border border-t-0 border-gray-200">
-                {activeTab !== null && (
-                    <div className="space-y-4">
-                        {mappedOptions[activeTab].map((option, index) => (
+        <div>
+            <p className='text-xs text-gray-500'>쇼핑, 생활, 푸드, 여행, 문화 탭을 클릭해 적립 혜택을 받을 곳을 선택하세요!</p>
+            <div className=" w-full max-w-2xl">
+                <div className="px-8 py-2 mb-1 w-full flex justify-between items-center border-b border-gray-200">
+                    {categories.map((category, index) => (
+                        <React.Fragment key={index}>
                             <button
                                 key={index}
-                                onClick={() => handleOptionSelect(index)}
-                                className={`flex w-full p-4 text-left rounded-lg transition-colors ${selectedOptionIndex[activeTab] === index
-                                    ? 'bg-blue-50 border-blue-500'
-                                    : 'hover:bg-gray-50'
-                                    }`}
+                                onClick={() => handleTabClick(index)}
+                                className={`flex flex-col items-center font-bold transition-colors ${benefitState.categoryValues[index] >= 4}`}
+                                style={{
+                                    color: (activeTab === index || benefitState.categoryValues[index] >= 4) ? 'black' : '#D1D5DB',
+                                }}
                             >
-                                <div className="w-12 h-12 mr-4 flex items-center justify-center">
-                                    <img
-                                        src={optionicon[activeTab][index]}
-                                        alt={option}
-                                        className="w-12 h-12 object-contain"
-                                    />
-                                </div>
-                                <span className="text-gray-700">{option}</span>
+                                <div className="text-sm"
+                                    style={{
+                                        letterSpacing: '0.1em'
+                                    }}>{category}</div>
+                                <div className="text-sm text-blue-600 mt-1">{data[index]} %</div>
                             </button>
-                        ))}
-                    </div>
-                )}
-            </div>
+                            {/*세로 구분선 있는 부분 */}
+                            {index < categories.length - 1 && (
+                                <div className="h-8 border-l border-gray-300"></div>
+                            )}
+                        </React.Fragment>
 
+                    ))}
+                </div>
+                <div className="p-4 bg-white border border-t-0 border-gray-200">
+                    {activeTab !== null && (
+                        <div className="space-y-4">
+                            {mappedOptions[activeTab].map((option, index) => (
+                                <button
+                                    key={index}
+                                    onClick={() => handleOptionSelect(index)}
+                                    className={`flex w-full px-4 items-center text-left rounded-lg transition-colors ${selectedOptionIndex[activeTab] === index
+                                        ? 'bg-blue-50 border-blue-500'
+                                        : 'hover:bg-gray-50'
+                                        }`}
+                                >
+                                    <div className="w-10 h-10 mr-4 flex items-center justify-center">
+                                        <img
+                                            src={optionicon[activeTab][index]}
+                                            alt={option}
+                                            className="w-10 h-10 object-contain"
+                                        />
+                                    </div>
+                                    <span className="text-xs text-gray-700">{option}</span>
+                                </button>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            </div >
         </div>
     );
 };
