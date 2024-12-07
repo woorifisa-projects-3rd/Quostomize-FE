@@ -15,7 +15,10 @@ const sentences = [
 
 const HomeBody1 = () => {
     return (
-        <div className="flex flex-col justify-center items-center mt-72">
+        <div className="flex flex-col justify-center items-center mt-72"
+            style={{
+                letterSpacing: '0.1em'
+            }}>
             {/* 첫 번째 섹션에 fade-in 효과 추가 */}
             <FadeInSection>
                 <div className="font4 text-center font-semibold">

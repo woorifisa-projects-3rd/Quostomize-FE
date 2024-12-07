@@ -11,7 +11,7 @@ const NoticeToggleBox = ({ title, content }) => {
             {/* 헤더 부분 */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="w-full flex justify-between items-center p-4 bg-gray-100 hover:bg-gray-200 transition-colors"
+                className="w-full flex justify-between items-center p-3 bg-gray-100 hover:bg-gray-200 transition-colors"
             >
                 <span className="text-[#333d4b] text-xs">{title}</span>
                 {isOpen ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
