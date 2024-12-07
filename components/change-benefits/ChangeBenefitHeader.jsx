@@ -1,12 +1,12 @@
 import React from 'react'
-import Header from "../../components/header/prev-name-exit";
+import NavPageHeader from "../../components/header/NavPageHeader";
 
 
 const ChangeBenefitHeader = ({ onClick }) => {
 
     return (
         <div>
-            <Header
+            <NavPageHeader
                 modaltitle="포인트 혜택 변경"
                 description={
                     <>
@@ -21,7 +21,7 @@ const ChangeBenefitHeader = ({ onClick }) => {
 
             >
                 포인트 혜택 변경
-            </Header>
+            </NavPageHeader>
         </div>
     )
 }
