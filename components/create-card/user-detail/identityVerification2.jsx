@@ -37,6 +37,12 @@ function VerificationModal({ isOpen, onClose }) {
         }
     };
 
+    const formatPhoneNumber = (number) => {
+        if (number.length <= 3) return number;
+        if (number.length <= 7) return `${number.slice(0, 3)}-${number.slice(3)}`;
+        return `${number.slice(0, 3)}-${number.slice(3, 7)}-${number.slice(7)}`;
+    };
+
     const handleVerificationCodeChange = (e) => {
         const value = e.target.value.replace(/[^0-9]/g, '');
         if (value.length <= 6) {
@@ -95,36 +101,39 @@ function VerificationModal({ isOpen, onClose }) {
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-2xl p-8 w-full max-w-md mx-4">
-                <div className="border-b border-gray-200 pb-4 mb-6">
-                    <h3 className="text-xl font-bold text-gray-800">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-5">
+            <div className="bg-white rounded-2xl w-full max-w-md mx-auto p-2">
+                {/* 모달 헤더 */}
+                <div className="p-4 sm:p-6 border-b border-gray-200">
+                    <h3 className="text-lg sm:text-xl font-bold text-gray-800">
                         {step === 1 ? '휴대폰 본인인증' : '인증번호 입력'}
                     </h3>
-                    <p className="text-sm text-gray-600 mt-1">
+                    <p className="text-xs sm:text-sm text-gray-600 mt-1">
                         {step === 1 
                             ? '휴대폰 번호를 입력해주세요.' 
                             : '수신하신 인증번호 6자리를 입력해주세요.'}
                     </p>
                 </div>
 
-                <div className="space-y-6">
+                {/* 모달 본문 */}
+                <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
                     {step === 1 ? (
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm sm:text-base font-medium text-gray-700 mb-2">
                                 휴대폰 번호
                             </label>
                             <input
                                 type="tel"
-                                value={phoneNumber}
+                                value={formatPhoneNumber(phoneNumber)}
                                 onChange={handlePhoneNumberChange}
-                                className="w-full p-4 border-2 rounded-xl bg-gray-50 focus:bg-white 
-                                          focus:border-blue-500 outline-none transition-all duration-300"
+                                className="w-full p-3 sm:p-4 text-sm sm:text-base border-2 rounded-xl 
+                                        bg-gray-50 focus:bg-white focus:border-blue-500 
+                                        outline-none transition-all duration-300"
                                 placeholder="'-' 없이 입력해주세요"
-                                maxLength={11}
+                                maxLength={13}
                             />
                             {phoneNumber && phoneNumber.length !== 11 && (
-                                <p className="text-red-500 text-sm mt-2">
+                                <p className="text-red-500 text-xs sm:text-sm mt-2">
                                     휴대폰 번호 11자리를 입력해주세요.
                                 </p>
                             )}
@@ -132,10 +141,10 @@ function VerificationModal({ isOpen, onClose }) {
                     ) : (
                         <div>
                             <div className="flex justify-between items-center mb-2">
-                                <label className="block text-base font-medium text-gray-700">
+                                <label className="text-sm sm:text-base font-medium text-gray-700">
                                     인증번호
                                 </label>
-                                <span className={`text-base font-medium ${
+                                <span className={`text-sm sm:text-base font-medium ${
                                     timeLeft < 60 ? 'text-red-500' : 'text-blue-500'
                                 }`}>
                                     {formatTime(timeLeft)}
@@ -145,45 +154,47 @@ function VerificationModal({ isOpen, onClose }) {
                                 type="text"
                                 value={verificationCode}
                                 onChange={handleVerificationCodeChange}
-                                className="w-full p-4 border-2 rounded-xl bg-gray-50 focus:bg-white 
-                                          focus:border-blue-500 outline-none transition-all duration-300"
+                                className="w-full p-3 sm:p-4 text-sm sm:text-base border-2 rounded-xl 
+                                        bg-gray-50 focus:bg-white focus:border-blue-500 
+                                        outline-none transition-all duration-300"
                                 placeholder="인증번호 6자리 입력"
                                 maxLength={6}
                                 disabled={timeLeft === 0}
                             />
                             {timeLeft === 0 ? (
-                                <p className="text-red-500 text-sm mt-2">
+                                <p className="text-red-500 text-xs sm:text-sm mt-2">
                                     인증 시간이 만료되었습니다. 다시 시도해주세요.
                                 </p>
                             ) : verificationCode && verificationCode.length !== 6 && (
-                                <p className="text-red-500 text-sm mt-2">
+                                <p className="text-red-500 text-xs sm:text-sm mt-2">
                                     인증번호 6자리를 입력해주세요.
                                 </p>
                             )}
                         </div>
                     )}
 
+                    {/* 버튼 영역 */}
                     <div className="flex space-x-3 mt-6">
                         <button
                             onClick={() => {
                                 setIsTimerActive(false);
                                 onClose();
                             }}
-                            className="flex-1 py-3 px-4 border-2 border-gray-200 text-gray-700 
-                                      rounded-xl hover:bg-gray-50 transition-colors duration-200"
+                            className="flex-1 py-2.5 sm:py-3 px-4 border-2 border-gray-200 
+                                    text-sm sm:text-base text-gray-700 rounded-xl 
+                                    hover:bg-gray-50 transition-colors duration-200"
                         >
                             취소
                         </button>
                         <button
-                            onClick={step === 1 ? requestVerificationCode  : verifyCode}
-                            disabled={
-                                step === 1 
-                                    ? phoneNumber.length !== 11 
-                                    : (verificationCode.length !== 6 || timeLeft === 0)
-                            }
-                            className="flex-1 py-3 px-4 bg-blue-600 text-white rounded-xl 
-                                      hover:bg-blue-700 transition-colors duration-200
-                                      disabled:bg-gray-300 disabled:cursor-not-allowed"
+                            onClick={step === 1 ? requestVerificationCode : verifyCode}
+                            disabled={step === 1 
+                                ? phoneNumber.length !== 11 
+                                : (verificationCode.length !== 6 || timeLeft === 0)}
+                            className="flex-1 py-2.5 sm:py-3 px-4 text-sm sm:text-base 
+                                    bg-blue-600 text-white rounded-xl 
+                                    hover:bg-blue-700 transition-colors duration-200 
+                                    disabled:bg-gray-300 disabled:cursor-not-allowed"
                         >
                             {step === 1 ? '인증번호 받기' : '확인'}
                         </button>
