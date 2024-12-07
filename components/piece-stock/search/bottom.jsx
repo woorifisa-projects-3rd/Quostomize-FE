@@ -8,7 +8,7 @@ import Image from 'next/image';
 
 const SearchBottom = ({ wishInfo, setWishInfo, cardId, setPage, searchInfo, selectedStocks }) => {
     const [recommendStockInfo, setRecommend] = useState([]);
-    const [isOpen, setOpen] = useState(false)
+    const [isOpen, setOpen] = useState(false);
     const [isAlert, setAlert] = useState(false)
     const [showAlertModal, setShowAlertModal] = useState(false);
     const [isClickButton, setClickButton] = useState([false, false, false])

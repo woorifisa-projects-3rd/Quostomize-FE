@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { searchStock } from "../../../components/piece-stock/home/apiMethod/apiList"
+import NavPageHeader from '../../header/NavPageHeader';
+
 
 const searchHeader = ({ setValue, value, setSearchInfo, setPage }) => {
     const [inSearch, setSearch] = useState(true)
@@ -14,23 +16,21 @@ const searchHeader = ({ setValue, value, setSearchInfo, setPage }) => {
 
     return (
         <>
-            <div className='flex justify-between mb-10 mt-5'>
-                <span className="material-icons cursor-pointer" onClick={() => toFavorite(setPage)}>chevron_left</span>
-                <h1 className='font3'>종목검색</h1>
-                <span className="material-icons cursor-pointer" onClick={() => toFavorite(setPage)}>close</span>
-            </div>
-            <div className="flex-1 relative">
-                <input
-                    type="text"
-                    placeholder="관심있는 주식을 검색해보세요"
-                    className="w-full py-5 font3 px-4 bg-[#E3E4E8] rounded-xl font1 focus:outline-none"
-                    value={value}
-                    onKeyDown={(e) => e.key === "Enter" ? searchData(param, value, setSearchInfo) : null}
-                    onChange={(e) => setValue(e.target.value)}
-                />
-                <span className="material-icons absolute right-2 top-1/2 -translate-y-1/2">
-                    search
-                </span>
+            <NavPageHeader>종목 검색</NavPageHeader>
+            <div className="px-10 mt-20 mb-16">
+                <div className="flex items-center border-2 rounded-xl bg-white border-gray-300 focus-within:border-[#3384f6] relative">
+                    <span className="material-icons absolute left-4 text-gray-500">
+                        search
+                    </span>
+                    <input
+                        type="text"
+                        placeholder="관심있는 주식을 검색해보세요"
+                        className="w-full py-4 pl-12 pr-4 font3 bg-transparent text-sm focus:outline-none"
+                        value={value}
+                        onKeyDown={(e) => (e.key === "Enter" ? searchData(param, value, setSearchInfo) : null)}
+                        onChange={(e) => setValue(e.target.value)}
+                    />
+                </div>
             </div>
         </>
     )

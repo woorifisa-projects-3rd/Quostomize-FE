@@ -12,6 +12,7 @@ const PieceStockHome = () => {
   const [value, setValue] = useState("")
   const [data, setData] = useState()
   const [page, setPage] = useState([true, false, false])
+  const [selectedStocks, setSelectedStocks] = useState([]);
   const [cardData, setCardData] = useState([])
 
   useEffect(() => {
