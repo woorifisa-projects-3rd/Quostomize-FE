@@ -1,11 +1,10 @@
 'use client'
 
-import { Transition, TransitionChild } from "@headlessui/react";
-import { Fragment } from "react";
-import { MdCurrencyExchange, MdAccountCircle } from "react-icons/md";
-import { FaTrophy } from "react-icons/fa6";
+import { CiTrophy } from "react-icons/ci";
+import { MdAccountCircle } from "react-icons/md";
 import { FaQuestionCircle } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+import { RiExchangeDollarLine } from "react-icons/ri";
 
 const HamburgerMenu = ({ hamburgerMenuOpen, setHamburgerMenuOpen }) => {
     const router = useRouter();
@@ -16,8 +15,8 @@ const HamburgerMenu = ({ hamburgerMenuOpen, setHamburgerMenuOpen }) => {
     }
 
     const menuItems = [
-        { title: "혜택변경", icon: <MdCurrencyExchange />, path: "/benefit-change" },
-        { title: "복권", icon: <FaTrophy />, path: "/lotto" },
+        { title: "혜택변경", icon: <RiExchangeDollarLine />, path: "/benefit-change" },
+        { title: "복권", icon: <CiTrophy />, path: "/lotto" },
         { title: "Q&A", icon: <FaQuestionCircle />, path: "/qna" },
         { title: "마이페이지", icon: <MdAccountCircle />, path: "/my-page" },
     ];
