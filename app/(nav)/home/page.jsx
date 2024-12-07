@@ -1,11 +1,9 @@
 "use client";
 
-import HomeHeader from '../../../components/home/HomeHeader';
-import HomeBody1 from '../../../components/home/HomeBody1';
 import HomeBody2 from '../../../components/home/HomeBody2';
+import HomeBody1 from '../../../components/home/HomeBody1';
 import HomeBody3 from '../../../components/home/HomeBody3';
 import HomeBody4 from '../../../components/home/HomeBody4';
-
 
 const Home = () => {
   return (
@@ -15,12 +13,10 @@ const Home = () => {
         scrollbarWidth: 'none',
         msOverflowStyle: 'none',
       }}>
-      <HomeHeader /><br />
-      <HomeBody1 /><br />
-      <HomeBody2 /><br />
-      <HomeBody3 /><br />
-      <HomeBody4 /><br />
-
+        <HomeBody1 /><br />
+        <HomeBody2 /><br />
+        <HomeBody3 /><br />
+        <HomeBody4 /><br />
     </div>
   );
 }

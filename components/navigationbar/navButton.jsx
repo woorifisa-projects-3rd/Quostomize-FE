@@ -13,7 +13,7 @@ const NavButton = ({iconTitle, icon, path, currentPath, selectMenu, setHamburger
         <div className='text-xl'>
           {icon}
         </div>
-        <span className='text-xs font-semibold'>{iconTitle}</span>
+        <span className='text-xs'>{iconTitle}</span>
       </div>
   } else if (path === currentPath) {
     return (

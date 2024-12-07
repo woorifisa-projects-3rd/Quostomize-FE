@@ -51,9 +51,10 @@ const CreateCardPage = () => {
     selectedOptions: [null, null, null, null, null],
   });
   // 3페이지
-  const [activeOptions, setActiveOptions] = useState([]);
+  const [activeOptions, setActiveOptions] = useState(['일일 복권']);
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [showToast, setShowToast] = useState(false);
+
   // 4페이지
   const [cardOptions, setCardOptions] = useState({
     cardBrand: 'VISA',
@@ -94,11 +95,11 @@ const CreateCardPage = () => {
 
     // Handle both object and numeric values in selectedOption
     const lowerCategoryId =
-        typeof selectedOption === "object" ? selectedOption?.id : selectedOption;
+      typeof selectedOption === "object" ? selectedOption?.id : selectedOption;
 
     const benefitRate = benefitState.categoryValues[categoryIndex]
-        ? Math.min(benefitState.categoryValues[categoryIndex] - 1, 4) // 할인율 제한 (0-4)
-        : 0; // 기본값 0
+      ? Math.min(benefitState.categoryValues[categoryIndex] - 1, 4) // 할인율 제한 (0-4)
+      : 0; // 기본값 0
 
     return {
       upperCategoryId,
@@ -266,8 +267,8 @@ const CreateCardPage = () => {
             <SelectBenefit1 onClick={handlePrevPage} />
           </header>
           <SelectBenefit2
-              benefitState={benefitState}
-              setBenefitState={setBenefitState}
+            benefitState={benefitState}
+            setBenefitState={setBenefitState}
           />
         </div>;
 
@@ -375,14 +376,14 @@ const CreateCardPage = () => {
         message="모든 항목에 체크를 해주세요"
       />
       {showSuccessAlert && (
-          <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-slate-50 rounded-lg shadow-lg p-6 z-50">
-            <div className="flex flex-col items-center">
+        <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-slate-50 rounded-lg shadow-lg p-6 z-50">
+          <div className="flex flex-col items-center">
             <span className="text-4xl mb-3">
               <img src={Icons.eco} alt="Success Icon" width="100" height="100" />
             </span>
-              <p className="text-lg font-medium text-blue-500">카드 신청이 완료되었습니다</p>
-            </div>
+            <p className="text-lg font-medium text-blue-500">카드 신청이 완료되었습니다</p>
           </div>
+        </div>
       )}
 
     </div>

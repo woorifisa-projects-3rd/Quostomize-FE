@@ -1,92 +1,64 @@
-"use client";
+import { useState, useEffect, useRef } from "react";
+import GradientText from "../../components/card/gradientText";
+import ColorInfo from "../../components/card/ColorInfo";
 
-import { useState } from "react";
-import ArrowButton from "../button/arrow-button";
-import FadeInSection from "../fade-in/fade-in-section";
+const OPTIONS = ["쇼핑", "생활", "푸드", "여행", "문화"];
 
-const colors = ["#ffffff", "#dbff3d", "#ff0000", "#ed3ef7", "#000000"];
-const images = [
-    "/cards-images/white-image.png",
-    "/cards-images/yellow-image.png",
-    "/cards-images/red-image.png",
-    "/cards-images/pink-image.png",
-    "/cards-images/black-image.png"
-];
+function HomeBody2() {
+    const [currentOption, setCurrentOption] = useState("");
+    const [colorIndex, setColorIndex] = useState(0);
+    const [isStopped, setIsStopped] = useState(false);
+    const intervalRef = useRef(null);
 
-const HomeBody2 = () => {
-    // 현재 카드 색상
-    const [currentColorIndex, setCurrentColorIndex] = useState(0);
-
-    //선택된 카드 색상
-    const [selectedIndex, setSelectedIndex] = useState(0);
-
-    // 카드 색상을 변경하는 함수
-    const changeColor = (index) => {
-        setCurrentColorIndex(index);
-        setSelectedIndex(index); // 색상이 변경되면 선택 상태도 업데이트
+    const startRotation = () => {
+        let index = 0;
+        intervalRef.current = setInterval(() => {
+            setCurrentOption(OPTIONS[index % OPTIONS.length]);
+            setColorIndex(index % OPTIONS.length);
+            index++;
+        }, 150);
     };
 
-    // 화살표 버튼 클릭 시 이전/다음 색상으로 이동하는 함수
-    const handleArrowClick = (direction) => {
-        let newIndex;
-        if (direction === "prev") {
-            newIndex = (currentColorIndex === 0) ? colors.length - 1 : currentColorIndex - 1;
-        } else {
-            newIndex = (currentColorIndex === colors.length - 1) ? 0 : currentColorIndex + 1;
+    const stopAndRestart = () => {
+        if (intervalRef.current) {
+            clearInterval(intervalRef.current);
         }
-        setCurrentColorIndex(newIndex);
-        setSelectedIndex(newIndex); // 화살표 클릭 시 선택 상태 업데이트
+        setIsStopped(true);
+        const randomIndex = Math.floor(Math.random() * OPTIONS.length);
+        setColorIndex(randomIndex);
+        setCurrentOption(OPTIONS[randomIndex]);
+        setTimeout(() => {
+            setIsStopped(false);
+            startRotation();
+        }, 1500);
     };
+
+    useEffect(() => {
+        startRotation();
+        const cycleStop = setInterval(() => {
+            stopAndRestart();
+        }, 3000);
+
+        return () => {
+            clearInterval(intervalRef.current);
+            clearInterval(cycleStop);
+        };
+    }, []);
 
     return (
-
-        <FadeInSection>
-            <div className="flex flex-col justify-center items-center mt-32"
-                style={{
-                    letterSpacing: '0.1em'
-                }}>
-
-                <div className="font4 font-semibold text-center">
-                    <h1>내가 채워가는 나를 위한 카드</h1>
-                    <p className="font1 color3 mt-3">색상도, 혜택도, 포인트 사용옵션까지 </p>
-                </div>
-
-                <div className="flex w-96 mb-4 mt-24 space-x-20">
-                    {/* 이전 버튼 */}
-                    <ArrowButton direction="prev" onClick={() => handleArrowClick("prev")} />
-
-                    {/* 카드 이미지가 들어갈 곳*/}
-                    <div className="rounded-xl flex justify-center items-center mb-4">
-                        <img
-                            src={images[currentColorIndex]}
-                            alt="카드 이미지"
-                            className="w-full h-full rounded-xl object-cover rotate-45"
-                        />
-                    </div>
-
-                    {/* 다음 버튼 */}
-                    <ArrowButton direction="next" onClick={() => handleArrowClick("next")} />
-                </div>
-
-                {/* 색상 미리 보기 원들 */}
-                <div className="flex space-x-4 mt-16">
-                    {colors.map((color, index) => (
-                        <button
-                            key={index}
-                            onClick={() => changeColor(index)}
-                            className={`w-4 h-4 rounded-full shadow-xl transition-all ${selectedIndex === index ? "ring-2 ring-blue-500" : ""
-                                }`}
-                            // 선택된 버튼에 추가 스타일
-                            style={{
-                                backgroundColor: color,
-                                boxShadow: selectedIndex === index ? "0 0 10px rgba(0, 0, 0, 0.5)" : "0 0 5px rgba(0, 0, 0, 0.3)",
-                            }}
-                        />
-                    ))}
-                </div>
+        <div className="flex flex-col justify-center items-center mt-60">
+            <p className="font5 font-semibold">혜택, 매달 선택</p>
+            <div className="font5 space-x-16">
+                <span className="font-extrabold ">{"{"}</span>
+                <span className="font-bold">
+                    <GradientText text={currentOption}
+                                  style={ColorInfo[colorIndex].style}/>
+                </span>
+                <span className="font-extrabold">{"}"}</span>
             </div>
-        </FadeInSection>
+            <p className="mt-4 font1 color4">카드 혜택을 30일마다 내가 원하는대로 바꿀 수 있어요</p>
+        </div>
     );
-};
+}
 
 export default HomeBody2;

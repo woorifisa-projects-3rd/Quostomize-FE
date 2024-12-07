@@ -1,5 +1,5 @@
 import React from 'react'
-import Header from "../../header/PageHeader";
+import PageHeader from "../../header/PageHeader";
 
 
 function CardDetailHeader({ onClick }) {
@@ -8,14 +8,14 @@ function CardDetailHeader({ onClick }) {
     return (
 
         <div>
-            <Header
+            <PageHeader
                 modaltitle="카드 생성"
                 showArrowButton={true}
                 onArrowClick={onClick}
                 exitDirection="/home"
             >
                 카드 정보
-            </Header>
+            </PageHeader>
         </div>
     )
 }
