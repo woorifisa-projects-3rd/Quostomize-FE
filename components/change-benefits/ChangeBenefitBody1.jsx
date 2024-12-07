@@ -19,20 +19,31 @@ const ChangeBenefitBody1 = ({ labels, benefitState }) => {
 
     return (
         <div>
-            <InteractiveRadarGraph
-                labels={labels}
-                datasets={[
-                    {
-                        label: 'My Dataset',
-                        data: benefitState.categoryValues,
-                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                    },
-                ]}
-                max={5}
-                min={0}
-                borderColor={borderColor}
-            />
+
+
+
+
+            <div>
+                <InteractiveRadarGraph
+                    labels={labels}
+                    datasets={[
+                        {
+                            label: 'My Dataset',
+                            data: benefitState.categoryValues,
+                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        },
+                    ]}
+                    max={5}
+                    min={0}
+                    borderColor={borderColor}
+                />
+            </div>
+            {/* <div className=''>
+
+            </div> */}
         </div>
+
+
     )
 }
 

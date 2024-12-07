@@ -1,5 +1,5 @@
 import React from 'react'
-import Header from "../../header/PageHeader";
+import PageHeader from "../../header/PageHeader";
 
 
 function CheckInformationHeader({ onClick }) {
@@ -7,14 +7,14 @@ function CheckInformationHeader({ onClick }) {
     return (
 
         <div>
-            <Header
+            <PageHeader
                 modaltitle="카드 생성"
                 showArrowButton={true}
                 onArrowClick={onClick}
                 exitDirection="/home"
             >
                 수령인 정보 확인
-            </Header>
+            </PageHeader>
         </div>
     )
 }

@@ -9,6 +9,7 @@ import { signIn } from "next-auth/react";
 import LoadingSpinner from "../overlay/loadingSpinner";
 import LoginForm from "./loginForm";
 import ErrorModal from "./errorModal";
+import Image from 'next/image';
 
 const LoginContent = () => {
     const { data: session } = useSession();
@@ -84,20 +85,27 @@ const LoginContent = () => {
     };
 
     return (
-        <div className="w-full px-6 pt-12 pb-28">
-          <div className="max-w-md mx-auto">
-            <h1 className="text-3xl font-bold color1 mb-3">
-              커스터마이징 카드
+        <div className="w-full px-6 pt-14 pb-28">
+          <div className="max-w-md mx-auto flex items-center">
+            <Image
+              src="/wooriImages/woori_ci.png"
+              alt="Woori Logo"
+              width={40}
+              height={40}
+              className="object-contain"
+            />
+            <h1 className="text-3xl font-bold color1">
+              WON 커스터마이징
             </h1>
-            <p className="text-base text-gray-900">
-              서비스 이용을 위해 로그인해주세요.
-            </p>
           </div>
+          <p className="text-base text-gray-600 max-w-md mx-auto pl-2">
+            서비스 이용을 위해 로그인해주세요.
+          </p>
 
-        <div className="relative mt-20">
+        <div className="relative mt-12">
           <div className="inset-x-0 -top-20">
-            <div className="max-w-lg mx-auto px-5">
-              <div className="bg-white rounded-3xl shadow-xl p-8">
+            <div className="max-w-lg mx-auto">
+              <div className="bg-white rounded-3xl shadow-xl p-7">
                 <h2 className="text-2xl font-bold text-center mb-8">로그인</h2>
                 <LoginForm
                   formData={formData}
