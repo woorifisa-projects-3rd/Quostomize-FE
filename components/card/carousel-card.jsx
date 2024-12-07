@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react'
 import '../../Carousel.css'
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const CarouselCard = ({ onCardChange }) => {
     const [angle, setAngle] = useState(0);
@@ -41,8 +42,11 @@ const CarouselCard = ({ onCardChange }) => {
 
     return (
         <div className='carousel-container'>
-            <button className="pre-btn" onClick={handlePrev}>
-                &#60;
+            {/* 왼쪽 Chevron 버튼 */}
+            <button
+                onClick={handlePrev}
+                className="absolute left-1 top-2/3 transform -translate-y-1/2 z-10 text-gray-600 hover:text-gray-400 transition-colors">
+                <ChevronLeft size={25} />
             </button>
 
             <div className="scene" ref={sceneRef}>
@@ -67,11 +71,14 @@ const CarouselCard = ({ onCardChange }) => {
                 </div>
             </div >
 
-            <button className="next-btn" onClick={handleNext}>
-                &#62;
+            {/* 오른쪽 Chevron 버튼 */}
+            <button
+                onClick={handleNext}
+                className="absolute right-1 top-2/3 transform -translate-y-1/2 z-10 text-gray-600 hover:text-gray-400 transition-colors">
+                <ChevronRight size={25} />
             </button>
         </div>
     )
 }
 
-export default CarouselCard
+export default CarouselCard;
