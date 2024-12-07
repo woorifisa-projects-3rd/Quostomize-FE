@@ -11,7 +11,7 @@ function HeaderV2({ children, onArrowClick, exitDirection, showArrowButton }) {
                 <ArrowButtonV2 direction="prev" onClick={onArrowClick} />
             )}
 
-            <div className="font2 font-bold mx-auto">
+            <div className="font3 font-bold mx-auto">
                 {children}
             </div>
 

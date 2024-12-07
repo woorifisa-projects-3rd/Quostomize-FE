@@ -11,7 +11,7 @@ function PageHeader({ children, onArrowClick, exitDirection, showArrowButton, mo
                 <ArrowButton direction="prev" onClick={onArrowClick} />
             )}
 
-            <div className="font1 font-bold mx-auto">
+            <div className="font3 font-bold mx-auto">
                 {children}
             </div>
 

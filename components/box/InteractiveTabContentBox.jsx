@@ -2,15 +2,14 @@ import React, { useState, useEffect } from 'react';
 import Icons from '../../public/icons/icons';
 
 const InteractiveTabContentBox = ({
-                                      labels,
-                                      categoryMap,
-                                      lowerCategoryMap,
-                                      benefitState,
-                                      data,
-                                      updateOption,
-                                      updateCategory,
-                                      updateCategoryValue,
-                                  }) => {
+    categoryMap,
+    lowerCategoryMap,
+    benefitState,
+    data,
+    updateOption,
+    updateCategory,
+    updateCategoryValue,
+}) => {
     const [activeTab, setActiveTab] = useState(0);
     const [selectedOptionIndex, setSelectedOptionIndex] = useState(Array(5).fill(null));
     const [isInitialized, setIsInitialized] = useState(false);
@@ -99,17 +98,16 @@ const InteractiveTabContentBox = ({
     }, []);
 
     return (
-        <div className="w-[22rem]">
+        <div className='w-full'>
             <div className="px-8 flex w-full justify-between relative border-b border-gray-200">
                 {categories.map((category, index) => (
                     <button
                         key={index}
                         onClick={() => handleTabClick(index)}
-                        className={`relative z-10 px-4 py-3 font1 font-bold transition-all text-center rounded-t-md ${
-                            activeTab === index || benefitState.categoryValues[index] >= 4
-                                ? 'bg-white text-blue-600 shadow-[0_0_10px_2px_rgba(59,130,246,0.5)]'
-                                : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
-                        }`}
+                        className={`relative z-10 px-4 py-3 font1 font-bold transition-all text-center rounded-t-md ${activeTab === index || benefitState.categoryValues[index] >= 4
+                            ? 'bg-white text-blue-600 shadow-[0_0_10px_2px_rgba(59,130,246,0.5)]'
+                            : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
+                            }`}
                         style={{
                             minWidth: '1rem',
                             zIndex: activeTab === index ? 20 : 10,
@@ -124,18 +122,18 @@ const InteractiveTabContentBox = ({
                 ))}
             </div>
 
-            <div className="h-[14rem] p-8 bg-white border border-t-0 border-gray-200">
+            <p className='flex justify-center mt-2 text-xs text-gray-500'>선택된 옵션을 한번 더 클릭하면<span className='font-bold ml-1'>전체 옵션</span>에 대해서 혜택을 받을 수 있어요!</p>
+            <div className="h-[14rem] mt-3 px-6 bg-white border border-t-0 border-gray-200">
                 {activeTab !== null ? (
                     <div className="space-y-4">
                         {mappedOptions[activeTab].map((option, index) => (
                             <button
                                 key={index}
                                 onClick={() => handleOptionSelect(index)}
-                                className={`flex w-full h-12 items-center p-4 rounded-lg transition-all ${
-                                    selectedOptionIndex[activeTab] === index
-                                        ? 'bg-blue-50 border border-blue-500'
-                                        : 'hover:bg-gray-50'
-                                }`}
+                                className={`flex w-full h-12 items-center p-4 rounded-lg transition-all ${selectedOptionIndex[activeTab] === index
+                                    ? 'bg-blue-50 border border-blue-500'
+                                    : 'hover:bg-gray-50'
+                                    }`}
                             >
                                 <div className="flex-shrink-0 w-10 h-10 mr-4 flex items-center justify-center">
                                     <img
