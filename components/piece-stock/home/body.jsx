@@ -34,61 +34,71 @@ const HomeBody = ({ data, page, setPage, cardData, setCardData, wishInfo, setWis
             <div className="p-4 h-screen flex flex-col">
                 <div className="flex justify-between">
                     <div>
-                        <button className={`p-3 font3 outline-none ${page[0] === true ? `border-b-4` : null} border-[#E3E4E8]`} onClick={() => setPage([true, false, false])}>보유</button>
-                        <button className={`p-3 font3 outline-none ${page[1] === true ? `border-b-4` : null} border-[#E3E4E8]`} onClick={() => onFavorite(param, setWishInfo, setPage, cardId)}>관심</button>
+                        <button className={`p-3 font3 font-bold outline-none ${page[0] === true ? `border-b-4` : null} border-[#3384f6]`} onClick={() => setPage([true, false, false])}>보유</button>
+                        <button className={`p-3 font3 font-bold outline-none ${page[1] === true ? `border-b-4` : null} border-[#3384f6]`} onClick={() => onFavorite(param, setWishInfo, setPage, cardId)}>관심</button>
                     </div>
-
                 </div>
 
-                <div className="flex-grow overflow-auto mt-5">
+                <div className="flex-grow overflow-auto mt-8">
                     {page[0] && myStock !== undefined && myStock.map((stock) => (
                         <div
                             key={stock.stockName}
-                            className={`flex border shadow-md items-center justify-between p-5 rounded-lg mb-2`}
+                            className={`flex border shadow-md items-center justify-between p-5 rounded-lg mb-5`}
                         >
-                            <div className="flex items-center gap-3">
-                                {stock.stockImage && <Image src={stock.stockImage} width={70} height={70} alt="주식이미지"></Image>}
+                            <div className="flex items-center gap-5">
+                                {stock.stockImage && <Image src={stock.stockImage} width={50} height={50} alt="주식이미지"></Image>}
                                 <div>
-                                    <div className="font-semibold">{stock.stockName}</div>
+                                    <div className="font2 font-semibold" style={{
+                                        letterSpacing: '0.05em'
+                                    }}>{stock.stockName}</div>
                                     <span className="font1 text-[#787B7E] ml-1">{stock.stockNumber}주</span>
                                 </div>
                             </div>
                             <div className="text-right flex flex-col">
-                                <div className="font1 font-semibold">{stock.stockPrice}원</div>
-                                <div className="font-semibold flex items-center">
-                                    <p className={`font-bold ${stock.stockRate > 0 ? `text-[#E46E61]` : `text-[#0B5CD8]`}`}>{stock.stockRate > 0 ? "+" + stock.stockRate + "%" : stock.stockRate + "%"}</p>
+                                <div className="font2 font-semibold">{stock.stockPrice} 원</div>
+                                <div className="font-semibold">
+                                    <p className={`font-bold ${stock.stockRate > 0 ? `text-[#E46E61]` : `text-[#0B5CD8]`}`}>{stock.stockRate > 0 ? "+" + stock.stockRate + " %" : stock.stockRate + " %"}</p>
                                 </div>
                             </div>
                         </div>
                     ))}
-                    {page[1] && wishInfo !== undefined && wishInfo.map((wishStock, index) => (
-                        <div className={"flex relative cursor-grab p-5 shadow-md mb-2 rounded-lg border"}
-                            key={wishStock.stockName}
-                            draggable
-                            onDragStart={(e) => handleDragStart(e, index, setDragOverIndex)}
-                            onDragEnd={handleDragEnd}
-                            onDragOver={handleDragOver}
-                            onDrop={(e) => handleDrop(e, index, wishInfo, dragOverIndex, setOrderInfo, setWishInfo, setDragOverIndex, cardId)}
-                            onClick={() => deleteCheckBox(index, hoveredIndex, setHoveredIndex)}>
-                            <Motion hoveredIndex={hoveredIndex} index={index}>
-                                <div className="flex">
-                                    <span className="mr-2 font-semibold flex items-center">{wishStock.priority}.</span>
-                                    <Image src={wishStock.stockImage} width={70} height={70} alt="주식이미지"></Image>
-                                    <div className="flex h-full items-center ml-3 font-bold">
-                                        <p>{wishStock.stockName}</p>
+                    {page[1] && (
+                        <>
+                            <div className="font2 ml-3 mb-8">관심 주식을 위아래로 드래그 하여 매수 희망 순위를 바꿀 수 있어요! </div>
+                            {wishInfo !== undefined && wishInfo.map((wishStock, index) => (
+                                <div
+                                    className="flex relative cursor-grab p-5 shadow-md mb-5 rounded-lg border"
+                                    key={wishStock.stockName}
+                                    draggable
+                                    onDragStart={(e) => handleDragStart(e, index, setDragOverIndex)}
+                                    onDragEnd={handleDragEnd}
+                                    onDragOver={handleDragOver}
+                                    onDrop={(e) => handleDrop(e, index, wishInfo, dragOverIndex, setOrderInfo, setWishInfo, setDragOverIndex, cardId)}
+                                    onClick={() => deleteCheckBox(index, hoveredIndex, setHoveredIndex)}
+                                >
+                                    <Motion hoveredIndex={hoveredIndex} index={index}>
+                                        <div className="flex">
+                                            <span className="mr-2 font-semibold flex items-center">{wishStock.priority}.</span>
+                                            <Image src={wishStock.stockImage} width={50} height={50} alt="주식이미지"></Image>
+                                            <div className="flex h-full items-center ml-3 font-bold font2" style={{
+                                                letterSpacing: '0.05em'
+                                            }}>
+                                                <p>{wishStock.stockName}</p>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center font-semibold font2">
+                                            <p>{wishStock.stockPresentPrice} 원</p>
+                                        </div>
+                                    </Motion>
+                                    <div>
+                                        <InverseMotion hoveredIndex={hoveredIndex} index={index} onClick={() => handleDeleteClick(index, param, setWishInfo, wishInfo, cardId)}>
+                                            <button>삭 제</button>
+                                        </InverseMotion>
                                     </div>
                                 </div>
-                                <div className="flex items-center font-semibold">
-                                    <p>{wishStock.stockPresentPrice}원</p>
-                                </div>
-                            </Motion>
-                            <div>
-                                <InverseMotion hoveredIndex={hoveredIndex} index={index} onClick={() => handleDeleteClick(index, param, setWishInfo, wishInfo, cardId)}>
-                                    <button>삭제</button>
-                                </InverseMotion>
-                            </div>
-                        </div>
-                    ))}
+                            ))}
+                        </>
+                    )}
                 </div>
             </div>
         </>
