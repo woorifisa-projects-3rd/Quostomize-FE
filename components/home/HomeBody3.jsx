@@ -1,71 +1,103 @@
 "use client";
 
 import MyFullButton from '../button/full-button'
-import BenefitBox from '../box/benefit-box'
 import FadeInSection from "../fade-in/fade-in-section";
-import Icons from '../../public/icons/icons'
-
+import TabContentBox from "../../components/box/tab-content-box";
+import Icons from "../../public/icons/icons"
 
 const HomeBody3 = () => {
-    const benefits = [
+    const tabData = [
         {
+            title: "쇼핑",
+            subtitle: "쇼핑 혜택",
             icon: Icons.shoppoing,
-            category: "쇼핑",
-            description: "나만의 스타일을 온오프라인에서"
+            content: [
+                {
+                    text: "백화점, 온라인 쇼핑, 마트에서",
+                    description: ""
+                },
+                {
+                    text: "매달 최대 4% 적립 또는 10,000 포인트 적립해요",
+                    description: "백화점, 온라인 쇼핑, 마트 중 1개 카테고리 선택 시 최대 4% 적립\n(매달 최대 10,000 포인트 제한)"
+                }
+            ]
         },
         {
+            title: "생활",
+            subtitle: "생활 혜택",
             icon: Icons.life,
-            category: "생활",
-            description: "어디서나 이동하고 부담없이 연락할 수 있는"
+            content: [
+                {
+                    text: "주유소, 통신, 대중교통에서",
+                    description: ""
+                },
+                {
+                    text: "매달 최대 4% 적립 또는 10,000 포인트 적립해요",
+                    description: "주유소, 통신, 대중교통 중 1개 카테고리 선택 시 최대 4% 적립\n(매달 최대 10,000 포인트 제한)"
+                }
+            ]
         },
         {
+            title: "푸드",
+            subtitle: "푸드 혜택",
             icon: Icons.food,
-            category: "푸드",
-            description: "맛있는 선택과 함께하는"
+            content: [
+                {
+                    text: "편의점, 카페, 배달앱에서",
+                    description: ""
+                },
+                {
+                    text: "매달 최대 4% 적립 또는 10,000 포인트 적립해요",
+                    description: "편의점, 카페, 배달앱 중 1개 카테고리 선택 시 최대 4% 적립\n(매달 최대 10,000 포인트 제한)"
+                }
+            ]
         },
         {
+            title: "여행",
+            subtitle: "여행 혜택",
             icon: Icons.travel,
-            category: "여행",
-            description: "떠나고 싶은 순간, 나에게 딱 맞는"
+            content: [
+                {
+                    text: "투어, 렌트, 숙소에서",
+                    description: ""
+                },
+                {
+                    text: "매달 최대 4% 적립 또는 10,000 포인트 적립해요",
+                    description: "투어, 렌트, 숙소 중 1개 카테고리 선택 시 최대 4% 적립\n(매달 최대 10,000 포인트 제한)"
+                }
+            ]
         },
         {
+            title: "문화",
+            subtitle: "문화 혜택",
             icon: Icons.culture,
-            category: "문화",
-            description: "취향을 담은 여가생활을 지원하는"
-        }
-    ];
+            content: [
+                {
+                    text: "OTT, 영화, 도서에서",
+                    description: ""
+                },
+                {
+                    text: "매달 최대 4% 적립 또는 10,000 포인트 적립해요",
+                    description: "OTT, 영화, 도서 중 1개 카테고리 선택 시 최대 4% 적립\n(매달 최대 10,000 포인트 제한)"
+                }
+            ]
+        },
+
+    ]
 
     return (
-        <div className='flex flex-col justify-center items-center mt-32'
-            style={{
-                letterSpacing: '0.1em'
-            }}>
+        <div className='flex flex-col justify-center items-center mt-10'>
             <FadeInSection>
-                <div className='flex flex-col justify-center items-center'>
-                    <h1 className='font4 font-semibold'>내 라이프스타일에 맞춰</h1>
-                    <h1 className='font4 color1 font-semibold'>내가 정하는 혜택</h1>
-
-                </div>
-            </FadeInSection>
-            <FadeInSection>
-                <div className="flex flex-col justify-center items-center space-y-5 mt-14 mb-10 w-full">
-                    {benefits.map((benefit, index) => (
-                        <BenefitBox
-                            key={index}
-                            icon={benefit.icon}
-                            category={benefit.category}
-                            description={benefit.description}
-                        />
-                    ))}
+                <div className="flex flex-col justify-center items-center space-y-5 mb-10 w-full">
+                    <TabContentBox tabs={tabData} />
                 </div>
             </FadeInSection>
             <FadeInSection>
                 <div className='flex flex-col justify-center items-center'>
-                    <MyFullButton href='/card-benefit-details'>혜택 더보기</MyFullButton>
+                    <MyFullButton href='/card-benefit-details'>혜택 자세히 보기</MyFullButton>
                 </div>
             </FadeInSection>
         </div >
-
     );
 }
 
