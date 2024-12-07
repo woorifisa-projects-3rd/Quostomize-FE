@@ -120,72 +120,71 @@ export default function QnaDetailPage() {
     };
 
     return (
-        <div className="max-w-3xl mx-auto px-6 py-12">
-            <div className="bg-blue-50 rounded-xl shadow-lg p-6 mb-6">
+        <div className="max-w-xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+            <div className="bg-blue-50 rounded-xl shadow-lg p-4 sm:p-6 mb-4 mt-3 sm:mb-6">
                 {/* 상단 정보 영역 */}
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-3 sm:gap-4">
                     {/* 메타 정보 */}
-                    <div className="flex items-center justify-between gap-2 text-sm text-gray-500">
+                    <div className="flex flex-wrap items-center gap-2 text-xs sm:text-sm text-gray-500">
                         {/* 카테고리 */}
-                        <span className="px-3 py-1 bg-sky-200 rounded-full">
+                        <span className="px-2 sm:px-3 py-1 bg-sky-200 rounded-full">
                             {getCategoryName(question.categoryCode)}
                         </span>
                         
                         {/* 답변 상태 */}
-                        <span className={`px-3 py-1 rounded-full ${
-                            question.isAnswered 
-                                ? 'bg-blue-300 text-blue-500' 
-                                : 'bg-gray-300 text-gray-500'
+                        <span className={`px-2 sm:px-3 py-1 rounded-full ${
+                            question.isAnswered ? 'bg-blue-300 text-blue-500' : 'bg-gray-300 text-gray-500'
                         }`}>
                             {question.isAnswered ? '답변완료' : '답변대기'}
                         </span>
 
                         {/* 비공개 여부 */}
                         {question.isPrivate && (
-                            <span className="px-3 py-1 bg-slate-300 rounded-full">
+                            <span className="px-2 sm:px-3 py-1 bg-slate-300 rounded-full">
                                 <div className="flex items-center gap-1">
                                     <Image 
-                                        src={Icons.locked}
+                                        src={Icons.locked} 
                                         alt="Locked" 
-                                        width={20}
-                                        height={20} 
+                                        width={16}
+                                        height={16}
+                                        className="sm:w-[20px] sm:h-[20px]"
                                     />
-                                    <span>비공개</span>
+                                    <span className="text-xs sm:text-sm">비공개</span>
                                 </div>
                             </span>
                         )}
 
-                        {/* 작성일 - 맨 오른쪽으로 이동 */}
-                        <span className="text-sm text-gray-500 ml-auto">
+                        {/* 작성일 */}
+                        <span className="text-[11px] sm:text-sm text-gray-500 ml-auto">
                             작성일: {formatDate(question.createdAt)}
                         </span>
                     </div>
-    
+
                     {/* 제목 */}
-                    <h1 className="text-xl font-bold text-gray-600 px-1">
+                    <h1 className="text-base sm:text-xl font-bold text-gray-600 px-1">
                         {question.questionTitle}
                     </h1>
                 </div>
-    
+
                 {/* 문의 내용 */}
-                <div className="mt-5 prose max-w-none">
-                    <div className="bg-white border border-blue-100 rounded-lg p-4 whitespace-pre-wrap min-h-[160px]">
+                <div className="mt-4 sm:mt-5 prose max-w-none">
+                    <div className="bg-white border border-blue-100 rounded-lg p-3 sm:p-4 whitespace-pre-wrap min-h-[120px] sm:min-h-[160px] text-sm sm:text-base">
                         {question.questionContent}
                     </div>
                 </div>
             </div>
-    
+
             {/* 답변 영역 */}
-            {answer && answer.responseContent && (  // 답변이 있고 내용이 있을 때만 표시
-                <div className="bg-gray-100 rounded-xl shadow-lg p-6 mb-6">
-                    <div className="flex items-center gap-2 mb-4">
-                        <h2 className="text-xl font-bold text-gray-500 px-1">관리자 답변</h2>
-                        <span className="text-sm text-gray-500">
+            {answer && answer.responseContent && (
+                <div className="bg-gray-100 rounded-xl shadow-lg p-4 sm:p-6 mb-4 sm:mb-6">
+                    <div className="flex items-center gap-2 mb-3 sm:mb-4">
+                        <h2 className="text-base sm:text-xl font-bold text-gray-500 px-1">관리자 답변</h2>
+                        <span className="text-xs sm:text-sm text-gray-500">
                             {formatDate(answer.createdAt)}
                         </span>
                     </div>
-                    <div className="bg-white border border-gray-300 rounded-lg p-6">
-                        <p className="whitespace-pre-wrap text-gray-700">
+                    <div className="bg-white border border-gray-300 rounded-lg p-4 sm:p-4 min-h-[120px] sm:min-h-[160px] text-sm sm:text-base">
+                        <p className="whitespace-pre-wrap text-sm sm:text-base text-gray-700">
                             {answer.responseContent}
                         </p>
                     </div>
@@ -195,22 +194,22 @@ export default function QnaDetailPage() {
             {isAdmin && !question.isAnswered && (
                 // 답변이 작성되지 않은 경우에만 답변 입력 폼 표시
                 <div className="bg-gray-100 rounded-xl shadow-lg p-6 mb-6">
-                    <h2 className="text-xl font-bold text-gray-600 px-1 mb-4">답변 작성</h2>
+                    <h2 className="text-base sm:text-xl font-bold text-gray-600 px-1 mb-4">답변 작성</h2>
                     <form onSubmit={handleSubmitAnswer} className="space-y-4">
                         <textarea
                             value={newAnswer}
                             onChange={(e) => setNewAnswer(e.target.value)}
-                            className="bg-white w-full p-4 border rounded-lg focus:ring-2 
+                            className="bg-white w-full p-3 border rounded-lg focus:ring-2 
                                     focus:ring-gray-300 focus:border-transparent
                                     outline-none transition-all duration-200
-                                    min-h-[160px] resize-y"
+                                    min-h-[120px] sm:min-h-[160px] resize-y"
                             placeholder="답변을 입력하세요"
                             required
                         />
                         <div className="flex justify-end">
                             <button
                                 type="submit"
-                                className="px-4 py-2 bg-gray-400 text-white rounded-lg text-base
+                                className="px-4 py-2 bg-gray-400 text-white rounded-lg text-sm sm:text-base
                                         hover:bg-gray-500 transition-colors duration-200
                                         flex items-center gap-2"
                             >
@@ -233,9 +232,9 @@ export default function QnaDetailPage() {
             <div className="flex justify-end items-center mt-8">
                 <button
                     onClick={() => router.push('/qna')}
-                    className="px-6 py-1.5 bg-slate-100 border border-gray-300 rounded-xl text-gray-500
+                    className="px-5 sm:px-6 py-1.5 bg-slate-100 border border-gray-300 rounded-xl text-gray-500
                             hover:bg-slate-200 transition-colors duration-200
-                            flex items-center gap-2"
+                            flex items-center gap-2 text-sm sm:text-lg"
                 >
                     <span>이전</span>
                 </button>
