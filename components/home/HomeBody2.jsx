@@ -84,10 +84,6 @@ const HomeBody2 = () => {
                         />
                     ))}
                 </div>
-                {/*<div className="font3 font-semibold text-center mt-10">*/}
-                {/*    <p>색상, 혜택, 포인트 사용처</p>*/}
-                {/*    <p>내 맘대로 선택</p>*/}
-                {/*</div>*/}
             </div>
         </FadeInSection>
     );
