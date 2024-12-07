@@ -36,7 +36,10 @@ const HomeBody3 = () => {
     ];
 
     return (
-        <div className='flex flex-col justify-center items-center mt-32'>
+        <div className='flex flex-col justify-center items-center mt-32'
+            style={{
+                letterSpacing: '0.1em'
+            }}>
             <FadeInSection>
                 <div className='flex flex-col justify-center items-center'>
                     <h1 className='font4 font-semibold'>내 라이프스타일에 맞춰</h1>
@@ -45,7 +48,7 @@ const HomeBody3 = () => {
                 </div>
             </FadeInSection>
             <FadeInSection>
-                <div className="px-16 space-y-5 mt-14 mb-10 w-full">
+                <div className="flex flex-col justify-center items-center space-y-5 mt-14 mb-10 w-full">
                     {benefits.map((benefit, index) => (
                         <BenefitBox
                             key={index}

@@ -98,7 +98,7 @@ const ChangeBenefitsPage = () => {
         setShowNoCardModal(true); // 카드가 없으면 모달을 띄우도록 설정
         return;
       }
-      
+
       const transformedData = transformBenefitData(data.data);
 
       const updatedState = {
@@ -134,23 +134,23 @@ const ChangeBenefitsPage = () => {
     const formattedDate = `${yyyy}-${mm}-${dd}`;
 
     const requestBody = selectedCategories
-        .map((upperCategoryId, index) => {
-          // benefitRate가 0인 경우도 유효한 값으로 처리
-          const benefitRate = Math.max(0, categoryValues[index] - 1);
+      .map((upperCategoryId, index) => {
+        // benefitRate가 0인 경우도 유효한 값으로 처리
+        const benefitRate = Math.max(0, categoryValues[index] - 1);
 
-          if (upperCategoryId === null) return null;
+        if (upperCategoryId === null) return null;
 
-          return {
-            benefitEffectiveDate: formattedDate,
-            benefitRate,
-            isActive: true,
-            cardSequenceId,
-            upperCategoryId,
-            lowerCategoryId: selectedOptions[index] || null,
-            secondaryAuthCode: authCode,
-          };
-        })
-        .filter(Boolean);
+        return {
+          benefitEffectiveDate: formattedDate,
+          benefitRate,
+          isActive: true,
+          cardSequenceId,
+          upperCategoryId,
+          lowerCategoryId: selectedOptions[index] || null,
+          secondaryAuthCode: authCode,
+        };
+      })
+      .filter(Boolean);
 
     try {
       const response = await fetch(url, {
@@ -248,19 +248,21 @@ const ChangeBenefitsPage = () => {
       />
     );
   }
-  
+
   if (!benefitState) {
     return <div>로딩 중...</div>;
   }
 
   return (
-    <div>
+    <div className="max-h-screen overflow-y-scroll">
 
       <ChangeBenefitHeader />
+      <div className="flex flex-col justify-center items-center">
+        <ChangeBenefitBody1 labels={labels} benefitState={benefitState} />
+        <ChangeBenefitBody2 labels={labels} benefitState={benefitState} categoryMap={categoryMap} lowerCategoryMap={lowerCategoryMap} updateCategoryValue={updateCategoryValue} updateCategory={updateCategory} updateOption={updateOption} />
+        <ChangeBenefitBody3 labels={labels} benefitState={benefitState} resetContext={resetContext} lowerCategoryMap={lowerCategoryMap} />
 
-      <ChangeBenefitBody1 labels={labels} benefitState={benefitState} />
-      <ChangeBenefitBody2 labels={labels} benefitState={benefitState} categoryMap={categoryMap} lowerCategoryMap={lowerCategoryMap} updateCategoryValue={updateCategoryValue} updateCategory={updateCategory} updateOption={updateOption} />
-      <ChangeBenefitBody3 labels={labels} benefitState={benefitState} resetContext={resetContext} lowerCategoryMap={lowerCategoryMap} />
+      </div>
 
       <span className="flex justify-center"> 포인트 혜택은 30일 마다 변경이 가능하며 변경 수수료 1,000 원이 익월 청구됩니다.</span>
 

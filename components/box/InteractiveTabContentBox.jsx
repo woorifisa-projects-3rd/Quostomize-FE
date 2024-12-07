@@ -71,20 +71,26 @@ const InteractiveTabContentBox = ({ categoryMap, lowerCategoryMap, benefitState,
 
     return (
         <div className="w-full max-w-2xl">
-            <div className="px-14 w-full flex justify-between border-b border-gray-200">
+            <div className="px-8 w-full flex justify-between items-center border-b border-gray-200">
                 {categories.map((category, index) => (
-                    <button
-                        key={index}
-                        onClick={() => handleTabClick(index)}
-                        className={`px-4 py-2 font-bold transition-colors ${benefitState.categoryValues[index] >= 4
-                            ? 'text-white bg-blue-500 rounded-lg border-b-2 border-blue-500'
-                            : 'text-gray-600 hover:bg-gray-50'
-                            }`}
-                    >
-                        {category}
-                    </button>
+                    <React.Fragment key={index}>
+                        <button
+                            onClick={() => handleTabClick(index)}
+                            className={`px-4 py-2 font-bold transition-colors ${benefitState.categoryValues[index] >= 4
+                                ? 'text-white bg-blue-500 rounded-lg border-b-2 border-blue-500'
+                                : 'text-gray-600 hover:bg-gray-50'
+                                }`}
+                        >
+                            {category}
+                        </button>
+                        {index < categories.length - 1 && (
+                            <span className="text-gray-300 mx-2">|</span>
+                        )}
+                    </React.Fragment>
                 ))}
             </div>
+
+
             <div className="p-8 bg-white border border-t-0 border-gray-200">
                 {activeTab !== null && (
                     <div className="space-y-4">

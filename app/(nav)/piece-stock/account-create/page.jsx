@@ -1,6 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
-import MyFullButton from '../../../components/button/full-button'
+import MyFullButton from '../../../../components/button/full-button'
 
 const page = () => {
     return (

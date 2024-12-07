@@ -9,6 +9,7 @@ const ChangeBenefitBody2 = ({ labels, benefitState, categoryMap, lowerCategoryMa
 
         <div>
             <InteractiveTabContentBox labels={labels} benefitState={benefitState} updateCategoryValue={updateCategoryValue} updateCategory={updateCategory} updateOption={updateOption} categoryMap={categoryMap} lowerCategoryMap={lowerCategoryMap} />
+            
         </div>
     )
 }

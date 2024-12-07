@@ -1,9 +1,9 @@
 'use client'
 
 import { useEffect, useState } from "react";
-import SearchHeader from "../../../components/piece-stock/search/header"
-import SearchBody from "../../../components/piece-stock/search/body"
-import SearchBottom from "../../../components/piece-stock/search/bottom"
+import SearchHeader from "../../../../components/piece-stock/search/header"
+import SearchBody from "../../../../components/piece-stock/search/body"
+import SearchBottom from "../../../../components/piece-stock/search/bottom"
 import { useSession } from "next-auth/react";
 
 const SearchPage = () => {
