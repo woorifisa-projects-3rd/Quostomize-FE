@@ -1,5 +1,5 @@
 import React from 'react'
-import Header from "../../header/PageHeader";
+import PageHeader from "../../header/PageHeader";
 
 
 function SelectPoint1({ onClick }) {
@@ -8,14 +8,14 @@ function SelectPoint1({ onClick }) {
   return (
 
     <div>
-      <Header
+      <PageHeader
         modaltitle="카드 생성"
         showArrowButton={true}
         onArrowClick={onClick}
         exitDirection="/home"
       >
         포인트 사용 옵션 선택
-      </Header>
+      </PageHeader>
     </div>
   )
 }

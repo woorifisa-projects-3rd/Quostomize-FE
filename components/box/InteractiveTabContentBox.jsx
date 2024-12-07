@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Icons from '../../public/icons/icons';
 
 const InteractiveTabContentBox = ({ labels, categoryMap, lowerCategoryMap, benefitState, data, updateOption, updateCategory, updateCategoryValue }) => {
-    const [activeTab, setActiveTab] = useState(null);
+    const [activeTab, setActiveTab] = useState(0);
     const [selectedOptionIndex, setSelectedOptionIndex] = useState(Array(5).fill(null));
 
     const categoryKeys = [1, 2, 3, 4, 5];
@@ -78,6 +78,9 @@ const InteractiveTabContentBox = ({ labels, categoryMap, lowerCategoryMap, benef
                             key={index}
                             onClick={() => handleTabClick(index)}
                             className={`flex flex-col items-center font-bold transition-colors ${benefitState.categoryValues[index] >= 4}`}
+                            style={{
+                                color: (activeTab === index || benefitState.categoryValues[index] >= 4) ? 'black' : '#D1D5DB',
+                            }}
                         >
                             <div className="text-sm"
                                 style={{
@@ -104,11 +107,11 @@ const InteractiveTabContentBox = ({ labels, categoryMap, lowerCategoryMap, benef
                                     : 'hover:bg-gray-50'
                                     }`}
                             >
-                                <div className="w-12 h-12 mr-4 flex items-center justify-center">
+                                <div className="w-10 h-10 mr-4 flex items-center justify-center">
                                     <img
                                         src={optionicon[activeTab][index]}
                                         alt={option}
-                                        className="w-12 h-12 object-contain"
+                                        className="w-10 h-10 object-contain"
                                     />
                                 </div>
                                 <span className="text-xs text-gray-700">{option}</span>
