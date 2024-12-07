@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import LoadingSpinner from '../../../components/overlay/loadingSpinner';
+import Image from 'next/image';
 
 export default function FindPasswordPage() {
   const router = useRouter();
@@ -19,7 +20,6 @@ export default function FindPasswordPage() {
   });
   const [passwordError, setPasswordError] = useState('');
 
-  // 비밀번호 유효성 검사 함수
   const validatePassword = (password) => {
     if (password.length < 8 || password.length > 16) {
       return '비밀번호는 8자 이상 16자 이하로 입력해주세요.';
@@ -27,18 +27,33 @@ export default function FindPasswordPage() {
     return '';
   };
 
+  const formatPhoneNumber = (number) => {
+    if (!number) return '';
+    const cleanNumber = number.replace(/[^0-9]/g, '');
+    const match = cleanNumber.match(/^(\d{3})(\d{3,4})(\d{4})$/);
+    if (match) {
+      return `${match[1]}-${match[2]}-${match[3]}`;
+    }
+    return cleanNumber;
+  };
+
+  const handlePhoneNumberChange = (e) => {
+    const value = e.target.value.replace(/[^0-9]/g, '').slice(0, 11); // 숫자만 유지
+    setPhoneNumber(value);
+  };
+
   useEffect(() => {
     let timer;
     if (timerActive && timeLeft > 0) {
       timer = setInterval(() => {
-        setTimeLeft(prev => prev - 1);
+        setTimeLeft((prev) => prev - 1);
       }, 1000);
     } else if (timeLeft === 0) {
       setError('인증번호가 만료되었습니다. 다시 시도해주세요.');
       setStep(1);
       setVerificationCode('');
     }
-    
+
     return () => clearInterval(timer);
   }, [timerActive, timeLeft]);
 
@@ -48,55 +63,39 @@ export default function FindPasswordPage() {
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
-  const validatePhoneNumber = (number) => {
-    return number.replace(/[^0-9]/g, '').slice(0, 11);
-  };
-
-  const handlePhoneNumberChange = (e) => {
-    const value = validatePhoneNumber(e.target.value);
-    setPhoneNumber(value);
-  };
-
   const handleSendCode = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
 
     try {
-        const response = await fetch('/api/find-password/send', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                phoneNumber: phoneNumber
-            }),
-        });
-        
-        const data = await response.json();
-        
-        if (!response.ok) {
-            throw new Error(data.error || '인증번호 전송에 실패했습니다.');
-        }
+      const response = await fetch('/api/find-password/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phoneNumber }),
+      });
 
-        setStep(2);
-        setTimeLeft(180);
-        setTimerActive(true);
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || '인증번호 전송에 실패했습니다.');
+      }
+
+      setStep(2);
+      setTimeLeft(180);
+      setTimerActive(true);
     } catch (error) {
-        setError(error.message);
+      setError(error.message);
     } finally {
-        setIsLoading(false);
+      setIsLoading(false);
     }
   };
 
   const handleVerifyCode = async (e) => {
     e.preventDefault();
-    if (!validatePhoneNumber(phoneNumber)) {
-      setError('올바른 전화번호 형식이 아닙니다.');
+    if (!phoneNumber || timeLeft === 0) {
+      setError('유효하지 않은 전화번호이거나 인증번호가 만료되었습니다.');
       return;
-    }
-    if (timeLeft === 0) {
-        setError('인증번호가 만료되었습니다. 다시 시도해주세요.');
-        setStep(1);
-        return;
     }
 
     setIsLoading(true);
@@ -104,22 +103,17 @@ export default function FindPasswordPage() {
 
     try {
       const response = await fetch('/api/find-password/confirm', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ 
-              phone: phoneNumber,
-              certificationNumber: verificationCode
-          }),
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone: phoneNumber, certificationNumber: verificationCode }),
       });
-      
+
       const data = await response.json();
 
       if (!response.ok) {
-          throw new Error(data.error || '인증번호 확인에 실패했습니다.');
+        throw new Error(data.error || '인증번호 확인에 실패했습니다.');
       }
 
-      // 성공 시 토큰 저장
-      localStorage.setItem('resetToken', data.accessToken);
       setTimerActive(false);
       setStep(3);
     } catch (error) {
@@ -129,56 +123,60 @@ export default function FindPasswordPage() {
     }
   };
 
-  // 비밀번호 변경
   const handlePasswordChange = async (e) => {
     e.preventDefault();
     setPasswordError('');
 
     const validationError = validatePassword(passwords.newPassword);
     if (validationError) {
-        setPasswordError(validationError);
-        return;
+      setPasswordError(validationError);
+      return;
     }
 
     if (passwords.newPassword !== passwords.confirmPassword) {
-        setPasswordError('비밀번호가 일치하지 않습니다.');
-        return;
+      setPasswordError('비밀번호가 일치하지 않습니다.');
+      return;
     }
 
     setIsLoading(true);
     try {
-        const token = localStorage.getItem('resetToken');
-        const response = await fetch('/api/find-password/reset', {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({
-                password: passwords.newPassword
-            }),
-        });
+      const token = localStorage.getItem('resetToken');
+      const response = await fetch('/api/find-password/reset', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ password: passwords.newPassword }),
+      });
 
-        if (!response.ok) {
-            throw new Error('비밀번호 변경에 실패했습니다.');
-        }
+      if (!response.ok) {
+        throw new Error('비밀번호 변경에 실패했습니다.');
+      }
 
-      // 토큰 제거
-        localStorage.removeItem('resetToken');
-        setStep(4);
+      setStep(4);
     } catch (error) {
-        setError(error.message);
+      setError(error.message);
     } finally {
-        setIsLoading(false);
+      setIsLoading(false);
     }
   };
 
   return (
     <div className="min-h-screen">
-      <div className="w-full px-6 pt-12 pb-28">
+      <div className="w-full px-6 pt-14 pb-28">
         <div className="max-w-md mx-auto">
-          <h1 className="text-3xl font-bold color1 mb-3">비밀번호 찾기</h1>
-          <p className="text-base text-gray-900">
+          <div className="max-w-md mx-auto flex items-center">
+            <Image
+              src="/wooriImages/woori_ci.png"
+              alt="Woori Logo"
+              width={40}
+              height={40}
+              className="object-contain"
+            />
+            <h1 className="text-3xl font-bold color1">비밀번호 찾기</h1>
+          </div>
+          <p className="text-base text-gray-600 pl-2">
             {step === 1 && '전화번호를 입력해주세요.'}
             {step === 2 && '인증번호를 입력해주세요.'}
             {step === 3 && '인증이 완료되었습니다.'}
@@ -187,9 +185,9 @@ export default function FindPasswordPage() {
       </div>
 
       <div className="relative">
-        <div className="absolute inset-x-0 -top-20">
-          <div className="max-w-lg mx-auto px-5">
-            <div className="bg-white rounded-3xl shadow-xl p-8">
+        <div className="absolute inset-x-5 -top-20 mt-3">
+          <div className="max-w-lg mx-auto">
+            <div className="bg-white rounded-3xl shadow-xl p-7">
               {error && (
                 <div className="mb-4 p-3 bg-red-50 text-red-500 rounded-lg text-sm">
                   {error}
@@ -199,24 +197,22 @@ export default function FindPasswordPage() {
               {step === 1 && (
                 <form onSubmit={handleSendCode} className="space-y-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-600 mb-2">
-                      전화번호
-                    </label>
+                    <label className="block text-sm font-medium text-gray-600 mb-2">전화번호</label>
                     <input
                       type="tel"
-                      value={phoneNumber}
+                      value={formatPhoneNumber(phoneNumber)} // 화면에 하이픈 포함 표시
                       onChange={handlePhoneNumberChange}
-                      className="w-full p-3 border rounded-xl bg-gray-50 focus:bg-white 
-                                focus:border-blue-500 outline-none transition-all"
+                      className="w-full p-2 border rounded-xl bg-gray-50 focus:bg-white 
+                                focus:border-blue-500 outline-none transition-all placeholder:text-sm"
                       placeholder="'-' 없이 입력해주세요"
-                      maxLength={11}
+                      maxLength={13} // 하이픈 포함 최대 길이
                       required
                     />
                   </div>
                   <button
                     type="submit"
                     disabled={phoneNumber.length !== 11}
-                    className={`w-full py-3 rounded-xl transition-colors duration-200
+                    className={`w-full py-2 rounded-xl transition-colors duration-200
                       ${phoneNumber.length === 11
                         ? 'bg-blue-400 text-white hover:bg-blue-500'
                         : 'bg-gray-200 text-gray-400 cursor-not-allowed'}`}
