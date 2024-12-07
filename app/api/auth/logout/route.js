@@ -4,16 +4,22 @@ import { auth } from "../../../../auth"
 export async function POST(request) {
   const session = await auth();
   const accessToken = session.accessToken;
+  const refreshToken = session.refreshToken;
+  const traceId = session.traceId;
 
   const response = await fetch(`${process.env.SERVER_URL}/v1/api/auth/logout`,
       {
           method: "POST",
           headers: {
               "Content-type": "application/json",
-              "Authorization": `Bearer ${accessToken}`
+              Cookie: `refreshToken=${refreshToken}`,
+              "traceId": `${traceId}`
           },
           credentials: "include",
-          cache: "force-cache"
+          cache: "no-store",
+          body: JSON.stringify({
+            accessToken: accessToken
+          })
       }
   );
 

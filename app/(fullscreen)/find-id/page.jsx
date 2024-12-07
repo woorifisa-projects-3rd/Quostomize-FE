@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import LoadingSpinner from '../../../components/overlay/LoadingSpinner';
+import LoadingSpinner from '../../../components/overlay/loadingSpinner';
 
 export default function FindIdPage() {
   const router = useRouter();
@@ -37,8 +37,7 @@ export default function FindIdPage() {
           setError('일치하는 회원 정보가 없습니다.');
       }
     } catch (error) {
-        setError(error.message || '아이디 찾기에 실패했습니다.');
-        console.error('Error:', error);
+        setError('아이디 찾기에 실패했습니다.');
     } finally {
         setIsLoading(false);
     }

@@ -1,60 +1,47 @@
-import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import { searchStock } from "../../../components/piece-stock/home/apiMethod/apiList"
 
-const searchHeader = ({ setValue, value, setSearchInfo, searchInfo, session }) => {
-
-    const router = useRouter()
+const searchHeader = ({ setValue, value, setSearchInfo, setPage }) => {
+    const [inSearch, setSearch] = useState(true)
     const param = new URLSearchParams();
 
-    const searchStock = async () => {
-        param.append("keyword", value)
-        try {
-            const response = await fetch(`http://localhost:8080/v1/api/stocks/search?${param}`, {
-                method: 'GET',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',  // 요청 본문이 JSON임을 지정
-                    'Authorization': `Bearer ${session.accessToken}`, // JWT 토큰을 Authorization 헤더에 포함
-                },
-            });
+    useEffect(() => {
+        if (inSearch) {
+            searchStock(param, value, setSearchInfo)
+            setSearch(false)
 
-            if (!response.ok) {
-                throw new Error('값이 조회되지 않았습니다.');
-            }
-            const data = await response.json(); // 응답을 JSON으로 파싱
-            setSearchInfo(data.data);
-        } catch (error) {
-            console.error('데이터 가져오기 오류:', error);
         }
-    }
-
-    const searchData = () => {
-        searchStock()
-    }
-
-    const toFavorite = () => {
-        router.push("/piece-stock/favorite")
-    }
+    }, [value])
 
     return (
         <>
-            <div className="flex items-center gap-2 mb-4">
-                <span className="material-icons cursor-pointer" onClick={toFavorite}>chevron_left</span>
-                <div className="flex-1 relative">
-                    <input
-                        type="text"
-                        placeholder="Search"
-                        className="w-full p-2 pl-8 rounded-lg border"
-                        onKeyDown={(e) => e.key === "Enter" ? searchData() : null}
-                        onChange={(e) => setValue(e.target.value)}
-                    />
-                    <span className="material-icons absolute left-2 top-1/2 -translate-y-1/2 text-gray-400">
-                        search
-                    </span>
-                </div>
+            <div className='flex justify-between mb-10 mt-5'>
+                <span className="material-icons cursor-pointer" onClick={() => toFavorite(setPage)}>chevron_left</span>
+                <h1 className='font3'>종목검색</h1>
+                <span className="material-icons cursor-pointer" onClick={() => toFavorite(setPage)}>close</span>
+            </div>
+            <div className="flex-1 relative">
+                <input
+                    type="text"
+                    placeholder="관심있는 주식을 검색해보세요"
+                    className="w-full py-5 font3 px-4 bg-[#E3E4E8] rounded-xl font1 focus:outline-none"
+                    value={value}
+                    onKeyDown={(e) => e.key === "Enter" ? searchData(param, value, setSearchInfo) : null}
+                    onChange={(e) => setValue(e.target.value)}
+                />
+                <span className="material-icons absolute right-2 top-1/2 -translate-y-1/2">
+                    search
+                </span>
             </div>
         </>
     )
+}
+function searchData(param, value, setSearchInfo) {
+    searchStock(param, value, setSearchInfo)
+}
+
+function toFavorite(setPage) {
+    setPage([true, false, false])
 }
 
 export default searchHeader

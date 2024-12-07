@@ -1,31 +1,29 @@
+'use client'
+
 import HomeHeader from "../../../components/piece-stock/home/header"
 import HomeBody from "../../../components/piece-stock/home/body"
-import { cookies } from "next/headers";
+import Search from "../../../components/piece-stock/home/search"
+import { cardIdInfo } from "../../../components/piece-stock/home/apiMethod/apiList"
+import { useEffect, useState } from "react";
 
-export async function cardIdInfo() {
-  const cookieList = await cookies();
-  try {
-    const response = await fetch(`${process.env.NEXT_URL}/api/piece-stock/home`, {
-      method: "GET",
-      headers: {
-        "Content-type": "application/json",
-        Cookie: cookieList
-      },
-      credentials: "include",
-    });
-    return await response.json()
-  } catch (error) {
-    console.error("Error fetching data:", error);
-  }
-}
 
-const PieceStockHome = async () => {
-  const data = await cardIdInfo();
+const PieceStockHome = () => {
+  const [wishInfo, setWishInfo] = useState([])
+  const [value, setValue] = useState("")
+  const [data, setData] = useState()
+  const [page, setPage] = useState([true, false, false])
+  const [cardData, setCardData] = useState([])
+
+  useEffect(() => {
+    cardIdInfo(setData)
+  }, [])
+
   return (
-    <>
-      <HomeHeader data={data} />
-      <HomeBody data={data} />
-    </>
+    <div className="p-4 h-screen overflow-scroll [&::-webkit-scrollbar]:hidden">
+      {page[2] === false && <HomeHeader data={data} setValue={setValue} value={value} setPage={setPage} />}
+      {page[2] === false && <HomeBody data={data} page={page} setPage={setPage} cardData={cardData} setCardData={setCardData} wishInfo={wishInfo} setWishInfo={setWishInfo} />}
+      {page[2] === true && <Search cardData={cardData} setCardData={setCardData} value={value} setValue={setValue} setPage={setPage} wishInfo={wishInfo} setWishInfo={setWishInfo} />}
+    </div>
   );
 };
 export default PieceStockHome;

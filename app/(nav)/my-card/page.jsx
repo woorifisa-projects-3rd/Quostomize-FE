@@ -1,22 +1,27 @@
 'use client'
 
 import { useEffect, useState } from "react";
+import { useRouter } from 'next/navigation';
 import FlipCard from '../../../components/card/flip-card'
 import MyCardHeader from '../../../components/my-card/myCardHeader'
-import MyToggle from '../../../components/button/toggleButton'
 import MyFullButton from "../../../components/button/full-button";
 import Icons from "../../../public/icons/icons"
 import GradientText from "../../../components/card/gradientText";
 import ColorInfo from "../../../components/card/colorInfo";
 import PointUsageBox from "../../../components/box/pointUsageBox";
+import LoadingSpinner from "../../../components/overlay/loadingSpinner";
+import CardNotFoundModal from "../../../components/my-card/CardNotFoundModal"
 
 const MyCardPage = () => {
+  const router = useRouter();
   const [cardData, setCardData] = useState(null);
   const [error, setError] = useState(null);
   const [currentColorIndex, setCurrentColorIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [showNoCardModal, setShowNoCardModal] = useState(false); // 카드가 없는 경우 모달 상태
 
   const fetchCardData = async () => {
+    setIsLoading(true);
     try {
       const response = await fetch('/api/my-card', {
         method: "GET",
@@ -32,11 +37,16 @@ const MyCardPage = () => {
       }
 
       const data = await response.json();
-      setCardData(data.data);
-
+      if (data.data && data.data.length > 0) {
+        setCardData(data.data);
+      } else {
+        setShowNoCardModal(true); // 카드가 없으면 모달을 띄우도록 설정
+      }
     } catch (error) {
       console.error('Error - 카드 혜택 불러오기: ', error.message);
       setError(error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -138,18 +148,29 @@ const MyCardPage = () => {
   }, []);
 
   useEffect(() => {
-    if (!cardData) {
-      return
+    if (cardData && cardData.length > 0) {
+      setCurrentColorIndex(cardData[0].cardColor - 1);
     }
-    setCurrentColorIndex(cardData[0].cardColor - 1);
-  }, [cardData])
+  }, [cardData]);
 
   if (error) {
     return <div>에러가 발생했습니다: {error}</div>;
   }
 
-  if (!cardData) {
-    return <div>로딩 중</div>;
+  if (showNoCardModal) {
+    return (
+      <CardNotFoundModal
+        isOpen={showNoCardModal}
+        onClose={() => {
+          setShowNoCardModal(false);
+          router.push('/home');
+        }}
+      />
+    );
+  }
+
+  if (isLoading|| !cardData || cardData.length === 0) {
+    return <LoadingSpinner />;
   }
 
   const uniqueBy = (array, key) => {
@@ -161,7 +182,8 @@ const MyCardPage = () => {
       return true;
     })
   }
-  const filteredCardColor = uniqueBy(cardData.filter(card => card.cardColor), "cardColor");
+  const filteredCardColor = cardData && cardData.length > 0
+  ? uniqueBy(cardData.filter(card => card.cardColor), "cardColor") : [];
   const cardColor = filteredCardColor.length > 0 ? filteredCardColor[0].cardColor : null;
 
   const totalBenefitRate = Array.from(

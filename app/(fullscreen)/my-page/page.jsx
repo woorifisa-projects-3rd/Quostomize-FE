@@ -8,6 +8,7 @@ import LogoutButton from "../../../components/button/logoutButton";
 import MyPageHeader from "../../../components/my-page/myPageHeader";
 import EmailForm from "../../../components/create-card/input-address/EmailForm";
 import AddressForm from "../../../components/create-card/input-address/AddressForm";
+import LoadingSpinner from "../../../components/overlay/loadingSpinner";
 
 const MyPage = () => {
   const router = useRouter();
@@ -282,7 +283,7 @@ const MyPage = () => {
   return (
     <>
       <MyPageHeader />
-      <div className="relative bg-slate-300 min-h-screen">
+      <div className="relative bg-slate-300 pb-4 min-h-screen">
         <div className="h-[7.5rem] mx-4 bg-slate-200 px-8 py-8 rounded-b-xl ">
           <div className="text-3xl tracking-widest font-bold">
             {memberName}
@@ -335,11 +336,7 @@ const MyPage = () => {
         </div>
         {
           isLoading
-          ? <div className="absolute inset-0 flex justify-center items-center bg-black/25 text-white">
-              <div>
-                로딩중!!!!!!!!!!!
-              </div>
-            </div>
+          ? <LoadingSpinner message="변경 중입니다..."/>
           : <></>
         }
       </div>

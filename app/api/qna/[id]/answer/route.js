@@ -1,47 +1,46 @@
 'use server';
-import { NextResponse } from "next/server";
-import { auth } from "../../../../../auth";
 
-export async function POST(request, { params }) {
+import { NextResponse } from 'next/server';
+import { auth } from '../../../../../auth';
+
+export async function GET(request, { params }) {
     try {
         const session = await auth();
         if (!session) {
-            return NextResponse.json(
-                { error: "Unauthorized" }, 
-                { status: 401 }
-            );
+        return NextResponse.json(
+            { error: 'Unauthorized' },
+            { status: 401 }
+        );
         }
 
-        const { id } = params;
-        const body = await request.json();
+        const { id } = await params;
 
         const response = await fetch(
-            `${process.env.SERVER_URL}/v1/api/qnas/${id}/submit-answer`,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${session.accessToken}`
-                },
-                body: JSON.stringify(body)
-            }
+        `${process.env.SERVER_URL}/v1/api/qnas/${id}/answer`,
+        {
+            headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session.accessToken}`,
+            'traceId': `${session.traceId}`,
+            },
+        }
         );
 
         if (!response.ok) {
-            const errorData = await response.json();
-            return NextResponse.json(
-                { error: errorData.message || "Failed to submit answer" }, 
-                { status: response.status }
-            );
+        const errorText = await response.text();
+        return NextResponse.json(
+            { error: `Failed to fetch answer: ${errorText}` },
+            { status: response.status }
+        );
         }
 
         const result = await response.json();
         return NextResponse.json(result);
     } catch (error) {
-        console.error("Error submitting answer:", error);
+        console.error('Error fetching answer:', error);
         return NextResponse.json(
-            { error: "Internal Server Error" }, 
-            { status: 500 }
+        { error: 'Internal Server Error' },
+        { status: 500 }
         );
     }
 }

@@ -36,17 +36,16 @@ const favoriteBottom = ({ orderInfo, cardId, wishInfo, setWishInfo, session, set
         try {
             param.append("cardId", cardId)
             param.append("isRecommendByCardBenefit", true)
-            const response = await fetch(`http://localhost:8080/v1/api/stocks/recommendations?${param}`,
+            const response = await fetch(`/api/piece-stock/favorite/searchRecommend?${param}`,
                 {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',  // 요청 본문이 JSON임을 지정
-                        'Authorization': `Bearer ${session.accessToken}`, // JWT 토큰을 Authorization 헤더에 포함
                     }
                 }
             )
             const data = await response.json()
-            setRecommend(data.data)
+            setRecommend(data)
         } catch (error) {
             console.error('데이터 가져오기 오류:', error);
         }
@@ -55,12 +54,10 @@ const favoriteBottom = ({ orderInfo, cardId, wishInfo, setWishInfo, session, set
     // 저장 요청
     const saveStocks = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/v1/api/stocks/recommendations/add?${paramSave}`, {
+            const response = await fetch(`/api/piece-stock/favorite/createWish?${paramSave}`, {
                 method: 'GET',
-                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',  // 요청 본문이 JSON임을 지정
-                    'Authorization': `Bearer ${session.accessToken}`, // JWT 토큰을 Authorization 헤더에 포함
                 },
             });
 
@@ -104,7 +101,8 @@ const favoriteBottom = ({ orderInfo, cardId, wishInfo, setWishInfo, session, set
                 if (checkStock === true) { // 만일 해당 추천주식이 체크 되어 있다면
                     const stockName = recommendStockInfo[i] // 해당하는 인덱스의 위시주식과 비교해서
                     wishInfo.forEach((whishStock, index) => { // 내 위시주식 정보에서
-                        if (whishStock.stockName === stockName.stockName) { // 만일 위시주식 안에 추천주식명이 없다면 통과   
+                        if (whishStock.stockName === stockName.stockName) { // 만일 위시주식 안에 추천주식명이 없다면 통과
+
                             duplicated.push(true) // 중복일떄 true를 넣는다.
                         } else {    //중복이 있다면 체크
                             duplicated.push(false) // 중복이 아닐떄 false를 넣는다.
@@ -117,6 +115,8 @@ const favoriteBottom = ({ orderInfo, cardId, wishInfo, setWishInfo, session, set
                 }
 
                 if (duplicated.includes(true)) {
+                    // console.log("위시주식에 이미 해당 주식이 존재합니다.");
+
                 } else {
                     if (check === true) {
                         testName.forEach((recommendName, index) => {
@@ -127,6 +127,8 @@ const favoriteBottom = ({ orderInfo, cardId, wishInfo, setWishInfo, session, set
                             paramSave.delete("stockName")
                         })
                     } else {
+                        // console.log("다음 추천주식 인덱스로")
+
                     }
 
                 }

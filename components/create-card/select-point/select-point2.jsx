@@ -5,10 +5,14 @@ import SelectPointUsageBox from '../../box/select-point-usage-box'
 import Icons from '../../../public/icons/icons'
 import Toast from '../../overlay/toast';
 
-function SelectPoint2() {
-    const [activeOptions, setActiveOptions] = useState([]);
-    const [hoveredIndex, setHoveredIndex] = useState(null);
-    const [showToast, setShowToast] = useState(false);
+function SelectPoint2({
+                          activeOptions,
+                          setActiveOptions,
+                          hoveredIndex,
+                          setHoveredIndex,
+                          showToast,
+                          setShowToast,
+                      }) {
 
     const selectoptions = [
         {
