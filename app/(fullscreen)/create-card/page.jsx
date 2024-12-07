@@ -336,6 +336,7 @@ const CreateCardPage = () => {
           <SelectOtherInfo
             formData={formData}
             setFormData={setFormData}
+            cardOptions={cardOptions}
           />
         </div>;
 
