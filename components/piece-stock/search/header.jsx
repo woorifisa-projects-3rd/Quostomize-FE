@@ -6,13 +6,8 @@ const searchHeader = ({ setValue, value, setSearchInfo, searchInfo, session }) =
     const router = useRouter()
     const param = new URLSearchParams();
 
-    useEffect(() => {
-        console.log(searchInfo)
-    }, [searchInfo])
-
     const searchStock = async () => {
         param.append("keyword", value)
-        console.log(param)
         try {
             const response = await fetch(`http://localhost:8080/v1/api/stocks/search?${param}`, {
                 method: 'GET',

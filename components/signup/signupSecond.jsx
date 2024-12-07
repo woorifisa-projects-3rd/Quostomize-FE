@@ -44,8 +44,6 @@ const SignupSecond = ({ setPage, secondForm, setSecondForm, regionNumber, setReg
 
     // 다음페이지 클릭 시
     const toNextPage = () => {
-        console.log(regionNumber)
-        console.log(secondForm)
 
         const newNumber = `${regionNumber[0].value + regionNumber[1].value}` // 주민등록번호 완성
         const setData = []
