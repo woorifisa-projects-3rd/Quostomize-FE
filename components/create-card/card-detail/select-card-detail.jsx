@@ -45,7 +45,7 @@ function SelectCardForm({ cardOptions, setCardOptions }) {
                         </div>
                     </div>
                     <select
-                        className="w-full p-3 border rounded-lg bg-white text-base hover:border-blue-500 transition-colors duration-300"
+                        className="w-full p-3 border rounded-lg bg-white text-base hover:border-blue-500 transition-colors duration-300 focus:outline-none"
                         value={cardOptions.cardBrand}
                         onChange={(e) =>
                             setCardOptions({
