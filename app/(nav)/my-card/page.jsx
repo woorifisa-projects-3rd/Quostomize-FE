@@ -249,7 +249,7 @@ const MyCardPage = () => {
           <div className="border-b border-gray-500/60 mb-20"></div>
           <p className="font3 font-bold mb-2 text-center">내 포인트 사용처</p>
           <p className="text-center mb-14"> 포인트 사용처를 자유롭게 켜고 끌 수 있어요</p>
-          <div className="flex gap-10">
+          <div className="flex gap-10 mb-32">
             {lottoBox && (
                 <PointUsageBox
                     title={"일일복권"}
