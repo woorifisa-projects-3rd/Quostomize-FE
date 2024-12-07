@@ -41,7 +41,10 @@ const HomeBody2 = () => {
     return (
 
         <FadeInSection>
-            <div className="flex flex-col justify-center items-center mt-32">
+            <div className="flex flex-col justify-center items-center mt-32"
+                style={{
+                    letterSpacing: '0.1em'
+                }}>
 
                 <div className="font4 font-semibold text-center">
                     <h1>내가 채워가는 나를 위한 카드</h1>

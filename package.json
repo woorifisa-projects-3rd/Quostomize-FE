@@ -16,6 +16,7 @@
     "@mui/material": "^6.1.7",
     "chart.js": "^4.4.6",
     "chartjs-plugin-datalabels": "^2.2.0",
+    "canvas-confetti": "^1.9.3",
     "gsap": "^3.12.5",
     "js-cookie": "^3.0.5",
     "lottie-web": "^5.12.2",

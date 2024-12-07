@@ -5,17 +5,20 @@ import { useInView } from "react-intersection-observer";
 import FadeInSection from "../fade-in/fade-in-section";
 
 const sentences = [
-    "커다란 혜택을",
-    "스스로 선택하여",
-    "터치 한 번으로",
-    "마이 라이프스타일에 맞춘",
-    "이전과 다른 나만을 위한 금융, ",
-    "징검다리처럼 연결해 보세요.",
+    "커 다란 혜택을",
+    "스 스로 선택하여",
+    "터 치 한 번으로",
+    "마 이 라이프스타일에 맞춘",
+    "이 전과 다른 나만을 위한 금융, ",
+    "징 검다리처럼 연결해 보세요.",
 ];
 
 const HomeBody1 = () => {
     return (
-        <div className="flex flex-col justify-center items-center mt-72">
+        <div className="flex flex-col justify-center items-center mt-72"
+            style={{
+                letterSpacing: '0.1em'
+            }}>
             {/* 첫 번째 섹션에 fade-in 효과 추가 */}
             <FadeInSection>
                 <div className="font4 text-center font-semibold">
@@ -30,7 +33,9 @@ const HomeBody1 = () => {
                 </div>
             </FadeInSection>
 
-            <section className="mt-14 space-y-5">
+            <section className="mt-14 space-y-50" style={{
+                letterSpacing: '0.1em'
+            }}>
                 {sentences.map((sentence, index) => (
                     <FadeInText key={index} sentence={sentence} />
                 ))}

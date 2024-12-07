@@ -1,9 +1,9 @@
 'use client'
 
 import { useEffect, useState } from "react";
-import FavoriteHeader from "../../../components/piece-stock/favorite/header"
-import FavoriteBody from "../../../components/piece-stock/favorite/body"
-import FavoriteBottom from "../../../components/piece-stock/favorite/bottom"
+import FavoriteHeader from "../../../../components/piece-stock/favorite/header"
+import FavoriteBody from "../../../../components/piece-stock/favorite/body"
+import FavoriteBottom from "../../../../components/piece-stock/favorite/bottom"
 
 
 const FavoritePage = () => {

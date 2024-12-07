@@ -1,5 +1,5 @@
 import React from 'react'
-import Header from "../../header/prev-name-exit";
+import Header from "../../header/PageHeader";
 
 
 function SelectBenefit1({ onClick }) {

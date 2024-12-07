@@ -1,7 +1,8 @@
 import Nav from "../../components/navigationbar/bottomNav.jsx";
 import { MdHome } from "react-icons/md";
-import { FaCreditCard, FaChartLine } from "react-icons/fa";
+import { FaChartLine } from "react-icons/fa";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { BsCreditCard2FrontFill } from "react-icons/bs";
 
 export const metadata = {
   title: "우리 커스터마이징",
@@ -12,7 +13,7 @@ export const metadata = {
 export default function NavLayout({ children }) {
   const menuItems = [
     { title: "홈", icon: <MdHome />, path: "/home" },
-    { title: "나의카드", icon: <FaCreditCard />, path: "/my-card" },
+    { title: "카드", icon: <BsCreditCard2FrontFill />, path: "/my-card" },
     { title: "투자", icon: <FaChartLine />, path: "/piece-stock/home" },
     { title: "전체", icon: <GiHamburgerMenu />, path: "" },
   ]
