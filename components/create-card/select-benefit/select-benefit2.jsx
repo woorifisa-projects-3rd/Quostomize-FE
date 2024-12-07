@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import InteractiveRadarGraph from '../../graph/interactive-radar-graph';
-import SelectBenefit3 from './select-benefit3';
 import InteractiveTabContentBox from '../../box/InteractiveTabContentBox';
 
 const getRandomColor = () => {
@@ -20,7 +19,6 @@ const SelectBenefit2 = ({ benefitState, setBenefitState }) => {
     const resetContext = () => {
         setBenefitState(initialState);
     };
-
 
     const [borderColor, setBorderColor] = useState(getRandomColor());
 
@@ -88,13 +86,6 @@ const SelectBenefit2 = ({ benefitState, setBenefitState }) => {
                 selectedOptions: updatedSelectedOptions,
             }));
         }
-
-        console.log("Updated values before state update:", {
-            updatedCategoryValues,
-            updatedCategories,
-            updatedSelectedOptions,
-        });
-
     };
 
     useEffect(() => {
@@ -115,7 +106,6 @@ const SelectBenefit2 = ({ benefitState, setBenefitState }) => {
             selectedCategories: prevState.selectedCategories.map((v, i) => (i === index ? value : v)),
         }));
     };
-
 
     const updateOption = (categoryIndex, option) => {
         setBenefitState((prevState) => ({
