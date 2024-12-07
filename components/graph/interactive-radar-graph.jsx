@@ -31,7 +31,7 @@ const InteractiveRadarGraph = ({ labels, datasets, borderColor, max, min }) => {
                 })),
             },
             options: {
-                responsive: true,
+                responsive: false,
                 scales: {
                     r: {
                         angleLines: { display: false },
@@ -45,7 +45,8 @@ const InteractiveRadarGraph = ({ labels, datasets, borderColor, max, min }) => {
                         pointLabels: {
                             display: true,
                             font: {
-                                size: 15,
+                                size: 10,
+                                family: 'Pretendard'
                             },
                             color: '#333D4B',
                             padding: 7

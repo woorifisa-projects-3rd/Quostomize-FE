@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Icons from '../../public/icons/icons';
 
-const InteractiveTabContentBox = ({ categoryMap, lowerCategoryMap, benefitState, updateOption, updateCategory, updateCategoryValue }) => {
+const InteractiveTabContentBox = ({ labels, categoryMap, lowerCategoryMap, benefitState, data, updateOption, updateCategory, updateCategoryValue }) => {
     const [activeTab, setActiveTab] = useState(null);
     const [selectedOptionIndex, setSelectedOptionIndex] = useState(Array(5).fill(null));
 
@@ -71,34 +71,35 @@ const InteractiveTabContentBox = ({ categoryMap, lowerCategoryMap, benefitState,
 
     return (
         <div className="w-full max-w-2xl">
-            <div className="px-8 w-full flex justify-between items-center border-b border-gray-200">
+            <div className="px-8 py-2 mb-1 w-full flex justify-between items-center border-b border-gray-200">
                 {categories.map((category, index) => (
                     <React.Fragment key={index}>
                         <button
+                            key={index}
                             onClick={() => handleTabClick(index)}
-                            className={`px-4 py-2 font-bold transition-colors ${benefitState.categoryValues[index] >= 4
-                                ? 'text-white bg-blue-500 rounded-lg border-b-2 border-blue-500'
-                                : 'text-gray-600 hover:bg-gray-50'
-                                }`}
+                            className={`flex flex-col items-center font-bold transition-colors ${benefitState.categoryValues[index] >= 4}`}
                         >
-                            {category}
+                            <div className="text-sm"
+                                style={{
+                                    letterSpacing: '0.1em'
+                                }}>{category}</div>
+                            <div className="text-sm text-blue-600 mt-1">{data[index]} %</div>
                         </button>
                         {index < categories.length - 1 && (
-                            <span className="text-gray-300 mx-2">|</span>
+                            <div className="h-8 border-l border-gray-300"></div>
                         )}
                     </React.Fragment>
+
                 ))}
             </div>
-
-
-            <div className="p-8 bg-white border border-t-0 border-gray-200">
+            <div className="p-4 bg-white border border-t-0 border-gray-200">
                 {activeTab !== null && (
                     <div className="space-y-4">
                         {mappedOptions[activeTab].map((option, index) => (
                             <button
                                 key={index}
                                 onClick={() => handleOptionSelect(index)}
-                                className={`flex w-full p-4 text-left rounded-lg transition-colors ${selectedOptionIndex[activeTab] === index
+                                className={`flex w-full px-4 items-center text-left rounded-lg transition-colors ${selectedOptionIndex[activeTab] === index
                                     ? 'bg-blue-50 border-blue-500'
                                     : 'hover:bg-gray-50'
                                     }`}
@@ -110,14 +111,14 @@ const InteractiveTabContentBox = ({ categoryMap, lowerCategoryMap, benefitState,
                                         className="w-12 h-12 object-contain"
                                     />
                                 </div>
-                                <span className="text-gray-700">{option}</span>
+                                <span className="text-xs text-gray-700">{option}</span>
                             </button>
                         ))}
                     </div>
                 )}
             </div>
 
-        </div>
+        </div >
     );
 };
 

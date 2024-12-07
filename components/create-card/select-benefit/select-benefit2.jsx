@@ -124,24 +124,48 @@ const SelectBenefit2 = ({ benefitState, setBenefitState }) => {
         }));
     };
 
+    const [isSelected, setSelected] = useState(false);
+
+    useEffect(() => {
+        const selectedOptions = benefitState.selectedOptions;
+        for (let selectedOption of selectedOptions) {
+            if (selectedOption) {
+                setSelected(true);
+                return;
+            }
+        }
+        setSelected(false);
+    }, [benefitState])
+
 
     return (
-        <div className='flex flex-col items-center space-y-8'>
-            <InteractiveRadarGraph
-                labels={labels}
-                datasets={[
-                    {
-                        label: 'My Dataset',
-                        data: benefitState.categoryValues,
-                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                    },
-                ]}
-                max={5}
-                min={0}
-                borderColor={borderColor}
-            />
-            <InteractiveTabContentBox categoryMap={categoryMap} lowerCategoryMap={lowerCategoryMap} benefitState={benefitState} updateCategoryValue={updateCategoryValue} updateCategory={updateCategory} updateOption={updateOption} />
-            <SelectBenefit3 labels={labels} lowerCategoryMap={lowerCategoryMap} data={benefitState.categoryValues.map(value => value - 1)} benefitState={benefitState} resetContext={resetContext} />
+        <div>
+            <div className='flex flex-col items-center space-y-2'>
+                <InteractiveRadarGraph
+                    labels={labels}
+                    datasets={[
+                        {
+                            label: 'My Dataset',
+                            data: benefitState.categoryValues,
+                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        },
+                    ]}
+                    max={5}
+                    min={0}
+                    borderColor={borderColor}
+                />
+                <InteractiveTabContentBox labels={labels} categoryMap={categoryMap} lowerCategoryMap={lowerCategoryMap} data={benefitState.categoryValues.map(value => value - 1)} benefitState={benefitState} updateCategoryValue={updateCategoryValue} updateCategory={updateCategory} updateOption={updateOption} />
+            </div>
+            <div className='flex justify-end mt-2 pr-4'>
+                <button
+                    onClick={resetContext}
+                    className={`px-4 py-2 bg-red-200 text-white rounded-lg text-xs
+                                ${isSelected
+                            ? "bg-red-500"
+                            : "bg-red-200"
+                        }
+                        `}> 선택 초기화 </button>
+            </div>
         </div>
     );
 };
