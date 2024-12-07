@@ -1,6 +1,6 @@
 
 
-export const firstTotalPrint = (signupInfo, index, changeInfos, isChecked, checkMemberId, passwordError, error) => {
+export const firstTotalPrint = (signupInfo, index, changeInfos, isChecked, checkMemberId, emailError, nameError, passwordError, rePasswordError) => {
     const key = `${signupInfo?.placeholder}-${index}}`
     if (signupInfo?.placeholder === "아이디") {
         return (
@@ -20,7 +20,7 @@ export const firstTotalPrint = (signupInfo, index, changeInfos, isChecked, check
                 </div>
                 {!isChecked && (
                     <div className="flex justify-center text-red-500">
-                        <p>아이디가 이미 존재합니다. 다시 입력해주세요</p>
+                        <p>아이디가 이미 존재하거나 유효하지 않습니다. 다시 입력해주세요</p>
                     </div>
                 )}
             </div>
@@ -54,14 +54,14 @@ export const firstTotalPrint = (signupInfo, index, changeInfos, isChecked, check
                     placeholder={`${signupInfo?.placeholder}을 입력해주세요`}
                     onChange={(e) => { changeInfos(e.target.value, index) }}
                 />
-                {error && (
+                {emailError && (
                     <div className="flex justify-center text-red-500 mt-2">
                         <p>이메일 형식이 올바르지 않거나 값이 없습니다. 다시 입력해주세요</p>
                     </div>
                 )}
             </div>
         )
-    } else {
+    } else if (signupInfo?.placeholder === "이름") {
         return (
             <div key={index} className='flex flex-col justify-center'>
                 <span className='ml-6 mb-4 font-medium'>{signupInfo?.placeholder}</span>
@@ -72,6 +72,29 @@ export const firstTotalPrint = (signupInfo, index, changeInfos, isChecked, check
                     placeholder={`${signupInfo?.placeholder}을 입력해주세요`}
                     onChange={(e) => { changeInfos(e.target.value, index) }}
                 />
+                {nameError && (
+                    <div className="flex justify-center text-red-500 mt-2">
+                        <p>이름이 유효하지 않습니다. 다시 입력해주세요</p>
+                    </div>
+                )}
+            </div>
+        )
+    } else if (signupInfo?.placeholder === "비밀번호 확인") {
+        return (
+            <div key={index} className='flex flex-col justify-center'>
+                <span className='ml-6 mb-4 font-medium'>{signupInfo?.placeholder}</span>
+                <input
+                    className="w-11/12 ml-5 mb-4 p-4 rounded-xl font2 bg-gray-100 focus:outline-none"
+                    type={signupInfo.type}
+                    value={signupInfo.value}
+                    placeholder={`${signupInfo?.placeholder}을 입력해주세요`}
+                    onChange={(e) => { changeInfos(e.target.value, index) }}
+                />
+                {rePasswordError && (
+                    <div className="flex ml-10 text-red-500 mt-2">
+                        <p>비밀번호가 같지 않습니다. 다시 입력해주세요</p>
+                    </div>
+                )}
             </div>
         )
     }

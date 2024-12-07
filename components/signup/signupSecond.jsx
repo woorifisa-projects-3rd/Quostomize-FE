@@ -12,6 +12,8 @@ const SignupSecond = ({ setPage, secondForm, setSecondForm, regionNumber, setReg
     const [isReModal, setReModal] = useState(false)
     const [number, setNumber] = useState([]) // 2차인증번호
     const [reNumber, setReNumber] = useState([]) //2차인증확인번호
+    const [regidenceNumberError, setRegidenceNumberError] = useState(false)
+    const [phoneNumberError, setPhoneNumberError] = useState(false)
     const router = useRouter();
 
     useEffect(() => {
@@ -24,6 +26,7 @@ const SignupSecond = ({ setPage, secondForm, setSecondForm, regionNumber, setReg
             document.body.removeChild(script);
         };
     }, []);
+
 
     // 맴버 회원가입 요청
     const joinAuth = async (member) => {
@@ -41,6 +44,8 @@ const SignupSecond = ({ setPage, secondForm, setSecondForm, regionNumber, setReg
 
     // 다음페이지 클릭 시
     const toNextPage = () => {
+        console.log(regionNumber)
+        console.log(secondForm)
 
         const newNumber = `${regionNumber[0].value + regionNumber[1].value}` // 주민등록번호 완성
         const setData = []
@@ -97,10 +102,18 @@ const SignupSecond = ({ setPage, secondForm, setSecondForm, regionNumber, setReg
         setPage(newData)
     }
 
-    const secondToAuthNumber = (e) => {
+    const secondToAuthNumber = (e, value) => {
         e.preventDefault();
         // 핸드폰번호 다 입력되엇는지 확인 필요
-        setPage([false, false, true, false]);
+        if (value.length === 11) {
+            setPhoneNumberError(false)
+            setPage([false, false, true, false]);
+        } else {
+            setPhoneNumberError(true)
+            setTimeout(() => {
+                setPhoneNumberError(false)
+            }, 1000);
+        }
     }
 
     const handleSearch = () => {
@@ -121,9 +134,14 @@ const SignupSecond = ({ setPage, secondForm, setSecondForm, regionNumber, setReg
 
             <div className='m-5 p-6 bg-white rounded-xl shadow-lg'>
                 <div className='flex'>
-                    {regionNumber?.map((reginInfo, i) => reginInfoDataFeild(reginInfo, i, regionNumber, setRegionNumber))}
+                    {regionNumber?.map((reginInfo, i) => reginInfoDataFeild(reginInfo, i, regionNumber, setRegionNumber, setRegidenceNumberError))}
                 </div>
-                {secondForm?.map((signupInfo, index) => otherDataFeild(signupInfo, index, isModal, isReModal, setModal, number, setNumber, setReModal, setReNumber, reNumber, isBlocked, secondForm, setSecondForm, secondToAuthNumber, handleSearch))}
+                {(regidenceNumberError) && (
+                    <div className="w-full flex justify-center text-red-500 mt-2 text-sm font-semibold">
+                        <p>주민등록번호 입력값이 올바르지 않거나 값이 없습니다. 다시 입력해주세요</p>
+                    </div>
+                )}
+                {secondForm?.map((signupInfo, index) => otherDataFeild(signupInfo, index, isModal, isReModal, setModal, number, setNumber, setReModal, setReNumber, reNumber, isBlocked, secondForm, setSecondForm, secondToAuthNumber, handleSearch, phoneNumberError))}
 
                 {/* 에러 메시지 */}
                 {error && (
