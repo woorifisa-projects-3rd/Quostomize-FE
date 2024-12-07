@@ -1,17 +1,14 @@
 "use client";
 
-import { useState } from "react";
-import ArrowButton from "../button/arrow-button";
+import React, { useState } from "react";
+import ArrowButtonV3 from "../../components/button/arrow-button-v3";
 import FadeInSection from "../fade-in/fade-in-section";
+import GradientText from "../../components/card/gradientText";
+import ColorInfo from "../../components/card/ColorInfo";
+import FlipCard2 from "../../components/card/flip-card2";
 
-const colors = ["#ffffff", "#dbff3d", "#ff0000", "#ed3ef7", "#000000"];
-const images = [
-    "/cards-images/white-image.png",
-    "/cards-images/yellow-image.png",
-    "/cards-images/red-image.png",
-    "/cards-images/pink-image.png",
-    "/cards-images/black-image.png"
-];
+const colors = ["#ed3ef7", "#000000", "#ff0000", "#dbff3d", "#ffffff"];
+const colorKeys = [1,2,3,4,5]
 
 const HomeBody2 = () => {
     // 현재 카드 색상
@@ -39,43 +36,46 @@ const HomeBody2 = () => {
     };
 
     return (
-
         <FadeInSection>
-            <div className="flex flex-col justify-center items-center mt-32"
-                style={{
-                    letterSpacing: '0.1em'
-                }}>
+            <div className="mt-24 flex flex-col justify-center items-center">
+                <FadeInSection>
+                    <div className="font4 text-center font-semibold">
+                        <p className="font2">우리카드 신규 서비스</p>
+                        <p className="font5">
+                            <GradientText text={"커스터마이징 카드"}
+                                          style={ColorInfo[currentColorIndex].style}/>
+                        </p>
+                    </div>
+                </FadeInSection>
 
-                <div className="font4 font-semibold text-center">
-                    <h1>내가 채워가는 나를 위한 카드</h1>
-                    <p className="font1 color3 mt-3">색상도, 혜택도, 포인트 사용옵션까지 </p>
-                </div>
-
-                <div className="flex w-96 mb-4 mt-24 space-x-20">
+                <div className="flex w-max-80 mt-24 mb-4 space-x-20">
                     {/* 이전 버튼 */}
-                    <ArrowButton direction="prev" onClick={() => handleArrowClick("prev")} />
+                    <ArrowButtonV3 direction="prev" onClick={() => handleArrowClick("prev")}/>
 
                     {/* 카드 이미지가 들어갈 곳*/}
-                    <div className="rounded-xl flex justify-center items-center mb-4">
-                        <img
-                            src={images[currentColorIndex]}
-                            alt="카드 이미지"
-                            className="w-full h-full rounded-xl object-cover rotate-45"
+                    <div>
+                    {currentColorIndex !== null ? (
+                        <FlipCard2
+                            frontImg={`/cards-images/${colorKeys[currentColorIndex]}f.png`}
+                            backImg={`/cards-images/${colorKeys[currentColorIndex]}b.png`}
                         />
+                    ) : (
+                        <div>카드 색상이 없습니다.</div>
+                    )}
                     </div>
 
                     {/* 다음 버튼 */}
-                    <ArrowButton direction="next" onClick={() => handleArrowClick("next")} />
+                    <ArrowButtonV3 direction="next" onClick={() => handleArrowClick("next")}/>
                 </div>
 
                 {/* 색상 미리 보기 원들 */}
-                <div className="flex space-x-4 mt-16">
+                <div className="flex space-x-4 mt-20">
                     {colors.map((color, index) => (
                         <button
                             key={index}
                             onClick={() => changeColor(index)}
                             className={`w-4 h-4 rounded-full shadow-xl transition-all ${selectedIndex === index ? "ring-2 ring-blue-500" : ""
-                                }`}
+                            }`}
                             // 선택된 버튼에 추가 스타일
                             style={{
                                 backgroundColor: color,
@@ -84,6 +84,10 @@ const HomeBody2 = () => {
                         />
                     ))}
                 </div>
+                {/*<div className="font3 font-semibold text-center mt-10">*/}
+                {/*    <p>색상, 혜택, 포인트 사용처</p>*/}
+                {/*    <p>내 맘대로 선택</p>*/}
+                {/*</div>*/}
             </div>
         </FadeInSection>
     );
