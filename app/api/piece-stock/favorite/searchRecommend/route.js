@@ -27,7 +27,6 @@ export async function GET(request) { // 추천종목조회
     }
 
     const result = await response.json();
-    console.log(result.data)
 
     if (response.status >= 400) {
         return NextResponse.json({ redirectUrl: 'login' }, { status: response.status })

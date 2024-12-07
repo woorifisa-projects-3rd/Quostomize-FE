@@ -3,7 +3,6 @@ import Header from "../../header/PageHeader";
 
 
 function SelectBenefit1({ onClick }) {
-    console.log("onClick received:", onClick);
 
     return (
 

@@ -3,7 +3,6 @@ import Header from "../../header/PageHeader";
 
 
 function CardDetailHeader({ onClick }) {
-    console.log("onClick received:", onClick);
 
     return (
 

@@ -21,7 +21,6 @@ export async function GET(request) {
     );
     if (response.status != 200) {
         const result = await response.json();
-        console.log(result);
         if (result.code === "I-201") {
             return NextResponse.json({ data: null }, { status: 500 });
         }

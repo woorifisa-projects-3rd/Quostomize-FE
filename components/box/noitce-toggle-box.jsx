@@ -13,12 +13,24 @@ const NoticeToggleBox = ({ title, content }) => {
                 onClick={() => setIsOpen(!isOpen)}
                 className="w-full flex justify-between items-center p-3 bg-gray-100 hover:bg-gray-200 transition-colors"
             >
-                <span className="text-[#333d4b] text-xs">{title}</span>
+                <span className="text-[#333d4b] text-xs">
+                    {title.includes("필수")?<>(<span className='text-red-500'>필수</span>){title.slice(4)}</> : title}
+                </span>
                 {isOpen ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
             </button>
 
             {/* 컨텐츠 부분 */}
-            {isOpen && (
+            <div 
+                className={`
+                    overflow-hidden 
+                    transition-all 
+                    duration-300 
+                    ease-in-out 
+                    ${isOpen ? 'max-h-96' : 'max-h-0'}
+                    overflow-scroll
+                    [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]
+                `}
+            >
                 <div className="p-4 bg-white">
                     {/* content가 배열인 경우 bullet point로 표시 */}
                     {Array.isArray(content) ? (
@@ -30,10 +42,10 @@ const NoticeToggleBox = ({ title, content }) => {
                             ))}
                         </ul>
                     ) : (
-                        <p className="text-sm text-gray-500">{content}</p>
+                        <div className="text-sm text-gray-500">{content}</div>
                     )}
                 </div>
-            )}
+            </div>
         </div>
     );
 };

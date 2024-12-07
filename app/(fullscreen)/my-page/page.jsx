@@ -48,8 +48,6 @@ const MyPage = () => {
     }
   
     const result = await response.json();
-    console.log("result =");
-    console.log(result);
     const memberInfo = result.data;
     const fullEmail = memberInfo.memberEmail;
     const [memberEmailId, memberEmailDomain] = fullEmail.split("@");

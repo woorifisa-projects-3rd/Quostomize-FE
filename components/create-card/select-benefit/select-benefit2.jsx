@@ -89,11 +89,6 @@ const SelectBenefit2 = ({ benefitState, setBenefitState }) => {
             }));
         }
 
-        console.log("Updated values before state update:", {
-            updatedCategoryValues,
-            updatedCategories,
-            updatedSelectedOptions,
-        });
 
     };
 
