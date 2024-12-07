@@ -14,7 +14,8 @@ export async function searchWishStocks(param, setWishInfo, cardId) {
         const data = await response.json(); // 응답을 JSON으로 파싱
         setWishInfo(data);
     } catch (error) {
-        console.error('데이터 가져오기 오류:', error);
+        // console.error('데이터 가져오기 오류:', error);
+        setWishInfo([])
     }
 }
 
