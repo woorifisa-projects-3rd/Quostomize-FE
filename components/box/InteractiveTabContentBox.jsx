@@ -71,6 +71,7 @@ const InteractiveTabContentBox = ({ labels, categoryMap, lowerCategoryMap, benef
 
     return (
         <div className="w-full max-w-2xl">
+            <p className='flex justify-center text-xs text-gray-500'>쇼핑, 생활, 푸드, 여행, 문화 탭을 클릭해 적립 혜택을 받을 곳을 선택하세요!</p>
             <div className="px-8 py-2 mb-1 w-full flex justify-between items-center border-b border-gray-200">
                 {categories.map((category, index) => (
                     <React.Fragment key={index}>
@@ -88,6 +89,7 @@ const InteractiveTabContentBox = ({ labels, categoryMap, lowerCategoryMap, benef
                                 }}>{category}</div>
                             <div className="text-sm text-blue-600 mt-1">{data[index]} %</div>
                         </button>
+                        {/*세로 구분선 있는 부분 */}
                         {index < categories.length - 1 && (
                             <div className="h-8 border-l border-gray-300"></div>
                         )}
