@@ -18,14 +18,21 @@ const SelectOtherInfo = ({formData, setFormData}) => {
         const newErrors = { ...errors };
 
         switch (field) {
-            case 'emailId':
-            case 'emailDomain':
-                if (!formData.emailId || !formData.emailDomain) {
-                    newErrors.email = '이메일 주소를 모두 입력해주세요.';
-                } else {
-                    delete newErrors.email;
+            case 'email': {
+                const email = `${formData.emailId}@${formData.emailDomain}`;
+                if (!formData.emailId && !formData.emailDomain) {
+                    newErrors[field] = '이메일 주소를 모두 입력해주세요.';
+                } else if (!formData.emailId) {
+                    newErrors[field] = '이메일 아이디를 입력해주세요.';
+                } else if (!formData.emailDomain) {
+                    newErrors[field] = '이메일 도메인을 입력해주세요.';
+                }else if (!/^[^\s@]+@[^\s@]+\.(com|net)$/.test(email)) {
+                    newErrors[field] = '유효한 이메일 주소를 입력해주세요. (예: example@domain.com 또는 example@domain.net)';
+                }else {
+                    delete newErrors[field];
                 }
                 break;
+            }
             case 'phoneNumber':
                 if (!/^\d{11}$/.test(value)) {
                     newErrors[field] = '휴대폰 번호를 입력해 주세요';
@@ -53,14 +60,38 @@ const SelectOtherInfo = ({formData, setFormData}) => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: value }));
-        validateField(name, value);
+
+        // 입력 값을 즉시 업데이트
+        setFormData((prev) => {
+            const updatedFormData = { ...prev, [name]: value };
+
+            // 검증 실행
+            if (name === 'emailId' || name === 'emailDomain') {
+                validateField('email', `${name === 'emailId' ? value : updatedFormData.emailId}@${name === 'emailDomain' ? value : updatedFormData.emailDomain}`);
+            } else {
+                validateField(name, value);
+            }
+
+            return updatedFormData;
+        });
     };
+
 
     const handleBlur = (field) => {
         setTouched((prev) => ({ ...prev, [field]: true }));
-        validateField(field, formData[field]);
+        if (field === 'emailId' || field === 'emailDomain') {
+            validateField('email', `${formData.emailId}@${formData.emailDomain}`);
+        } else {
+            validateField(field, formData[field]);
+        }
     };
+    //
+    // useEffect(() => {
+    //     if (touched.emailId || touched.emailDomain) {
+    //         validateField('email', `${formData.emailId}@${formData.emailDomain}`);
+    //     }
+    // }, [formData.emailId, formData.emailDomain, touched]);
+
 
     const handleCheckSameAddress = (e) => {
         const isChecked = e.target.checked;
@@ -76,7 +107,7 @@ const SelectOtherInfo = ({formData, setFormData}) => {
     const handlePasswordComplete = (password) => {
         setFormData((prev) => ({ ...prev, cardPassword: password }));
         setPasswordModalOpen(false);
-        setTimeout(() => setConfirmPasswordModalOpen(true), 300);
+        setTimeout(() => setConfirmPasswordModalOpen(true));
     };
 
     const handleConfirmPasswordComplete = (password) => {
