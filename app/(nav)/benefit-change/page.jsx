@@ -253,6 +253,19 @@ const ChangeBenefitsPage = () => {
     return <div>로딩 중...</div>;
   }
 
+  const [isSelected, setSelected] = useState(false);
+
+  useEffect(() => {
+    const selectedOptions = benefitState.selectedOptions;
+    for (let selectedOption of selectedOptions) {
+      if (selectedOption) {
+        setSelected(true);
+        return;
+      }
+    }
+    setSelected(false);
+  }, [benefitState])
+
   return (
     <div className="max-h-screen overflow-y-scroll">
 
@@ -260,11 +273,18 @@ const ChangeBenefitsPage = () => {
       <div className="flex flex-col justify-center items-center">
         <ChangeBenefitBody1 labels={labels} benefitState={benefitState} />
         <ChangeBenefitBody2 labels={labels} benefitState={benefitState} categoryMap={categoryMap} lowerCategoryMap={lowerCategoryMap} updateCategoryValue={updateCategoryValue} updateCategory={updateCategory} updateOption={updateOption} />
-        <ChangeBenefitBody3 labels={labels} benefitState={benefitState} resetContext={resetContext} lowerCategoryMap={lowerCategoryMap} />
-
       </div>
-
-      <span className="flex justify-center"> 포인트 혜택은 30일 마다 변경이 가능하며 변경 수수료 1,000 원이 익월 청구됩니다.</span>
+      <span className="flex justify-center" style={{ fontSize: '0.7rem' }}> 포인트 혜택은 30일 마다 변경이 가능하며 변경 수수료 1,000 원이 익월 청구됩니다.</span>
+      <div className='flex justify-end mt-2 pr-4'>
+        <button
+          onClick={resetContext}
+          className={`px-4 py-2 bg-red-200 text-white rounded-lg text-xs
+                                ${isSelected
+              ? "bg-red-500"
+              : "bg-red-200"
+            }
+                        `}> 선택 초기화 </button>
+      </div>
 
       <ChangeBenefitFoot modalTitle="혜택 변경" exitDirection="/my-card" buttonText={buttonText} onChangeBenefit={handleBenefitChange}
         onReserveBenefit={handleBenefitReserve} authSuccess={authSuccess} cardSequenceId={cardSequenceId} authTrigger={authTrigger} isButtonDisabled={isButtonDisabled} />
