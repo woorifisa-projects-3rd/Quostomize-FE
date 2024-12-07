@@ -46,8 +46,8 @@ export default function QnaWritePage() {
     };
 
     return (
-        <div className="max-w-3xl mx-auto px-6 py-8">
-            <div className="bg-white rounded-xl shadow-lg p-8">
+        <div className="max-w-2xl mx-auto px-3 sm:px-6 py-8">
+            <div className="bg-white rounded-xl shadow-lg p-6 sm:p-8">
                 <h1 className="text-2xl font-bold mb-8 text-blue-400">문의하기</h1>
                 
                 <form onSubmit={handleSubmit} className="space-y-6">
@@ -58,7 +58,7 @@ export default function QnaWritePage() {
                         <select
                             value={formData.categoryCode}
                             onChange={(e) => setFormData({...formData, categoryCode: Number(e.target.value)})}
-                            className="w-full p-3 border rounded-xl bg-neutral-50 focus:bg-white 
+                            className="w-full p-2 sm:p-3 text-sm sm:text-base border rounded-xl bg-neutral-50 focus:bg-white 
                                     focus:border-blue-400 outline-none transition-all"
                             required
                         >
@@ -80,7 +80,7 @@ export default function QnaWritePage() {
                             type="text"
                             value={formData.questionTitle}
                             onChange={(e) => setFormData({...formData, questionTitle: e.target.value})}
-                            className="w-full p-3 border rounded-xl bg-neutral-50 focus:bg-white 
+                            className="w-full p-2 sm:p-3 text-sm sm:text-base border rounded-xl bg-neutral-50 focus:bg-white 
                                     focus:border-blue-400 outline-none transition-all"
                             maxLength={30}
                             placeholder="제목을 입력해주세요"
@@ -95,8 +95,8 @@ export default function QnaWritePage() {
                         <textarea
                             value={formData.questionContent}
                             onChange={(e) => setFormData({...formData, questionContent: e.target.value})}
-                            className="w-full p-3 border rounded-xl bg-neutral-50 focus:bg-white 
-                                    focus:border-blue-400 outline-none transition-all h-44"
+                            className="w-full p-3 border text-sm sm:text-base rounded-xl bg-neutral-50 focus:bg-white 
+                                    focus:border-blue-400 outline-none transition-all min-h-[130px] sm:min-h-[160px]"
                             placeholder="문의하실 내용을 입력해주세요"
                             required
                         />
@@ -116,11 +116,11 @@ export default function QnaWritePage() {
                         </label>
                     </div>
 
-                    <div className="flex gap-12 mt-8">
+                    <div className="flex gap-8 sm:gap-12 mt-8">
                         <button
                             type="button"
                             onClick={() => router.back()}
-                            className="flex-1 py-2 border border-gray-300 rounded-xl 
+                            className="flex-1 py-1 sm:py-2 border border-gray-300 rounded-xl 
                                     hover:bg-gray-100 transition-all"
                         >
                             취소
@@ -128,7 +128,7 @@ export default function QnaWritePage() {
                         <button
                             type="submit"
                             disabled={isSubmitting}
-                            className="flex-1 py-2 bg-blue-400 text-white rounded-xl 
+                            className="flex-1 py-1 sm:py-2 bg-blue-400 text-white rounded-xl 
                                     hover:bg-blue-500 transition-all
                                     disabled:bg-gray-300 disabled:cursor-not-allowed"
                         >
