@@ -16,7 +16,7 @@ import UserDetailHeader from '../../../components/create-card/user-detail/UserDe
 import CardApplicantInfo1 from '../../../components/create-card/user-detail/card-applicant-info1';
 import IdentityVerification1 from '../../../components/create-card/user-detail/identityVerification1';
 import TermsAgreementHeader from '../../../components/create-card/terms-agreement/TermsAgreementHeader';
-import InputAddressHeader from '../../../components/create-card/input-address/InputAddressHeader';
+import InputAddressHeader from '../../../components/create-card/input-address/input-addressHeader';
 import SelectOtherInfo from '../../../components/create-card/input-address/SelectOtherInfo';
 import CheckInformationHeader from '../../../components/create-card/check-information/CheckInformationHeader';
 import CheckInformation from '../../../components/create-card/check-information/CheckInformation';
@@ -198,13 +198,13 @@ const CreateCardPage = () => {
       setShowAlertModal(true);
       return;
     }
-    if (currentPage === 5) {
-      const { residenceNumber, residenceNumber2, name, englishName } = applicantInfo;
-      if (!residenceNumber || !residenceNumber2 || !name || !englishName || !isVerified) {
-        setShowAlertModal(true);
-        return;
-      }
-    }
+    // if (currentPage === 5) {
+    //   const { residenceNumber, residenceNumber2, name, englishName } = applicantInfo;
+    //   if (!residenceNumber || !residenceNumber2 || !name || !englishName || !isVerified) {
+    //     setShowAlertModal(true);
+    //     return;
+    //   }
+    // }
     if (currentPage === 6) {
       // Check if first 4 items are all true
       const requiredTerms = isAccepted.slice(0, 4);
