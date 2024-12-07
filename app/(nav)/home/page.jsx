@@ -1,10 +1,10 @@
 "use client";
 
-import HomeHeader from '../../../components/home/home-header';
-import HomeBody1 from '../../../components/home/home-body1';
-import HomeBody2 from '../../../components/home/home-body2';
-import HomeBody3 from '../../../components/home/home-body3';
-import HomeBody4 from '../../../components/home/home-body4';
+import HomeHeader from '../../../components/home/HomeHeader';
+import HomeBody1 from '../../../components/home/HomeBody1';
+import HomeBody2 from '../../../components/home/HomeBody2';
+import HomeBody3 from '../../../components/home/HomeBody3';
+import HomeBody4 from '../../../components/home/HomeBody4';
 
 
 const Home = () => {
