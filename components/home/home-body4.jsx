@@ -66,7 +66,7 @@ const HomeBody4 = () => {
             </div>
 
             <FadeInSection>
-                <div className="p-4 w-full space-y-2 mt-20">
+                <div className="flex flex-col justify-center items-center p-4 w-full space-y-2 mt-32">
                     {notices.map((notice, index) => (
                         <NoticeToggleBox
                             key={index}

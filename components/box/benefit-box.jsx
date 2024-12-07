@@ -2,7 +2,7 @@
 
 const BenefitBox = ({ icon, category, description }) => {
     return (
-        <div className="flex items-center w-full max-w-md h-16 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors cursor-default">
+        <div className="flex items-center w-full max-w-md h-16 bg-gray-100 rounded-lg cursor-default">
             {/* 아이콘 영역 */}
             <div className="w-16 h-full flex items-center justify-center pl-6">
                 <img
