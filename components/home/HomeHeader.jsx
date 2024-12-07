@@ -1,8 +1,8 @@
-
 import { useState, useEffect, useRef } from "react";
+import GradientText from "../../components/card/gradientText";
+import ColorInfo from "../../components/card/ColorInfo";
 
-const OPTIONS = ["적 금", "펀 드", "증 권", "보 험", "카 드", "페 이"];
-const COLORS = ["#0083CA", "#20C4F4"];
+const OPTIONS = ["쇼핑", "생활", "푸드", "여행", "문화"];
 
 function HomeHeader() {
     const [currentOption, setCurrentOption] = useState("");
@@ -14,9 +14,9 @@ function HomeHeader() {
         let index = 0;
         intervalRef.current = setInterval(() => {
             setCurrentOption(OPTIONS[index % OPTIONS.length]);
-            setColorIndex(index % COLORS.length);
+            setColorIndex(index % OPTIONS.length);
             index++;
-        }, 100);
+        }, 200);
     };
 
     const stopAndRestart = () => {
@@ -38,10 +38,9 @@ function HomeHeader() {
 
     useEffect(() => {
         startRotation(); // 초기 시작
-
         const cycleStop = setInterval(() => {
             stopAndRestart(); // 멈추고 다시 시작
-        }, 5000); // 5초마다 멈춤 후 재시작
+        }, 3000); // 3초마다 멈춤 후 재시작
 
         return () => {
             clearInterval(intervalRef.current); // 컴포넌트 언마운트 시 정리
@@ -52,19 +51,16 @@ function HomeHeader() {
     return (
         // 메인페이지 글자 크기 페이지 너비에 맞춰 3xl 이상 사용
         <div className="flex flex-col justify-center items-center mt-60">
-            <p className="font5 font-semibold" style={{
-                letterSpacing: '0.1em'
-            }}>내가 선택하는</p>
+            <p className="font5 font-semibold">혜택, 매달 선택</p>
             <div className="font5 space-x-16">
                 <span className="font-extrabold ">{"{"}</span>
-                <span
-                    className="font-bold"
-                    style={{ color: COLORS[colorIndex] }}
-                >
-                    {currentOption}
+                <span className="font-bold">
+                    <GradientText text={currentOption}
+                                  style={ColorInfo[colorIndex].style}/>
                 </span>
                 <span className="font-extrabold">{"}"}</span>
             </div>
+            <p className="mt-4 font1 color4">카드 혜택을 30일마다 내가 원하는대로 바꿀 수 있어요</p>
         </div>
     );
 }
