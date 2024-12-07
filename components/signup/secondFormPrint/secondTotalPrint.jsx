@@ -23,7 +23,7 @@ export const reginInfoDataFeild = (reginInfo, i, form, setForm) => {
 }
 
 
-export const otherDataFeild = (signupInfo, index, isModal, isReModal, setModal, number, setNumber, setReModal, setReNumber, reNumber, isBlocked, form, setForm, secondToAuthNumer) => {
+export const otherDataFeild = (signupInfo, index, isModal, isReModal, setModal, number, setNumber, setReModal, setReNumber, reNumber, isBlocked, form, setForm, secondToAuthNumer, handleSearch) => {
     const key = `${signupInfo?.placeholder}-${index}}`
     if (signupInfo?.placeholder === "핸드폰 번호") {
         return (
@@ -53,11 +53,25 @@ export const otherDataFeild = (signupInfo, index, isModal, isReModal, setModal, 
                     value={signupInfo?.value}
                     onChange={(e) => changeInfoOnlyNumber(e.target.value, index, form, setForm)}
                     maxLength={5}
+                    onClick={handleSearch}
                 />
             </div>
         )
     }
-    else if (signupInfo?.placeholder === "주소" || signupInfo?.placeholder === "상세 주소") {
+    else if (signupInfo?.placeholder === "주소") {
+        return (
+            <div key={key} className='flex flex-col'>
+                <span className='mx-5 mt-3 mb-2'>{signupInfo?.placeholder}</span>
+                <input
+                    className="w-11/12 ml-5 mb-4 p-4 rounded-xl font2 bg-gray-100 focus:outline-none"
+                    type={signupInfo?.type}
+                    placeholder={`${signupInfo?.placeholder}를 입력해주세요`}
+                    value={signupInfo?.value}
+                    onChange={(e) => changeInfo(e.target.value, index, form, setForm)}
+                />
+            </div>
+        )
+    } else if (signupInfo?.placeholder === "상세 주소") {
         return (
             <div key={key} className='flex flex-col'>
                 <span className='mx-5 mt-3 mb-2'>{signupInfo?.placeholder}</span>

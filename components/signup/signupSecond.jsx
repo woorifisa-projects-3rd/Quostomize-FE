@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import 'material-icons/iconfont/material-icons.css';
 import { useRouter } from 'next/navigation';
 import { reginInfoDataFeild, otherDataFeild } from "../../components/signup/secondFormPrint/secondTotalPrint"
-import {validateRegionNumber} from "../../components/signup/common/exceptionExcute"
+import { validateRegionNumber } from "../../components/signup/common/exceptionExcute"
 
 const SignupSecond = ({ setPage, secondForm, setSecondForm, regionNumber, setRegionNumber, firstForm, isBlocked }) => {
     const [error, setError] = useState(false);
@@ -13,7 +13,18 @@ const SignupSecond = ({ setPage, secondForm, setSecondForm, regionNumber, setReg
     const [number, setNumber] = useState([]) // 2차인증번호
     const [reNumber, setReNumber] = useState([]) //2차인증확인번호
     const router = useRouter();
-    
+
+    useEffect(() => {
+        const script = document.createElement('script');
+        script.src = '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
+        script.async = true;
+        document.body.appendChild(script);
+
+        return () => {
+            document.body.removeChild(script);
+        };
+    }, []);
+
     // 맴버 회원가입 요청
     const joinAuth = async (member) => {
         try {
@@ -30,7 +41,7 @@ const SignupSecond = ({ setPage, secondForm, setSecondForm, regionNumber, setReg
 
     // 다음페이지 클릭 시
     const toNextPage = () => {
-        
+
         const newNumber = `${regionNumber[0].value + regionNumber[1].value}` // 주민등록번호 완성
         const setData = []
         firstForm.forEach((info) => {
@@ -45,7 +56,7 @@ const SignupSecond = ({ setPage, secondForm, setSecondForm, regionNumber, setReg
             memberName: setData[1],
             memberLoginId: setData[2],
             memberPassword: setData[3]
-            
+
         }
         secondForm.forEach((info) => {
             if (info.placeholder === "2차 인증 번호 확인") {
@@ -54,10 +65,10 @@ const SignupSecond = ({ setPage, secondForm, setSecondForm, regionNumber, setReg
                 setData.push(info.value)
             }
         })
-        
+
         //배열로 저장했던 2차인증번호 스트링값으로 바꾸기
         const restoreNumber = `${number[0]}${number[1]}${number[2]}${number[3]}${number[4]}${number[5]}`
-        
+
         const data2 = {
             residenceNumber: newNumber,
             zipCode: setData[4],
@@ -67,9 +78,9 @@ const SignupSecond = ({ setPage, secondForm, setSecondForm, regionNumber, setReg
             secondaryAuthCode: restoreNumber
         }
         const total = { ...data1, ...data2 }
-       
+
         // 검증하고 문제 없으면 회원가입 완료
-        if (validateRegionNumber(regionNumber) && number.every((x, i) => x === reNumber[i]) && number.length === 6 && secondForm[0].value !== "" && secondForm[1].value !== "" && secondForm[2].value !== "" ) {
+        if (validateRegionNumber(regionNumber) && number.every((x, i) => x === reNumber[i]) && number.length === 6 && secondForm[0].value !== "" && secondForm[1].value !== "" && secondForm[2].value !== "") {
             const newData = [false, false, false, true]
             setPage(newData)
             joinAuth(total)
@@ -80,7 +91,7 @@ const SignupSecond = ({ setPage, secondForm, setSecondForm, regionNumber, setReg
             }, 1000);
         }
     }
-    
+
     const toBeforePage = () => {
         const newData = [true, false, false, false]
         setPage(newData)
@@ -92,6 +103,17 @@ const SignupSecond = ({ setPage, secondForm, setSecondForm, regionNumber, setReg
         setPage([false, false, true, false]);
     }
 
+    const handleSearch = () => {
+        new daum.Postcode({
+            oncomplete: (data) => {
+                const newData = [...secondForm]
+                newData.splice(1, 1, { placeholder: "주소", value: data.roadAddress, type: "text" })
+                newData.splice(0, 1, { placeholder: "우편 번호", value: data.zonecode, type: "text" })
+                setSecondForm(newData)
+            }
+        }).open();
+    };
+
     return (
         <>
             <button className="material-icons cursor-pointer m-6 text-blue-600" onClick={toBeforePage}>arrow_back_ios</button>
@@ -99,9 +121,9 @@ const SignupSecond = ({ setPage, secondForm, setSecondForm, regionNumber, setReg
 
             <div className='m-5 p-6 bg-white rounded-xl shadow-lg'>
                 <div className='flex'>
-                    {regionNumber?.map((reginInfo, i) => reginInfoDataFeild(reginInfo, i,regionNumber,setRegionNumber))}
+                    {regionNumber?.map((reginInfo, i) => reginInfoDataFeild(reginInfo, i, regionNumber, setRegionNumber))}
                 </div>
-                {secondForm?.map((signupInfo, index) => otherDataFeild(signupInfo, index, isModal, isReModal, setModal, number, setNumber,setReModal, setReNumber, reNumber, isBlocked, secondForm, setSecondForm, secondToAuthNumber))}
+                {secondForm?.map((signupInfo, index) => otherDataFeild(signupInfo, index, isModal, isReModal, setModal, number, setNumber, setReModal, setReNumber, reNumber, isBlocked, secondForm, setSecondForm, secondToAuthNumber, handleSearch))}
 
                 {/* 에러 메시지 */}
                 {error && (
