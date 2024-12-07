@@ -4,7 +4,7 @@ import ColorInfo from "../../components/card/ColorInfo";
 
 const OPTIONS = ["쇼핑", "생활", "푸드", "여행", "문화"];
 
-function HomeHeader() {
+function HomeBody2() {
     const [currentOption, setCurrentOption] = useState("");
     const [colorIndex, setColorIndex] = useState(0);
     const [isStopped, setIsStopped] = useState(false);
@@ -61,4 +61,4 @@ function HomeHeader() {
     );
 }
 
-export default HomeHeader;
+export default HomeBody2;
