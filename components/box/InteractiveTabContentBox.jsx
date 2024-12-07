@@ -1,9 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Icons from '../../public/icons/icons';
 
-const InteractiveTabContentBox = ({ labels, categoryMap, lowerCategoryMap, benefitState, data, updateOption, updateCategory, updateCategoryValue }) => {
+const InteractiveTabContentBox = ({
+                                      labels,
+                                      categoryMap,
+                                      lowerCategoryMap,
+                                      benefitState,
+                                      data,
+                                      updateOption,
+                                      updateCategory,
+                                      updateCategoryValue,
+                                  }) => {
     const [activeTab, setActiveTab] = useState(0);
     const [selectedOptionIndex, setSelectedOptionIndex] = useState(Array(5).fill(null));
+    const [isInitialized, setIsInitialized] = useState(false);
 
     const categoryKeys = [1, 2, 3, 4, 5];
     const categories = Object.values(categoryMap);
@@ -27,23 +37,27 @@ const InteractiveTabContentBox = ({ labels, categoryMap, lowerCategoryMap, benef
         [Icons.ott, Icons.movie, Icons.books],
     ];
 
-
-
     const handleTabClick = (index) => {
         if (activeTab === index) {
             setActiveTab(null);
-            updateCategoryValue(index, 1);
-
             setSelectedOptionIndex((prev) => {
                 const updated = [...prev];
                 updated[index] = null;
                 return updated;
             });
             updateOption(index, null);
+            updateCategory(index, null);
+            updateCategoryValue(index, 1);
         } else {
             setActiveTab(index);
+            setSelectedOptionIndex((prev) => {
+                const updated = [...prev];
+                updated[index] = 0;
+                return updated;
+            });
+            updateOption(index, options[index][0]);
             updateCategory(index, categoryKeys[index]);
-            updateCategoryValue(index, 4);
+            updateCategoryValue(index, 5);
         }
     };
 
@@ -69,61 +83,81 @@ const InteractiveTabContentBox = ({ labels, categoryMap, lowerCategoryMap, benef
         }
     };
 
+    useEffect(() => {
+        if (!isInitialized) {
+            setActiveTab(0);
+            updateCategory(0, categoryKeys[0]);
+            setSelectedOptionIndex((prev) => {
+                const updated = [...prev];
+                updated[0] = 0;
+                return updated;
+            });
+            updateOption(0, options[0][0]);
+            updateCategoryValue(0, 5);
+            setIsInitialized(true);
+        }
+    }, []);
+
     return (
-        <div>
-            <p className='text-xs text-gray-500'>쇼핑, 생활, 푸드, 여행, 문화 탭을 클릭해 적립 혜택을 받을 곳을 선택하세요!</p>
-            <div className=" w-full max-w-2xl">
-                <div className="px-8 py-2 mb-1 w-full flex justify-between items-center border-b border-gray-200">
-                    {categories.map((category, index) => (
-                        <React.Fragment key={index}>
+        <div className="w-[22rem]">
+            <div className="px-8 flex w-full justify-between relative border-b border-gray-200">
+                {categories.map((category, index) => (
+                    <button
+                        key={index}
+                        onClick={() => handleTabClick(index)}
+                        className={`relative z-10 px-4 py-3 font1 font-bold transition-all text-center rounded-t-md ${
+                            activeTab === index || benefitState.categoryValues[index] >= 4
+                                ? 'bg-white text-blue-600 shadow-[0_0_10px_2px_rgba(59,130,246,0.5)]'
+                                : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
+                        }`}
+                        style={{
+                            minWidth: '1rem',
+                            zIndex: activeTab === index ? 20 : 10,
+                            background: activeTab === index
+                                ? 'linear-gradient(to top, #ffffff, #f0faff)'
+                                : undefined,
+                        }}
+                    >
+                        <div className="text-sm">{category}</div>
+                        <div className="text-sm text-blue-600 mt-1">{data[index]} %</div>
+                    </button>
+                ))}
+            </div>
+
+            <div className="h-[14rem] p-8 bg-white border border-t-0 border-gray-200">
+                {activeTab !== null ? (
+                    <div className="space-y-4">
+                        {mappedOptions[activeTab].map((option, index) => (
                             <button
                                 key={index}
-                                onClick={() => handleTabClick(index)}
-                                className={`flex flex-col items-center font-bold transition-colors ${benefitState.categoryValues[index] >= 4}`}
-                                style={{
-                                    color: (activeTab === index || benefitState.categoryValues[index] >= 4) ? 'black' : '#D1D5DB',
-                                }}
-                            >
-                                <div className="text-sm"
-                                    style={{
-                                        letterSpacing: '0.1em'
-                                    }}>{category}</div>
-                                <div className="text-sm text-blue-600 mt-1">{data[index]} %</div>
-                            </button>
-                            {/*세로 구분선 있는 부분 */}
-                            {index < categories.length - 1 && (
-                                <div className="h-8 border-l border-gray-300"></div>
-                            )}
-                        </React.Fragment>
-
-                    ))}
-                </div>
-                <div className="p-4 bg-white border border-t-0 border-gray-200">
-                    {activeTab !== null && (
-                        <div className="space-y-4">
-                            {mappedOptions[activeTab].map((option, index) => (
-                                <button
-                                    key={index}
-                                    onClick={() => handleOptionSelect(index)}
-                                    className={`flex w-full px-4 items-center text-left rounded-lg transition-colors ${selectedOptionIndex[activeTab] === index
-                                        ? 'bg-blue-50 border-blue-500'
+                                onClick={() => handleOptionSelect(index)}
+                                className={`flex w-full h-12 items-center p-4 rounded-lg transition-all ${
+                                    selectedOptionIndex[activeTab] === index
+                                        ? 'bg-blue-50 border border-blue-500'
                                         : 'hover:bg-gray-50'
-                                        }`}
-                                >
-                                    <div className="w-10 h-10 mr-4 flex items-center justify-center">
-                                        <img
-                                            src={optionicon[activeTab][index]}
-                                            alt={option}
-                                            className="w-10 h-10 object-contain"
-                                        />
-                                    </div>
-                                    <span className="text-xs text-gray-700">{option}</span>
-                                </button>
-                            ))}
-                        </div>
-                    )}
-                </div>
-            </div >
+                                }`}
+                            >
+                                <div className="flex-shrink-0 w-10 h-10 mr-4 flex items-center justify-center">
+                                    <img
+                                        src={optionicon[activeTab][index]}
+                                        alt={option}
+                                        className="w-10 h-10 object-contain"
+                                    />
+                                </div>
+                                <div className="flex-1">
+                                    <p className="font1 font-semibold text-gray-700">
+                                        {option}
+                                    </p>
+                                </div>
+                            </button>
+                        ))}
+                    </div>
+                ) : (
+                    <div className="h-full flex items-center justify-center">
+                        <p className="text-gray-400 font1">혜택 탭을 눌러 카드 혜택을 선택해주세요</p>
+                    </div>
+                )}
+            </div>
         </div>
     );
 };

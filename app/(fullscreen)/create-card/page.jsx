@@ -7,7 +7,6 @@ import SelectCardImage from '../../../components/create-card/card-detail/select-
 import SelectCardDetail from '../../../components/create-card/card-detail/select-card-detail';
 import SelectDesign from '../../../components/create-card/select-design/SelectDesignHeader';
 import SelectDesign1 from '../../../components/create-card/select-design/select-design1';
-import SelectDesign3 from '../../../components/create-card/select-design/select-design3';
 import SelectBenefit1 from '../../../components/create-card/select-benefit/select-benefitHeader';
 import SelectBenefit2 from '../../../components/create-card/select-benefit/select-benefit2';
 import Terms from '../../../components/create-card/terms-agreement/terms';
@@ -40,7 +39,6 @@ const CreateCardPage = () => {
       setIdempotencyKey(uuidv4());
     }
   }, [idempotencyKey]);
-
 
   // 1페이지
   const [selectedCardIndex, setSelectedCardIndex] = useState(0); // 카드 번호 상태 관리
@@ -89,14 +87,10 @@ const CreateCardPage = () => {
     isSameAsDeliveryAddress: false,
   });
 
-
   const mapCategoryToId = (categoryIndex, selectedOption) => {
     const upperCategoryId = categoryIndex + 1;
-
-    // Handle both object and numeric values in selectedOption
     const lowerCategoryId =
       typeof selectedOption === "object" ? selectedOption?.id : selectedOption;
-
     const benefitRate = benefitState.categoryValues[categoryIndex]
       ? Math.min(benefitState.categoryValues[categoryIndex] - 1, 4) // 할인율 제한 (0-4)
       : 0; // 기본값 0
@@ -258,7 +252,6 @@ const CreateCardPage = () => {
             selectedCardIndex={selectedCardIndex} // 선택된 카드 인덱스 전달
             onCardChange={setSelectedCardIndex} // 상태 변경 핸들러 전달
           />
-          <SelectDesign3 />
         </div>;
 
       case 2:
@@ -362,32 +355,32 @@ const CreateCardPage = () => {
     }
   };
 
-
   return (
-    <div>
-      <div style={styles.content}>{renderContent()}</div>
-      <CreateCardBottom
-        onClick={currentPage === TOTAL_PAGES ? submitCardApplication : handleNextPage}
-        currentPage={currentPage}
-        totalPage={TOTAL_PAGES}
-      />
-      <AlertModal
-        isOpen={showAlertModal}
-        onClose={() => setShowAlertModal(false)}
-        message="모든 항목에 체크를 해주세요"
-      />
-      {showSuccessAlert && (
-        <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-slate-50 rounded-lg shadow-lg p-6 z-50">
-          <div className="flex flex-col items-center">
-            <span className="text-4xl mb-3">
-              <img src={Icons.eco} alt="Success Icon" width="100" height="100" />
-            </span>
-            <p className="text-lg font-medium text-blue-500">카드 신청이 완료되었습니다</p>
-          </div>
+      <div className="relative pb-24"> {/* 화면 하단에 고정된 요소 때문에 패딩 추가 */}
+        <div style={styles.content}>{renderContent()}</div>
+        <div className="fixed bottom-0 left-0 right-0 w-full max-h-24 overflow-y-auto bg-white z-20"> {/* z-index 값 증가 */}
+          <CreateCardBottom
+              onClick={currentPage === TOTAL_PAGES ? submitCardApplication : handleNextPage}
+              currentPage={currentPage}
+              totalPage={TOTAL_PAGES}
+          />
         </div>
-      )}
-
-    </div>
+        <AlertModal
+            isOpen={showAlertModal}
+            onClose={() => setShowAlertModal(false)}
+            message="모든 항목에 체크를 해주세요"
+        />
+        {showSuccessAlert && (
+            <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-slate-50 rounded-lg shadow-lg p-6 z-50">
+              <div className="flex flex-col items-center">
+          <span className="text-4xl mb-3">
+            <img src={Icons.eco} alt="Success Icon" width="100" height="100" />
+          </span>
+                <p className="text-lg font-medium text-blue-500">카드 신청이 완료되었습니다</p>
+              </div>
+            </div>
+        )}
+      </div>
   );
 }
 

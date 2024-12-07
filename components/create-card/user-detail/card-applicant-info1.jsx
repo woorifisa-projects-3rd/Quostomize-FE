@@ -34,7 +34,7 @@ function CardApplicantInfo1({ applicantInfo, setApplicantInfo }) {
 
     // 영문 이름 입력 처리
     const handleEnglishNameChange = (e) => {
-        const value = e.target.value.replace(/[^A-Z]/g, '').toUpperCase();
+        const value = e.target.value.replace(/[^A-Za-z\s]/g, '').toUpperCase();
         setApplicantInfo({
             ...applicantInfo,
             englishName: value,
@@ -106,40 +106,40 @@ function CardApplicantInfo1({ applicantInfo, setApplicantInfo }) {
     };
 
     return (
-        <div className="w-full max-w-4xl mx-auto px-7">
-            {/* 상단 제목 영역 수정 - 여백과 간격 조정 */}
-            <div className="mb-10 pl-5">
-                <div className="space-y-2">
-                    <h1 className="text-3xl font-bold text-gray-900">
+        <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* 상단 제목 영역 */}
+            <div className="mb-6 sm:mb-10 pl-2 sm:pl-5">
+                <div className="space-y-1 sm:space-y-2">
+                    <h1 className="text-xl sm:text-2xl font-bold text-gray-700">
                         신청하시는 분의
                     </h1>
-                    <h2 className="text-3xl font-bold text-gray-900">
+                    <h2 className="text-xl sm:text-2xl font-bold text-gray-700">
                         정보를 입력해주세요!
                     </h2>
                 </div>
             </div>
 
-            {/* 입력 폼 영역 - 여백과 디자인 개선 */}
-            <div className="bg-white rounded-2xl shadow-lg p-12 mx-4">
-                <div className="border-b border-gray-400 pb-4 mb-8">
-                    <h3 className="text-xl font-bold text-gray-800">
+            {/* 입력 폼 영역 */}
+            <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-5 sm:py-8">
+                <div className="border-b border-gray-400 pb-3 sm:pb-4 mb-6 sm:mb-8">
+                    <h3 className="text-lg sm:text-xl font-bold text-gray-800">
                         신청인 정보
                     </h3>
                 </div>
 
-                <div className="space-y-8">
-                    {/* 주민등록번호 입력 */}
+                {/* 주민등록번호 입력 */}
+                <div className="space-y-6 sm:space-y-8">
                     <div className="relative">
-                        <label className="block text-base font-medium text-gray-700 mb-3">
+                        <label className="block text-sm sm:text-base font-medium text-gray-700 mb-2 sm:mb-3">
                             주민등록번호
                         </label>
-                        <div className="flex items-center space-x-4">
+                        <div className="flex items-center space-x-2 sm:space-x-4">
                             <input
                                 type="text"
                                 value={applicantInfo.residenceNumber}
                                 onChange={handleResidenceNumber1Change}
                                 onBlur={() => handleBlur('residenceNumber')}
-                                className={`w-40 p-3 border-2 rounded-xl transition-all duration-300 outline-none
+                                className={`w-full sm:w-40 p-3 sm:p-3 text-sm sm:text-base border-2 rounded-xl sm:rounded-xl focus:outline-none
 																	${
                                                                         touched.residenceNumber &&
                                                                         errors.residenceNumber
@@ -157,20 +157,21 @@ function CardApplicantInfo1({ applicantInfo, setApplicantInfo }) {
                                 value={applicantInfo.residenceNumber2}
                                 onChange={handleResidenceNumber2Change}
                                 onBlur={() => handleBlur('residenceNumber2')}
-                                className={`w-40 p-3 border-2 rounded-xl transition-all duration-300 outline-none
+                                className={`w-full sm:w-40 p-3 sm:p-3 text-sm sm:text-base border-2 rounded-xl sm:rounded-xl focus:outline-none
 																	${
                                                                         touched.residenceNumber2 &&
                                                                         errors.residenceNumber2
                                                                             ? 'border-red-500 bg-red-50'
                                                                             : 'border-gray-200 bg-gray-50 focus:border-blue-500 focus:bg-white'
+                                                                            
                                                                     }`}
                                 placeholder="*******"
                                 maxLength={7}
                             />
                         </div>
                         {touched.residenceNumber && errors.residenceNumber && (
-                            <div className="flex items-center mt-2 text-red-500">
-                                <IoWarningOutline className="mr-2 text-lg" />
+                            <div className="flex items-center mt-2 ml-2 text-red-500">
+                                <IoWarningOutline className="mr-1 text-base" />
                                 <p className="text-sm">
                                     {errors.residenceNumber}
                                 </p>
@@ -180,7 +181,7 @@ function CardApplicantInfo1({ applicantInfo, setApplicantInfo }) {
 
                     {/* 이름 입력 */}
                     <div className="relative">
-                        <label className="block text-base font-medium text-gray-700 mb-3">
+                        <label className="block text-sm sm:text-base font-medium text-gray-700 mb-3">
                             이름
                         </label>
                         <input
@@ -194,7 +195,7 @@ function CardApplicantInfo1({ applicantInfo, setApplicantInfo }) {
                                 validateField('name', e.target.value);
                             }}
                             onBlur={() => handleBlur('name')}
-                            className={`w-full p-3 border-2 rounded-xl transition-all duration-300 outline-none
+                            className={`w-full p-3 sm:p-3 text-sm sm:text-base border-2 rounded-xl sm:rounded-xl transition-all duration-300 outline-none 
 															${
                                                                 touched.name &&
                                                                 errors.name
@@ -204,8 +205,8 @@ function CardApplicantInfo1({ applicantInfo, setApplicantInfo }) {
                             placeholder="이름을 입력해주세요"
                         />
                         {touched.name && errors.name && (
-                            <div className="flex items-center mt-2 text-red-500">
-                                <IoWarningOutline className="mr-2 text-lg" />
+                            <div className="flex items-center mt-2 ml-2 text-red-500">
+                                <IoWarningOutline className="mr-1 text-base" />
                                 <p className="text-sm">{errors.name}</p>
                             </div>
                         )}
@@ -213,7 +214,7 @@ function CardApplicantInfo1({ applicantInfo, setApplicantInfo }) {
 
                     {/* 영문 이름 입력 */}
                     <div className="relative">
-                        <label className="block text-base font-medium text-gray-700 mb-3">
+                        <label className="block text-sm sm:text-base font-medium text-gray-700 mb-3">
                             영문 이름
                         </label>
                         <input
@@ -221,33 +222,20 @@ function CardApplicantInfo1({ applicantInfo, setApplicantInfo }) {
                             value={applicantInfo.englishName}
                             onChange={handleEnglishNameChange}
                             onBlur={() => handleBlur('englishName')}
-                            className={`w-full p-3 border-2 rounded-xl transition-all duration-300 outline-none
-															${
-                                                                touched.englishName &&
-                                                                errors.englishName
-                                                                    ? 'border-red-500 bg-red-50'
-                                                                    : 'border-gray-200 bg-gray-50 focus:border-blue-500 focus:bg-white'
-                                                            }`}
-                            placeholder="영문 이름을 입력해주세요 (대문자만 입력 가능)"
+                            className={`w-full p-3 sm:p-3 text-sm sm:text-base border-2 rounded-xl sm:rounded-xl transition-all duration-300 outline-none ${
+                                touched.englishName && errors.englishName
+                                    ? 'border-red-500 bg-red-50'
+                                    : 'border-gray-200 bg-gray-50 focus:border-blue-500 focus:bg-white'
+                            }`}
+                            placeholder="영문 이름을 입력해주세요"
                         />
                         {touched.englishName && errors.englishName && (
-                            <div className="flex items-center mt-2 text-red-500">
-                                <IoWarningOutline className="mr-2 text-lg" />
+                            <div className="flex items-center mt-2 ml-2 text-red-500">
+                                <IoWarningOutline className="mr-1 text-base" />
                                 <p className="text-sm">{errors.englishName}</p>
                             </div>
                         )}
                     </div>
-
-                    {/* 다음 버튼 */}
-                    {/* <button
-											onClick={handleSubmit}
-											className="w-full py-4 mt-4 bg-blue-600 text-white rounded-xl font-semibold text-lg
-															hover:bg-blue-700 transition-all duration-300
-															disabled:bg-gray-300 disabled:cursor-not-allowed"
-											disabled={Object.keys(errors).length > 0}
-									>
-											다음
-									</button> */}
                 </div>
             </div>
         </div>
