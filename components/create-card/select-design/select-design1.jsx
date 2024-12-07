@@ -1,16 +1,16 @@
 'use client'
 
-import React, { useState } from 'react';
+import React from 'react';
 import CarouselCard from '../../card/carousel-card'
 import ColorInfo from "../../card/colorInfo";
 import GradientText from "../../card/gradientText";
 
 const SelectDesign1 = ({ selectedCardIndex, onCardChange }) => {
-
     return (
-        <div className='flex flex-col items-center gap-4 font-bold font4'>
+        <div className='flex flex-col items-center font-bold font4'>
             <CarouselCard onCardChange={onCardChange} />
-            <span>내가 선택한 {" "}
+            <span>내가 선택한</span>
+            <span>{" "}
                 <GradientText
                     text={ColorInfo[selectedCardIndex].name}
                     style={ColorInfo[selectedCardIndex].style}
@@ -19,5 +19,4 @@ const SelectDesign1 = ({ selectedCardIndex, onCardChange }) => {
         </div >
     )
 }
-
 export default SelectDesign1
