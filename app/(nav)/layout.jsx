@@ -12,7 +12,7 @@ export const metadata = {
 export default function NavLayout({ children }) {
   const menuItems = [
     { title: "홈", icon: <MdHome />, path: "/home" },
-    { title: "나의카드", icon: <FaCreditCard />, path: "/my-card" },
+    { title: "카드", icon: <FaCreditCard />, path: "/my-card" },
     { title: "투자", icon: <FaChartLine />, path: "/piece-stock/home" },
     { title: "전체", icon: <GiHamburgerMenu />, path: "" },
   ]

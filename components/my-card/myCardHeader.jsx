@@ -6,7 +6,7 @@ function MyCardHeader({ onClick }) {
 
     <div>
       <NavPageHeader>
-        나의 카드
+        카드
       </NavPageHeader>
     </div>
   )

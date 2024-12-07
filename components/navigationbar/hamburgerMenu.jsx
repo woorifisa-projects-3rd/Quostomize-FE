@@ -23,20 +23,15 @@ const HamburgerMenu = ({ hamburgerMenuOpen, setHamburgerMenuOpen }) => {
     ];
 
     return (
-        <Transition show={hamburgerMenuOpen} as={Fragment}>
-            <div
-                className="w-full h-full absolute inset-0 right-0"
-                onClick={() => setHamburgerMenuOpen(false)}
-            >
-                <TransitionChild
-                    as={Fragment}
-                    enter="transition ease-out duration-300"
-                    enterFrom="transform translate-y-full opacity-0"
-                    enterTo="transform translate-y-0 opacity-100"
-                    leave="transition ease-in duration-200"
-                    leaveFrom="transform translate-y-0 opacity-100"
-                    leaveTo="transform translate-y-full opacity-0"
+        <>
+
+            {hamburgerMenuOpen
+                ?
+                <div
+                    className="w-full h-full absolute inset-0 right-0"
+                    onClick={() => setHamburgerMenuOpen(false)}
                 >
+
                     <div
                         className="absolute bottom-[4rem] right-0 w-44 bg-white border rounded-t-lg shadow-lg flex flex-col"
                         onClick={(e) => e.stopPropagation()}
@@ -62,9 +57,11 @@ const HamburgerMenu = ({ hamburgerMenuOpen, setHamburgerMenuOpen }) => {
                             )}
                         </div>
                     </div>
-                </TransitionChild>
-            </div>
-        </Transition>
+
+                </div>
+                : <></>
+            }
+        </>
     );
 }
 
