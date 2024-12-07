@@ -9,12 +9,13 @@ function SelectCardImage({ selectedCardIndex }) {
     const i = selectedCardIndex + 1;
 
     return (
-        <div>
+        <div className="px-6">
             {/* 제목 영역 */}
-            <div className="px-6 pt-6 mb-4">
-                <h2 className="font3 font-bold text-left">
-                    카드정보를 <span className="color1">선택</span>해 주세요
+            <div className="max-w-md mx-auto text-center">
+                <h2 className="font3 font-bold">
+                    카드 정보를 <span className="color1">선택</span>해 주세요
                 </h2>
+                <p className="text-sm text-gray-600">카드를 눌러 확인해보세요!</p>
             </div>
             {/* 카드 이미지 */}
             <div className="flex justify-center">
