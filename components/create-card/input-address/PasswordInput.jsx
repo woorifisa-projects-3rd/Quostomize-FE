@@ -34,38 +34,38 @@ const PasswordInput = ({ onClose, onComplete, isConfirm }) => {
     };
 
     return (
-        <div className="absolute inset-0 flex justify-center items-center z-50">
-            <div className="w-[576px] bg-[#192436] h-full flex flex-col items-center">
+        <div className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-50">
+            <div className="w-full h-full md:h-[700px] md:w-[400px] bg-[#192436] flex flex-col items-center md:rounded-2xl">
                 <button
                     onClick={onClose}
-                    className="self-start text-white mt-4 ml-4"
+                    className="self-start text-white mt-6 ml-6 text-2xl hover:opacity-80"
                 >
                     ←
                 </button>
 
-                <h3 className="text-white text-lg mt-20 mb-6">
+                <h3 className="text-white text-lg mt-12">
                     {isConfirm}
                 </h3>
 
-                <div className="flex justify-center space-x-3 mb-20">
+                <div className="flex justify-center items-start space-x-4 mt-4">
                     {Array(MAX_LENGTH)
                         .fill(0)
                         .map((_, idx) => (
                             <div
                                 key={idx}
-                                className={`w-2 h-2 rounded-full ${
+                                className={`w-3 h-3 rounded-full ${
                                     idx < password.length ? 'bg-gray-300' : 'bg-gray-600'
                                 }`}
                             />
                         ))}
                 </div>
 
-                <div className="mt-40 grid grid-cols-3 gap-16 text-center text-white w-full max-w-[400px]">
+                <div className="mt-auto mb-24 grid grid-cols-3 gap-12 text-center text-white w-full max-w-[360px] px-8">
                     {shuffledNumbers.slice(0, 9).map((number) => (
                         <button
                             key={`button-${number}`}
                             onClick={() => handleKeyPress(number)}
-                            className="text-2xl"
+                            className="text-2xl py-4 hover:opacity-80 transition-opacity"
                         >
                             {number}
                         </button>
@@ -74,14 +74,14 @@ const PasswordInput = ({ onClose, onComplete, isConfirm }) => {
                     <button
                         key={`button-${shuffledNumbers[9]}`}
                         onClick={() => handleKeyPress(shuffledNumbers[9])}
-                        className="text-2xl"
+                        className="text-2xl py-4 hover:opacity-80 transition-opacity"
                     >
                         {shuffledNumbers[9]}
                     </button>
                     <button
                         key="delete-button"
                         onClick={handleDelete}
-                        className="text-2xl"
+                        className="text-2xl py-4 hover:opacity-80 transition-opacity"
                     >
                         ←
                     </button>
@@ -90,5 +90,4 @@ const PasswordInput = ({ onClose, onComplete, isConfirm }) => {
         </div>
     );
 };
-
 export default PasswordInput;
