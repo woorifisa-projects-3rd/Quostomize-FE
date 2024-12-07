@@ -4,6 +4,7 @@
     height: 10rem;
     perspective: 1000px;
     /* 3D 효과를 위한 설정 */
+    cursor: pointer;
 }
 
 .card_box2 {
