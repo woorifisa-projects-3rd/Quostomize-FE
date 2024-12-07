@@ -21,6 +21,7 @@ const LoginContent = () => {
     });
     const [isFormValid, setIsFormValid] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [isCompiling, setIsCompiling] = useState(false);
   
     useEffect(() => {
       if (session) {
@@ -59,6 +60,7 @@ const LoginContent = () => {
         if (isAuthed) {
           if (isAuthed) {
             router.push(redirectTo);
+            setIsCompiling(true);
           }
         }
       }
@@ -131,6 +133,7 @@ const LoginContent = () => {
         </div>
 
         {isLoading && <LoadingSpinner message="로그인 중입니다..." />}
+        {isCompiling  && <LoadingSpinner message="이동 중입니다." />}
         <ErrorModal
           isOpen={showErrorModal}
           onClose={() => setShowErrorModal(false)}

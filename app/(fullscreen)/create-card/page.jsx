@@ -372,7 +372,7 @@ const CreateCardPage = () => {
       <AlertModal
         isOpen={showAlertModal}
         onClose={() => setShowAlertModal(false)}
-        message="모든 항목에 체크를 해주세요"
+        message="모든 필수 항목에 체크를 해주세요"
       />
       {showSuccessAlert && (
           <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-slate-50 rounded-lg shadow-lg p-6 z-50">

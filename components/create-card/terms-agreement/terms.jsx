@@ -1,20 +1,23 @@
 'use client'
 
 import 'material-icons/iconfont/material-icons.css';
-import { useEffect, useState, useRef } from "react";
+import { useRef } from "react";
 
 const Terms = ({ isAccepted, setAccepted }) => {
 
   const termNames = [
-    "(필수) 개인 회원 약관", "(필수) 특정 금융거래 보고 및 이용에 관한 안내" ,"(필수) 개인 (신용)정보 수집·이용·제공 동의", 
-    "(필수) 서비스 제공 동의", "(선택) 개인 (신용)정보 제3자 제공 동의", "(선택) 광고성 정보 수신 동의"
+    "개인 회원 약관", "특정 금융거래 보고 및 이용에 관한 안내" ,"개인 (신용)정보 수집·이용·제공 동의", 
+    "서비스 제공 동의", "개인 (신용)정보 제3자 제공 동의", "광고성 정보 수신 동의"
   ];
-
-  const essentialsAgrees = useRef(0);
-  const optinalsAgrees = useRef(0); 
 
   const updateAccepted = (index) => {
     setAccepted((prevAccepted) => {
+      if (index === 4 || index === 5) {
+        const newAccepted = prevAccepted.slice();
+        newAccepted[index] = !prevAccepted[index];
+        return newAccepted
+      }
+
       if (prevAccepted[index] === true) {
         return prevAccepted;
       }
@@ -35,26 +38,24 @@ const Terms = ({ isAccepted, setAccepted }) => {
                 termNames.map((term, index) => {
                     return (
                       <a 
-                        href={"api/filePaths"} 
+                        href={`files/terms/${index+1}.pdf`} 
                         className="flex justify-between items-center w-full h-12 leading-8 bg-slate-200 px-4 py-2 rounded-xl"
                         onClick = {
                           () => {
-                            updateAccepted(index)
-                            if (index <=3) {
-                              essentialsAgrees.current += 1;
-                            } else {
-                              optinalsAgrees.current += 1;
-                            }
+                              updateAccepted(index)
                           }
                         }
                         key={index}
                         target="_blank"
                       >
-                        <div>{term}</div>
+                        { index !==4 && index!==5
+                          ? <div>(<span className='text-red-500'>필수</span>)  {term}</div>
+                          : <div>(<span>선택</span>)  {term}</div>
+                        }
                         {
                           isAccepted[index] === false
                           ? <span className="material-icons h-8 leading-8 py-1 align-middle">keyboard_arrow_down</span>
-                          : <span className="material-icons h-8 leading-8 py-1 align-middle text-[#34eb4c]">check_circle</span>
+                          : <span className="material-icons h-8 leading-8 py-1 align-middle text-[#3384f6]">check_circle</span>
                         }
                       </a>
                     )
