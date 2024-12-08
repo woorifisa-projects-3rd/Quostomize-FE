@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import Pagination from './Pagination';
 import Icons from '../../../public/icons/icons'
 import Image from 'next/image';
+import LoadingSpinner from '../../../components/overlay/loadingSpinner';
 
 export default function QnaPage() {
     const { data: session } = useSession();
@@ -67,9 +68,7 @@ export default function QnaPage() {
 
     if (isLoading) {
         return (
-            <div className="flex justify-center items-center h-screen select-none">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
-            </div>
+            <LoadingSpinner />
         );
     }
 
