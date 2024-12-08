@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { searchStock } from "../../../components/piece-stock/home/apiMethod/apiList"
-import NavPageHeader from '../../header/NavPageHeader';
+import PageHeader from "../../../components/header/PageHeader"
 import ArrowButton from "../../../components/button/arrow-button"
 
 const searchHeader = ({ setValue, value, setSearchInfo, setPage }) => {
@@ -16,10 +16,14 @@ const searchHeader = ({ setValue, value, setSearchInfo, setPage }) => {
 
     return (
         <div className='flex flex-col justify-center items-center'>
-            <div className='w-full'>
-            <ArrowButton direction={"prev"} onClick={()=>toFavorite(setPage)}></ArrowButton>
-            </div>
-            <NavPageHeader>종목 검색</NavPageHeader>
+            <PageHeader
+                modaltitle="종목 검색"
+                showArrowButton={true}
+                onArrowClick={()=>toFavorite(setPage)}
+                exitDirection="/home"
+            >
+               종목 검색
+            </PageHeader>
             <div className='w-[95%]'>
                 <div className="mb-8">
                     <div
