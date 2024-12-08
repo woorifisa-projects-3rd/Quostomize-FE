@@ -130,7 +130,13 @@ const SelectBenefit2 = ({ benefitState, setBenefitState }) => {
 
     return (
         <div>
-            <div className='flex flex-col items-center space-y-2'>
+            <div className='flex flex-col items-center space-y-6'>
+                <div className="w-full mx-6 text-center">
+                    <h2 className="font3 font-bold">
+                        포인트 <span className="color1">적립</span> 옵션을 <span className="color1">선택</span>해 주세요
+                    </h2>
+                    <p className="text-sm text-gray-600">적립 받고 싶은 '쇼핑, 생활, 푸드, 여행, 문화' 옵션을 선택해보세요!</p>
+                </div>
                 <InteractiveRadarGraph
                     labels={labels}
                     datasets={[

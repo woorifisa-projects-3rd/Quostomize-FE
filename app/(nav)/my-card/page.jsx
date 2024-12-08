@@ -240,7 +240,8 @@ const MyCardPage = () => {
         </div>
         <div className="px-6 w-full mb-20">
           <p className="font3 font-bold mb-2 text-center">내 포인트 사용처</p>
-          <p className="text-center mb-14"> 포인트 사용처를 자유롭게 켜고 끌 수 있어요</p>
+          <p className="text-center mb-1"> 포인트 사용처를 자유롭게 켜고 끌 수 있어요</p>
+          <p className="text-center text-gray-500 mb-6 text-xs">조각 투자, 페이백은 동시에 선택할 수 없어요!<br />최소 한 가지 이상의 사용처를 선택하세요! </p>
           <div className="flex flex-col space-y-4">
             {lottoBox && (
               <PointUsageBox
