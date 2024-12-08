@@ -5,12 +5,10 @@ import 'material-icons/iconfont/material-icons.css';
 import { handleInput } from './common/enterValueList';
 
 const AuthorizationMessageNumber = ({ setPage, secondForm, setBlock }) => {
-    const inputRefs = [useRef(null), useRef(null), useRef(null), useRef(null), useRef(null), useRef(null)];
-    const [authNumber, setAuthNumber] = useState(Array(6).fill(""));
+    const [authNumber, setAuthNumber] = useState("");
 
     useEffect(() => {
-        setAuthNumber(Array(6).fill("")); // 초기화
-        inputRefs[0].current?.focus(); // 첫번째 칸 포커스
+        setAuthNumber(""); // 초기화
         authorizationByMessage({
             phone: secondForm?.[3]?.value,
             certificationNumber: "",
@@ -58,8 +56,8 @@ const AuthorizationMessageNumber = ({ setPage, secondForm, setBlock }) => {
     }
 
     const toCheckPage = () => {
-        if (authNumber.every(value => value !== "")) {
-            const sendingData = `${authNumber[0]}${authNumber[1]}${authNumber[2]}${authNumber[3]}${authNumber[4]}${authNumber[5]}`
+        if (authNumber !== "" && authNumber.length === 6 ) {
+            const sendingData = authNumber
             const authData = {
                 phone: secondForm?.[3]?.value,
                 certificationNumber: sendingData
@@ -94,11 +92,7 @@ const AuthorizationMessageNumber = ({ setPage, secondForm, setBlock }) => {
                 <h1 className='font4 font-extralight flex justify-center mb-5'>인증번호</h1>
                 <form action={toCheckPage}>
                     <div className='flex'>
-                        {inputRefs.map((ref, index) => {
-                            return (
-                                <input key={`${ref}*${index}`} ref={ref} className='text-center border w-1/6 p-5 font5 flex justify-center focus:outline-none' type="text" placeholder='0' maxLength={1} onChange={(e) => handleInput(e.target.value, index, authNumber, setAuthNumber, inputRefs)} />
-                            )
-                        })}
+                        <input type="password" placeholder='인증번호를 입력해주세요' className='w-11/12 ml-5 mb-4 p-4 rounded-xl font2 bg-gray-100 focus:outline-none' value={authNumber} onChange={(e)=>setAuthNumber(e.target.value)}/>
                     </div>
                     <div className='flex justify-center'>
                         <button className="bg-blue-600 rounded-3xl w-5/6 h-20 font3 font-sans text-white font-semibold mt-8 hover:bg-blue-700">제출</button>
