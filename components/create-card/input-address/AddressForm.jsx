@@ -12,7 +12,8 @@ const AddressForm = ({
                          errors,
                          isSameAsDeliveryAddress,
                          handleCheckSameAddress,
-                         isApplicant
+                         isApplicant,
+                        cardOptions
                      }) => {
     const isDelivery = type === 'delivery';
 
@@ -75,17 +76,19 @@ const AddressForm = ({
                     ${errors[`detailed${type.charAt(0).toUpperCase() + type.slice(1)}Address`] ? 'border-red-500 bg-red-50' : 'border-gray-200 bg-gray-50 focus:border-blue-500 focus:bg-white'}`}
                 placeholder="상세 주소"
             />
-            {!isDelivery && isApplicant && (
+            {!cardOptions?.isAppCard && !isDelivery && isApplicant && (
                 <div className="flex items-center mt-4">
-                    <input
-                        type="checkbox"
-                        checked={isSameAsDeliveryAddress}
-                        onChange={handleCheckSameAddress}
-                        className="w-4 h-4 text-blue-500 border-gray-300 rounded"
-                    />
-                    <span className="ml-2 text-sm font-medium text-gray-700">
-                        배송 받을 주소와 동일
-                    </span>
+                    <label className="flex items-center cursor-pointer">
+                        <input
+                            type="checkbox"
+                            checked={isSameAsDeliveryAddress}
+                            onChange={handleCheckSameAddress}
+                            className="w-4 h-4 text-blue-500 border-gray-300 rounded"
+                        />
+                        <span className="ml-2 text-sm font-medium text-gray-700">
+                            배송 받을 주소와 동일
+                        </span>
+                    </label>
                 </div>
             )}
         </div>

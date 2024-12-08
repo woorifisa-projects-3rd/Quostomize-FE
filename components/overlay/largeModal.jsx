@@ -1,6 +1,6 @@
 'use client'
 
-const LargeModal = ({ isOpen, setIsOpen, onClose, title, description, choice, cancle, children }) => {
+const LargeModal = ({ setIsOpen, onClose, title, description, choice, cancle, children }) => {
     return (
         <div
             className="fixed inset-0 flex items-center justify-center w-screen h-screen bg-[#000000]/50 z-20"

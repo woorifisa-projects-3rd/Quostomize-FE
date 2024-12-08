@@ -2,14 +2,15 @@
 
 import React from 'react'
 import TabContentBox from '../box/tab-content-box';
-
+import Icons from "../../public/icons/icons";
 
 function PointUsageBody() {
 
     const tabData = [
         {
-            title: "조각투자",
-            subtitle: "천원으로 시작하는 조각투자,\n적립한 포인트로 손쉽게 투자하기",
+            title: "투자",
+            subtitle: "투자",
+            icon: Icons.stockpiece,
             content: [
                 {
                     text: "내가 선택한 종목이나 추천 종목을",
@@ -23,7 +24,8 @@ function PointUsageBody() {
         },
         {
             title: "일일복권",
-            subtitle: "매일 1000배 기회,\n적립한 포인트로 복권 도전하기",
+            subtitle: "일일복권",
+            icon: Icons.lotto,
             content: [
                 {
                     text: "1일 1회 참여 가능한 복권",
@@ -37,7 +39,8 @@ function PointUsageBody() {
         },
         {
             title: "페이백",
-            subtitle: "쓸수록 점점 더 커지는 페이백 혜택",
+            subtitle: "페이백",
+            icon: Icons.payback,
             content: [
                 {
                     text: "결제 금액의 일부를 페이백으로",

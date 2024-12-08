@@ -46,23 +46,3 @@
     object-fit: fit;
     padding: 10%;
 }
-
-.pre-btn,
-.next-btn {
-    position: absolute;
-    top: 70%;
-    transform: translateY(-50%);
-    color: rgba(0, 0, 0, 0.5);
-    border: none;
-    padding: 30px;
-    cursor: pointer;
-    z-index: 10;
-}
-
-.pre-btn {
-    left: 10px;
-}
-
-.next-btn {
-    right: 10px;
-}

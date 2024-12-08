@@ -6,6 +6,7 @@ import LargeModal from '../../overlay/largeModal'
 import { openModal, closeModal, checkButton, choiceStocks } from "../../../components/piece-stock/home/component/totalSearch"
 import { handleDragStart, handleDragEnd, handleDragOver, handleDrop, handleDeleteClick, deleteCheckBox } from "../../../components/piece-stock/home/component/totalHomeBody"
 import { searchCardInfo, switchStock, searchWishStocks } from "../../../components/piece-stock/home/apiMethod/apiList"
+import RecommendAlertModal from '../etc/recommendAlertModal'
 
 const HomeBody = ({ data, page, setPage, cardData, setCardData, wishInfo, setWishInfo }) => {
     const [hoveredIndex, setHoveredIndex] = useState([{ order: 0 }, { order: 0 }, { order: 0 }]); // Hover된 항목의 인덱스를 관리
@@ -63,7 +64,7 @@ const HomeBody = ({ data, page, setPage, cardData, setCardData, wishInfo, setWis
                             className={`flex border shadow-md items-center justify-between p-5 rounded-lg mb-5`}
                         >
                             <div className="flex items-center gap-5">
-                                {stock.stockImage && <Image src={stock.stockImage} width={50} height={50} alt="주식이미지"></Image>}
+                                {stock.stockImage && <Image src={stock.stockImage} width={30} height={30} alt="주식이미지"></Image>}
                                 <div>
                                     <div className="font2 font-semibold" style={{
                                         letterSpacing: '0.05em'
@@ -96,14 +97,14 @@ const HomeBody = ({ data, page, setPage, cardData, setCardData, wishInfo, setWis
                                     <Motion hoveredIndex={hoveredIndex} index={index}>
                                         <div className="flex">
                                             <span className="mr-2 font-semibold flex items-center">{wishStock.priority}.</span>
-                                            <Image src={wishStock.stockImage} width={50} height={50} alt="주식이미지"></Image>
-                                            <div className="flex h-full items-center ml-3 font-bold font2" style={{
+                                            <Image src={wishStock.stockImage} width={30} height={30} alt="주식이미지"></Image>
+                                            <div className="flex h-full items-center ml-3 font-bold font1" style={{
                                                 letterSpacing: '0.05em'
                                             }}>
                                                 <p>{wishStock.stockName}</p>
                                             </div>
                                         </div>
-                                        <div className="flex items-center font-semibold font2">
+                                        <div className="flex items-center font-semibold font">
                                             <p>{Number(wishStock.stockPresentPrice).toLocaleString()} 원</p>
                                         </div>
                                     </Motion>
@@ -141,8 +142,8 @@ const HomeBody = ({ data, page, setPage, cardData, setCardData, wishInfo, setWis
                             <div key={stock.stockName} className={`flex justify-between items-center p-4 m-1 border rounded-xl shadow-lg cursor-pointer ${isClickButton[index] === true ? `border-2 border-slate-300 bg-slate-200` : `border-slate-200 `}`} onClick={() => checkButton(index, setClickButton)}>
                                 <div className={`flex justify-between w-full`}>
                                     <div className="flex">
-                                        <div className="w-12 h-12 rounded-full overflow-hidden">
-                                            <Image src={stock.stockImage} width={50} height={50} alt="주식이미지"></Image>
+                                        <div className="w-12 h-12 flex items-center justify-center rounded-full overflow-hidden">
+                                            <Image src={stock.stockImage} width={30} height={30} alt="주식이미지"></Image>
                                         </div>
                                         <div className="flex h-full items-center ml-4">
                                             <p className="font-medium">{stock.stockName}</p>

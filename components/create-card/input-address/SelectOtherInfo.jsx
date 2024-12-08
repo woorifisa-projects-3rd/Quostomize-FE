@@ -7,7 +7,7 @@ import OtherInfoForm from './OtherInfoForm';
 import CardPasswordForm from './CardPasswordForm';
 import PasswordInput from './PasswordInput';
 
-const SelectOtherInfo = ({formData, setFormData}) => {
+const SelectOtherInfo = ({formData, setFormData, cardOptions}) => {
     const [errors, setErrors] = useState({});
     const [touched, setTouched] = useState({});
     const [isPasswordModalOpen, setPasswordModalOpen] = useState(false);
@@ -18,14 +18,21 @@ const SelectOtherInfo = ({formData, setFormData}) => {
         const newErrors = { ...errors };
 
         switch (field) {
-            case 'emailId':
-            case 'emailDomain':
-                if (!formData.emailId || !formData.emailDomain) {
-                    newErrors.email = '이메일 주소를 모두 입력해주세요.';
-                } else {
-                    delete newErrors.email;
+            case 'email': {
+                const email = `${formData.emailId}@${formData.emailDomain}`;
+                if (!formData.emailId && !formData.emailDomain) {
+                    newErrors[field] = '이메일 주소를 모두 입력해주세요.';
+                } else if (!formData.emailId) {
+                    newErrors[field] = '이메일 아이디를 입력해주세요.';
+                } else if (!formData.emailDomain) {
+                    newErrors[field] = '이메일 도메인을 입력해주세요.';
+                }else if (!/^[^\s@]+@[^\s@]+\.(com|net)$/.test(email)) {
+                    newErrors[field] = '유효한 이메일 주소를 입력해주세요. (예: example@domain.com 또는 example@domain.net)';
+                }else {
+                    delete newErrors[field];
                 }
                 break;
+            }
             case 'phoneNumber':
                 if (!/^\d{11}$/.test(value)) {
                     newErrors[field] = '휴대폰 번호를 입력해 주세요';
@@ -53,14 +60,38 @@ const SelectOtherInfo = ({formData, setFormData}) => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: value }));
-        validateField(name, value);
+
+        // 입력 값을 즉시 업데이트
+        setFormData((prev) => {
+            const updatedFormData = { ...prev, [name]: value };
+
+            // 검증 실행
+            if (name === 'emailId' || name === 'emailDomain') {
+                validateField('email', `${name === 'emailId' ? value : updatedFormData.emailId}@${name === 'emailDomain' ? value : updatedFormData.emailDomain}`);
+            } else {
+                validateField(name, value);
+            }
+
+            return updatedFormData;
+        });
     };
+
 
     const handleBlur = (field) => {
         setTouched((prev) => ({ ...prev, [field]: true }));
-        validateField(field, formData[field]);
+        if (field === 'emailId' || field === 'emailDomain') {
+            validateField('email', `${formData.emailId}@${formData.emailDomain}`);
+        } else {
+            validateField(field, formData[field]);
+        }
     };
+    //
+    // useEffect(() => {
+    //     if (touched.emailId || touched.emailDomain) {
+    //         validateField('email', `${formData.emailId}@${formData.emailDomain}`);
+    //     }
+    // }, [formData.emailId, formData.emailDomain, touched]);
+
 
     const handleCheckSameAddress = (e) => {
         const isChecked = e.target.checked;
@@ -76,7 +107,7 @@ const SelectOtherInfo = ({formData, setFormData}) => {
     const handlePasswordComplete = (password) => {
         setFormData((prev) => ({ ...prev, cardPassword: password }));
         setPasswordModalOpen(false);
-        setTimeout(() => setConfirmPasswordModalOpen(true), 300);
+        setTimeout(() => setConfirmPasswordModalOpen(true));
     };
 
     const handleConfirmPasswordComplete = (password) => {
@@ -93,62 +124,69 @@ const SelectOtherInfo = ({formData, setFormData}) => {
     };
 
     return (
-        <div className="w-full max-w-2xl mx-auto px-5 py-10">
-            <div className="mb-10 pl-5">
-                <div className="space-y-2">
-                    <h1 className="text-3xl font-bold text-gray-900">카드 사용을 위해</h1>
-                    <h2 className="text-3xl font-bold text-gray-900">나머지 정보를 입력해주세요!</h2>
+        <div className="w-full max-w-3xl mx-auto px-6">
+            <div className="mb-8">
+                <div className="space-y-2 text-center">
+                    <h1 className="text-2xl md:text-3xl font-bold text-gray-900">카드 사용을 위해</h1>
+                    <h2 className="text-2xl md:text-3xl font-bold text-gray-900">나머지 정보를 입력해주세요!</h2>
                 </div>
             </div>
 
-            <div className="bg-white shadow-md rounded-xl p-8 space-y-6">
-                <h3 className="text-xl font-semibold text-gray-800">주소</h3>
-                <AddressForm
-                    type="delivery"
+            <div className="space-y-8">
+                <div className="bg-white shadow-md rounded-xl p-4 md:p-8">
+                    <h3 className="text-lg md:text-xl font-semibold text-gray-800 mb-6">주소</h3>
+                    <div className="space-y-6">
+                        {!cardOptions.isAppCard && (
+                        <AddressForm
+                            type="delivery"
+                            formData={formData}
+                            setFormData={setFormData}
+                            handleInputChange={handleInputChange}
+                            handleBlur={handleBlur}
+                            errors={errors}
+                            cardOptions={cardOptions}
+                        />)}
+                        <AddressForm
+                            type="residential"
+                            formData={formData}
+                            setFormData={setFormData}
+                            handleInputChange={handleInputChange}
+                            handleBlur={handleBlur}
+                            errors={errors}
+                            isSameAsDeliveryAddress={formData.isSameAsDeliveryAddress}
+                            handleCheckSameAddress={handleCheckSameAddress}
+                            isApplicant={true}
+                            cardOptions={cardOptions}
+                        />
+                    </div>
+                </div>
+
+                <div className="bg-white shadow-md rounded-xl p-4 md:p-8">
+                    <h3 className="text-lg md:text-xl font-semibold text-gray-800 mb-6">기타정보</h3>
+                    <div className="space-y-6">
+                        <EmailForm
+                            formData={formData}
+                            handleInputChange={handleInputChange}
+                            validateField={validateField}
+                            handleBlur={handleBlur}
+                            errors={errors}
+                        />
+                        <OtherInfoForm
+                            formData={formData}
+                            handleInputChange={handleInputChange}
+                            validateField={validateField}
+                            errors={errors}
+                        />
+                    </div>
+                </div>
+
+                <CardPasswordForm
                     formData={formData}
-                    setFormData={setFormData}
-                    handleInputChange={handleInputChange}
-                    handleBlur={handleBlur}
-                    // handleSearchAddress={handleSearchAddress}
+                    setPasswordModalOpen={setPasswordModalOpen}
+                    setConfirmPasswordModalOpen={setConfirmPasswordModalOpen}
                     errors={errors}
-                />
-                <AddressForm
-                    type="residential"
-                    formData={formData}
-                    setFormData={setFormData}
-                    handleInputChange={handleInputChange}
-                    handleBlur={handleBlur}
-                    // handleSearchAddress={handleSearchAddress}
-                    errors={errors}
-                    isSameAsDeliveryAddress={formData.isSameAsDeliveryAddress}
-                    handleCheckSameAddress={handleCheckSameAddress}
-                    isApplicant={true}
                 />
             </div>
-
-            <div className="bg-white shadow-md rounded-xl p-8 space-y-6 mt-10">
-                <h3 className="text-xl font-semibold text-gray-800">기타정보</h3>
-                <EmailForm
-                    formData={formData}
-                    handleInputChange={handleInputChange}
-                    validateField={validateField}
-                    handleBlur={handleBlur}
-                    errors={errors}
-                />
-                <OtherInfoForm
-                    formData={formData}
-                    handleInputChange={handleInputChange}
-                    validateField={validateField}
-                    errors={errors}
-                />
-            </div>
-
-            <CardPasswordForm
-                formData={formData}
-                setPasswordModalOpen={setPasswordModalOpen}
-                setConfirmPasswordModalOpen={setConfirmPasswordModalOpen}
-                errors={errors}
-            />
 
             {isPasswordModalOpen && (
                 <PasswordInput

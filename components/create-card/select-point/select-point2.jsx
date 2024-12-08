@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React from 'react'
 import SelectPointUsageBox from '../../box/select-point-usage-box'
 import Icons from '../../../public/icons/icons'
 
@@ -31,8 +31,6 @@ function SelectPoint2({
 
     const handleBoxClick = (index) => {
         const selectedOption = selectoptions[index].title;
-
-        // 페이백과 조각 투자 항목 선택 시 오류 메시지
         if (
             (selectedOption === '페이백' && activeOptions.includes('조각 투자')) ||
             (selectedOption === '조각 투자' && activeOptions.includes('페이백'))

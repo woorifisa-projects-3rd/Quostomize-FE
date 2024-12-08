@@ -39,7 +39,7 @@ const HamburgerMenu = ({ hamburgerMenuOpen, setHamburgerMenuOpen }) => {
                             {menuItems.map((item, index) => {
                                 return (
                                     <div
-                                        className="flex justify-start items-center text-2xl w-44 h-12 border-b-2 cursor-pointer"
+                                        className="flex justify-start items-center text w-44 h-12 border-b-2 cursor-pointer"
                                         onClick={() => routePage(item.path)}
                                         key={index}
                                     >

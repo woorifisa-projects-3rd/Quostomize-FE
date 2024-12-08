@@ -145,6 +145,7 @@ export async function searchStock(param, value, setSearchInfo) {
         const data = await response.json(); // 응답을 JSON으로 파싱
         setSearchInfo(data);
     } catch (error) {
-        console.error('데이터 가져오기 오류:', error);
+        // console.error('데이터 가져오기 오류:', error);
+        setSearchInfo([])
     }
 }
