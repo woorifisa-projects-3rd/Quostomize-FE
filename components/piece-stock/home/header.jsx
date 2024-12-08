@@ -12,7 +12,7 @@ const HomeHeader = ({ data, setValue, value, setPage }) => {
 
     return (
         <div className='flex flex-col justify-center items-center'>
-            <div className='w-full sticky top-0 left-0 z-30'>
+            <div className='w-full sticky top-0 left-0'>
                 <PageHeader
                     modaltitle="조각 투자"
                     showArrowButton={false}
