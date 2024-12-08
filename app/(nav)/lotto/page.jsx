@@ -120,7 +120,7 @@ const LottoMain = async () => {
                                 <div class="relative w-full flex flex-col items-center">
                                     <Bubble message= {"복권 발견!"} x={"-translate-x-6"} y={"-translate-y-4"}/>
                                     <Image width={96} height={96} src={Icons.ticket} alt="티켓 아이콘" className="-rotate-12" />
-                                    <Link href={"my-card"} className="cursor-hover">
+                                    <Link href={"/my-card"} className="cursor-hover">
                                         <div className="flex text-2xl w-full h-10 leading-10 align-middle">오늘 복권 <span className="flex  color1">&nbsp;참여하기<FaArrowRight className="h-full align-center" /></span></div>
                                     </Link>
                                 </div>
