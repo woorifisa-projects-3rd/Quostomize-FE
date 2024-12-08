@@ -7,6 +7,7 @@ import { openModal, closeModal, checkButton, choiceStocks } from "../../../compo
 import { handleDragStart, handleDragEnd, handleDragOver, handleDrop, handleDeleteClick, deleteCheckBox } from "../../../components/piece-stock/home/component/totalHomeBody"
 import { searchCardInfo, switchStock, searchWishStocks } from "../../../components/piece-stock/home/apiMethod/apiList"
 import RecommendAlertModal from '../etc/recommendAlertModal'
+import LoadingSpinner from "../../../components/overlay/loadingSpinner"
 
 const HomeBody = ({ data, page, setPage, cardData, setCardData, wishInfo, setWishInfo }) => {
     const [hoveredIndex, setHoveredIndex] = useState([{ order: 0 }, { order: 0 }, { order: 0 }]); // Hover된 항목의 인덱스를 관리
@@ -16,6 +17,7 @@ const HomeBody = ({ data, page, setPage, cardData, setCardData, wishInfo, setWis
     const [showAlertModal, setShowAlertModal] = useState(false);
     const [recommendStockInfo, setRecommend] = useState([]);
     const [dragOverIndex, setDragOverIndex] = useState(null); // 드래깅 된 위치확인 값
+    const [isLoading, setLoading] = useState(true);
 
     const totalData = [];
     const saveData = [];
@@ -27,7 +29,12 @@ const HomeBody = ({ data, page, setPage, cardData, setCardData, wishInfo, setWis
     const cardId = cardData[0]?.cardSequenceId
 
     useEffect(() => {
-        searchCardInfo(setCardData)
+        try{
+            searchCardInfo(setCardData)
+        }catch(error){
+        }finally{
+            setLoading(false)
+        }
     }, [])
 
     useEffect(() => {
@@ -69,7 +76,7 @@ const HomeBody = ({ data, page, setPage, cardData, setCardData, wishInfo, setWis
                         </button>
                     </div>
                 </div>
-
+                {isLoading && <LoadingSpinner/>}
                 <div className="flex-grow overflow-auto mt-4">
                     {page[0] && myStock !== undefined && myStock.map((stock) => (
                         <div
@@ -78,7 +85,7 @@ const HomeBody = ({ data, page, setPage, cardData, setCardData, wishInfo, setWis
                         >
                             <div className="flex items-center gap-5">
                                 {stock.stockImage &&
-                                    <Image src={stock.stockImage} width={40} height={40} alt="주식이미지"></Image>}
+                                    <Image src={stock.stockImage} width={70} height={70} alt="주식이미지"></Image>}
                                 <div>
                                     <div className="font font-semibold">{stock.stockName}</div>
                                     <span className="text-sm text-[#787B7E] ml-1">{stock.stockNumber}주</span>
@@ -113,7 +120,7 @@ const HomeBody = ({ data, page, setPage, cardData, setCardData, wishInfo, setWis
                                         <div className="flex">
                                             <span
                                                 className="mr-2 font-semibold text-[#787B7E] flex items-center">{wishStock.priority}</span>
-                                            <Image src={wishStock.stockImage} width={30} height={30}
+                                            <Image src={wishStock.stockImage} width={70} height={70}
                                                    alt="주식이미지"></Image>
                                             <div className="flex h-full items-center ml-2 font-bold font-[1rem]">
                                                 <p>{wishStock.stockName}</p>
