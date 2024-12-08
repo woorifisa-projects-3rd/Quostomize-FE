@@ -106,7 +106,7 @@ function CardApplicantInfo1({ applicantInfo, setApplicantInfo }) {
     };
 
     return (
-        <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             {/* 상단 제목 영역 */}
             <div className="mb-6 sm:mb-10 pl-2 sm:pl-5">
                 <div className="space-y-1 sm:space-y-2">

@@ -11,11 +11,11 @@ function CreateCardBottom({ onClick, currentPage, totalPage }) {
     };
 
     return (
-        <div className='flex flex-col px-4 py-2 justify-center items-center'>
+        <div className='bg-gray-50 max-w-3xl mx-auto px-4 py-4 flex justify-center'>
             <Button onClick={handleClick}
-                className={`font-bold w-full rounded bg-blue-400 py-3 px-3 text-white ${isLastPage ? "data-[hover]:bg-green-300 data-[active]:bg-green-500" : "data-[hover]:bg-blue-500 data-[active]:bg-sky-600"}
+                className={`text-lg font-bold w-full rounded-md bg-blue-400 p-2 sm:p-3 text-white ${isLastPage ? "data-[hover]:bg-blue-500 data-[active]:bg-blue-500" : "data-[hover]:bg-blue-500 data-[active]:bg-blue-600"}
                 }`}>
-                {isLastPage ? "신 청" : "다 음"}
+                {isLastPage ? "카드 신청하기" : "다 음"}
             </Button>
         </div >
     )
