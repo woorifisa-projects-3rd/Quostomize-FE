@@ -37,7 +37,7 @@ const AddressForm = ({
 
     return (
         <div className="relative">
-            <label className="block text-base font-medium text-gray-700 mb-3">
+            <label className="block text-sm sm:text-base font-medium text-gray-700 mb-2 sm:mb-3">
                 {isDelivery ? '배송 받을 주소' : '자택 주소'}
             </label>
             <div className="flex items-center space-x-4 mb-4">
@@ -48,11 +48,11 @@ const AddressForm = ({
                     onChange={handleInputChange}
                     onBlur={() => handleBlur(`${type}PostalCode`)}
                     disabled={!isDelivery && isSameAsDeliveryAddress}
-                    className={`w-2/3 p-3 border-2 rounded-xl transition-all duration-300 outline-none
+                    className={`w-2/3 p-3 text-sm border-2 rounded-xl transition-all duration-300 outline-none
                         ${errors[`${type}PostalCode`] ? 'border-red-500 bg-red-50' : 'border-gray-200 bg-gray-50 focus:border-blue-500 focus:bg-white'}`}
                     placeholder="우편번호"
                 />
-                <AddressSearch onComplete={handleAddressComplete} />
+                <AddressSearch onComplete={handleAddressComplete}/>
             </div>
             <input
                 type="text"
@@ -61,7 +61,7 @@ const AddressForm = ({
                 onChange={handleInputChange}
                 onBlur={() => handleBlur(`${type}Address`)}
                 disabled={!isDelivery && isSameAsDeliveryAddress}
-                className={`w-full p-3 border-2 rounded-xl transition-all duration-300 outline-none mb-4
+                className={`w-full p-3 text-sm border-2 rounded-xl transition-all duration-300 outline-none mb-4
                     ${errors[`${type}Address`] ? 'border-red-500 bg-red-50' : 'border-gray-200 bg-gray-50 focus:border-blue-500 focus:bg-white'}`}
                 placeholder="도로명 주소"
             />
@@ -72,7 +72,7 @@ const AddressForm = ({
                 onChange={handleInputChange}
                 onBlur={() => handleBlur(`detailed${type.charAt(0).toUpperCase() + type.slice(1)}Address`)}
                 disabled={!isDelivery && isSameAsDeliveryAddress}
-                className={`w-full p-3 border-2 rounded-xl transition-all duration-300 outline-none
+                className={`w-full p-3 text-sm border-2 rounded-xl transition-all duration-300 outline-none
                     ${errors[`detailed${type.charAt(0).toUpperCase() + type.slice(1)}Address`] ? 'border-red-500 bg-red-50' : 'border-gray-200 bg-gray-50 focus:border-blue-500 focus:bg-white'}`}
                 placeholder="상세 주소"
             />

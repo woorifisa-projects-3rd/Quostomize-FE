@@ -21,9 +21,10 @@ import CheckInformationHeader from '../../../components/create-card/check-inform
 import CheckInformation from '../../../components/create-card/check-information/CheckInformation';
 import Icons from '../../../public/icons/icons';
 import React, { useState, useEffect } from "react";
-import AlertModal from '../../../app/(fullscreen)/create-card/AlertModal';
+import AlertModal from './AlertModal';
 import { useRouter } from 'next/navigation';
 import { v4 as uuidv4 } from 'uuid';
+import Image from "next/image";
 
 const CreateCardPage = () => {
   const router = useRouter();
@@ -123,8 +124,8 @@ const CreateCardPage = () => {
 
         // optionalTerms 값 설정
         optionalTerms: (() => {
-          const fourth = isAccepted[4]; // 4번째 값
-          const fifth = isAccepted[5]; // 3번째 값
+          const fourth = isAccepted[4];
+          const fifth = isAccepted[5];
           if (fourth && fifth) return 3;
           if (fourth) return 1;
           if (fifth) return 2;
@@ -190,13 +191,13 @@ const CreateCardPage = () => {
       setShowAlertModal(true);
       return;
     }
-    // if (currentPage === 5) {
-    //   const { residenceNumber, residenceNumber2, name, englishName } = applicantInfo;
-    //   if (!residenceNumber || !residenceNumber2 || !name || !englishName || !isVerified) {
-    //     setShowAlertModal(true);
-    //     return;
-    //   }
-    // }
+    if (currentPage === 5) {
+      const { residenceNumber, residenceNumber2, name, englishName } = applicantInfo;
+      if (!residenceNumber || !residenceNumber2 || !name || !englishName || !isVerified) {
+        setShowAlertModal(true);
+        return;
+      }
+    }
     if (currentPage === 6) {
       // Check if first 4 items are all true
       const requiredTerms = isAccepted.slice(1, 4);
@@ -285,7 +286,6 @@ const CreateCardPage = () => {
             setApplicantInfo={setApplicantInfo}
             isVerified={isVerified}
             setIsVerified={setIsVerified}
-
           />
           <IdentityVerification1
             isVerified={isVerified}
@@ -330,6 +330,8 @@ const CreateCardPage = () => {
     }
   };
 
+
+
   return (
     <div className="relative pb-24"> {/* 화면 하단에 고정된 요소 때문에 패딩 추가 */}
       <div style={styles.content}>{renderContent()}</div>
@@ -349,9 +351,15 @@ const CreateCardPage = () => {
         <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-slate-50 rounded-lg shadow-lg p-6 z-50">
           <div className="flex flex-col items-center">
             <span className="text-4xl mb-3">
-              <img src={Icons.eco} alt="Success Icon" width="100" height="100" />
+              <Image
+                  src="/wooriImages/weebee1.png"
+                  alt="Weebee Logo"
+                  width={150}
+                  height={150}
+                  className="object-contain"
+              />
             </span>
-            <p className="text-lg font-medium text-blue-500">카드 신청이 완료되었습니다</p>
+            <p className="font1 font-semibold text-blue-500">카드 신청이 완료되었습니다</p>
           </div>
         </div>
       )}
