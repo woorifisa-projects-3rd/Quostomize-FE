@@ -123,8 +123,8 @@ const CreateCardPage = () => {
 
         // optionalTerms 값 설정
         optionalTerms: (() => {
-          const fourth = isAccepted[4]; // 4번째 값
-          const fifth = isAccepted[5]; // 3번째 값
+          const fourth = isAccepted[4];
+          const fifth = isAccepted[5];
           if (fourth && fifth) return 3;
           if (fourth) return 1;
           if (fifth) return 2;
