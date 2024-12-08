@@ -283,7 +283,7 @@ const MyPage = () => {
   },[])
 
   return (
-    <>
+    <div className="relative overflow-visible">
       <MyPageHeader />
       <div className="relative bg-slate-300 pb-4 min-h-screen">
         <div className="h-[7.5rem] mx-4 bg-slate-200 px-8 py-8 rounded-b-xl ">
@@ -342,7 +342,7 @@ const MyPage = () => {
           : <></>
         }
       </div>
-    </>
+    </div>
   );
 }
 

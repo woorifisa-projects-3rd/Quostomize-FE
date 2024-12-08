@@ -1,12 +1,9 @@
 'use client'
 
-import { useRouter } from 'next/navigation';
 import React from 'react'
-import NavPageHeader from '../../header/NavPageHeader'
 import PageHeader from "../../../components/header/PageHeader"
 
 const HomeHeader = ({ data, setValue, value, setPage }) => {
-    const router = useRouter()
 
     const headDummyData = {
         price: data?.output2?.[0]?.evluAmtSmtlAmt,
@@ -15,13 +12,15 @@ const HomeHeader = ({ data, setValue, value, setPage }) => {
 
     return (
         <div className='flex flex-col justify-center items-center'>
-            <PageHeader
-                modaltitle="조각 투자"
-                showArrowButton={false}
-                exitDirection="/home"
-            >
-               조각 투자
-            </PageHeader>
+            <div className='w-full sticky top-0 left-0 z-30'>
+                <PageHeader
+                    modaltitle="조각 투자"
+                    showArrowButton={false}
+                    exitDirection="/home"
+                >
+                투자
+                </PageHeader>
+            </div>
             <div className='w-[95%]'>
                 <div className="mb-8">
                     <div
@@ -74,8 +73,5 @@ function formatNumberByTotal(number) {
         .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-function toFavorite(router) {
-    return router.push("/home")
-}
 
 export default HomeHeader
