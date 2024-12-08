@@ -85,7 +85,7 @@ const SearchBottom = ({ wishInfo, setWishInfo, cardId, setPage, searchInfo, sele
                 </LargeModal>}
             </div >
             {selectedStocks.length > 0 && (
-                <div className="fixed left-1/2 top-3/4 -translate-x-1/2 -translate-y-1/2 z-50 outline-none text-white px-10 py-3 rounded-lg flex items-center gap-2">
+                <div className="fixed left-1/2 top-3/4  w-full -translate-x-1/2 -translate-y-1/2 z-50 outline-none text-white px-10 py-3 rounded-lg flex items-center gap-2">
                     <button
                         className="w-full bg-blue-500 text-white px-10 py-5 rounded-lg"
                         onClick={() => check(wishInfo, setAlert, selectedStocks, setPage, param)}
