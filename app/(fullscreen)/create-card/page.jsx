@@ -69,7 +69,7 @@ const CreateCardPage = () => {
   });
   const [isVerified, setIsVerified] = useState(false);
   // 6페이지
-  const [isAccepted, setAccepted] = useState([false, false, false, false, false]);
+  const [isAccepted, setAccepted] = useState([false, false, false, false, false, false]);
   // 7페이지
   const [formData, setFormData] = useState({
     deliveryPostalCode: '',
@@ -124,8 +124,8 @@ const CreateCardPage = () => {
 
         // optionalTerms 값 설정
         optionalTerms: (() => {
-          const fourth = isAccepted[3]; // 3번째 값
-          const fifth = isAccepted[4]; // 4번째 값
+          const fourth = isAccepted[4]; // 4번째 값
+          const fifth = isAccepted[5]; // 3번째 값
           if (fourth && fifth) return 3;
           if (fourth) return 1;
           if (fifth) return 2;
@@ -200,7 +200,7 @@ const CreateCardPage = () => {
     }
     if (currentPage === 6) {
       // Check if first 4 items are all true
-      const requiredTerms = isAccepted.slice(0, 3);
+      const requiredTerms = isAccepted.slice(1, 4);
       if (!requiredTerms.every(term => term === true)) {
         setShowAlertModal(true);
         return;

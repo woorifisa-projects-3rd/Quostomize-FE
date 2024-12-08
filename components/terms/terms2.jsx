@@ -1,7 +1,4 @@
-import React from 'react'
-import RadioButton from '../button/radioButton';
-
-const Terms2 = ({ setAccepted }) => {
+const Terms2 = () => {
     return (
         <>
             <section>
@@ -42,7 +39,6 @@ const Terms2 = ({ setAccepted }) => {
                     이용을 제한할 수 있습니다.
                 </p>
             </section>
-            <RadioButton index={1} setAccepted={setAccepted} />
         </>
     )
 }
