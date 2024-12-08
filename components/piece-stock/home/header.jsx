@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import React from 'react'
 import NavPageHeader from '../../header/NavPageHeader'
+import PageHeader from "../../../components/header/PageHeader"
 
 const HomeHeader = ({ data, setValue, value, setPage }) => {
     const router = useRouter()
@@ -14,7 +15,13 @@ const HomeHeader = ({ data, setValue, value, setPage }) => {
 
     return (
         <div className='flex flex-col justify-center items-center'>
-            <NavPageHeader>조각 투자</NavPageHeader>
+            <PageHeader
+                modaltitle="조각 투자"
+                showArrowButton={false}
+                exitDirection="/home"
+            >
+               조각 투자
+            </PageHeader>
             <div className='w-[95%]'>
                 <div className="mb-8">
                     <div
