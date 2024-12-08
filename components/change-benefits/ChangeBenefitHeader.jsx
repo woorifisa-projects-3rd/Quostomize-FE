@@ -5,7 +5,7 @@ import PageHeader from "../../components/header/PageHeader";
 const ChangeBenefitHeader = ({ onClick }) => {
 
     return (
-        <div>
+        <div className='sticky top-0 left-0 bg-white z-20'>
             <PageHeader
                 modaltitle="포인트 혜택 변경"
                 description={

@@ -1,6 +1,6 @@
 export default function FullLayout({ children }) {
   return (
-    <div className={`h-full overflow-scroll bg-slate-50 [&::-webkit-scrollbar]:hidden`}
+    <div className={`h-full overflow-y-auto bg-slate-50 [&::-webkit-scrollbar]:hidden relative`}
       style={{
         scrollbarWidth: 'none',
         msOverflowStyle: 'none',

@@ -230,10 +230,6 @@ const CreateCardPage = () => {
       height: "100vh",
       justifyContent: "space-between",
     },
-    content: {
-      flex: 1,
-      overflowY: "auto",
-    },
   };
 
   // 현재 페이지에 따라 렌더링할 콘텐츠
@@ -241,21 +237,17 @@ const CreateCardPage = () => {
     switch (currentPage) {
 
       case 1:
-        return <div>
-          <header>
+        return <div className='overflow-visible relative'>
             <SelectDesign onClick={handlePrevPage} />
-          </header>
-          <SelectDesign1
+            <SelectDesign1
             selectedCardIndex={selectedCardIndex} // 선택된 카드 인덱스 전달
             onCardChange={setSelectedCardIndex} // 상태 변경 핸들러 전달
           />
         </div>;
 
       case 2:
-        return <div>
-          <header>
+        return <div className='overflow-visible relative'>
             <SelectBenefit1 onClick={handlePrevPage} />
-          </header>
           <SelectBenefit2
             benefitState={benefitState}
             setBenefitState={setBenefitState}
@@ -263,10 +255,8 @@ const CreateCardPage = () => {
         </div>;
 
       case 3:
-        return <div>
-          <header>
+        return <div className='overflow-visible relative'>
             <SelectPoint1 onClick={handlePrevPage} />
-          </header>
           <SelectPoint2
             activeOptions={activeOptions}
             setActiveOptions={setActiveOptions}
@@ -276,10 +266,8 @@ const CreateCardPage = () => {
         </div>;
 
       case 4:
-        return <div>
-          <header>
+        return <div className='overflow-visible relative'>
             <CardDetailHeader onClick={handlePrevPage} />
-          </header>
           {/* 선택된 카드 정보를 이미지로 보여주는 컴포넌트 */}
           <SelectCardImage selectedCardIndex={selectedCardIndex} />
           <SelectCardDetail
@@ -289,10 +277,8 @@ const CreateCardPage = () => {
         </div>;
 
       case 5:
-        return <div>
-          <header>
+        return <div className='overflow-visible relative'>
             <UserDetailHeader onClick={handlePrevPage} />
-          </header>
           {/*UserDetail - 사용자 상세 정보 */}
           <CardApplicantInfo1
             applicantInfo={applicantInfo}
@@ -308,18 +294,14 @@ const CreateCardPage = () => {
         </div>;
 
       case 6:
-        return <div>
-          <header>
+        return <div className='overflow-visible relative'>
             <TermsAgreementHeader onClick={handlePrevPage} />
-          </header>
           <Terms isAccepted={isAccepted} setAccepted={setAccepted} />
         </div>;
 
       case 7:
-        return <div>
-          <header>
+        return <div className='overflow-visible relative'>
             <InputAddressHeader onClick={handlePrevPage} />
-          </header>
           {/*InputAddressHeader - 배송지 입력 */}
           <SelectOtherInfo
             formData={formData}
@@ -329,10 +311,8 @@ const CreateCardPage = () => {
         </div>;
 
       case 8:
-        return <div>
-          <header>
+        return <div className='overflow-visible relative'>
             <CheckInformationHeader onClick={handlePrevPage} />
-          </header>
           {/*CheckInformationHeader - 입력 정보 확인 */}
 
           <CheckInformation

@@ -227,6 +227,19 @@ const ChangeBenefitsPage = () => {
     }
   }, [cardSequenceId]);
 
+  const [isSelected, setSelected] = useState(false);
+
+  useEffect(() => {
+    const selectedOptions = benefitState.selectedOptions;
+    for (let selectedOption of selectedOptions) {
+      if (selectedOption) {
+        setSelected(true);
+        return;
+      }
+    }
+    setSelected(false);
+  }, [benefitState])
+
   if (error) {
     return <div>문제가 발생했습니다. 다시 시도해 주세요: {error}</div>
   }
@@ -246,19 +259,6 @@ const ChangeBenefitsPage = () => {
   if (!benefitState) {
     return <div>로딩 중...</div>;
   }
-
-  const [isSelected, setSelected] = useState(false);
-
-  useEffect(() => {
-    const selectedOptions = benefitState.selectedOptions;
-    for (let selectedOption of selectedOptions) {
-      if (selectedOption) {
-        setSelected(true);
-        return;
-      }
-    }
-    setSelected(false);
-  }, [benefitState])
 
   return (
     <div className="max-h-screen overflow-y-scroll">

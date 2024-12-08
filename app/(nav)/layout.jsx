@@ -20,7 +20,7 @@ export default function NavLayout({ children }) {
 
   return (
     <>
-      <div className="w-full h-[calc(100%-4rem)] bg-white overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+      <div className="w-full h-[calc(100%-4rem)] bg-white overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] relative">
         {children}
       </div>
       <Nav menuItems={menuItems} />
