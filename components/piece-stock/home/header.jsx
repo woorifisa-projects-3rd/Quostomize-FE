@@ -16,8 +16,9 @@ const HomeHeader = ({ data, setValue, value, setPage }) => {
     return (
         <div className='flex flex-col justify-center items-center'>
             <PageHeader
-                modaltitle="카드 생성"
+                modaltitle="조각 투자"
                 showArrowButton={false}
+                exitDirection="/home"
             >
                조각 투자
             </PageHeader>
