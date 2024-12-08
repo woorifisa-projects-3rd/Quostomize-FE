@@ -68,12 +68,12 @@ const HomeBody = ({ data, page, setPage, cardData, setCardData, wishInfo, setWis
                         </button>
                     </div>
                     <div>
-                        <button
+                        {page[1] && <button
                             className='p-3 font1 font-bold outline-none rounded-lg bg-[#3384f6] text-white'
                             onClick={() => openModal(setOpen, param, setRecommend, cardId)}
                         >
                             주식 추천
-                        </button>
+                        </button>}
                     </div>
                 </div>
                 {isLoading && <LoadingSpinner/>}
