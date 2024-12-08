@@ -43,16 +43,20 @@ const CheckModal2 = ({ onClose, setReNumber, reNumber }) => {
     return (
         <div className="absolute inset-0 flex justify-center items-center z-50">
             <div className="w-[576px] bg-[#192436] h-full flex flex-col items-center">
-                <ChevronButton onClick={()=>onClose()} classNameProps={`self-start text-white mt-4 ml-4`}>←</ChevronButton>
-                <h3 className="text-white text-lg mt-20 mb-6"/>
-                   <ModalHeader maxLength={MAX_LENGTH} number1={reNumber}></ModalHeader>
+            <div className='w-full flex justify-start'>
+                <ChevronButton onClick={() => onClose()} classNameProps={`self-start text-white mt-4 ml-4`}>←</ChevronButton>
+                </div>
+                <h3 className="text-white text-lg mt-20 mb-6" />
+                <ModalHeader maxLength={MAX_LENGTH} number1={reNumber}></ModalHeader>
 
                 <div className="mt-40 grid grid-cols-3 gap-16 text-center text-white w-full max-w-[400px]">
                     {shuffledNumbers.slice(0, 9).map((number, index) => (
-                        <ModalData number={number} onClick={()=> handleKeyPress(number)}></ModalData>
+                        <div key={`button-${number}`}>
+                            <ModalData number={number} onClick={() => handleKeyPress(number)}></ModalData>
+                        </div>
                     ))}
-                    <ChevronButton onClick={()=>handleKeyPress(shuffleNumbers[9])} classNameProps={`text-2xl`}>{shuffledNumbers[9]}</ChevronButton>
-                    <ChevronButton onClick={()=>handleDelete()} classNameProps={`text-2xl`}>←</ChevronButton>
+                    <ChevronButton onClick={() => handleKeyPress(shuffleNumbers[9])} classNameProps={`text-2xl`}>{shuffledNumbers[9]}</ChevronButton>
+                    <ChevronButton onClick={() => handleDelete()} classNameProps={`text-2xl`}>←</ChevronButton>
                 </div>
             </div>
         </div>
