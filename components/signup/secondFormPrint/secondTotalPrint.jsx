@@ -70,6 +70,7 @@ export const otherDataFeild = (signupInfo, index, isModal, isReModal, setModal, 
         return (
             <div key={key} className='flex flex-col'>
                 <span className='mx-5 mt-3 mb-2'>{signupInfo?.placeholder}</span>
+                <div className='flex'>
                 <input
                     className="w-11/12 ml-5 mb-4 p-4 rounded-xl font2 bg-gray-100 focus:outline-none"
                     type={signupInfo?.type}
@@ -77,8 +78,9 @@ export const otherDataFeild = (signupInfo, index, isModal, isReModal, setModal, 
                     value={signupInfo?.value}
                     onChange={(e) => changeInfoOnlyNumber(e.target.value, index, form, setForm)}
                     maxLength={5}
-                    onClick={handleSearch}
                 />
+                 <button type="button" onClick={handleSearch} className={`w-1/4 mb-4 p-4  ml-4 mr-6   rounded-xl font2 font-sans font-semibold text-slate-400 bg-slate-200 hover:bg-blue-700 hover:text-white`}>검색</button>
+                </div>
             </div>
         )
     }
