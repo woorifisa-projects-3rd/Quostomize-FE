@@ -13,17 +13,17 @@ function SelectPoint2({
     const selectoptions = [
         {
             title: '일일 복권',
-            description: '매일 자정 추첨을 통해 당첨자에게 1만 포인트를 드립니다.',
+            description: '매일 자정 추첨을 통해 \n당첨자에게 최대 1만 포인트를 드립니다.',
             img: '/images/lotto.png'
         },
         {
             title: '조각 투자',
-            description: '설정해 놓은 선호 주식을 조각투자로 매수합니다.',
+            description: '희망 주식을 설정하여, \n조각 투자로 매수할 수 있습니다.',
             img: '/images/stock.png'
         },
         {
             title: '페이백',
-            description: '매 카드 결제일에 페이백을 진행합니다. (단, 현금화 비율은 80 %)',
+            description: '매 카드 결제일에 페이백을 진행합니다.\n(단, 현금화 비율은 80 %)',
             img: '/images/payback.png'
         }
     ]
@@ -66,6 +66,12 @@ function SelectPoint2({
         setHoveredIndex(index);
     }
 
+    const formatDescription = (description) => {
+        return description.split('\n').map((line, index) => (
+            <span key={index}>{line}<br /></span>
+        ));
+    };
+
     return (
         <div className='flex flex-col items-center space-y-4'>
             <div className="w-full mx-6 text-center">
@@ -81,7 +87,7 @@ function SelectPoint2({
                     <React.Fragment key={index}>
                         <SelectPointUsageBox
                             title={option.title}
-                            description={option.description}
+                            description={formatDescription(option.description)}
                             img={option.img}
                             isActive={activeOptions.includes(option.title)}
                             isHovered={index === hoveredIndex}
