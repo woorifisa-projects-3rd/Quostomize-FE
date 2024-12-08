@@ -113,7 +113,7 @@ const LottoMain = async () => {
                                 <div className="flex justify-center">
                                     <Image width={96} height={96} src={Icons.star} alt="별 아이콘" />
                                 </div>
-                                <div className="text-2xl w-full text-center mt-2">오늘 복권 <span className="color1"> 참여완료!</span></div>
+                                <div className="text-2xl w-full text-center mt-2">오늘 복권 <span className="color1 font-bold"> 참여완료!</span></div>
                             </>
                         :
                         <>
