@@ -3,7 +3,6 @@ import PageHeader from "../../header/PageHeader";
 
 
 function SelectPoint1({ onClick }) {
-  console.log("onClick received:", onClick);
 
   return (
 

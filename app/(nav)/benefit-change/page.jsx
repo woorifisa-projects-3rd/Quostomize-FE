@@ -227,11 +227,6 @@ const ChangeBenefitsPage = () => {
     }
   }, [cardSequenceId]);
 
-  useEffect(() => {
-    console.log(benefitState);
-
-  }, [benefitState])
-
   if (error) {
     return <div>문제가 발생했습니다. 다시 시도해 주세요: {error}</div>
   }

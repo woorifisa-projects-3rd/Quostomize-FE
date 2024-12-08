@@ -35,7 +35,6 @@ export async function GET() {
             }
         }
         const result = await backendResponse.json();
-        console.log(result);
         return NextResponse.json(result);
 
     }

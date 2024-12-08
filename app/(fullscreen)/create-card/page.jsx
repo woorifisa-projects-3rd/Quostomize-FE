@@ -29,7 +29,7 @@ const CreateCardPage = () => {
   const router = useRouter();
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
 
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(6);
   const [showAlertModal, setShowAlertModal] = useState(false);
   const [idempotencyKey, setIdempotencyKey] = useState(null);
 
@@ -68,7 +68,7 @@ const CreateCardPage = () => {
   });
   const [isVerified, setIsVerified] = useState(false);
   // 6페이지
-  const [isAccepted, setAccepted] = useState([false, false, false, false, false, false]);
+  const [isAccepted, setAccepted] = useState([false, false, false, false, false]);
   // 7페이지
   const [formData, setFormData] = useState({
     deliveryPostalCode: '',
@@ -100,7 +100,6 @@ const CreateCardPage = () => {
       benefitRate,
     };
   };
-
   const paymentMethodMapping = {
     "이메일": 0,
     "문자": 1,
@@ -124,11 +123,11 @@ const CreateCardPage = () => {
 
         // optionalTerms 값 설정
         optionalTerms: (() => {
-          const fifth = isAccepted[4]; // 5번째 값
-          const sixth = isAccepted[5]; // 6번째 값
-          if (fifth && sixth) return 3;
-          if (fifth) return 1;
-          if (sixth) return 2;
+          const fourth = isAccepted[3]; // 3번째 값
+          const fifth = isAccepted[4]; // 4번째 값
+          if (fourth && fifth) return 3;
+          if (fourth) return 1;
+          if (fifth) return 2;
           return 0;
         })(),
         paymentReceiptMethods: paymentMethodMapping[formData.paymentHistoryReceiveMethod] ?? 0, // 기본값 이메일(0)
@@ -179,7 +178,6 @@ const CreateCardPage = () => {
       }, 4000);
 
     } catch (error) {
-      console.log("Hello boy");
       setShowAlertModal(true);
     }
   };
@@ -201,7 +199,7 @@ const CreateCardPage = () => {
     }
     if (currentPage === 6) {
       // Check if first 4 items are all true
-      const requiredTerms = isAccepted.slice(0, 4);
+      const requiredTerms = isAccepted.slice(0, 3);
       if (!requiredTerms.every(term => term === true)) {
         setShowAlertModal(true);
         return;
