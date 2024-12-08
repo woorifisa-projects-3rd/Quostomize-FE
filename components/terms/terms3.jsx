@@ -1,7 +1,4 @@
-import React from 'react';
-import RadioButton from '../button/radioButton';
-
-const Terms3 = ({ setAccepted }) => {
+const Terms3 = () => {
   return (
     <>
       <section>
@@ -81,7 +78,6 @@ const Terms3 = ({ setAccepted }) => {
           </ul>
         </div>
       </section>
-      <RadioButton index={2} setAccepted={setAccepted} />
     </>
   );
 };

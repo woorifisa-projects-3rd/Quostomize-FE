@@ -4,11 +4,11 @@ import React, { useState } from "react";
 import ArrowButtonV3 from "../../components/button/arrow-button-v3";
 import FadeInSection from "../fade-in/fade-in-section";
 import GradientText from "../../components/card/gradientText";
-import ColorInfo from "../../components/card/ColorInfo";
+import ColorInfo from "../card/ColorInfo";
 import FlipCard2 from "../../components/card/flip-card2";
 
 const colors = ["#ed3ef7", "#000000", "#ff0000", "#dbff3d", "#ffffff"];
-const colorKeys = [1,2,3,4,5]
+const colorKeys = [1, 2, 3, 4, 5]
 
 const HomeBody1 = () => {
     const [currentColorIndex, setCurrentColorIndex] = useState(0);
@@ -38,24 +38,24 @@ const HomeBody1 = () => {
                         <p className="font2">우리카드 신규 서비스</p>
                         <p className="font5">
                             <GradientText text={"커스터마이징 카드"}
-                                          style={ColorInfo[currentColorIndex].style}/>
+                                style={ColorInfo[currentColorIndex].style} />
                         </p>
                     </div>
                 </FadeInSection>
 
                 <div className="flex w-max-80 mt-24 mb-4 space-x-20">
-                    <ArrowButtonV3 direction="prev" onClick={() => handleArrowClick("prev")}/>
+                    <ArrowButtonV3 direction="prev" onClick={() => handleArrowClick("prev")} />
                     <div>
-                    {currentColorIndex !== null ? (
-                        <FlipCard2
-                            frontImg={`/cards-images/${colorKeys[currentColorIndex]}f.png`}
-                            backImg={`/cards-images/${colorKeys[currentColorIndex]}b.png`}
-                        />
-                    ) : (
-                        <div>카드 색상이 없습니다.</div>
-                    )}
+                        {currentColorIndex !== null ? (
+                            <FlipCard2
+                                frontImg={`/cards-images/${colorKeys[currentColorIndex]}f.png`}
+                                backImg={`/cards-images/${colorKeys[currentColorIndex]}b.png`}
+                            />
+                        ) : (
+                            <div>카드 색상이 없습니다.</div>
+                        )}
                     </div>
-                    <ArrowButtonV3 direction="next" onClick={() => handleArrowClick("next")}/>
+                    <ArrowButtonV3 direction="next" onClick={() => handleArrowClick("next")} />
                 </div>
 
                 {/* 색상 미리 보기 원들 */}
@@ -65,7 +65,7 @@ const HomeBody1 = () => {
                             key={index}
                             onClick={() => changeColor(index)}
                             className={`w-4 h-4 rounded-full shadow-xl transition-all ${selectedIndex === index ? "ring-2 ring-blue-500" : ""
-                            }`}
+                                }`}
                             style={{
                                 backgroundColor: color,
                                 boxShadow: selectedIndex === index ? "0 0 10px rgba(0, 0, 0, 0.5)" : "0 0 5px rgba(0, 0, 0, 0.3)",
