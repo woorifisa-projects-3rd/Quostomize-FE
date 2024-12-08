@@ -7,6 +7,7 @@ import ChangeBenefitFoot from "../../../components/change-benefits/ChangeBenefit
 import { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
 import CardNotFoundModal from "../../../components/my-card/CardNotFoundModal";
+import LoadingSpinner from "../../../components/overlay/loadingSpinner";
 
 const ChangeBenefitsPage = () => {
   const router = useRouter();
@@ -22,6 +23,7 @@ const ChangeBenefitsPage = () => {
   const [authSuccess, setAuthSuccess] = useState(null);
   const [authTrigger, setAuthTrigger] = useState(0);
   const [showNoCardModal, setShowNoCardModal] = useState(false); // 카드가 없는 경우 모달 상태
+  const [isLoading, setLoading] = useState(true);
 
   const categoryMap = {
     1: '쇼핑',
@@ -219,6 +221,7 @@ const ChangeBenefitsPage = () => {
       await fetchBenefitData();
     };
     fetchData();
+    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -261,29 +264,31 @@ const ChangeBenefitsPage = () => {
   }
 
   return (
-    <div className="max-h-screen overflow-y-scroll">
+    <>
+      <div className="max-h-screen overflow-y-scroll">
 
-      <ChangeBenefitHeader />
-      <div className="flex flex-col justify-center items-center">
-        <ChangeBenefitBody1 labels={labels} benefitState={benefitState} />
-        <ChangeBenefitBody2 labels={labels} benefitState={benefitState} categoryMap={categoryMap} lowerCategoryMap={lowerCategoryMap} updateCategoryValue={updateCategoryValue} updateCategory={updateCategory} updateOption={updateOption} />
+        <ChangeBenefitHeader />
+        <div className="flex flex-col justify-center items-center">
+          <ChangeBenefitBody1 labels={labels} benefitState={benefitState} />
+          <ChangeBenefitBody2 labels={labels} benefitState={benefitState} categoryMap={categoryMap} lowerCategoryMap={lowerCategoryMap} updateCategoryValue={updateCategoryValue} updateCategory={updateCategory} updateOption={updateOption} />
+        </div>
+        <span className="flex justify-center" style={{ fontSize: '0.7rem' }}> 포인트 혜택은 30일 마다 변경이 가능하며 변경 수수료 1,000 원이 익월 청구됩니다.</span>
+        <div className='flex justify-end mt-2 pr-4'>
+          <button
+            onClick={resetContext}
+            className={`px-4 py-2 bg-red-200 text-white rounded-lg text-xs
+                                  ${isSelected
+                ? "bg-red-500"
+                : "bg-red-200"
+              }
+                          `}> 선택 초기화 </button>
+        </div>
+
+        <ChangeBenefitFoot modalTitle="혜택 변경" exitDirection="/my-card" buttonText={buttonText} onChangeBenefit={handleBenefitChange}
+          onReserveBenefit={handleBenefitReserve} authSuccess={authSuccess} cardSequenceId={cardSequenceId} authTrigger={authTrigger} isButtonDisabled={isButtonDisabled} />
       </div>
-      <span className="flex justify-center" style={{ fontSize: '0.7rem' }}> 포인트 혜택은 30일 마다 변경이 가능하며 변경 수수료 1,000 원이 익월 청구됩니다.</span>
-      <div className='flex justify-end mt-2 pr-4'>
-        <button
-          onClick={resetContext}
-          className={`px-4 py-2 bg-red-200 text-white rounded-lg text-xs
-                                ${isSelected
-              ? "bg-red-500"
-              : "bg-red-200"
-            }
-                        `}> 선택 초기화 </button>
-      </div>
-
-      <ChangeBenefitFoot modalTitle="혜택 변경" exitDirection="/my-card" buttonText={buttonText} onChangeBenefit={handleBenefitChange}
-        onReserveBenefit={handleBenefitReserve} authSuccess={authSuccess} cardSequenceId={cardSequenceId} authTrigger={authTrigger} isButtonDisabled={isButtonDisabled} />
-
-    </div>
+      { isLoading && <LoadingSpinner />}
+    </>
   );
 }
 export default ChangeBenefitsPage;
