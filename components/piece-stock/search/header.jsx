@@ -32,7 +32,7 @@ const searchHeader = ({ setValue, value, setSearchInfo, setPage }) => {
                             placeholder="관심 있는 주식을 검색해 보세요"
                             className="w-full py-2 bg-[#F2F4F6] text-[1rem] rounded-xl focus:outline-none"
                             value={value}
-                            onKeyDown={(e) => (e.key === "Enter" ? searchData(setPage) : null)}
+                            onKeyDown={(e) => (e.key === "Enter" ? searchData(param,value,setSearchInfo) : null)}
                             onChange={(e) => setValue(e.target.value)}
                         />
                     </div>
