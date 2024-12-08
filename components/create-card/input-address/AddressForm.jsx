@@ -76,7 +76,7 @@ const AddressForm = ({
                     ${errors[`detailed${type.charAt(0).toUpperCase() + type.slice(1)}Address`] ? 'border-red-500 bg-red-50' : 'border-gray-200 bg-gray-50 focus:border-blue-500 focus:bg-white'}`}
                 placeholder="상세 주소"
             />
-            {!cardOptions.isAppCard && !isDelivery && isApplicant && (
+            {!cardOptions?.isAppCard && !isDelivery && isApplicant && (
                 <div className="flex items-center mt-4">
                     <label className="flex items-center cursor-pointer">
                         <input

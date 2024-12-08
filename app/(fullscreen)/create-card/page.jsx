@@ -29,7 +29,7 @@ const CreateCardPage = () => {
   const router = useRouter();
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
 
-  const [currentPage, setCurrentPage] = useState(6);
+  const [currentPage, setCurrentPage] = useState(1);
   const [showAlertModal, setShowAlertModal] = useState(false);
   const [idempotencyKey, setIdempotencyKey] = useState(null);
 
