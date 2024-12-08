@@ -12,7 +12,7 @@ const PointUsageBox = ({
                 color: isEnabled ? 'white' : '#808080',
             }}
         >
-            <div className="p-6 w-full h-42 flex items-center justify-between">
+            <div className="px-6 py-4 w-full h-42 flex items-center justify-between">
                 <div className="font-bold w-30 mr-5">{title}</div>
                 <div><img src={icon} alt="{title} 아이콘" className="w-16 h-16" /></div>
             </div>
