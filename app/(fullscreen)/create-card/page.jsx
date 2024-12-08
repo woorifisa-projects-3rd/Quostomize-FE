@@ -51,7 +51,6 @@ const CreateCardPage = () => {
   // 3페이지
   const [activeOptions, setActiveOptions] = useState(['일일 복권']);
   const [hoveredIndex, setHoveredIndex] = useState(null);
-  const [showToast, setShowToast] = useState(false);
 
   // 4페이지
   const [cardOptions, setCardOptions] = useState({
@@ -275,8 +274,6 @@ const CreateCardPage = () => {
             setActiveOptions={setActiveOptions}
             hoveredIndex={hoveredIndex}
             setHoveredIndex={setHoveredIndex}
-            showToast={showToast}
-            setShowToast={setShowToast}
           />
         </div>;
 
@@ -355,31 +352,31 @@ const CreateCardPage = () => {
   };
 
   return (
-      <div className="relative pb-24"> {/* 화면 하단에 고정된 요소 때문에 패딩 추가 */}
-        <div style={styles.content}>{renderContent()}</div>
-        <div className="fixed bottom-0 left-0 right-0 w-full max-h-24 overflow-y-auto bg-white z-20"> {/* z-index 값 증가 */}
-          <CreateCardBottom
-              onClick={currentPage === TOTAL_PAGES ? submitCardApplication : handleNextPage}
-              currentPage={currentPage}
-              totalPage={TOTAL_PAGES}
-          />
-        </div>
-        <AlertModal
-            isOpen={showAlertModal}
-            onClose={() => setShowAlertModal(false)}
-            message="모든 항목에 체크를 해주세요"
+    <div className="relative pb-24"> {/* 화면 하단에 고정된 요소 때문에 패딩 추가 */}
+      <div style={styles.content}>{renderContent()}</div>
+      <div className="fixed bottom-0 left-0 right-0 w-full max-h-24 overflow-y-auto bg-white z-20"> {/* z-index 값 증가 */}
+        <CreateCardBottom
+          onClick={currentPage === TOTAL_PAGES ? submitCardApplication : handleNextPage}
+          currentPage={currentPage}
+          totalPage={TOTAL_PAGES}
         />
-        {showSuccessAlert && (
-            <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-slate-50 rounded-lg shadow-lg p-6 z-50">
-              <div className="flex flex-col items-center">
-          <span className="text-4xl mb-3">
-            <img src={Icons.eco} alt="Success Icon" width="100" height="100" />
-          </span>
-                <p className="text-lg font-medium text-blue-500">카드 신청이 완료되었습니다</p>
-              </div>
-            </div>
-        )}
       </div>
+      <AlertModal
+        isOpen={showAlertModal}
+        onClose={() => setShowAlertModal(false)}
+        message="모든 항목에 체크를 해주세요"
+      />
+      {showSuccessAlert && (
+        <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-slate-50 rounded-lg shadow-lg p-6 z-50">
+          <div className="flex flex-col items-center">
+            <span className="text-4xl mb-3">
+              <img src={Icons.eco} alt="Success Icon" width="100" height="100" />
+            </span>
+            <p className="text-lg font-medium text-blue-500">카드 신청이 완료되었습니다</p>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
 
