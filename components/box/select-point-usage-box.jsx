@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-function SelectPointUsageBox({ title, description, icon, isActive, isHovered, onBoxClick, onBoxHover }) {
+function SelectPointUsageBox({ title, description, img, isActive, isHovered, onBoxClick, onBoxHover }) {
     const boxStyle = {
         backgroundColor: isActive ? '#007bff' : '#f0f0f0',
         color: isActive ? '#ffffff' : '#000000',
@@ -16,7 +16,7 @@ function SelectPointUsageBox({ title, description, icon, isActive, isHovered, on
     const iconStyle = {
         width: '60px',
         height: '60px',
-        objectFit: 'contain',
+        objectFit: 'cover',
     }
 
     return (
@@ -35,8 +35,8 @@ function SelectPointUsageBox({ title, description, icon, isActive, isHovered, on
                     <img
                         style={iconStyle}
                         className="block ml-auto"
-                        src={icon}
-                        alt="icon"
+                        src={img}
+                        alt="img"
                     />
                 </div>
             </div>

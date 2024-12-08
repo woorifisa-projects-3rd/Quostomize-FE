@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import GradientText from "../../components/card/gradientText";
-import ColorInfo from "../../components/card/ColorInfo";
+import ColorInfo from "../card/ColorInfo";
 
 const OPTIONS = ["쇼핑", "생활", "푸드", "여행", "문화"];
 
@@ -52,7 +52,7 @@ function HomeBody2() {
                 <span className="font-extrabold ">{"{"}</span>
                 <span className="font-bold">
                     <GradientText text={currentOption}
-                                  style={ColorInfo[colorIndex].style}/>
+                        style={ColorInfo[colorIndex].style} />
                 </span>
                 <span className="font-extrabold">{"}"}</span>
             </div>

@@ -25,22 +25,24 @@ const SearchBottom = ({ wishInfo, setWishInfo, cardId, setPage, searchInfo, sele
     return (
         <>
             <div className="flex flex-col items-center justify-center py-20">
-
-                {searchInfo.length === 0 && <div>
-                    <span className="bg-[#E3E4E8] text-[#43505E] font2 px-3 py-1 rounded-full mb-4">
-                        주식 발견!
-                    </span>
-                    <div className="mb-4">
-                        <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Money%20Bag.png" alt="Money Bag" width="200" height="200" />
-                    </div>
-                    <div className="flex items-center gap-1">
-                        <span className="font3 font-medium">내 카드 종목</span>
-                        <div className='cursor-pointer' onClick={() => openModal(setOpen, param, setRecommend, cardId)}>
-                            <span className="text-[#3081F7] font3 cursor-pointer">구경하기 ➔ </span>
+                {searchInfo.length === 0 &&
+                    <div className="flex flex-col items-center">
+                        <div className="relative">
+                            <img src="/icons/주식발견.png" width="80" height="80" className="absolute top-0 left-0 bottom-2" />
+                            <div className="mb-4">
+                                <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Money%20Bag.png" alt="Money Bag" width="160" height="160" />
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-1 font2 font-semibold">
+                            <div className='cursor-pointer' onClick={() => openModal(setOpen, param, setRecommend, cardId)}>
+                                <span>내 카드 종목 </span>
+                                <span className="text-[#3081F7] cursor-pointer">구경하기 ➔ </span>
+                            </div>
                         </div>
                     </div>
-                </div>}
-                {isOpen && <LargeModal className="bg-[#FFFFFF] rounded-t-3xl p-6 w-full"
+                }
+                {isOpen &&
+                    <LargeModal className="bg-white rounded-t-3xl m-8 w-full"
                     title={
                         <span className="font2 font-bold text-center mb-2">
                             내가 선택한
@@ -48,18 +50,16 @@ const SearchBottom = ({ wishInfo, setWishInfo, cardId, setPage, searchInfo, sele
                             <br />
                             관련 종목은 다음과 같아요.
                         </span>
-
                     }
-                    description={
-                        <p className="font1 text-center mb-6">
-                            내가 선택한 카드 혜택을 기반으로 찾은 종목이에요.
-                            <br />
-                            원하는 만큼 관심 종목에 담아보세요.
-                        </p>
-                    }
+                                description={
+                                    <p className="text-sm text-center mb-4">
+                                        내 카드 혜택을 기반으로 찾은 종목이에요.<br />
+                                        원하는 관심 종목에 담아보세요.
+                                    </p>
+                                }
                     onClose={() => choiceStocks(wishInfo, isClickButton, setShowAlertModal, recommendStockInfo, totalData, paramSave, saveData, compareData, setWishInfo, setOpen, setPage)}
                     setIsOpen={() => closeModal(setOpen)}
-                    choice={"관심목록에 추가하기"}
+                    choice={"관심 목록에 추가하기"}
                     cancle={"닫기"}
                 >
                     {recommendStockInfo.map((stock, index) => (
@@ -78,24 +78,25 @@ const SearchBottom = ({ wishInfo, setWishInfo, cardId, setPage, searchInfo, sele
                                 </div>
                             </div>
                             {showAlertModal && <RecommendAlertModal
-                                title={"관심 목록은 최대 3개까지 담을 수 있어요 기존 목록을 수정해 주세요"}
+                                title={"관심 목록은 최대 3개까지 담을 수 있어요.\n기존 목록을 수정해 주세요."}
                             />}
                         </div>
                     ))}
-                </LargeModal>}
+                </LargeModal>
+                }
             </div >
             {selectedStocks.length > 0 && (
-                <div className="fixed left-1/2 top-3/4 -translate-x-1/2 -translate-y-1/2 z-50 outline-none text-white px-10 py-3 rounded-lg flex items-center gap-2">
+                <div className="fixed left-1/2 top-3/4 -translate-x-1/2 -translate-y-1/2 z-50 outline-none">
                     <button
-                        className="w-full bg-blue-500 text-white px-10 py-5 rounded-lg"
+                        className="bg-blue-500 text-white px-8 py-3 rounded-lg shadow-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-300 w-auto"
                         onClick={() => check(wishInfo, setAlert, selectedStocks, setPage, param)}
                     >
-                        관심 목록에 추가하기
+                        관심 목록 추가하기
                     </button>
                 </div>
             )}
             {isAlert && <RecommendAlertModal
-                title={"관심 목록은 최대 3개까지 담을 수 있어요 기존 목록을 수정해 주세요"}
+                title={"관심 목록은 최대 3개까지 담을 수 있어요.\n기존 목록을 수정해 주세요."}
             >
             </RecommendAlertModal>}
         </>
