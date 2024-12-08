@@ -1,17 +1,20 @@
-import MyToggle from "../../components/button/toggleButton";
 
 const PointUsageBox = ({
-    title, icon, isEnabled, onToggle, isLoading, backgroundClass,
+    title, icon, isEnabled, onClick, isLoading
 }) => {
     return (
         <div
-            className={`rounded-lg shadow-lg ${backgroundClass}
+            className={`rounded-lg shadow-lg
                   ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+            onClick={() => !isLoading && onClick()}
+            style={{
+                backgroundColor: isEnabled ? '#3384f6' : '#d3d3d3',
+                color: isEnabled ? 'white' : 'black',
+            }}
         >
-            <div className="space-y-4 p-4 m-2 w-36 h-42 flex flex-col items-center justify-center">
-                <div className="font-bold">{title}</div>
-                <div><img src={icon} alt="{title} 아이콘" className="w-20 h-20" /></div>
-                <MyToggle isEnabled={isEnabled} onToggle={onToggle} disabled={isLoading} />
+            <div className="p-6 w-full h-42 flex items-center justify-between">
+                <div className="font-bold w-30 mr-5">{title}</div>
+                <div><img src={icon} alt="{title} 아이콘" className="w-16 h-16" /></div>
             </div>
         </div>
     );
