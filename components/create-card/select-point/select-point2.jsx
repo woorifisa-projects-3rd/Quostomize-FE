@@ -67,30 +67,39 @@ function SelectPoint2({
     }
 
     return (
-        <div className="flex flex-col justify-center w-full px-5 space-y-3">
-            <p className="font1 font-bold mt-2 ml-2">기본 옵션</p>
-            {selectoptions.map((option, index) => (
-                <React.Fragment key={index}>
-                    <SelectPointUsageBox
-                        title={option.title}
-                        description={option.description}
-                        img={option.img}
-                        isActive={activeOptions.includes(option.title)}
-                        isHovered={index === hoveredIndex}
-                        onBoxClick={() => handleBoxClick(index)}
-                        onBoxHover={() => handleBoxHover(index)}
-                    />
-                    {index === 0 && (
-                        <>
-                            <div className="flex flex-col justify-center">
-                                <hr style={{ width: '100%', border: '1px solid #ccc' }} />
-                                <p className="font1 font-bold mt-2 ml-2">선택 옵션</p>
-                                <p className="ml-3 text-xs text-gray-500"> 기본 옵션 외에 둘 중 한 가지의 옵션을 추가로 선택 할 수 있어요!</p>
-                            </div>
-                        </>
-                    )}
-                </React.Fragment>
-            ))}
+        <div className='flex flex-col items-center space-y-4'>
+            <div className="w-full mx-6 text-center">
+                <h2 className="font3 font-bold">
+                    포인트 <span className="color1">사용</span> 옵션을 <span className="color1">선택</span>해 주세요
+                </h2>
+                <p className="text-sm text-gray-600">적립한 포인트를 사용할 옵션을 다양하게 선택해보세요!</p>
+            </div>
+
+            <div className="flex flex-col justify-center w-full px-5 space-y-3">
+                <p className="font1 font-bold ml-2">기본 옵션</p>
+                {selectoptions.map((option, index) => (
+                    <React.Fragment key={index}>
+                        <SelectPointUsageBox
+                            title={option.title}
+                            description={option.description}
+                            img={option.img}
+                            isActive={activeOptions.includes(option.title)}
+                            isHovered={index === hoveredIndex}
+                            onBoxClick={() => handleBoxClick(index)}
+                            onBoxHover={() => handleBoxHover(index)}
+                        />
+                        {index === 0 && (
+                            <>
+                                <div className="flex flex-col justify-center">
+                                    <hr style={{ width: '100%', border: '1px solid #ccc' }} />
+                                    <p className="font1 font-bold mt-2 ml-2">선택 옵션</p>
+                                    <p className="ml-3 text-xs text-gray-500"> 기본 옵션 외에 둘 중 한 가지의 옵션을 추가로 선택 할 수 있어요!</p>
+                                </div>
+                            </>
+                        )}
+                    </React.Fragment>
+                ))}
+            </div>
         </div>
     )
 }
