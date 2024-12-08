@@ -30,6 +30,7 @@ const MyPage = () => {
   const [buttonActive, setButtonActive] = useState(false);
 
   const [isLoading, setLoading] = useState(false);
+  const [isMounting, setMounting] = useState(true)
 
   const getMyInfo = async() => {
     const response = await fetch(`/api/my-page`,
@@ -74,6 +75,7 @@ const MyPage = () => {
         detailAddress: memberInfo.memberDetail,
       }
     })
+    setMounting(false);
   }
 
   const validateField = (field, value) => {
@@ -283,7 +285,7 @@ const MyPage = () => {
   },[])
 
   return (
-    <>
+    <div className="relative overflow-visible">
       <MyPageHeader />
       <div className="relative bg-slate-300 pb-4 min-h-screen">
         <div className="h-[7.5rem] mx-4 bg-slate-200 px-8 py-8 rounded-b-xl ">
@@ -341,8 +343,9 @@ const MyPage = () => {
           ? <LoadingSpinner message="변경 중입니다..."/>
           : <></>
         }
+        { isMounting && <LoadingSpinner /> }
       </div>
-    </>
+    </div>
   );
 }
 

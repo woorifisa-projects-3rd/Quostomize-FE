@@ -12,6 +12,8 @@ import Bubble from "../../../components/bubble/bubble";
 import { FaArrowRight } from "react-icons/fa";
 import Image from "next/image";
 import Icons from "../../../public/icons/icons";
+import { Suspense } from "react";
+import Loading from "./loading";
 
 const LottoMain = async () => {
     const session = await auth();
@@ -103,7 +105,7 @@ const LottoMain = async () => {
 
 
     return (
-        <>
+        <Suspense fallback={<Loading />}>
             <div className="flex flex-col h-full items-center p-2 mt-4">
                 <div className="w-full h-32">
                     {
@@ -140,7 +142,7 @@ const LottoMain = async () => {
                 </div>
             </div>
             <WinningModal isWinner={isWinner}/>
-        </>
+        </Suspense>
     );
 }
 

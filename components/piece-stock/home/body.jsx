@@ -85,7 +85,7 @@ const HomeBody = ({ data, page, setPage, cardData, setCardData, wishInfo, setWis
                         >
                             <div className="flex items-center gap-5">
                                 {stock.stockImage &&
-                                    <Image src={stock.stockImage} width={30} height={30} alt="주식이미지"></Image>}
+                                    <Image src={stock.stockImage} width={40} height={40} alt="주식이미지"></Image>}
                                 <div>
                                     <div className="font font-semibold">{stock.stockName}</div>
                                     <span className="text-sm text-[#787B7E] ml-1">{stock.stockNumber}주</span>
@@ -169,7 +169,7 @@ const HomeBody = ({ data, page, setPage, cardData, setCardData, wishInfo, setWis
                                     <div className="flex">
                                         <div
                                             className="w-20 h-20 flex items-center justify-center rounded-full overflow-hidden">
-                                            <Image src={stock.stockImage} width={30} height={30} alt="주식이미지"></Image>
+                                            <Image src={stock.stockImage} width={40} height={40} alt="주식이미지"></Image>
                                         </div>
                                         <div className="flex h-full items-center ml-4">
                                             <p className="font-medium">{stock.stockName}</p>
