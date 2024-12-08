@@ -10,9 +10,9 @@ const TabContentBox = ({ tabs = [] }) => {
     }
 
     return (
-        <div className="w-[22rem]">
+        <div className="w-full">
             {/* 상단 탭 메뉴 */}
-            <div className="px-8 flex w-full justify-between relative border-b border-gray-200">
+            <div className="px-7 flex w-full justify-between relative border-b border-gray-200">
                 {tabs.slice(0, 5).map((tab, index) => (
                     <button
                         key={index}

@@ -1,21 +1,21 @@
 'use client'
 
 import { useRouter } from "next/navigation";
-import NavPageHeader from "../header/NavPageHeader";
+import PageHeader from "../header/PageHeader";
 
 function LottoHeader() {
     const router = useRouter();
 
     return (
         <div>
-            <NavPageHeader
+            <PageHeader
                 modaltitle="복권"
                 showArrowButton={true}
                 onArrowClick={() => router.back()}
                 exitDirection="/home"
             >
                 일일복권
-            </NavPageHeader>
+            </PageHeader>
         </div>
     )
 }

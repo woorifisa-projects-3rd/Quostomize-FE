@@ -1,11 +1,8 @@
-import React from 'react';
-import RadioButton from '../button/radioButton';
-
-const Terms4 = ({ setAccepted }) => {
+const Terms4 = () => {
   return (
     <>
       <section>
-        <h2>개인정보를 제공받는 자</h2>
+        <h2>1. 개인정보를 제공받는 자</h2>
         <ul>
           <li>우리은행</li>
           <li>우리카드</li>
@@ -13,7 +10,7 @@ const Terms4 = ({ setAccepted }) => {
       </section>
       <br />
       <section>
-        <h2>개인정보를 제공받는 자의 개인정보 이용목적</h2>
+        <h2>2. 개인정보를 제공받는 자의 개인정보 이용목적</h2>
         <ul>
           <li>우리금융지주 빅데이터 기반 서비스에 활용 </li>
           <li>맞춤형 광고 서비스에 활용</li>
@@ -21,7 +18,7 @@ const Terms4 = ({ setAccepted }) => {
       </section>
       <br />
       <section>
-        <h2>제공되는 개인정보 항목</h2>
+        <h2>3. 제공되는 개인정보 항목</h2>
         <div>
           <ul>
           <li>개인식별정보: 이름, 생년월일, 연락처, 주소, 이메일 등</li>
@@ -33,14 +30,13 @@ const Terms4 = ({ setAccepted }) => {
       </section>
       <br />
       <section>
-        <h2>개인정보를 제공받는 자의개인정보 보유 및 이용기간</h2>
+        <h2>4. 개인정보를 제공받는 자의개인정보 보유 및 이용기간</h2>
         <div>
           <ul>
             <li>2025.01 ~ 2028.01 (3년)</li>
           </ul>
         </div>
       </section>
-      <RadioButton index={3} setAccepted={setAccepted} />
     </>
   );
 };

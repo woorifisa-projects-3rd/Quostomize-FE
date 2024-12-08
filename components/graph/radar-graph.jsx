@@ -15,7 +15,6 @@ const RadarGraph = ({ children }) => {
         const ctx = chartRef.current.getContext('2d');
         if (!ctx) return;
 
-        // 기본 Chart.js 초기화
         const { labels, datasets } = children; // children에서 필요한 데이터 추출
         chartInstanceRef.current = new Chart(ctx, {
             type: 'radar',
@@ -75,10 +74,10 @@ const RadarGraph = ({ children }) => {
                 chartInstanceRef.current.destroy();
             }
         };
-    }, [children]); // children이 변경될 때만 다시 렌더링
+    }, [children]);
 
     return (
-        <div style={{ position: 'relative', width: '400px', height: '400px' }}>
+        <div style={{ position: 'relative', width: '280px', height: '280px' }}>
             <canvas ref={chartRef} style={{ width: '100%', height: '100%' }}></canvas>
         </div>
     );

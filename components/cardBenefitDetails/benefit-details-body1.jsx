@@ -1,12 +1,12 @@
 import TabContentBox from "../box/tab-content-box"
-
+import Icons from "../../public/icons/icons"
 
 const BenefitDetailsBody1 = () => {
-
     const tabData = [
         {
             title: "쇼핑",
-            subtitle: "쇼핑도 즐기고, 포인트도 챙기고\n 합리적인 혜택받기",
+            subtitle: "쇼핑 혜택",
+            icon: Icons.shoppoing,
             content: [
                 {
                     text: "백화점, 온라인 쇼핑, 마트에서",
@@ -20,7 +20,8 @@ const BenefitDetailsBody1 = () => {
         },
         {
             title: "생활",
-            subtitle: "제약없이 이동하고, 부담없이 연락하고\n일상생활에서 혜택받기",
+            subtitle: "생활 혜택",
+            icon: Icons.life,
             content: [
                 {
                     text: "주유소, 통신, 대중교통에서",
@@ -34,7 +35,8 @@ const BenefitDetailsBody1 = () => {
         },
         {
             title: "푸드",
-            subtitle: "맛있게 먹고, 편리하게 주문하고\n푸드에서 혜택받기",
+            subtitle: "푸드 혜택",
+            icon: Icons.food,
             content: [
                 {
                     text: "편의점, 카페, 배달앱에서",
@@ -48,7 +50,8 @@ const BenefitDetailsBody1 = () => {
         },
         {
             title: "여행",
-            subtitle: "여유럽게 떠나고, 알뜰하게 묵고\n여행에서 혜택받기",
+            subtitle: "여행 혜택",
+            icon: Icons.travel,
             content: [
                 {
                     text: "투어, 렌트, 숙소에서",
@@ -62,7 +65,8 @@ const BenefitDetailsBody1 = () => {
         },
         {
             title: "문화",
-            subtitle: "보고, 듣고, 읽는 모든 순간\n즐겁게 혜택받기",
+            subtitle: "문화 혜택",
+            icon: Icons.culture,
             content: [
                 {
                     text: "OTT, 영화, 도서에서",

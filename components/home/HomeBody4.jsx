@@ -57,10 +57,10 @@ const HomeBody4 = () => {
     return (
         <div className='flex flex-col justify-center items-center mt-60'>
             <FadeInSection>
-                <div className='flex flex-col justify-center items-center'>
+                <div className='flex flex-col justify-center items-center w-full'>
                     <h1 className='font5 font-semibold'>포인트, 매일 변경</h1>
                     <p className="mt-4 font1 color4">카드 포인트 사용처는 언제든지 바꿀 수 있어요</p>
-                    <div className="mt-10">
+                    <div className="mt-10 w-full">
                         <TabContentBox tabs={tabData} />
                     </div>
                 </div>

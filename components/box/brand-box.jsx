@@ -1,27 +1,32 @@
 'use client'
 
-const BrandBox = ({ icon, category, descriptions = [] }) => {  // color -> iconColor로 변경
+const BrandBox = ({ icons = [], category, descriptions = [] }) => {
     return (
-        <div className="flex gap-4 mb-4 itmes-center">
-            {/* 아이콘 영역 */}
-            <div className="relative">
-                <img
-                    src={icon}
-                    alt={`${category} icon`}
-                    width="40"
-                    height="40"
-                    className="block mx-auto"
-                />
-            </div>
-
+        <div className="flex flex-col gap-4 m-4">
             {/* 텍스트 영역 */}
             <div className="flex-1">
-                <div className="gap-2 items-center mt-2">
-                    <span className="text-[1.1rem] font-bold">{category}</span>
+                <div className="gap-4 items-center mt-2 font2">
+                    <span className="font-bold">{category}</span>
                 </div>
+
+                {/* 아이콘 영역 */}
+                <div className="grid grid-cols-5 gap-4 mt-2 mb-2">
+                    {icons.map((icon, index) => (
+                        <img
+                            key={index}
+                            src={icon}
+                            alt={`${category} icon ${index}`}
+                            width="40"
+                            height="40"
+                            className="mx-auto"
+                        />
+                    ))}
+                </div>
+
+                {/* 설명 영역 */}
                 <div className="pt-1 pb-1 font1">
                     {descriptions.map((desc, index) => (
-                        <div key={index} className="text-[color4] mb-1">{desc}</div>
+                        <div key={index} className="text-[color4] mb-2">{desc}</div>
                     ))}
                 </div>
             </div>
@@ -29,4 +34,4 @@ const BrandBox = ({ icon, category, descriptions = [] }) => {  // color -> iconC
     );
 };
 
-export default BrandBox
+export default BrandBox;

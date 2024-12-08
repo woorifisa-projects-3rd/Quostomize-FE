@@ -14,7 +14,7 @@ function IdentityVerification1({isVerified, setIsVerified}) {
     };
 
     return (
-        <div className="w-full max-w-4xl mx-auto px-4 mb-4 sm:px-6 lg:px-8">
+        <div className="w-full max-w-3xl mx-auto px-4 mb-4 sm:px-6 lg:px-8">
             {/* 본인인증 버튼 */}
             <div className="mt-4 sm:mt-6">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between 
