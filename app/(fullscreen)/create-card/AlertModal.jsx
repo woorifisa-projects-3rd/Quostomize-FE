@@ -1,4 +1,4 @@
-// components/common/alertModal.jsx
+// components/common/AlertModal.jsx
 import React from 'react';
 import Icons from '../../../public/icons/icons';
 

@@ -21,7 +21,7 @@ import CheckInformationHeader from '../../../components/create-card/check-inform
 import CheckInformation from '../../../components/create-card/check-information/CheckInformation';
 import Icons from '../../../public/icons/icons';
 import React, { useState, useEffect } from "react";
-import AlertModal from './alertModal';
+import AlertModal from './AlertModal';
 import { useRouter } from 'next/navigation';
 import { v4 as uuidv4 } from 'uuid';
 import Image from "next/image";
