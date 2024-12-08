@@ -11,7 +11,7 @@ import IsLooser from "./isLoser";
 const WinningModal = (isWinner) => {
   const [isOpen, setIsOpen] = useState(false);
   const [currentComponent, setCurrentComponent] = useState(0);
-  // const [isTransitioning, setIsTransitioning] = useState(false);
+  const [isMounted, setMounted] = useState(false);
 
   useEffect(() => {
     if (Cookies.get("winner_checked") == "false") {
@@ -58,12 +58,22 @@ const WinningModal = (isWinner) => {
       }
     )
   };
+
+  useEffect(() => {
+    if (isMounted === false) {
+      setMounted(true)
+      return
+    }
+    
+    if (!isOpen) {
+      setCookie();
+    }
+  },[isOpen])
   
   return (
     <Dialog
       open={isOpen}
       onClose={() => { 
-        setCookie();
         setIsOpen(false);
      }}
     >
