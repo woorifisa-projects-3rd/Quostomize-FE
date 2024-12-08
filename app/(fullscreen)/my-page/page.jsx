@@ -30,6 +30,7 @@ const MyPage = () => {
   const [buttonActive, setButtonActive] = useState(false);
 
   const [isLoading, setLoading] = useState(false);
+  const [isMounting, setMounting] = useState(true)
 
   const getMyInfo = async() => {
     const response = await fetch(`/api/my-page`,
@@ -74,6 +75,7 @@ const MyPage = () => {
         detailAddress: memberInfo.memberDetail,
       }
     })
+    setMounting(false);
   }
 
   const validateField = (field, value) => {
@@ -341,6 +343,7 @@ const MyPage = () => {
           ? <LoadingSpinner message="변경 중입니다..."/>
           : <></>
         }
+        { isMounting && <LoadingSpinner /> }
       </div>
     </div>
   );
