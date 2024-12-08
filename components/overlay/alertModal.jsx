@@ -8,7 +8,7 @@ const AlertModal = ({ isOpen, setIsOpen, onClose, title, description = "정말 �
       open={isOpen}
       onClose={() => { setIsOpen(false) }}
     >
-      <div className="fixed inset-0 flex w-screen h-full bg-black/15 items-center justify-center p-4">
+      <div className="fixed inset-0 flex w-screen h-full bg-black/15 items-center justify-center p-4 z-50 ounded-lg">
         <DialogPanel className="w-80 h-48 space-y-2 border bg-white px-8 py-6">
           <DialogTitle className="font-bold">{title}</DialogTitle>
           <Description>{description}</Description>
