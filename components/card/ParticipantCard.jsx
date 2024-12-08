@@ -11,7 +11,7 @@ const ParticipantCard = ({men}) => {
       {/* Card Content */}
       <div className="mt-6 mx-5 z-10">
         <div className="text-[0.85rem] font-bold">{month}월 {day}일 현재,</div>
-        <div className="text-base font-bold mt-1">참여한 인원은 <SlotCounter startValue={"0000000"} value={men} containerClassName='text-2xl'/> 명이에요</div>
+        <div className="text-base font-bold mt-1">참여한 인원은 78492 명이에요</div>
       </div>
     </div>
   );
