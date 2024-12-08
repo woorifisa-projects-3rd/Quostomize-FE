@@ -1,8 +1,7 @@
 'use client'
 
-import React from 'react'
-import SelectPointUsageBox from '../../box/select-point-usage-box'
-import Icons from '../../../public/icons/icons'
+import React from 'react';
+import SelectPointUsageBox from '../../box/select-point-usage-box';
 
 function SelectPoint2({
     activeOptions,
@@ -15,17 +14,17 @@ function SelectPoint2({
         {
             title: '일일 복권',
             description: '매일 자정 추첨을 통해 당첨자에게 1만 포인트를 드립니다.',
-            icon: Icons.lotto
+            img: '/images/lotto.png'
         },
         {
             title: '조각 투자',
             description: '설정해 놓은 선호 주식을 조각투자로 매수합니다.',
-            icon: Icons.stockpiece
+            img: '/images/stock.png'
         },
         {
             title: '페이백',
             description: '매 카드 결제일에 페이백을 진행합니다. (단, 현금화 비율은 80 %)',
-            icon: Icons.payback
+            img: '/images/payback.png'
         }
     ]
 
@@ -75,7 +74,7 @@ function SelectPoint2({
                     <SelectPointUsageBox
                         title={option.title}
                         description={option.description}
-                        icon={option.icon}
+                        img={option.img}
                         isActive={activeOptions.includes(option.title)}
                         isHovered={index === hoveredIndex}
                         onBoxClick={() => handleBoxClick(index)}
