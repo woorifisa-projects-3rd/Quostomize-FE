@@ -8,6 +8,7 @@ import { handleDragStart, handleDragEnd, handleDragOver, handleDrop, handleDelet
 import { searchCardInfo, switchStock, searchWishStocks } from "../../../components/piece-stock/home/apiMethod/apiList"
 import RecommendAlertModal from '../etc/recommendAlertModal'
 import LoadingSpinner from "../../../components/overlay/loadingSpinner"
+import CardNotFoundModal from "../../my-card/CardNotFoundModal"
 
 const HomeBody = ({ data, page, setPage, cardData, setCardData, wishInfo, setWishInfo }) => {
     const [hoveredIndex, setHoveredIndex] = useState([{ order: 0 }, { order: 0 }, { order: 0 }]); // Hover된 항목의 인덱스를 관리
@@ -18,6 +19,7 @@ const HomeBody = ({ data, page, setPage, cardData, setCardData, wishInfo, setWis
     const [recommendStockInfo, setRecommend] = useState([]);
     const [dragOverIndex, setDragOverIndex] = useState(null); // 드래깅 된 위치확인 값
     const [isLoading, setLoading] = useState(true);
+    const [isNotCard, setIsNotCard] = useState(false);
 
     const totalData = [];
     const saveData = [];
@@ -70,7 +72,7 @@ const HomeBody = ({ data, page, setPage, cardData, setCardData, wishInfo, setWis
                     <div>
                         {page[1] && <button
                             className='p-3 font1 font-bold outline-none rounded-lg bg-[#3384f6] text-white'
-                            onClick={() => openModal(setOpen, param, setRecommend, cardId)}
+                            onClick={() => openModal(setOpen, param, setRecommend, cardId, setIsNotCard)}
                         >
                             주식 추천
                         </button>}
@@ -187,6 +189,7 @@ const HomeBody = ({ data, page, setPage, cardData, setCardData, wishInfo, setWis
                     </LargeModal>}
                 </div>
             </div>
+            {isNotCard && <CardNotFoundModal isOpen={isNotCard} onClose={()=>setIsNotCard(false)}/>}
         </div>
     )
 }

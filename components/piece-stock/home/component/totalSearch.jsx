@@ -1,9 +1,10 @@
 import { recommendStocks, saveStocks } from "../../../../components/piece-stock/home/apiMethod/apiList"
 
 //추천모달열기
-export function openModal(setOpen, param, setRecommend, cardId) {
+export function openModal(setOpen, param, setRecommend, cardId,setIsNotCard) {
     setOpen(true)
-    recommendStocks(param, setRecommend, cardId)
+    recommendStocks(param, setRecommend, cardId,setIsNotCard)
+    
 }
 //추천모달닫기
 export function closeModal(setOpen) {
