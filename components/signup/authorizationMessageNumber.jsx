@@ -12,9 +12,9 @@ const AuthorizationMessageNumber = ({ setPage, secondForm, setBlock }) => {
         setAuthNumber(Array(6).fill("")); // 초기화
         inputRefs[0].current?.focus(); // 첫번째 칸 포커스
         authorizationByMessage({
-                    phone: secondForm?.[3]?.value,
-                    certificationNumber: "",
-                });
+            phone: secondForm?.[3]?.value,
+            certificationNumber: "",
+        });
     }, []);
 
     // 메세지 인증번호를 요청한다.
@@ -58,17 +58,17 @@ const AuthorizationMessageNumber = ({ setPage, secondForm, setBlock }) => {
     }
 
     const toCheckPage = () => {
-        if(authNumber.every(value => value !== "") ){
-         const sendingData = `${authNumber[0]}${authNumber[1]}${authNumber[2]}${authNumber[3]}${authNumber[4]}${authNumber[5]}`
-         const authData = {
-             phone: secondForm?.[3]?.value,
-             certificationNumber: sendingData
-         }
-          checkAuthorizationAboutMessage(authData) // ->  인증번호 요청
-          const newData = [false, true, false, false]
-          setPage(newData)
-          setBlock(true)
-        } else{
+        if (authNumber.every(value => value !== "")) {
+            const sendingData = `${authNumber[0]}${authNumber[1]}${authNumber[2]}${authNumber[3]}${authNumber[4]}${authNumber[5]}`
+            const authData = {
+                phone: secondForm?.[3]?.value,
+                certificationNumber: sendingData
+            }
+            checkAuthorizationAboutMessage(authData) // ->  인증번호 요청
+            const newData = [false, true, false, false]
+            setPage(newData)
+            setBlock(true)
+        } else {
             // console.log("아직 값이 다 입력되지 않았습니다.")
         }
     }
@@ -80,9 +80,9 @@ const AuthorizationMessageNumber = ({ setPage, secondForm, setBlock }) => {
 
     const reRequestMessage = () => [
         authorizationByMessage({
-                    phone: secondForm?.[3]?.value,
-                    certificationNumber: "",
-                })
+            phone: secondForm?.[3]?.value,
+            certificationNumber: "",
+        })
     ]
 
     return (
@@ -96,7 +96,7 @@ const AuthorizationMessageNumber = ({ setPage, secondForm, setBlock }) => {
                     <div className='flex'>
                         {inputRefs.map((ref, index) => {
                             return (
-                                <input key={`${ref}*${index}`} ref={ref} className='text-center border w-1/6 p-5 font5 flex justify-center focus:outline-none' type="text" placeholder='0' maxLength={1} onChange={(e) => handleInput(e.target.value, index,authNumber, setAuthNumber, inputRefs)} />
+                                <input key={`${ref}*${index}`} ref={ref} className='text-center border w-1/6 p-5 font5 flex justify-center focus:outline-none' type="text" placeholder='0' maxLength={1} onChange={(e) => handleInput(e.target.value, index, authNumber, setAuthNumber, inputRefs)} />
                             )
                         })}
                     </div>
