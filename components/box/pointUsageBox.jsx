@@ -8,8 +8,8 @@ const PointUsageBox = ({
                   ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
             onClick={() => !isLoading && onClick()}
             style={{
-                backgroundColor: isEnabled ? '#3384f6' : '#d3d3d3',
-                color: isEnabled ? 'white' : 'black',
+                backgroundColor: isEnabled ? '#3384f6' : '#f0f0f0 ',
+                color: isEnabled ? 'white' : '#808080',
             }}
         >
             <div className="p-6 w-full h-42 flex items-center justify-between">

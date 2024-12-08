@@ -31,11 +31,9 @@ const MyCardPage = () => {
         },
         credentials: "include",
       });
-
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-
       const data = await response.json();
       if (data.data && data.data.length > 0) {
         setCardData(data.data);
@@ -50,10 +48,9 @@ const MyCardPage = () => {
     }
   };
 
-  const handleLottoToggle = async (cardSequenceId, pointUsageTypeId, currentValue) => {
+  const handleLotto = async (cardSequenceId, pointUsageTypeId, currentValue) => {
     if (isLoading) return;
     setIsLoading(true);
-
     try {
       const response = await fetch(`/api/my-card/lotto?cardSequenceId=${cardSequenceId}`, {
         method: 'PATCH',
@@ -68,12 +65,10 @@ const MyCardPage = () => {
           isLotto: !currentValue
         })
       });
-
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || '서버 오류 발생');
       }
-
       await fetchCardData();
     } catch (error) {
       console.error('Error updating lotto status: ', error);
@@ -83,7 +78,7 @@ const MyCardPage = () => {
     }
   };
 
-  const handlePaybackToggle = async (cardSequenceId, pointUsageTypeId, currentValue) => {
+  const handlePayback = async (cardSequenceId, pointUsageTypeId, currentValue) => {
     if (isLoading) return;
     setIsLoading(true);
     try {
@@ -113,7 +108,7 @@ const MyCardPage = () => {
     }
   };
 
-  const handleStockToggle = async (cardSequenceId, pointUsageTypeId, currentValue) => {
+  const handleStock = async (cardSequenceId, pointUsageTypeId, currentValue) => {
     if (isLoading) return;
     setIsLoading(true);
     try {
@@ -253,7 +248,7 @@ const MyCardPage = () => {
                 icon={Icons.lotto}
                 isEnabled={lottoBox.isLotto}
                 onClick={() =>
-                  handleLottoToggle(
+                  handleLotto(
                     lottoBox.cardSequenceId,
                     lottoBox.pointUsageTypeId,
                     lottoBox.isLotto
@@ -268,7 +263,7 @@ const MyCardPage = () => {
                 icon={Icons.stockpiece}
                 isEnabled={stockBox.isPieceStock}
                 onClick={() =>
-                  handleStockToggle(
+                  handleStock(
                     stockBox.cardSequenceId,
                     stockBox.pointUsageTypeId,
                     stockBox.isPieceStock
@@ -282,7 +277,7 @@ const MyCardPage = () => {
                 title={"페이백"}
                 icon={Icons.payback}
                 isEnabled={paybackBox.isPayback}
-                onClick={() => handlePaybackToggle(
+                onClick={() => handlePayback(
                   paybackBox.cardSequenceId,
                   paybackBox.pointUsageTypeId,
                   paybackBox.isPayback
