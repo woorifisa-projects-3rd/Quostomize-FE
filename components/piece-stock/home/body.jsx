@@ -46,7 +46,7 @@ const HomeBody = ({ data, page, setPage, cardData, setCardData, wishInfo, setWis
         <div className='flex flex-col justify-center items-center'>
 
 
-            <div className="mt-8 w-3/4">
+            <div className="mt-8 w-11/12">
                 <div className="flex justify-between items-center">
                     <div>
                         <button className={`p-3 font3 font-bold outline-none ${page[0] === true ? `border-b-4` : null} border-[#3384f6]`} onClick={() => setPage([true, false, false])}>보유</button>
@@ -64,16 +64,16 @@ const HomeBody = ({ data, page, setPage, cardData, setCardData, wishInfo, setWis
                             className={`flex border shadow-md items-center justify-between p-5 rounded-lg mb-5`}
                         >
                             <div className="flex items-center gap-5">
-                                {stock.stockImage && <Image src={stock.stockImage} width={30} height={30} alt="주식이미지"></Image>}
+                                {stock.stockImage && <Image src={stock.stockImage} width={100} height={100} alt="주식이미지"></Image>}
                                 <div>
-                                    <div className="font2 font-semibold" style={{
+                                    <div className="font1 font-semibold" style={{
                                         letterSpacing: '0.05em'
                                     }}>{stock.stockName}</div>
                                     <span className="font1 text-[#787B7E] ml-1">{stock.stockNumber}주</span>
                                 </div>
                             </div>
                             <div className="text-right flex flex-col">
-                                <div className="font2 font-semibold">{Number(stock.stockPrice).toLocaleString()} 원</div>
+                                <div className="font1 font-semibold">{Number(stock.stockPrice).toLocaleString()} 원</div>
                                 <div className="font-semibold">
                                     <p className={`font-bold ${stock.stockRate > 0 ? `text-[#E46E61]` : `text-[#0B5CD8]`}`}>{stock.stockRate > 0 ? "+" + stock.stockRate + " %" : stock.stockRate + " %"}</p>
                                 </div>
@@ -97,14 +97,14 @@ const HomeBody = ({ data, page, setPage, cardData, setCardData, wishInfo, setWis
                                     <Motion hoveredIndex={hoveredIndex} index={index}>
                                         <div className="flex">
                                             <span className="mr-2 font-semibold flex items-center">{wishStock.priority}.</span>
-                                            <Image src={wishStock.stockImage} width={30} height={30} alt="주식이미지"></Image>
+                                            <Image src={wishStock.stockImage} width={100} height={100} alt="주식이미지"></Image>
                                             <div className="flex h-full items-center ml-3 font-bold font1" style={{
                                                 letterSpacing: '0.05em'
                                             }}>
                                                 <p>{wishStock.stockName}</p>
                                             </div>
                                         </div>
-                                        <div className="flex items-center font-semibold font">
+                                        <div className="flex items-center font-semibold font1">
                                             <p>{Number(wishStock.stockPresentPrice).toLocaleString()} 원</p>
                                         </div>
                                     </Motion>
