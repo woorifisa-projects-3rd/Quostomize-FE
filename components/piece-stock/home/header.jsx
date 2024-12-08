@@ -23,7 +23,7 @@ const HomeHeader = ({ data, setValue, value, setPage }) => {
                         </span>
                         <input
                             type="text"
-                            placeholder="관심있는 주식을 검색해보세요"
+                            placeholder="주식을 검색해보세요"
                             className="w-full py-4 font3 bg-transparent text-xs focus:outline-none"
                             value={value}
                             onKeyDown={(e) => (e.key === "Enter" ? searchData(setPage) : null)}

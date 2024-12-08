@@ -19,7 +19,7 @@ const SearchBody = ({ searchInfo, setSelectedStocks, selectedStocks }) => {
                         }`}
                         onClick={() => toggleStockSelection(stock.stockName)}>
                         <div className="flex items-center gap-3 ">
-                            <Image src={stock.stockImage} width={70} height={70} alt="주식이미지"></Image>
+                            <Image src={stock.stockImage} width={30} height={30} alt="주식이미지"></Image>
                             <div>
                                 <div className="font-semibold">{stock.stockName}</div>
                             </div>
