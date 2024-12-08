@@ -191,13 +191,13 @@ const CreateCardPage = () => {
       setShowAlertModal(true);
       return;
     }
-    // if (currentPage === 5) {
-    //   const { residenceNumber, residenceNumber2, name, englishName } = applicantInfo;
-    //   if (!residenceNumber || !residenceNumber2 || !name || !englishName || !isVerified) {
-    //     setShowAlertModal(true);
-    //     return;
-    //   }
-    // }
+    if (currentPage === 5) {
+      const { residenceNumber, residenceNumber2, name, englishName } = applicantInfo;
+      if (!residenceNumber || !residenceNumber2 || !name || !englishName || !isVerified) {
+        setShowAlertModal(true);
+        return;
+      }
+    }
     if (currentPage === 6) {
       // Check if first 4 items are all true
       const requiredTerms = isAccepted.slice(1, 4);
@@ -379,7 +379,7 @@ const CreateCardPage = () => {
                   className="object-contain"
               />
             </span>
-            <p className="text-lg font-medium text-blue-500">카드 신청이 완료되었습니다</p>
+            <p className="font1 font-semibold text-blue-500">카드 신청이 완료되었습니다</p>
           </div>
         </div>
       )}
