@@ -56,11 +56,11 @@ const HomeFoot = () => {
     }, []);
 
     return (
-        <FadeInSection>
-            <div ref={bodyRef}>
-                <MyFullButton href='/create-card'>카드 만들기</MyFullButton>
-            </div>
-        </FadeInSection>
+            <FadeInSection>
+                <div ref={bodyRef} className="flex justify-center">
+                    <MyFullButton href='/create-card'>카드 만들기</MyFullButton>
+                </div>
+            </FadeInSection>
     );
 };
 
