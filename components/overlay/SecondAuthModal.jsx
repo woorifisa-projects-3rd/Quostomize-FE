@@ -42,8 +42,8 @@ const SecondAuthModal = ({ isOpen, onClose, onComplete, isConfirm }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="absolute inset-0 flex justify-center items-center z-50">
-            <div className="w-[576px] bg-[#192436] h-full flex flex-col items-center">
+        <div className="fixed inset-0 top-0 flex justify-center items-center z-50">
+            <div className="bg-[#192436] w-full h-screen flex flex-col items-center">
                 <button
                     onClick={onClose}
                     className="self-start text-white mt-4 ml-4"
@@ -51,11 +51,11 @@ const SecondAuthModal = ({ isOpen, onClose, onComplete, isConfirm }) => {
                     ←
                 </button>
 
-                <h3 className="text-white text-lg mt-20 mb-6">
+                <h3 className="text-white text-lg mt-16 mb-6">
                     {isConfirm}
                 </h3>
 
-                <div className="flex justify-center space-x-3 mb-20">
+                <div className="flex justify-center space-x-3 mb-14">
                     {Array(MAX_LENGTH)
                         .fill(0)
                         .map((_, idx) => (
@@ -67,12 +67,12 @@ const SecondAuthModal = ({ isOpen, onClose, onComplete, isConfirm }) => {
                         ))}
                 </div>
 
-                <div className="mt-40 grid grid-cols-3 gap-16 text-center text-white w-full max-w-[400px]">
+                <div className="grid grid-cols-3 text-center text-white w-full h-full">
                     {shuffledNumbers.slice(0, 9).map((number) => (
                         <button
                             key={`button-${number}`}
                             onClick={() => handleKeyPress(number)}
-                            className="text-2xl"
+                            className="text-xl"
                         >
                             {number}
                         </button>

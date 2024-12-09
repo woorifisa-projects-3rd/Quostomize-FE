@@ -235,7 +235,7 @@ const MyCardPage = () => {
           </div>
 
         </div>
-        <div className="mb-20 flex">
+        <div className="mb-20 flex w-full justify-center">
           <MyFullButton href={"/benefit-change"} children={"혜택 새로 고르기"} />
         </div>
         <div className="px-6 w-full mb-20">
