@@ -43,13 +43,14 @@ const HomeBody = ({ data, page, setPage, cardData, setCardData, wishInfo, setWis
         switchStock(orderInfo);
     }, [orderInfo])
 
-    const myStock = data?.output1?.map((stock) => ({
-        stockName: stock?.prdtName,
-        stockPrice: stock?.prpr,
-        stockRate: stock?.evluPflsRt,
-        stockNumber: stock?.hldgQty,
-        stockImage: stock?.stockImage,
-    }));
+    const myStock = data?.output1?.filter(stock => stock.hldgQty !== "0").map((stock) => (
+        {
+            stockName: stock?.prdtName,
+            stockPrice: stock?.prpr,
+            stockRate: stock?.evluPflsRt,
+            stockNumber: stock?.hldgQty,
+            stockImage: stock?.stockImage,
+        }));
 
     return (
         <div className='flex flex-col justify-center items-center'>

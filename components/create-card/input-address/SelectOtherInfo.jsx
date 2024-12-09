@@ -63,57 +63,6 @@ const SelectOtherInfo = ({formData, setFormData, cardOptions}) => {
 
         setFormData((prev) => {
             const updatedFormData = { ...prev, [name]: value };
-
-            // 입력 즉시 유효성 검사 실행
-            if (name === 'emailId' || name === 'emailDomain') {
-                const email = `${name === 'emailId' ? value : updatedFormData.emailId}@${name === 'emailDomain' ? value : updatedFormData.emailDomain}`;
-
-                // 이메일 유효성 검사
-                if (!updatedFormData.emailId && !updatedFormData.emailDomain) {
-                    setErrors(prev => ({ ...prev, email: '이메일 주소를 모두 입력해주세요.' }));
-                } else if (!updatedFormData.emailId) {
-                    setErrors(prev => ({ ...prev, email: '이메일 아이디를 입력해주세요.' }));
-                } else if (!updatedFormData.emailDomain) {
-                    setErrors(prev => ({ ...prev, email: '이메일 도메인을 입력해주세요.' }));
-                } else if (/^[^\s@]+@[^\s@]+\.(com|net)$/.test(email)) {
-                    setErrors(prev => {
-                        const newErrors = { ...prev };
-                        delete newErrors.email;
-                        return newErrors;
-                    });
-                }
-            } else {
-                // 다른 필드들의 유효성 검사
-                switch (name) {
-                    case 'phoneNumber':
-                        if (/^\d{11}$/.test(value)) {
-                            setErrors(prev => {
-                                const newErrors = { ...prev };
-                                delete newErrors[name];
-                                return newErrors;
-                            });
-                        }
-                        break;
-                    case 'confirmCardPassword':
-                        if (value === updatedFormData.cardPassword) {
-                            setErrors(prev => {
-                                const newErrors = { ...prev };
-                                delete newErrors[name];
-                                return newErrors;
-                            });
-                        }
-                        break;
-                    default:
-                        if (value.trim()) {
-                            setErrors(prev => {
-                                const newErrors = { ...prev };
-                                delete newErrors[name];
-                                return newErrors;
-                            });
-                        }
-                }
-            }
-
             return updatedFormData;
         });
     };
@@ -158,6 +107,61 @@ const SelectOtherInfo = ({formData, setFormData, cardOptions}) => {
         }
         setConfirmPasswordModalOpen(false);
     };
+
+    const validateForm = () => {
+        // 이메일 검증
+        if (formData.emailId || formData.emailDomain) {
+            const email = `${formData.emailId}@${formData.emailDomain}`;
+
+            if (!formData.emailId && !formData.emailDomain) {
+                setErrors(prev => ({ ...prev, email: '이메일 주소를 모두 입력해주세요.' }));
+            } else if (!formData.emailId) {
+                setErrors(prev => ({ ...prev, email: '이메일 아이디를 입력해주세요.' }));
+            } else if (!formData.emailDomain) {
+                setErrors(prev => ({ ...prev, email: '이메일 도메인을 입력해주세요.' }));
+            } else if (/^[^\s@]+@[^\s@]+\.(com|net)$/.test(email)) {
+                setErrors(prev => {
+                    const newErrors = { ...prev };
+                    delete newErrors.email;
+                    return newErrors;
+                });
+            }
+        }
+
+        // 다른 필드 검증
+        if (formData.phoneNumber && /^\d{11}$/.test(formData.phoneNumber)) {
+            setErrors(prev => {
+                const newErrors = { ...prev };
+                delete newErrors.phoneNumber;
+                return newErrors;
+            });
+        }
+
+        if (formData.confirmCardPassword && 
+            formData.confirmCardPassword === formData.cardPassword) {
+            setErrors(prev => {
+                const newErrors = { ...prev };
+                delete newErrors.confirmCardPassword;
+                return newErrors;
+            });
+        }
+
+        // 기타 필수 필드 검증 (예시)
+        const requiredFields = ['name', 'address']; // 필요에 따라 필드 추가
+        requiredFields.forEach(field => {
+            if (formData[field] && formData[field].trim()) {
+                setErrors(prev => {
+                    const newErrors = { ...prev };
+                    delete newErrors[field];
+                    return newErrors;
+                });
+            }
+        });
+    };
+
+    useEffect(() => {
+        validateForm();
+    },[formData])
 
     return (
         <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
