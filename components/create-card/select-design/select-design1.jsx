@@ -2,7 +2,7 @@
 
 import React from 'react';
 import CarouselCard from '../../card/carousel-card'
-import ColorInfo from "../../card/ColorInfo";
+import ColorInfo from "../../card/colorInfo";
 import GradientText from "../../card/gradientText";
 
 const SelectDesign1 = ({ selectedCardIndex, onCardChange }) => {

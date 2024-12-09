@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import ArrowButtonV3 from "../../components/button/arrow-button-v3";
 import FadeInSection from "../fade-in/fade-in-section";
 import GradientText from "../../components/card/gradientText";
-import ColorInfo from "../card/ColorInfo";
+import ColorInfo from "../card/colorInfo";
 import FlipCard2 from "../../components/card/flip-card2";
 
 const colors = ["#ed3ef7", "#000000", "#ff0000", "#dbff3d", "#ffffff"];

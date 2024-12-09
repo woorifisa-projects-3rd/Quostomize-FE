@@ -5,7 +5,7 @@ export async function GET(request) {
     
     const session = await auth();
     if (!session || !session.accessToken) {
-        return NextResponse.redirect(new URL("/login", `${process.env.NEXT_URL}`));
+        return NextResponse.redirect(new URL("/login", `${process.env.AUTH_URL}`));
     }
     const accessToken = session.accessToken;
     const traceId = session.traceId;
@@ -27,7 +27,7 @@ export async function GET(request) {
 
     if (response.status != 200) {
         if (response.status === 403 || response.status === 401) {
-            return NextResponse.redirect(new URL("/login", `${NEXT_URL}`));
+            return NextResponse.redirect(new URL("/login", `${AUTH_URL}`));
         }
     } else {
         const result = await response.json();

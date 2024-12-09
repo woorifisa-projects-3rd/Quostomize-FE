@@ -22,7 +22,7 @@ const LottoMain = async () => {
     // 오늘 참여자 수
     const getTodayParticipants = async () => {
         const response = await fetch(
-            `${process.env.NEXT_URL}/api/lotto`
+            `${process.env.AUTH_URL}/api/lotto`
             ,
             {
                 method: "GET",
@@ -45,7 +45,7 @@ const LottoMain = async () => {
     // 최근 당첨자들
     const getTodayWinners = async () => {
         const response = await fetch(
-            `${process.env.NEXT_URL}/api/lotto/winners`
+            `${process.env.AUTH_URL}/api/lotto/winners`
             ,
             {
                 method: "GET",
@@ -67,7 +67,7 @@ const LottoMain = async () => {
     // 참여 여부
     const getIsParticipant = async () => {
         const response = await fetch(
-            `${process.env.NEXT_URL}/api/lotto/isParticipant`,
+            `${process.env.AUTH_URL}/api/lotto/isParticipant`,
             {
                 method: "GET",
                 cache: "no-store",
