@@ -8,24 +8,31 @@ const LogoutButton = () => {
 
   const logout = async () => {
     try {
-      await fetch("api/auth/logout", {
+      const response = await fetch("/api/auth/logout", {
         method: "POST",
         headers: {
           "Content-type": "application/json"
         },
-        cache:"no-store",
-        credentials: "include"
+        cache: "no-store",
+        credentials:"include",
+        body: {
+          message: "로그아웃 요청"
+        }
       });
-      
-      await signOut({ redirect: false });
-      router.push('/login');
+
+      if (response.ok) {
+        // NextAuth 세션 제거
+        await signOut({ redirect: false });    
+      }
     } catch (error) {
       console.error('Logout error:', error);
+    } finally {
+      router.push('/login');
     }
   }
 
   return (
-    <div>
+    <div className="active:bg-slate-400">
       <button onClick={logout}>로그아웃</button>
     </div>
   )

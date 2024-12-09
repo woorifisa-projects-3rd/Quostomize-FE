@@ -20,7 +20,7 @@ export async function PATCH(request) {
         );
         
         if (response.status === 401 || response.status === 403) {
-            return NextResponse.redirect(new URL("/login", `${process.env.NEXT_URL}`));
+            return NextResponse.redirect(new URL("/login", `${process.env.AUTH_URL}`));
         } else {
             const result = await response.json();
             return NextResponse.json(result, {status:200});

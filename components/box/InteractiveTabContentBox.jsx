@@ -49,12 +49,13 @@ const InteractiveTabContentBox = ({
             updateCategoryValue(index, 1);
         } else {
             setActiveTab(index);
+            const currentOptionIndex = selectedOptionIndex[index] ?? 0;
             setSelectedOptionIndex((prev) => {
                 const updated = [...prev];
-                updated[index] = 0;
+                updated[index] = currentOptionIndex;
                 return updated;
             });
-            updateOption(index, options[index][0]);
+            updateOption(index, options[index][currentOptionIndex]);
             updateCategory(index, categoryKeys[index]);
             updateCategoryValue(index, 5);
         }

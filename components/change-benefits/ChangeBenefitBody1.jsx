@@ -38,12 +38,7 @@ const ChangeBenefitBody1 = ({ labels, benefitState }) => {
                     borderColor={borderColor}
                 />
             </div>
-            {/* <div className=''>
-
-            </div> */}
         </div>
-
-
     )
 }
 

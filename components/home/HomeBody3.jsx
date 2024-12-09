@@ -86,14 +86,14 @@ const HomeBody3 = () => {
     ]
 
     return (
-        <div className='flex flex-col justify-center items-center mt-10'>
+        <div className='flex w-full flex-col justify-center items-center mt-10'>
             <FadeInSection>
-                <div className="flex flex-col justify-center items-center space-y-5 mb-10 w-full">
+                <div className="flex w-full flex-col justify-center items-center space-y-5 mb-10">
                     <TabContentBox tabs={tabData} />
                 </div>
             </FadeInSection>
             <FadeInSection>
-                <div className='flex flex-col justify-center items-center'>
+                <div className='flex w-full flex-col justify-center items-center'>
                     <MyFullButton href='/card-benefit-details'>혜택 자세히 보기</MyFullButton>
                 </div>
             </FadeInSection>
