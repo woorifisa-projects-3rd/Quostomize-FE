@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import ErrorModal from '../user-detail/ErrorModal';
 
 function VerificationModal({ isOpen, onClose }) {
     const [step, setStep] = useState(1);
@@ -9,6 +10,8 @@ function VerificationModal({ isOpen, onClose }) {
     const [timeLeft, setTimeLeft] = useState(180); // 3분 = 180초
     const [isTimerActive, setIsTimerActive] = useState(false);
     const [isRequesting, setIsRequesting] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+    const [isErrorModalOpen, setErrorModalOpen] = useState(false);
 
     useEffect(() => {
         let timer;
@@ -64,13 +67,15 @@ function VerificationModal({ isOpen, onClose }) {
 
                 if (response.status === 204) {
                     setStep(2);
+                    setVerificationCode('');
                     setTimeLeft(180);
                     setIsTimerActive(true);
                 } else {
-                    console.error('Failed to request verification code.');
+                    throw new Error('인증번호 요청에 실패했습니다. 다시 시도해주세요.');
                 }
             } catch (error) {
-                console.error('Error requesting verification code:', error);
+                setErrorMessage(error.message);
+                setErrorModalOpen(true);
             } finally {
                 setIsRequesting(false);
             }
@@ -87,17 +92,20 @@ function VerificationModal({ isOpen, onClose }) {
                     },
                     body: JSON.stringify({ phone: phoneNumber, certificationNumber: verificationCode }),
                 });
-
-                if (response.status === 204) {
-                    onClose(true); // Verification successful
+    
+                if (response.ok) {
+                    onClose(true);
                 } else {
-                    console.error('Verification failed.');
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || '인증번호 확인에 실패했습니다. 다시 시도해주세요.');
                 }
             } catch (error) {
-                console.error('Error verifying code:', error);
+                setErrorMessage(error.message);
+                setErrorModalOpen(true);
+                setStep(1);
             }
         }
-    };
+    }
     if (!isOpen) return null;
 
     return (
@@ -192,8 +200,8 @@ function VerificationModal({ isOpen, onClose }) {
                                 ? phoneNumber.length !== 11 
                                 : (verificationCode.length !== 6 || timeLeft === 0)}
                             className="flex-1 py-2.5 sm:py-3 px-4 text-sm sm:text-base 
-                                    bg-blue-600 text-white rounded-xl 
-                                    hover:bg-blue-700 transition-colors duration-200 
+                                    bg-blue-500 text-white rounded-xl 
+                                    hover:bg-blue-600 transition-colors duration-200 
                                     disabled:bg-gray-300 disabled:cursor-not-allowed"
                         >
                             {step === 1 ? '인증번호 받기' : '확인'}
@@ -201,6 +209,11 @@ function VerificationModal({ isOpen, onClose }) {
                     </div>
                 </div>
             </div>
+            <ErrorModal
+                message={errorMessage}
+                isOpen={isErrorModalOpen}
+                onClose={() => setErrorModalOpen(false)}
+            />
         </div>
     );
 }

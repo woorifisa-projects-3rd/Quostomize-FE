@@ -11,6 +11,7 @@ const CheckInformation = ({
                               paymentHistoryReceiveMethod,
                               isOverseasPaymentBlocked,
                               isTransportationEnabled,
+                              isAppCard,
                           }) => {
     return (
         <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -94,7 +95,7 @@ const CheckInformation = ({
 
                         {/* 기타 정보들 */}
                         {[
-                            {label: "배송 받을 주소", value: deliveryFullAddress},
+                            ...(isAppCard ? [] : [{label: "배송 받을 주소", value: deliveryFullAddress}]),
                             {label: "자택주소", value: residentialFullAddress},
                             {label: "이메일", value: email},
                             {label: "전화번호", value: phoneNumber},
