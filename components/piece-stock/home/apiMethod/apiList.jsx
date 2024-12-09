@@ -89,7 +89,7 @@ export async function cardIdInfo(setData) {
 }
 
 // recommend 요청
-export async function recommendStocks(param, setRecommend, cardId) {
+export async function recommendStocks(param, setRecommend, cardId, setIsNotCard, setOpen) {
     try {
         param.append("cardId", cardId)
         param.append("isRecommendByCardBenefit", true)
@@ -102,9 +102,10 @@ export async function recommendStocks(param, setRecommend, cardId) {
             }
         )
         const data = await response.json()
+        setOpen(true)
         setRecommend(data)
     } catch (error) {
-        console.error('데이터 가져오기 오류:', error);
+        setIsNotCard(true)
     }
 }
 

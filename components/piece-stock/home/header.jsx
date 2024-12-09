@@ -12,22 +12,22 @@ const HomeHeader = ({ data, setValue, value, setPage }) => {
 
     return (
         <div className='flex flex-col justify-center items-center'>
-            <div className='w-full sticky top-0 left-0'>
+            <div className='w-full sticky top-0 left-0 bg-white'>
                 <PageHeader
                     modaltitle="조각 투자"
                     showArrowButton={false}
                     exitDirection="/home"
                 >
-                투자
+                    투자
                 </PageHeader>
             </div>
             <div className='w-[95%]'>
                 <div className="mb-8">
                     <div
                         className="flex items-center rounded-xl bg-[#F2F4F6] border border-2 border-transparent focus-within:border-[#3384f6]">
-                <span className="material-icons px-2 text-gray-500">
-                    search
-                </span>
+                        <span className="material-icons px-2 text-gray-500">
+                            search
+                        </span>
                         <input
                             type="text"
                             placeholder="관심 있는 주식을 검색해 보세요"
