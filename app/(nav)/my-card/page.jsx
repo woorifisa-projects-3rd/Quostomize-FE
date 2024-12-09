@@ -7,7 +7,7 @@ import MyCardHeader from '../../../components/my-card/myCardHeader'
 import MyFullButton from "../../../components/button/full-button";
 import Icons from "../../../public/icons/icons"
 import GradientText from "../../../components/card/gradientText";
-import ColorInfo from "../../../components/card/ColorInfo";
+import ColorInfo from "../../../components/card/colorInfo";
 import PointUsageBox from "../../../components/box/pointUsageBox";
 import LoadingSpinner from "../../../components/overlay/loadingSpinner";
 import CardNotFoundModal from "../../../components/my-card/CardNotFoundModal"
