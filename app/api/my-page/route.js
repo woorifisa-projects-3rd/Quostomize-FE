@@ -27,7 +27,7 @@ export async function GET(request) {
 
     if (response.status != 200) {
         if (response.status === 403 || response.status === 401) {
-            return NextResponse.redirect(new URL("/login", `${AUTH_URL}`));
+            return NextResponse.redirect(new URL("/login", `${process.env.AUTH_URL}`));
         }
     } else {
         const result = await response.json();
