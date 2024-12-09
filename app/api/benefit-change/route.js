@@ -5,7 +5,7 @@ export async function GET() {
     const session = await auth();
     try {
         if (!session || !session.accessToken) {
-            return NextResponse.redirect(new URL("/login", `${process.env.NEXT_URL}`));
+            return NextResponse.redirect(new URL("/login", `${process.env.AUTH_URL}`));
         }
         const accessToken = session.accessToken;
         const backendResponse = await fetch(`${process.env.SERVER_URL}/v1/api/benefit-change`,
@@ -21,7 +21,7 @@ export async function GET() {
 
         if (!backendResponse.ok) {
             if (backendResponse.status === 401) {
-                return NextResponse.redirect(new URL("/login", `${process.env.NEXT_URL}`));
+                return NextResponse.redirect(new URL("/login", `${process.env.AUTH_URL}`));
             } else if (backendResponse.status === 403) {
                 return NextResponse.json(
                     { message: "로그인 후 다시 시도해 주세요." },

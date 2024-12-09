@@ -23,5 +23,5 @@ export async function POST(request) {
       }
   );
 
-  return NextResponse.redirect(new URL("/login", `${process.env.NEXT_URL}`));
+  return NextResponse.redirect(new URL("/login", `${process.env.AUTH_URL}`));
 };
