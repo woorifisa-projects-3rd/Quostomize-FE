@@ -10,10 +10,16 @@ const SecondAuthModal = ({ isOpen, onClose, onComplete, isConfirm }) => {
 
     useEffect(() => {
         shuffleNumbers();
+
     }, []);
 
     useEffect(() => {
+        if (isOpen) {
+            setAuthCode("");
+        }
+    }, [isOpen]);
 
+    useEffect(() => {
         if (authCode.length === MAX_LENGTH) {
             onComplete(authCode);
         }

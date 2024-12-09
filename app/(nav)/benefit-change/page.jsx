@@ -134,25 +134,23 @@ const ChangeBenefitsPage = () => {
 
     const formattedDate = `${yyyy}-${mm}-${dd}`;
 
-    const requestBody = selectedCategories
-      .map((upperCategoryId, index) => {
-        // benefitRate가 0인 경우도 유효한 값으로 처리
-        const benefitRate = Math.max(0, categoryValues[index] - 1);
+    const filteredCategories = selectedCategories
+      .map((upperCategoryId, index) => ({
+        upperCategoryId,
+        categoryValue: categoryValues[index],
+        selectedOption: selectedOptions[index],
+      }))
+      .filter(item => item.upperCategoryId !== null);
 
-        if (upperCategoryId === null) return null;
-
-        return {
-          benefitEffectiveDate: formattedDate,
-          benefitRate,
-          isActive: true,
-          cardSequenceId,
-          upperCategoryId,
-          lowerCategoryId: selectedOptions[index] || null,
-          secondaryAuthCode: authCode,
-        };
-      })
-      .filter(Boolean);
-
+    const requestBody = filteredCategories.map((item) => ({
+      benefitEffectiveDate: formattedDate,
+      benefitRate: item.categoryValue - 1,
+      isActive: true,
+      cardSequenceId,
+      upperCategoryId: item.upperCategoryId,
+      lowerCategoryId: item.selectedOption,
+      secondaryAuthCode: authCode,
+    }));
     try {
       const response = await fetch(url, {
         method: "PATCH",
@@ -161,7 +159,7 @@ const ChangeBenefitsPage = () => {
         cache: "no-store",
         body: JSON.stringify(requestBody),
       });
-
+      console.log(response);
 
       if (!response.ok) {
         const errorText = await response.text();
@@ -169,6 +167,16 @@ const ChangeBenefitsPage = () => {
         throw new Error(errorText);
 
       }
+
+      const responseText = await response.text();
+      if (!responseText) {
+        throw new Error("Empty response body");
+      }
+
+      const result = JSON.parse(responseText);
+      console.log(result);
+
+      setAuthSuccess(result.status === 400 ? "400" : "200");
 
       setAuthTrigger(prev => prev + 1);
     } catch (error) {
