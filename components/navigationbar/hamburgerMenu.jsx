@@ -15,7 +15,7 @@ const HamburgerMenu = ({ hamburgerMenuOpen, setHamburgerMenuOpen }) => {
     }
 
     const menuItems = [
-        { title: "혜택변경", icon: <RiExchangeDollarLine />, path: "/benefit-change" },
+        { title: "카드 혜택 변경", icon: <RiExchangeDollarLine />, path: "/benefit-change" },
         { title: "복권", icon: <CiTrophy />, path: "/lotto" },
         { title: "Q&A", icon: <FaQuestionCircle />, path: "/qna" },
         { title: "마이페이지", icon: <MdAccountCircle />, path: "/my-page" },
