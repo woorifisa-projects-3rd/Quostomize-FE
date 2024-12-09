@@ -231,6 +231,9 @@ const CreateCardPage = () => {
       height: "100vh",
       justifyContent: "space-between",
     },
+    content: {
+      width: "100%",
+    }
   };
 
   // 현재 페이지에 따라 렌더링할 콘텐츠
@@ -294,7 +297,7 @@ const CreateCardPage = () => {
         </div>;
 
       case 6:
-        return <div className='overflow-visible relative'>
+        return <div className='overflow-visible relative w-full'>
             <TermsAgreementHeader onClick={handlePrevPage} />
           <Terms isAccepted={isAccepted} setAccepted={setAccepted} />
         </div>;
@@ -333,7 +336,7 @@ const CreateCardPage = () => {
 
 
   return (
-    <div className="relative pb-24"> {/* 화면 하단에 고정된 요소 때문에 패딩 추가 */}
+    <div className="relative w-full pb-24"> {/* 화면 하단에 고정된 요소 때문에 패딩 추가 */}
       <div style={styles.content}>{renderContent()}</div>
       <div className="fixed bottom-0 left-0 right-0 w-full max-h-24 overflow-y-auto bg-white z-20"> {/* z-index 값 증가 */}
         <CreateCardBottom
