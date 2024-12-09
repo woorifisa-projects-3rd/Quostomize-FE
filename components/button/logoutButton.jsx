@@ -20,13 +20,12 @@ const LogoutButton = () => {
         }
       });
 
-      if (response.ok) {
-        // NextAuth 세션 제거
-        await signOut({ redirect: false });    
-      }
+      console.log(response);
+      
     } catch (error) {
       console.error('Logout error:', error);
     } finally {
+      await signOut({ redirect: false });    
       router.push('/login');
     }
   }
