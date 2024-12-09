@@ -1,6 +1,19 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 const SelectBenefit3 = ({ labels, data, lowerCategoryMap, resetContext, benefitState }) => {
+    const [isSelected, setSelected] = useState(false);
+
+    useEffect(() => {
+        const selectedOptions = benefitState.selectedOptions;
+        for (let selectedOption of selectedOptions) {
+            if (selectedOption) {
+                setSelected(true);
+                return;
+            }
+        }
+        setSelected(false);
+    }, [benefitState])
+
 
     return (
         <div className="w-full max-w-2xl p-6 border-2 border-gray-300 rounded-md">
@@ -10,8 +23,12 @@ const SelectBenefit3 = ({ labels, data, lowerCategoryMap, resetContext, benefitS
 
                 <button
                     onClick={resetContext}
-                    className="px-6 py-2 bg-red-200 text-white rounded-lg hover:bg-red-500"
-                > 선택 초기화 </button>
+                    className={`px-6 py-2 bg-red-200 text-white rounded-lg
+                            ${isSelected
+                            ? "bg-red-500"
+                            : "bg-red-200"
+                        }
+                    `}> 선택 초기화 </button>
 
             </div>
 

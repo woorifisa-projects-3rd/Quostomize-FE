@@ -7,7 +7,6 @@ import SelectCardImage from '../../../components/create-card/card-detail/select-
 import SelectCardDetail from '../../../components/create-card/card-detail/select-card-detail';
 import SelectDesign from '../../../components/create-card/select-design/SelectDesignHeader';
 import SelectDesign1 from '../../../components/create-card/select-design/select-design1';
-import SelectDesign3 from '../../../components/create-card/select-design/select-design3';
 import SelectBenefit1 from '../../../components/create-card/select-benefit/select-benefitHeader';
 import SelectBenefit2 from '../../../components/create-card/select-benefit/select-benefit2';
 import Terms from '../../../components/create-card/terms-agreement/terms';
@@ -16,15 +15,16 @@ import UserDetailHeader from '../../../components/create-card/user-detail/UserDe
 import CardApplicantInfo1 from '../../../components/create-card/user-detail/card-applicant-info1';
 import IdentityVerification1 from '../../../components/create-card/user-detail/identityVerification1';
 import TermsAgreementHeader from '../../../components/create-card/terms-agreement/TermsAgreementHeader';
-import InputAddressHeader from '../../../components/create-card/input-address/InputAddressHeader';
+import InputAddressHeader from '../../../components/create-card/input-address/input-addressHeader';
 import SelectOtherInfo from '../../../components/create-card/input-address/SelectOtherInfo';
 import CheckInformationHeader from '../../../components/create-card/check-information/CheckInformationHeader';
 import CheckInformation from '../../../components/create-card/check-information/CheckInformation';
 import Icons from '../../../public/icons/icons';
 import React, { useState, useEffect } from "react";
-import AlertModal from '../../../app/(fullscreen)/create-card/AlertModal';
+import AlertModal from './AlertModal';
 import { useRouter } from 'next/navigation';
 import { v4 as uuidv4 } from 'uuid';
+import Image from "next/image";
 
 const CreateCardPage = () => {
   const router = useRouter();
@@ -41,7 +41,6 @@ const CreateCardPage = () => {
     }
   }, [idempotencyKey]);
 
-
   // 1페이지
   const [selectedCardIndex, setSelectedCardIndex] = useState(0); // 카드 번호 상태 관리
   // 2페이지
@@ -51,9 +50,9 @@ const CreateCardPage = () => {
     selectedOptions: [null, null, null, null, null],
   });
   // 3페이지
-  const [activeOptions, setActiveOptions] = useState([]);
+  const [activeOptions, setActiveOptions] = useState(['일일 복권']);
   const [hoveredIndex, setHoveredIndex] = useState(null);
-  const [showToast, setShowToast] = useState(false);
+
   // 4페이지
   const [cardOptions, setCardOptions] = useState({
     cardBrand: 'VISA',
@@ -88,17 +87,13 @@ const CreateCardPage = () => {
     isSameAsDeliveryAddress: false,
   });
 
-
   const mapCategoryToId = (categoryIndex, selectedOption) => {
     const upperCategoryId = categoryIndex + 1;
-
-    // Handle both object and numeric values in selectedOption
     const lowerCategoryId =
-        typeof selectedOption === "object" ? selectedOption?.id : selectedOption;
-
+      typeof selectedOption === "object" ? selectedOption?.id : selectedOption;
     const benefitRate = benefitState.categoryValues[categoryIndex]
-        ? Math.min(benefitState.categoryValues[categoryIndex] - 1, 4) // 할인율 제한 (0-4)
-        : 0; // 기본값 0
+      ? Math.min(benefitState.categoryValues[categoryIndex] - 1, 4) // 할인율 제한 (0-4)
+      : 0; // 기본값 0
 
     return {
       upperCategoryId,
@@ -106,7 +101,6 @@ const CreateCardPage = () => {
       benefitRate,
     };
   };
-
   const paymentMethodMapping = {
     "이메일": 0,
     "문자": 1,
@@ -130,11 +124,11 @@ const CreateCardPage = () => {
 
         // optionalTerms 값 설정
         optionalTerms: (() => {
-          const fifth = isAccepted[4]; // 5번째 값
-          const sixth = isAccepted[5]; // 6번째 값
-          if (fifth && sixth) return 3;
-          if (fifth) return 1;
-          if (sixth) return 2;
+          const fourth = isAccepted[4];
+          const fifth = isAccepted[5];
+          if (fourth && fifth) return 3;
+          if (fourth) return 1;
+          if (fifth) return 2;
           return 0;
         })(),
         paymentReceiptMethods: paymentMethodMapping[formData.paymentHistoryReceiveMethod] ?? 0, // 기본값 이메일(0)
@@ -185,7 +179,6 @@ const CreateCardPage = () => {
       }, 4000);
 
     } catch (error) {
-      console.log("Hello boy");
       setShowAlertModal(true);
     }
   };
@@ -207,7 +200,7 @@ const CreateCardPage = () => {
     }
     if (currentPage === 6) {
       // Check if first 4 items are all true
-      const requiredTerms = isAccepted.slice(0, 4);
+      const requiredTerms = isAccepted.slice(1, 4);
       if (!requiredTerms.every(term => term === true)) {
         setShowAlertModal(true);
         return;
@@ -239,9 +232,8 @@ const CreateCardPage = () => {
       justifyContent: "space-between",
     },
     content: {
-      flex: 1,
-      overflowY: "auto",
-    },
+      width: "100%",
+    }
   };
 
   // 현재 페이지에 따라 렌더링할 콘텐츠
@@ -249,48 +241,37 @@ const CreateCardPage = () => {
     switch (currentPage) {
 
       case 1:
-        return <div>
-          <header>
+        return <div className='overflow-visible relative'>
             <SelectDesign onClick={handlePrevPage} />
-          </header>
-          <SelectDesign1
+            <SelectDesign1
             selectedCardIndex={selectedCardIndex} // 선택된 카드 인덱스 전달
             onCardChange={setSelectedCardIndex} // 상태 변경 핸들러 전달
           />
-          <SelectDesign3 />
         </div>;
 
       case 2:
-        return <div>
-          <header>
+        return <div className='overflow-visible relative'>
             <SelectBenefit1 onClick={handlePrevPage} />
-          </header>
           <SelectBenefit2
-              benefitState={benefitState}
-              setBenefitState={setBenefitState}
+            benefitState={benefitState}
+            setBenefitState={setBenefitState}
           />
         </div>;
 
       case 3:
-        return <div>
-          <header>
+        return <div className='overflow-visible relative'>
             <SelectPoint1 onClick={handlePrevPage} />
-          </header>
           <SelectPoint2
             activeOptions={activeOptions}
             setActiveOptions={setActiveOptions}
             hoveredIndex={hoveredIndex}
             setHoveredIndex={setHoveredIndex}
-            showToast={showToast}
-            setShowToast={setShowToast}
           />
         </div>;
 
       case 4:
-        return <div>
-          <header>
+        return <div className='overflow-visible relative'>
             <CardDetailHeader onClick={handlePrevPage} />
-          </header>
           {/* 선택된 카드 정보를 이미지로 보여주는 컴포넌트 */}
           <SelectCardImage selectedCardIndex={selectedCardIndex} />
           <SelectCardDetail
@@ -300,17 +281,14 @@ const CreateCardPage = () => {
         </div>;
 
       case 5:
-        return <div>
-          <header>
+        return <div className='overflow-visible relative'>
             <UserDetailHeader onClick={handlePrevPage} />
-          </header>
           {/*UserDetail - 사용자 상세 정보 */}
           <CardApplicantInfo1
             applicantInfo={applicantInfo}
             setApplicantInfo={setApplicantInfo}
             isVerified={isVerified}
             setIsVerified={setIsVerified}
-
           />
           <IdentityVerification1
             isVerified={isVerified}
@@ -319,30 +297,25 @@ const CreateCardPage = () => {
         </div>;
 
       case 6:
-        return <div>
-          <header>
+        return <div className='overflow-visible relative w-full'>
             <TermsAgreementHeader onClick={handlePrevPage} />
-          </header>
           <Terms isAccepted={isAccepted} setAccepted={setAccepted} />
         </div>;
 
       case 7:
-        return <div>
-          <header>
+        return <div className='overflow-visible relative'>
             <InputAddressHeader onClick={handlePrevPage} />
-          </header>
           {/*InputAddressHeader - 배송지 입력 */}
           <SelectOtherInfo
             formData={formData}
             setFormData={setFormData}
+            cardOptions={cardOptions}
           />
         </div>;
 
       case 8:
-        return <div>
-          <header>
+        return <div className='overflow-visible relative'>
             <CheckInformationHeader onClick={handlePrevPage} />
-          </header>
           {/*CheckInformationHeader - 입력 정보 확인 */}
 
           <CheckInformation
@@ -361,30 +334,38 @@ const CreateCardPage = () => {
   };
 
 
+
   return (
-    <div>
+    <div className="relative w-full pb-24"> {/* 화면 하단에 고정된 요소 때문에 패딩 추가 */}
       <div style={styles.content}>{renderContent()}</div>
-      <CreateCardBottom
-        onClick={currentPage === TOTAL_PAGES ? submitCardApplication : handleNextPage}
-        currentPage={currentPage}
-        totalPage={TOTAL_PAGES}
-      />
+      <div className="fixed bottom-0 left-0 right-0 w-full max-h-24 overflow-y-auto bg-white z-20"> {/* z-index 값 증가 */}
+        <CreateCardBottom
+          onClick={currentPage === TOTAL_PAGES ? submitCardApplication : handleNextPage}
+          currentPage={currentPage}
+          totalPage={TOTAL_PAGES}
+        />
+      </div>
       <AlertModal
         isOpen={showAlertModal}
         onClose={() => setShowAlertModal(false)}
-        message="모든 항목에 체크를 해주세요"
+        message="모든 항목에 입력을 해주세요."
       />
       {showSuccessAlert && (
-          <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-slate-50 rounded-lg shadow-lg p-6 z-50">
-            <div className="flex flex-col items-center">
+        <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-slate-50 rounded-lg shadow-lg p-6 z-50">
+          <div className="flex flex-col items-center">
             <span className="text-4xl mb-3">
-              <img src={Icons.eco} alt="Success Icon" width="100" height="100" />
+              <Image
+                  src="/wooriImages/weebee1.png"
+                  alt="Weebee Logo"
+                  width={150}
+                  height={150}
+                  className="object-contain"
+              />
             </span>
-              <p className="text-lg font-medium text-blue-500">카드 신청이 완료되었습니다</p>
-            </div>
+            <p className="font1 font-semibold text-blue-500">카드 신청이 완료되었습니다</p>
           </div>
+        </div>
       )}
-
     </div>
   );
 }

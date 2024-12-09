@@ -1,48 +1,39 @@
 'use client'
 
-import React, { useState } from 'react'
-import SelectPointUsageBox from '../../box/select-point-usage-box'
-import Icons from '../../../public/icons/icons'
-import Toast from '../../overlay/toast';
+import React from 'react';
+import SelectPointUsageBox from '../../box/select-point-usage-box';
 
 function SelectPoint2({
-                          activeOptions,
-                          setActiveOptions,
-                          hoveredIndex,
-                          setHoveredIndex,
-                          showToast,
-                          setShowToast,
-                      }) {
+    activeOptions,
+    setActiveOptions,
+    hoveredIndex,
+    setHoveredIndex,
+}) {
 
     const selectoptions = [
         {
             title: '일일 복권',
-            description: '매일 자정 추첨을 통해 당첨자에게 1만 포인트를 드립니다.',
-            icon: Icons.lotto
+            description: '매일 자정 추첨을 통해 \n당첨자에게 최대 1만 포인트를 드립니다.',
+            img: '/images/lotto.png'
         },
         {
             title: '조각 투자',
-            description: '설정해 놓은 선호 주식을 조각투자로 매수합니다.',
-            icon: Icons.stockpiece
+            description: '희망 주식을 설정하여, \n조각 투자로 매수할 수 있습니다.',
+            img: '/images/stock.png'
         },
         {
             title: '페이백',
-            description: '매 카드 결제일에 페이백을 진행합니다. (단, 현금화 비율은 80 %)',
-            icon: Icons.payback
+            description: '매 카드 결제일에 페이백을 진행합니다.\n(단, 현금화 비율은 80 %)',
+            img: '/images/payback.png'
         }
     ]
 
     const handleBoxClick = (index) => {
         const selectedOption = selectoptions[index].title;
-
-        // 페이백과 조각 투자 항목 선택 시 오류 메시지
         if (
             (selectedOption === '페이백' && activeOptions.includes('조각 투자')) ||
             (selectedOption === '조각 투자' && activeOptions.includes('페이백'))
         ) {
-            setShowToast(true);
-            setTimeout(() => setShowToast(false), 3000);
-
             // 페이백과 조각 투자 둘 중 하나만 선택되게 하기
             if (selectedOption === '페이백') {
                 // '페이백'만 활성화하고 '조각 투자'는 비활성화
@@ -54,7 +45,6 @@ function SelectPoint2({
             return;
         }
 
-        // '일일 복권'은 독립적으로 작동하게 하기
         if (selectedOption === '일일 복권') {
             // 일일 복권을 선택하거나 해제할 때는 다른 항목에 영향을 주지 않도록 처리
             if (activeOptions.includes('일일 복권')) {
@@ -72,31 +62,50 @@ function SelectPoint2({
         }
     }
 
-
-
     const handleBoxHover = (index) => {
         setHoveredIndex(index);
     }
 
-    return (
-        <div className="flex flex-col justify-center w-full p-5 space-y-5">
-            {selectoptions.map((option, index) => (
-                <SelectPointUsageBox
-                    key={index}
-                    title={option.title}
-                    description={option.description}
-                    icon={option.icon}
-                    isActive={activeOptions.includes(option.title)}
-                    isHovered={index === hoveredIndex}
-                    onBoxClick={() => handleBoxClick(index)}
-                    onBoxHover={() => handleBoxHover(index)}
-                />
-            ))}
+    const formatDescription = (description) => {
+        return description.split('\n').map((line, index) => (
+            <span key={index}>{line}<br /></span>
+        ));
+    };
 
-            <Toast
-                isOpen={showToast}
-                message="페이백과 조각 투자 항목은 동시에 선택할 수 없습니다."
-            />
+    return (
+        <div className='flex flex-col items-center space-y-4'>
+            <div className="w-full mx-6 text-center">
+                <h2 className="font3 font-bold">
+                    포인트 <span className="color1">사용</span> 옵션을 <span className="color1">선택</span>해 주세요
+                </h2>
+                <p className="text-sm text-gray-600">적립한 포인트를 사용할 옵션을 다양하게 선택해보세요!</p>
+            </div>
+
+            <div className="flex flex-col justify-center w-full px-5 space-y-3">
+                <p className="font1 font-bold ml-2">기본 옵션</p>
+                {selectoptions.map((option, index) => (
+                    <React.Fragment key={index}>
+                        <SelectPointUsageBox
+                            title={option.title}
+                            description={formatDescription(option.description)}
+                            img={option.img}
+                            isActive={activeOptions.includes(option.title)}
+                            isHovered={index === hoveredIndex}
+                            onBoxClick={() => handleBoxClick(index)}
+                            onBoxHover={() => handleBoxHover(index)}
+                        />
+                        {index === 0 && (
+                            <>
+                                <div className="flex flex-col justify-center">
+                                    <hr style={{ width: '100%', border: '1px solid #ccc' }} />
+                                    <p className="font1 font-bold mt-2 ml-2">선택 옵션</p>
+                                    <p className="ml-3 text-xs text-gray-500"> 기본 옵션 외에 둘 중 한 가지의 옵션을 추가로 선택 할 수 있어요!</p>
+                                </div>
+                            </>
+                        )}
+                    </React.Fragment>
+                ))}
+            </div>
         </div>
     )
 }

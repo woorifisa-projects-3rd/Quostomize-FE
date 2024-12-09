@@ -15,7 +15,6 @@ const SecondAuthModal = ({ isOpen, onClose, onComplete, isConfirm }) => {
     useEffect(() => {
 
         if (authCode.length === MAX_LENGTH) {
-            console.log("authCode", authCode);
             onComplete(authCode);
         }
     }, [authCode]);

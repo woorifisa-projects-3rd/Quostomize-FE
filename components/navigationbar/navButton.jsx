@@ -7,18 +7,18 @@ const NavButton = ({iconTitle, icon, path, currentPath, selectMenu, setHamburger
 
   if (iconTitle === "전체") {
     return <div 
-        className="flex flex-col justify-center items-center w-12 h-12 active:bg-slate-400 active:text-white cursor-context"
+        className="flex flex-col justify-center items-center w-12 h-12 text-gray-400 active:text-black cursor-context"
         onClick={() => {setHamburgerMenuOpen((prev) => !prev)}}
       >
         <div className='text-xl'>
           {icon}
         </div>
-        <span className='text-xs font-semibold'>{iconTitle}</span>
+        <span className='text-xs'>{iconTitle}</span>
       </div>
   } else if (path === currentPath) {
     return (
       <div 
-        className="flex flex-col justify-center items-center w-12 h-12 bg-slate-900 rounded-xl text-white cursor-pointer"
+        className="flex flex-col justify-center items-center w-12 h-12 rounded-xl cursor-pointer font-bold"
         onClick={() => {selectMenu(path)}}
       >
         <div className='text-xl'>
@@ -30,7 +30,7 @@ const NavButton = ({iconTitle, icon, path, currentPath, selectMenu, setHamburger
   } else {
     return (
       <div 
-        className="flex flex-col justify-center items-center w-12 h-12 cursor-pointer"
+        className="flex flex-col justify-center items-center w-12 h-12 cursor-pointer text-gray-400"
         onClick={() => {selectMenu(path)}}
       >
         <div className='text-xl'>

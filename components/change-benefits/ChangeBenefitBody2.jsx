@@ -7,8 +7,8 @@ const ChangeBenefitBody2 = ({ labels, benefitState, categoryMap, lowerCategoryMa
 
     return (
 
-        <div>
-            <InteractiveTabContentBox labels={labels} benefitState={benefitState} updateCategoryValue={updateCategoryValue} updateCategory={updateCategory} updateOption={updateOption} categoryMap={categoryMap} lowerCategoryMap={lowerCategoryMap} />
+        <div className='w-full flex flex-col justify-center items-center'>
+            <InteractiveTabContentBox labels={labels} categoryMap={categoryMap} lowerCategoryMap={lowerCategoryMap} data={benefitState.categoryValues.map(value => value - 1)} benefitState={benefitState} updateCategoryValue={updateCategoryValue} updateCategory={updateCategory} updateOption={updateOption} />
         </div>
     )
 }

@@ -3,9 +3,7 @@
 import React from 'react'
 import NoticeToggleBox from '../box/noitce-toggle-box';
 
-
 function BenefitFooter1() {
-
     const notices = [
         {
             title: "상품 안내",

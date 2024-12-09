@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import InteractiveRadarGraph from '../../graph/interactive-radar-graph';
-import SelectBenefit3 from './select-benefit3';
 import InteractiveTabContentBox from '../../box/InteractiveTabContentBox';
 
 const getRandomColor = () => {
@@ -20,7 +19,6 @@ const SelectBenefit2 = ({ benefitState, setBenefitState }) => {
     const resetContext = () => {
         setBenefitState(initialState);
     };
-
 
     const [borderColor, setBorderColor] = useState(getRandomColor());
 
@@ -88,13 +86,6 @@ const SelectBenefit2 = ({ benefitState, setBenefitState }) => {
                 selectedOptions: updatedSelectedOptions,
             }));
         }
-
-        console.log("Updated values before state update:", {
-            updatedCategoryValues,
-            updatedCategories,
-            updatedSelectedOptions,
-        });
-
     };
 
     useEffect(() => {
@@ -116,7 +107,6 @@ const SelectBenefit2 = ({ benefitState, setBenefitState }) => {
         }));
     };
 
-
     const updateOption = (categoryIndex, option) => {
         setBenefitState((prevState) => ({
             ...prevState,
@@ -124,24 +114,54 @@ const SelectBenefit2 = ({ benefitState, setBenefitState }) => {
         }));
     };
 
+    const [isSelected, setSelected] = useState(false);
+
+    useEffect(() => {
+        const selectedOptions = benefitState.selectedOptions;
+        for (let selectedOption of selectedOptions) {
+            if (selectedOption) {
+                setSelected(true);
+                return;
+            }
+        }
+        setSelected(false);
+    }, [benefitState])
+
 
     return (
-        <div className='flex flex-col items-center space-y-8'>
-            <InteractiveRadarGraph
-                labels={labels}
-                datasets={[
-                    {
-                        label: 'My Dataset',
-                        data: benefitState.categoryValues,
-                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                    },
-                ]}
-                max={5}
-                min={0}
-                borderColor={borderColor}
-            />
-            <InteractiveTabContentBox categoryMap={categoryMap} lowerCategoryMap={lowerCategoryMap} benefitState={benefitState} updateCategoryValue={updateCategoryValue} updateCategory={updateCategory} updateOption={updateOption} />
-            <SelectBenefit3 labels={labels} lowerCategoryMap={lowerCategoryMap} data={benefitState.categoryValues.map(value => value - 1)} benefitState={benefitState} resetContext={resetContext} />
+        <div>
+            <div className='flex flex-col items-center space-y-6'>
+                <div className="w-full mx-6 text-center">
+                    <h2 className="font3 font-bold">
+                        포인트 <span className="color1">적립</span> 옵션을 <span className="color1">선택</span>해 주세요
+                    </h2>
+                    <p className="text-sm text-gray-600">적립 받고 싶은 '쇼핑, 생활, 푸드, 여행, 문화' 옵션을 선택해보세요!</p>
+                </div>
+                <InteractiveRadarGraph
+                    labels={labels}
+                    datasets={[
+                        {
+                            label: 'My Dataset',
+                            data: benefitState.categoryValues,
+                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        },
+                    ]}
+                    max={5}
+                    min={0}
+                    borderColor={borderColor}
+                />
+                <InteractiveTabContentBox labels={labels} categoryMap={categoryMap} lowerCategoryMap={lowerCategoryMap} data={benefitState.categoryValues.map(value => value - 1)} benefitState={benefitState} updateCategoryValue={updateCategoryValue} updateCategory={updateCategory} updateOption={updateOption} />
+            </div>
+            <div className='flex justify-end mt-2 pr-4'>
+                <button
+                    onClick={resetContext}
+                    className={`px-4 py-2 bg-red-200 text-white rounded-lg text-xs
+                                ${isSelected
+                            ? "bg-red-500"
+                            : "bg-red-200"
+                        }
+                        `}> 선택 초기화 </button>
+            </div>
         </div>
     );
 };

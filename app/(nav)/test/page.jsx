@@ -44,9 +44,6 @@ const TestPage = () => {
     fetchData();
   }, []); // Empty dependency array for initial load only
 
-  useEffect(() => {
-    console.log(res);
-  },[res])
   
   return (
     <div>

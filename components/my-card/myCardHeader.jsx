@@ -1,17 +1,13 @@
 import React from 'react'
-import HeaderV2 from "../header/prev-name-exit-v2";
+import NavPageHeader from "../header/NavPageHeader";
 
 function MyCardHeader({ onClick }) {
   return (
 
-    <div>
-      <HeaderV2
-        showArrowButton={true}
-        onArrowClick={onClick}
-        exitDirection="/home"
-      >
-        나의 카드
-      </HeaderV2>
+    <div className='sticky top-0 left-0 bg-white z-20'>
+      <NavPageHeader>
+        카드
+      </NavPageHeader>
     </div>
   )
 }

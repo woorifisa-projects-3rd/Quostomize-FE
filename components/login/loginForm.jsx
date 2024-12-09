@@ -60,13 +60,14 @@ const LoginForm = ({ formData, handleInputChange, isFormValid, onSubmit }) => {
           type="text"
           value={formData.memberLoginId}
           onChange={handleChange}
-          className={`w-full p-3 border rounded-xl bg-gray-50 
-                    focus:bg-white focus:border-blue-500 outline-none transition-all
+          className={`w-full p-2 border rounded-xl bg-gray-50 
+                    focus:bg-white focus:border-blue-400 outline-none transition-all
+                    placeholder:text-sm
                     ${errors.memberLoginId ? 'border-red-500' : 'border-gray-300'}`}
           placeholder="아이디를 입력해주세요"
         />
         {errors.memberLoginId && (
-          <p className="mt-1 text-sm text-red-500">{errors.memberLoginId}</p>
+          <p className="mt-2 text-xs text-red-500">{errors.memberLoginId}</p>
         )}
       </div>
 
@@ -79,20 +80,21 @@ const LoginForm = ({ formData, handleInputChange, isFormValid, onSubmit }) => {
           type="password"
           value={formData.memberPassword}
           onChange={handleChange}
-          className={`w-full p-3 border rounded-xl bg-gray-50 
+          className={`w-full p-2 border rounded-xl bg-gray-50 
                     focus:bg-white focus:border-blue-500 outline-none transition-all
+                    placeholder:text-sm
                     ${errors.memberPassword ? 'border-red-500' : 'border-gray-300'}`}
           placeholder="비밀번호를 입력해주세요"
         />
         {errors.memberPassword && (
-          <p className="mt-1 text-sm text-red-500">{errors.memberPassword}</p>
+          <p className="mt-2 text-xs text-red-500">{errors.memberPassword}</p>
         )}
       </div>
 
       <button
         type="submit"
         disabled={!isFormValid || Object.values(errors).some(error => error)}
-        className={`w-full py-3 rounded-xl font-semibold transition-all
+        className={`w-full py-2 rounded-xl font-semibold transition-all
           ${isFormValid && !Object.values(errors).some(error => error)
             ? 'bg-blue-400 text-white hover:bg-blue-500' 
             : 'bg-gray-200 text-gray-400 cursor-not-allowed'}`}

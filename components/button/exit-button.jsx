@@ -21,14 +21,14 @@ function ExitButton({ direction, title, description }) {
     };
 
     return (
-        <div>
+        <div className="flex items-center">
             {/* 나가기 버튼 */}
             <button
                 onClick={handleOpenModal}
-                size={45}
+                size={35}
                 className="transistion-colors hover:text-gray-400 text-gray-700 rounded-full focus:outline-none"
             >
-                <X size={45} className="transition-colors hover:text-gray-400" />
+                <X size={35} className="transition-colors hover:text-gray-400" />
             </button>
 
             <AlertModal

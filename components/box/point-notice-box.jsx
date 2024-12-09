@@ -2,7 +2,7 @@
 
 const PointBox = ({ icon, title }) => {
     return (
-        <div className="flex flex-col items-center py-10 px-8 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors cursor-default">
+        <div className="flex flex-col items-center py-5 px-4 bg-gray-100 rounded-lg cursor-default">
             <img
                 src={icon}
                 width="40"

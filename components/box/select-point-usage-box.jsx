@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-function SelectPointUsageBox({ title, description, icon, isActive, isHovered, onBoxClick, onBoxHover }) {
+function SelectPointUsageBox({ title, description, img, isActive, isHovered, onBoxClick, onBoxHover }) {
     const boxStyle = {
         backgroundColor: isActive ? '#007bff' : '#f0f0f0',
         color: isActive ? '#ffffff' : '#000000',
@@ -12,6 +12,11 @@ function SelectPointUsageBox({ title, description, icon, isActive, isHovered, on
         padding: '10px',
         borderRadius: '8px',
         marginBottom: '10px',
+    }
+    const iconStyle = {
+        width: '60px',
+        height: '60px',
+        objectFit: 'cover',
     }
 
     return (
@@ -23,16 +28,15 @@ function SelectPointUsageBox({ title, description, icon, isActive, isHovered, on
         >
             <div className="flex justify-between p-4">
                 <div className="content">
-                    <h3 className="font3 font-bold title">{title}</h3>
-                    <p className="font1 color4 mt-2 description">{description}</p>
+                    <h3 className="text-sm font-bold title">{title}</h3>
+                    <p className="text-xs color4 mt-2 description" style={{ color: isActive ? '#ffffff' : '#000000' }}>{description}</p>
                 </div>
                 <div className="icon flex items-center">
                     <img
-                        width="80"
-                        height="80"
+                        style={iconStyle}
                         className="block ml-auto"
-                        src={icon}
-                        alt="icon"
+                        src={img}
+                        alt="img"
                     />
                 </div>
             </div>

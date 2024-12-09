@@ -3,11 +3,35 @@ import React from 'react'
 export const validateRegionNumber = (updatedForm) => {
     const frontValue = updatedForm[0]?.value || '';
     const backValue = updatedForm[1]?.value || '';
-
     const fullValue = frontValue + backValue;
-    const isValid = fullValue.length === 13 && /^\d+$/.test(fullValue);
-    return isValid;
+    const isValidLengh = fullValue.length === 13
+    const isValidData = /^\d+$/.test(fullValue);
+    if (isValidData && isValidLengh) {
+        return true
+    } else {
+        return false
+    }
 }
+
+export const validateRegionNumberFront = (value) => {
+
+    const isValid = value.length === 6 && /^\d+$/.test(value);
+    if (isValid) {
+        return true
+    } else {
+        return false
+    }
+}
+
+export const validateRegionNumberBack = (value) => {
+    const isValid = value.length === 7 && /^\d+$/.test(value);
+    if (isValid) {
+        return true
+    } else {
+        return false
+    }
+}
+
 
 export const validatePassword = (password) => {
     const hasUpperCase = /[A-Z]/.test(password); // 대문자 체크
@@ -52,4 +76,19 @@ export const validateEmail = (email) => {
     }
 }
 
+export const validateId = (id) => {
+    const hasNoSpecialChar = /^[a-zA-Z0-9]*$/.test(id);
+    if (id.length < 4) {
+        return false;
+    } else if (hasNoSpecialChar) {
+        return true;
+    }
+}
 
+export const validateName = (name) => {
+    const hasNoSpecialChar = /^[A-Za-z가-힣]+$/.test(name);
+    const length = name.length > 1
+    if (length && hasNoSpecialChar) {
+        return true;
+    }
+}

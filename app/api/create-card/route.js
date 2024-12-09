@@ -12,9 +12,6 @@ export async function POST(request) {
     try {
         const data = await request.json();
 
-        // 로깅 및 데이터 처리
-        console.log('카드 신청 데이터:', data);
-
         const backendResponse = await fetch(`${process.env.SERVER_URL}/v1/api/card-applicants`, {
             method: 'POST',
             cache: 'no-store',
@@ -37,6 +34,7 @@ export async function POST(request) {
                 status: 201
             });
         }
+        return NextResponse.json({responseData}, {status:backendResponse.status})
 
     } catch (error) {
         console.error('카드 신청 에러:', error);

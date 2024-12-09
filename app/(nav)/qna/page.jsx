@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import Pagination from './Pagination';
 import Icons from '../../../public/icons/icons'
 import Image from 'next/image';
+import LoadingSpinner from '../../../components/overlay/loadingSpinner';
 
 export default function QnaPage() {
     const { data: session } = useSession();
@@ -67,19 +68,29 @@ export default function QnaPage() {
 
     if (isLoading) {
         return (
-            <div className="flex justify-center items-center h-screen select-none">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
-            </div>
+            <LoadingSpinner />
         );
     }
 
     return (
-        <div className="max-w-6xl mx-auto px-6 py-8">
-            <div className="flex justify-between items-center mb-8">
-                <h1 className="p-3 px-6 text-3xl font-bold text-blue-400">Q&A</h1>
+        <div className="max-w-2xl mx-auto px-3 sm:px-8 py-8 sm:py-8">
+            {/* 헤더 영역 수정 */}
+            <div className="flex justify-between items-center mb-6 sm:mb-8">
+                <div className="flex items-center">
+                    <Image
+                        src="/wooriImages/woori_ci.png"
+                        alt="Woori Logo"
+                        width={40}
+                        height={40}
+                        className="object-contain"
+                    />
+                    <h1 className="text-3xl sm:text-3xl font-bold color1 ml-2">
+                        QnA
+                    </h1>
+                </div>
                 <button 
                     onClick={() => router.push('/qna/write')}
-                    className="px-7 py-2 bg-blue-200 text-gray-600 rounded-lg hover:bg-blue-400 transition-colors"
+                    className="px-6 sm:px-7 py-2 bg-blue-200 text-gray-600 text-sm sm:text-base rounded-lg hover:bg-blue-400 transition-colors"
                 >
                     문의하기
                 </button>
@@ -87,7 +98,7 @@ export default function QnaPage() {
 
             <div className="bg-white rounded-xl shadow-lg overflow-hidden">
                 {/* 질문 목록 헤더 */}
-                <div className="grid grid-cols-12 bg-blue-50 p-4 text-sm font-medium text-gray-500">
+                <div className="grid grid-cols-12 bg-blue-50 p-3 sm:p-4 text-xs sm:text-sm font-medium text-gray-500">
                     <div className="col-span-1">번호</div>
                     <div className="col-span-2">카테고리</div>
                     <div className="col-span-5">제목</div>
@@ -100,27 +111,32 @@ export default function QnaPage() {
                     questions.map((question) => (
                         <div 
                             key={question.questionSequenceId}
-                            className="grid grid-cols-12 p-6 border-b hover:bg-gray-100 cursor-pointer transition-colors"
+                            className="grid grid-cols-12 px-4 py-6 sm:p-6 border-b hover:bg-gray-100 cursor-pointer transition-colors"
                             onClick={() => router.push(`/qna/${question.questionSequenceId}`)}
                         >
-                            <div className="col-span-1 text-gray-400">{question.questionSequenceId}</div>
-                            <div className="col-span-2">{getCategoryName(question.categoryCode)}</div>
-                            <div className="col-span-5 flex items-center text-gray-800">
-                                {question.isPrivate && (
-                                    <span className="mr-1">
-                                        <Image 
-                                        src={Icons.locked}
-                                        alt="Locked" 
-                                        width={20} 
-                                        height={20} 
-                                        />
+                            <div className="col-span-1 text-gray-400 text-sm sm:text-base">{question.questionSequenceId}</div>
+                            <div className="col-span-2 text-sm sm:text-base">{getCategoryName(question.categoryCode)}</div>
+                            <div className="col-span-5 flex items-center text-gray-800 text-sm sm:text-base">
+                                <div className="flex items-center w-full overflow-hidden">
+                                    {question.isPrivate && (
+                                        <span className="flex-shrink-0 mr-1">
+                                            <Image 
+                                                src={Icons.locked}
+                                                alt="Locked" 
+                                                width={18} 
+                                                height={18}
+                                                className="sm:w-[20px] sm:h-[20px]" 
+                                            />
+                                        </span>
+                                    )}
+                                    <span className="truncate">
+                                        {question.questionTitle}
                                     </span>
-                                )}
-                                {question.questionTitle}
+                                </div>
                             </div>
-                            <div className="col-span-2 text-gray-400">{formatDate(question.createdAt)}</div>
+                            <div className="col-span-2 text-gray-400 text-[12px] sm:text-base mt-1 sm:mt-0">{formatDate(question.createdAt)}</div>
                             <div className="col-span-2 text-right">
-                                <span className={`px-3 py-1 rounded-2xl text-sm ${
+                                <span className={`px-1 sm:px-3 py-1 rounded-lg sm:rounded-xl text-[11px] sm:text-sm ${
                                     question.isAnswered 
                                         ? 'bg-blue-200 text-blue-500' 
                                         : 'bg-gray-200 text-gray-500'

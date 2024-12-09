@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { searchStock } from "../../../components/piece-stock/home/apiMethod/apiList"
+import PageHeader from "../../../components/header/PageHeader"
+import ArrowButton from "../../../components/button/arrow-button"
 
 const searchHeader = ({ setValue, value, setSearchInfo, setPage }) => {
     const [inSearch, setSearch] = useState(true)
@@ -13,28 +15,37 @@ const searchHeader = ({ setValue, value, setSearchInfo, setPage }) => {
     }, [value])
 
     return (
-        <>
-            <div className='flex justify-between mb-10 mt-5'>
-                <span className="material-icons cursor-pointer" onClick={() => toFavorite(setPage)}>chevron_left</span>
-                <h1 className='font3'>종목검색</h1>
-                <span className="material-icons cursor-pointer" onClick={() => toFavorite(setPage)}>close</span>
+        <div className='flex flex-col justify-center items-center'>
+            <PageHeader
+                modaltitle="종목 검색"
+                showArrowButton={true}
+                onArrowClick={()=>toFavorite(setPage)}
+                exitDirection="/home"
+            >
+               종목 검색
+            </PageHeader>
+            <div className='w-[95%]'>
+                <div className="mb-8">
+                    <div
+                        className="flex items-center rounded-xl bg-[#F2F4F6] border border-2 border-transparent focus-within:border-[#3384f6]">
+                    <span className="material-icons px-2 text-gray-500">
+                        search
+                    </span>
+                        <input
+                            type="text"
+                            placeholder="관심 있는 주식을 검색해 보세요"
+                            className="w-full py-2 bg-[#F2F4F6] text-[1rem] rounded-xl focus:outline-none"
+                            value={value}
+                            onKeyDown={(e) => (e.key === "Enter" ? searchData(param,value,setSearchInfo) : null)}
+                            onChange={(e) => setValue(e.target.value)}
+                        />
+                    </div>
+                </div>
             </div>
-            <div className="flex-1 relative">
-                <input
-                    type="text"
-                    placeholder="관심있는 주식을 검색해보세요"
-                    className="w-full py-5 font3 px-4 bg-[#E3E4E8] rounded-xl font1 focus:outline-none"
-                    value={value}
-                    onKeyDown={(e) => e.key === "Enter" ? searchData(param, value, setSearchInfo) : null}
-                    onChange={(e) => setValue(e.target.value)}
-                />
-                <span className="material-icons absolute right-2 top-1/2 -translate-y-1/2">
-                    search
-                </span>
-            </div>
-        </>
+        </div>
     )
 }
+
 function searchData(param, value, setSearchInfo) {
     searchStock(param, value, setSearchInfo)
 }

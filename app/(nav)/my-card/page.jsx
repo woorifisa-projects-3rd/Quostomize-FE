@@ -7,7 +7,7 @@ import MyCardHeader from '../../../components/my-card/myCardHeader'
 import MyFullButton from "../../../components/button/full-button";
 import Icons from "../../../public/icons/icons"
 import GradientText from "../../../components/card/gradientText";
-import ColorInfo from "../../../components/card/colorInfo";
+import ColorInfo from "../../../components/card/ColorInfo";
 import PointUsageBox from "../../../components/box/pointUsageBox";
 import LoadingSpinner from "../../../components/overlay/loadingSpinner";
 import CardNotFoundModal from "../../../components/my-card/CardNotFoundModal"
@@ -31,11 +31,9 @@ const MyCardPage = () => {
         },
         credentials: "include",
       });
-
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-
       const data = await response.json();
       if (data.data && data.data.length > 0) {
         setCardData(data.data);
@@ -50,10 +48,9 @@ const MyCardPage = () => {
     }
   };
 
-  const handleLottoToggle = async (cardSequenceId, pointUsageTypeId, currentValue) => {
+  const handleLotto = async (cardSequenceId, pointUsageTypeId, currentValue) => {
     if (isLoading) return;
     setIsLoading(true);
-
     try {
       const response = await fetch(`/api/my-card/lotto?cardSequenceId=${cardSequenceId}`, {
         method: 'PATCH',
@@ -68,12 +65,10 @@ const MyCardPage = () => {
           isLotto: !currentValue
         })
       });
-
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || '서버 오류 발생');
       }
-
       await fetchCardData();
     } catch (error) {
       console.error('Error updating lotto status: ', error);
@@ -83,7 +78,7 @@ const MyCardPage = () => {
     }
   };
 
-  const handlePaybackToggle = async (cardSequenceId, pointUsageTypeId, currentValue) => {
+  const handlePayback = async (cardSequenceId, pointUsageTypeId, currentValue) => {
     if (isLoading) return;
     setIsLoading(true);
     try {
@@ -113,7 +108,7 @@ const MyCardPage = () => {
     }
   };
 
-  const handleStockToggle = async (cardSequenceId, pointUsageTypeId, currentValue) => {
+  const handleStock = async (cardSequenceId, pointUsageTypeId, currentValue) => {
     if (isLoading) return;
     setIsLoading(true);
     try {
@@ -169,7 +164,7 @@ const MyCardPage = () => {
     );
   }
 
-  if (isLoading|| !cardData || cardData.length === 0) {
+  if (isLoading || !cardData || cardData.length === 0) {
     return <LoadingSpinner />;
   }
 
@@ -183,7 +178,7 @@ const MyCardPage = () => {
     })
   }
   const filteredCardColor = cardData && cardData.length > 0
-  ? uniqueBy(cardData.filter(card => card.cardColor), "cardColor") : [];
+    ? uniqueBy(cardData.filter(card => card.cardColor), "cardColor") : [];
   const cardColor = filteredCardColor.length > 0 ? filteredCardColor[0].cardColor : null;
 
   const totalBenefitRate = Array.from(
@@ -222,8 +217,8 @@ const MyCardPage = () => {
             <p className="font3 font-bold mb-6">현재 적용된 혜택률{' '}
               <span className="font6">
                 <GradientText text={totalBenefitRate}
-                style={ColorInfo[currentColorIndex].style}/>
-                </span>%</p>
+                  style={ColorInfo[currentColorIndex].style} />
+              </span>%</p>
           </div>
           <div>
             {filteredUpperCategories.length > 0 ? (
@@ -242,65 +237,58 @@ const MyCardPage = () => {
         </div>
         <div className="mb-20 flex">
           <MyFullButton href={"/benefit-change"} children={"혜택 새로 고르기"} />
-
         </div>
-
-        <div>
-          <div className="border-b border-gray-500/60 mb-20"></div>
+        <div className="px-6 w-full mb-20">
           <p className="font3 font-bold mb-2 text-center">내 포인트 사용처</p>
-          <p className="text-center mb-14"> 포인트 사용처를 자유롭게 켜고 끌 수 있어요</p>
-          <div className="flex gap-10">
+          <p className="text-center mb-1"> 포인트 사용처를 자유롭게 켜고 끌 수 있어요</p>
+          <p className="text-center text-gray-500 mb-6 text-xs">조각 투자, 페이백은 동시에 선택할 수 없어요!<br />최소 한 가지 이상의 사용처를 선택하세요! </p>
+          <div className="flex flex-col space-y-4">
             {lottoBox && (
-                <PointUsageBox
-                    title={"일일복권"}
-                    icon={Icons.lotto}
-                    isEnabled={lottoBox.isLotto}
-                    onToggle={() =>
-                      handleLottoToggle(
-                          lottoBox.cardSequenceId,
-                          lottoBox.pointUsageTypeId,
-                          lottoBox.isLotto
-                      )
+              <PointUsageBox
+                title={"일일복권"}
+                icon={Icons.lotto}
+                isEnabled={lottoBox.isLotto}
+                onClick={() =>
+                  handleLotto(
+                    lottoBox.cardSequenceId,
+                    lottoBox.pointUsageTypeId,
+                    lottoBox.isLotto
+                  )
                 }
-                    isLoading={isLoading}
-                    backgroundClass={lottoBox.isLotto ? "bg-blue-100" : "bg-white"}
-                />
+                isLoading={isLoading}
+              />
             )}
-
             {stockBox && (
-                <PointUsageBox
-                  title={"조각투자"}
-                  icon={Icons.stockpiece}
-                  isEnabled={stockBox.isPieceStock}
-                  onToggle={() =>
-                      handleStockToggle(
-                          stockBox.cardSequenceId,
-                          stockBox.pointUsageTypeId,
-                          stockBox.isPieceStock
-                      )
+              <PointUsageBox
+                title={"조각투자"}
+                icon={Icons.stockpiece}
+                isEnabled={stockBox.isPieceStock}
+                onClick={() =>
+                  handleStock(
+                    stockBox.cardSequenceId,
+                    stockBox.pointUsageTypeId,
+                    stockBox.isPieceStock
+                  )
                 }
-                  isLoading={isLoading}
-                  backgroundClass={stockBox.isPieceStock ? "bg-blue-100" : "bg-white"}
-                />
+                isLoading={isLoading}
+              />
             )}
-
             {paybackBox && (
-                <PointUsageBox
-                  title={"페이백"}
-                  icon={Icons.payback}
-                  isEnabled={paybackBox.isPayback}
-                  onToggle={() => handlePaybackToggle(
-                      paybackBox.cardSequenceId,
-                      paybackBox.pointUsageTypeId,
-                      paybackBox.isPayback
+              <PointUsageBox
+                title={"페이백"}
+                icon={Icons.payback}
+                isEnabled={paybackBox.isPayback}
+                onClick={() => handlePayback(
+                  paybackBox.cardSequenceId,
+                  paybackBox.pointUsageTypeId,
+                  paybackBox.isPayback
                 )}
-                  isLoading={isLoading}
-                  backgroundClass={paybackBox.isPayback ? "bg-blue-100" : "bg-white"}
-                />
+                isLoading={isLoading}
+              />
             )}
           </div>
         </div>
-      </div >
+      </div>
     </div >
   );
 }

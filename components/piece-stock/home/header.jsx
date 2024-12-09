@@ -1,10 +1,9 @@
 'use client'
 
-import { useRouter } from 'next/navigation';
 import React from 'react'
+import PageHeader from "../../../components/header/PageHeader"
 
 const HomeHeader = ({ data, setValue, value, setPage }) => {
-    const router = useRouter()
 
     const headDummyData = {
         price: data?.output2?.[0]?.evluAmtSmtlAmt,
@@ -12,38 +11,51 @@ const HomeHeader = ({ data, setValue, value, setPage }) => {
     };
 
     return (
-        <>
-            <div className='flex justify-between mb-10 mt-5'>
-                <span className="material-icons cursor-pointer" onClick={() => toFavorite(router)}>chevron_left</span>
-                <h1 className='font3'>조각투자</h1>
-                <span className="material-icons cursor-pointer" onClick={() => toFavorite(router)}>close</span>
+        <div className='flex flex-col justify-center items-center'>
+            <div className='w-full sticky top-0 left-0 bg-white'>
+                <PageHeader
+                    modaltitle="조각 투자"
+                    showArrowButton={false}
+                    exitDirection="/home"
+                >
+                    투자
+                </PageHeader>
             </div>
-            <div className="px-10 mb-6">
-                <div className="flex-1 relative">
-                    <input
-                        type="text"
-                        placeholder="관심있는 주식을 검색해보세요"
-                        className="w-full py-5 font3 px-4 bg-[#E3E4E8] rounded-xl text-sm focus:outline-none"
-                        value={value}
-                        onKeyDown={(e) => e.key === "Enter" ? searchData(setPage) : null}
-                        onChange={(e) => setValue(e.target.value)}
-                    />
-                    <span className="material-icons absolute right-2 top-1/2 -translate-y-1/2">
-                        search
-                    </span>
+            <div className='w-[95%]'>
+                <div className="mb-8">
+                    <div
+                        className="flex items-center rounded-xl bg-[#F2F4F6] border border-2 border-transparent focus-within:border-[#3384f6]">
+                        <span className="material-icons px-2 text-gray-500">
+                            search
+                        </span>
+                        <input
+                            type="text"
+                            placeholder="관심 있는 주식을 검색해 보세요"
+                            className="w-full py-2 bg-[#F2F4F6] text-[1rem] rounded-xl focus:outline-none"
+                            value={value}
+                            onKeyDown={(e) => (e.key === "Enter" ? searchData(setPage) : null)}
+                            onChange={(e) => setValue(e.target.value)}
+                        />
+                    </div>
                 </div>
-            </div>
-            <div className="bg-[#E3E4E8] p-10 rounded-2xl m-14">
-                <div className="text-left">
-                    <h1 className="font1 font-bold mb-3">내 투자 현황</h1>
-                    <p className="font4 font-bold mb-3">{formatNumber(headDummyData.price)} 원</p>
-                    <div className='flex'>
-                        <p className={`font-bold ${headDummyData.rate > 0 ? `text-[#E46E61]` : `text-[#0B5CD8]`}`}>{formatNumberByTotal(headDummyData.price * headDummyData.rate * 0.01 / (1 + headDummyData.rate / 100))}</p>
-                        <p className={`font-bold ${headDummyData.rate > 0 ? `text-[#E46E61]` : `text-[#0B5CD8]`}`}>{headDummyData.rate > 0 ? "(+" + headDummyData.rate + "%)" : "(" + headDummyData.rate + "%)"}</p>
+                <div className="bg-[#F2F4F6] mt-8 p-4 rounded-2xl w-[90%] mx-auto">
+                    <div>
+                        <h1 className="text-left font1 font-bold text-[#43505E]">내 투자 현황</h1>
+                        <p className="text-left font4 font-bold">{formatNumber(headDummyData.price)}원</p>
+                        <div className='flex justify-start font-[1rem]'>
+                            <p className={`font-bold ${headDummyData.rate > 0 ? `text-[#E46E61]` : `text-[#0B5CD8]`}`}>
+                                {formatNumberByTotal(headDummyData.price * headDummyData.rate * 0.01 / (1 + headDummyData.rate / 100))}
+                            </p>
+                            <span>&nbsp;</span> {/* 공백 추가 */}
+                            <p className={`font-bold ${headDummyData.rate > 0 ? `text-[#E46E61]` : `text-[#0B5CD8]`}`}>
+                                {headDummyData.rate > 0 ? "(+" + headDummyData.rate + "%)" : "(" + headDummyData.rate + "%)"}
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </>
+        </div>
+
     )
 }
 
@@ -61,8 +73,5 @@ function formatNumberByTotal(number) {
         .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-function toFavorite(router) {
-    return router.push("/home")
-}
 
 export default HomeHeader
