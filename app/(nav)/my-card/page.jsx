@@ -11,6 +11,7 @@ import ColorInfo from "../../../components/card/colorInfo";
 import PointUsageBox from "../../../components/box/pointUsageBox";
 import LoadingSpinner from "../../../components/overlay/loadingSpinner";
 import CardNotFoundModal from "../../../components/my-card/CardNotFoundModal"
+import { useSession } from "next-auth/react";
 
 const MyCardPage = () => {
   const router = useRouter();
@@ -19,7 +20,7 @@ const MyCardPage = () => {
   const [currentColorIndex, setCurrentColorIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [showNoCardModal, setShowNoCardModal] = useState(false); // 카드가 없는 경우 모달 상태
-
+  const {data:session} = useSession();
   const fetchCardData = async () => {
     setIsLoading(true);
     try {
@@ -139,6 +140,9 @@ const MyCardPage = () => {
   };
 
   useEffect(() => {
+    if (!session) {
+      router.push("/login")
+    }
     fetchCardData();
   }, []);
 

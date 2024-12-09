@@ -4,6 +4,7 @@ import { cookies } from 'next/headers';
 
 export default auth(async (req) => {
     const session = await auth();
+    console.log("세션은");
     console.log(session);
     const goalURL = req.nextUrl.pathname.slice(1);
     const cookieList = await cookies();
