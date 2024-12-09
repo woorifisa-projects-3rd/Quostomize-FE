@@ -13,8 +13,8 @@ const AlertModal = ({ isOpen, setIsOpen, onClose, title, description = "이 페�
           <DialogTitle className="font2 font-bold">{title}</DialogTitle>
           <Description className="text-gray-500">{description}</Description>
           <div className="flex gap-4 justify-end pt-2">
-            <button className="bg-gray-300 text-gray-800 px-3 py-2 rounded-lg hover:bg-gray-400 transition-colors" onClick={() => onClose()}>확인</button>
-            <button className="bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition-colors" onClick={() => setIsOpen(false)}>취소</button>
+            <button className="bg-gray-300 text-gray-800 px-3 py-2 rounded-lg hover:bg-gray-400 transition-colors" onClick={() => setIsOpen(false)}>취소</button>
+            <button className="bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition-colors" onClick={() => onClose()}>확인</button>
           </div>
         </DialogPanel>
       </div>

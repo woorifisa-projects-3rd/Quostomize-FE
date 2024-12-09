@@ -265,7 +265,7 @@ const ChangeBenefitsPage = () => {
 
   return (
     <>
-      <div className="max-h-screen overflow-y-scroll">
+      <div className="max-h-screen">
 
         <ChangeBenefitHeader />
         <div className="flex flex-col justify-center items-center">
@@ -287,7 +287,7 @@ const ChangeBenefitsPage = () => {
         <ChangeBenefitFoot modalTitle="혜택 변경" exitDirection="/my-card" buttonText={buttonText} onChangeBenefit={handleBenefitChange}
           onReserveBenefit={handleBenefitReserve} authSuccess={authSuccess} cardSequenceId={cardSequenceId} authTrigger={authTrigger} isButtonDisabled={isButtonDisabled} />
       </div>
-      { isLoading && <LoadingSpinner />}
+      {isLoading && <LoadingSpinner />}
     </>
   );
 }
