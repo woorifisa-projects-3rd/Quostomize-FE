@@ -19,8 +19,6 @@ const LogoutButton = () => {
           message: "로그아웃 요청"
         }
       });
-
-      console.log(response);
       
     } catch (error) {
       console.error('Logout error:', error);

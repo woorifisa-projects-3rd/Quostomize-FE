@@ -24,9 +24,6 @@ export async function POST(request) {
       })
     });
 
-    console.log("route.js response");
-    console.log(logoutResponse);
-
     if (!logoutResponse.ok) {
       throw new Error('Logout failed on server');
     }
