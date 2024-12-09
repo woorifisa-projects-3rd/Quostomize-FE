@@ -8,6 +8,7 @@ import ParticipantCard from "../../../components/card/ParticipantCard";
 import WinnerCard from "../../../components/card/WinnerCard";
 import WinningModal from "../../../components/lotto/winningModal";
 import Bubble from "../../../components/bubble/bubble";
+import LottoHeader from "../../../components/lotto/lottoHeader"
 
 import { FaArrowRight } from "react-icons/fa";
 import Image from "next/image";
@@ -102,10 +103,9 @@ const LottoMain = async () => {
     }
 
 
-
-
     return (
         <Suspense fallback={<Loading />}>
+            <LottoHeader />
             <div className="flex flex-col h-full items-center p-2 mt-4">
                 <div className="w-full h-32">
                     {
