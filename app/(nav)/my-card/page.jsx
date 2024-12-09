@@ -23,9 +23,6 @@ const MyCardPage = () => {
   const {data:session} = useSession();
   console.log("세션은");
   console.log(session);
-  if (!session) {
-    router.push("/login")
-  }
   const fetchCardData = async () => {
     setIsLoading(true);
     try {
