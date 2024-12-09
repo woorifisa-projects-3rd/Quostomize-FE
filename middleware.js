@@ -3,7 +3,7 @@ import { auth } from "./auth";
 import { cookies } from 'next/headers';
 
 export default auth(async (req) => {
-    const session = req.auth;
+    const session = await auth();
     console.log(session);
     const goalURL = req.nextUrl.pathname.slice(1);
     const cookieList = await cookies();
@@ -51,3 +51,5 @@ export const config = {
         "/my-page/:path*"
     ] 
 };
+
+export { auth as middleware } from "./auth"
