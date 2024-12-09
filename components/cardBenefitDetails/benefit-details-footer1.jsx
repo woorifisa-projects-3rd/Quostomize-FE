@@ -25,7 +25,7 @@ function BenefitFooter1() {
 
     return (
         <div className='w-full flex-col justify-center items-center mt-16'>
-            <div className="p-4 w-full space-y-2">
+            <div className="p-4 space-y-2 flex flex-col items-center">
                 {notices.map((notice, index) => (
                     <NoticeToggleBox
                         key={index}
