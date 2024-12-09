@@ -32,7 +32,7 @@ const LogoutButton = () => {
   }
 
   return (
-    <div>
+    <div className="active:bg-slate-400">
       <button onClick={logout}>로그아웃</button>
     </div>
   )
