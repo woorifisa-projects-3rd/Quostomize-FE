@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import GradientText from "../../components/card/gradientText";
-import ColorInfo from "../card/ColorInfo";
+import ColorInfo from "../card/colorInfo";
 
 const OPTIONS = ["쇼핑", "생활", "푸드", "여행", "문화"];
 
