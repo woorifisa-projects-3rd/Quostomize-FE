@@ -10,7 +10,7 @@ export async function GET(request) {
     try {
         
         if (!session || !session.accessToken) {
-            return NextResponse.redirect(new URL("/login", `${process.env.NEXT_URL}`));
+            return NextResponse.redirect(new URL("/login", `${process.env.AUTH_URL}`));
         }
 
         if (!cardSequenceId) {
@@ -32,7 +32,7 @@ export async function GET(request) {
 
         if (!backendResponse.ok) {
             if (backendResponse.status === 401) {
-                return NextResponse.redirect(new URL("/login", `${process.env.NEXT_URL}`));
+                return NextResponse.redirect(new URL("/login", `${process.env.AUTH_URL}`));
             } else if (backendResponse.status === 403) {
                 return NextResponse.json(
                     { message: "로그인 후 다시 시도해 주세요." },

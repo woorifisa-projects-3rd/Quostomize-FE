@@ -8,7 +8,7 @@ const LogoutButton = () => {
 
   const logout = async () => {
     try {
-      await fetch("api/auth/logout", {
+      const response = await fetch("api/auth/logout", {
         method: "POST",
         headers: {
           "Content-type": "application/json"
@@ -16,9 +16,13 @@ const LogoutButton = () => {
         cache:"no-store",
         credentials: "include"
       });
+
+      if (response.redirected) {
+        const redirectUrl = response.url;
+        await signOut({ redirect: false });
+        router.push(`${redirectUrl}`);
+      }
       
-      await signOut({ redirect: false });
-      router.push('/login');
     } catch (error) {
       console.error('Logout error:', error);
     }

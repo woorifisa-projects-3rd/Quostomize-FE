@@ -7,7 +7,6 @@ import { BsCreditCard2FrontFill } from "react-icons/bs";
 export const metadata = {
   title: "우리 커스터마이징",
   description: "우리 커스터마이징 서비스",
-  viewport: "width=device-width, initial-scale=1, maximum-scale=1"
 };
 
 export default function NavLayout({ children }) {

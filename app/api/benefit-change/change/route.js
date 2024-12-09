@@ -9,7 +9,7 @@ export async function PATCH(request) {
         const body = await request.json();
 
         if (!session || !session.accessToken) {
-            return NextResponse.redirect(new URL("/login", `${process.env.NEXT_URL}`));
+            return NextResponse.redirect(new URL("/login", `${process.env.AUTH_URL}`));
         }
 
         for (let item of body) {

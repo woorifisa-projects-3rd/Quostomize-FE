@@ -19,7 +19,7 @@ export async function GET(request) {
         );
         
         if (response.status != 200) {
-            return NextResponse.redirect(new URL("/login", `${process.env.NEXT_URL}`));
+            return NextResponse.redirect(new URL("/login", `${process.env.AUTH_URL}`));
         } else {
             const result = await response.json();
             return NextResponse.json(result, {status:200});
