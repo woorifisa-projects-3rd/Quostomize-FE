@@ -5,7 +5,7 @@ export async function POST(request) {
     const session = await auth();
     
     if (!session) {
-      return NextResponse.json({ message: "No active session" }, { status: 200 });
+      return NextResponse.redirect(new URL("/", `${process.env.AUTH_URL}`));
     }
 
     const accessToken = session.accessToken;
