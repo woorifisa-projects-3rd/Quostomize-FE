@@ -5,7 +5,7 @@ export async function POST(request) {
     const session = await auth();
     
     if (!session) {
-      return NextResponse.redirect(new URL("/", `${process.env.AUTH_URL}`));
+      return NextResponse.redirect(new URL("/login", `${process.env.AUTH_URL}`));
     }
 
     const accessToken = session.accessToken;

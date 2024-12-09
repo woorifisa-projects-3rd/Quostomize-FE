@@ -5,7 +5,7 @@ export async function GET() {
     const session = await auth();
     const accessToken = session?.accessToken;
     if (!session || !accessToken) {
-        return NextResponse.redirect(new URL("/", `${process.env.AUTH_URL}`));
+        return NextResponse.redirect(new URL("/login", `${process.env.AUTH_URL}`));
     }
 
     try {

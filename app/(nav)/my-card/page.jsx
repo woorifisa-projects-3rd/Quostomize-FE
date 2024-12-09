@@ -35,7 +35,7 @@ const MyCardPage = () => {
       });
 
       if (response.redirected) {
-        router.push("/");
+        router.push("/login");
       }
 
       if (!response.ok) {
