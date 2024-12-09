@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import { auth } from "../../../../auth"
 
 export async function POST(request) {
-  try {
     const session = await auth();
     
     if (!session) {
@@ -25,6 +24,9 @@ export async function POST(request) {
       })
     });
 
+    console.log("route.js response");
+    console.log(logoutResponse);
+
     if (!logoutResponse.ok) {
       throw new Error('Logout failed on server');
     }
@@ -37,9 +39,4 @@ export async function POST(request) {
         "Location": "/login"
       }
     });
-
-  } catch (error) {
-    console.error('Logout error:', error);
-    return NextResponse.json({ message: "Logout failed" }, { status: 500 });
-  }
 }
