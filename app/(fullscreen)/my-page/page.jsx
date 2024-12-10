@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from "react";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { IoWarningOutline } from 'react-icons/io5';
 
 import LogoutButton from "../../../components/button/logoutButton";
@@ -14,10 +14,7 @@ import { useSession } from "next-auth/react";
 
 const MyPage = () => {
   const router = useRouter();
-  const {data: session} = useSession();
-  if (!session) {
-    router.push("/login?to=my-page");
-  }
+
   const [memberName, setMemberName] = useState("")
   const [memberLoginId, setMemberLoginId] = useState("");
   const [formData, setFormData] = useState({

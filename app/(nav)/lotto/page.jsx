@@ -1,4 +1,3 @@
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { auth } from "../../../auth";
@@ -15,35 +14,19 @@ import Image from "next/image";
 import Icons from "../../../public/icons/icons";
 import { Suspense } from "react";
 import Loading from "./loading";
+import { cookies } from "next/headers";
 
 
 const LottoMain = async () => {
     const session = await auth();
+    const cookieList = await cookies();
     
     if (!session) {
         redirect("/login?to=lotto");
     }
 
     const memberName = session.memberName;
-    const cookieList = await cookies();
 
-    const now = new Date();
-
-    // 오늘의 자정을 계산
-    const endOfDay = new Date(
-        now.getFullYear(),
-        now.getMonth(),
-        now.getDate(),
-        23, 59, 59, 999
-    );
-
-    if (!cookieList.has("winner_checked")) {
-        cookieList.set("winner_checked", "false", 
-            {
-                expires: endOfDay.getTime()
-            }
-        );
-    }
 
     // 오늘 참여자 수
     const getTodayParticipants = async () => {
@@ -110,7 +93,6 @@ const LottoMain = async () => {
             console.error(new Error("서버 오류"))
         }
     }
-
     
     
     const [stringValue, todayWinners, isParticipant] = await Promise.all([
@@ -166,7 +148,7 @@ const LottoMain = async () => {
                     })}
                 </div>
             </div>
-            <WinningModal isWinner={isWinner}/>
+            <WinningModal isWinner={isWinner} />
         </Suspense>
     );
 }
