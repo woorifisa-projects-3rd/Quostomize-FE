@@ -159,7 +159,6 @@ const ChangeBenefitsPage = () => {
         cache: "no-store",
         body: JSON.stringify(requestBody),
       });
-      console.log(response);
 
       if (!response.ok) {
         const errorText = await response.text();
@@ -174,7 +173,6 @@ const ChangeBenefitsPage = () => {
       }
 
       const result = JSON.parse(responseText);
-      console.log(result);
 
       setAuthSuccess(result.status === 400 ? "400" : "200");
 

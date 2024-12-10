@@ -24,7 +24,6 @@ export async function GET(request) {
             cache: "no-store"
         }
     );
-
     if (response.status != 200) {
         if (response.status === 403 || response.status === 401) {
             return NextResponse.redirect(new URL("/login", `${process.env.AUTH_URL}`));
