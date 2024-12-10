@@ -18,6 +18,11 @@ import Loading from "./loading";
 
 const LottoMain = async () => {
     const session = await auth();
+
+    if (!session) {
+        redirect("/login?to=lotto");
+    }
+
     const memberName = session.memberName;
     const cookieList = await cookies();
     // 오늘 참여자 수
