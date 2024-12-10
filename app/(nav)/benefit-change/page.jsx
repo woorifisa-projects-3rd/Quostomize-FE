@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
 import CardNotFoundModal from "../../../components/my-card/CardNotFoundModal";
 import LoadingSpinner from "../../../components/overlay/loadingSpinner";
+import ForbiddenModal from "../../../components/overlay/forbiddenModal";
 
 const ChangeBenefitsPage = () => {
   const router = useRouter();
@@ -65,7 +66,7 @@ const ChangeBenefitsPage = () => {
             credentials: "include",
           });
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error(response.status);
       }
 
       const responsedata = await response.json();
@@ -89,7 +90,7 @@ const ChangeBenefitsPage = () => {
         credentials: "include",
       });
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error(response.status);
       }
       const data = await response.json();
 
@@ -161,9 +162,7 @@ const ChangeBenefitsPage = () => {
 
       if (!response.ok) {
         const errorText = await response.text();
-        console.error("Error response:", errorText);
-        throw new Error(errorText);
-
+        throw new Error(response.status);
       }
 
       setAuthTrigger(prev => prev + 1);
@@ -239,7 +238,13 @@ const ChangeBenefitsPage = () => {
   }, [benefitState])
 
   if (error) {
-    return <div>문제가 발생했습니다. 다시 시도해 주세요: {error}</div>
+    if (error == 401) {
+      return <ForbiddenModal title="로그인이 필요" description="잠시후 홈으로 돌아갑니다." goal="login" />
+    } else if (error == 403) {
+      return <ForbiddenModal title="권한이 없는 계정" description="잠시후 홈으로 돌아갑니다." goal="home" />
+    } else {
+      return <ForbiddenModal title="서버 오류" description="잠시후 다시 시도해주세요" goal="home" />
+    }
   }
 
   if (showNoCardModal) {

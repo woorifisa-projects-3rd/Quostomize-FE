@@ -13,10 +13,6 @@ const SearchPage = () => {
   const [selectedStocks, setSelectedStocks] = useState([]);
   const [cardData, setCardData] = useState([]) // 카드데이터-카드아이디뽑기용
 
-  useEffect(() => {
-    searchCardInfo()
-  }, []);
-
   const cardId = cardData[0]?.cardSequenceId
 
   // 백엔드에서 GET 위시리스트 조회시, 위시리스트의 priority, stockName, stockPresentPrice, stockImage 를 갖고온다.
@@ -39,6 +35,10 @@ const SearchPage = () => {
       console.error('데이터 가져오기 오류:', error);
     }
   }
+
+  useEffect(() => {
+    searchCardInfo()
+  }, []);
 
   return (
     <div className="p-4">

@@ -1,11 +1,9 @@
-"use client";
-
 import MyFullButton from '../button/full-button'
 import FadeInSection from "../fade-in/fade-in-section";
 import TabContentBox from "../../components/box/tab-content-box";
 import Icons from "../../public/icons/icons"
 
-const HomeBody3 = () => {
+const HomeBody3 = async () => {
     const tabData = [
         {
             title: "쇼핑",

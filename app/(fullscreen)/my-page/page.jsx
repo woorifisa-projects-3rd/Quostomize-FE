@@ -11,6 +11,7 @@ import AddressForm from "../../../components/create-card/input-address/AddressFo
 import LoadingSpinner from "../../../components/overlay/loadingSpinner";
 import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
+import ForbiddenModal from "../../../components/overlay/forbiddenModal";
 
 const MyPage = () => {
   const router = useRouter();
@@ -47,9 +48,14 @@ const MyPage = () => {
       },
     );
   
-    if (response.redirected) {
+    if (response.status === 401 ) {
       await signOut({redirect: false});
-      router.push("/login?to=my-page");
+      return <ForbiddenModal title="로그인 필요" description="잠시 후 로그인 페이지로 이동합니다." goal="login"/>
+    }
+
+    if (response.status === 403 ) {
+      await signOut({redirect: false});
+      return <ForbiddenModal title="로그인 필요" description="잠시 후 로그인 페이지로 이동합니다." goal="home"/>
     }
   
     const result = await response.json();
