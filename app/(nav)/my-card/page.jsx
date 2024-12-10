@@ -15,15 +15,13 @@ import { useSession } from "next-auth/react";
 
 const MyCardPage = () => {
   const router = useRouter();
+  const {data:session} = useSession();
   const [cardData, setCardData] = useState(null);
   const [error, setError] = useState(null);
   const [currentColorIndex, setCurrentColorIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [showNoCardModal, setShowNoCardModal] = useState(false); // 카드가 없는 경우 모달 상태
-  const {data:session} = useSession();
-  if (!session) {
-    router.push("/login?to=my-card")
-  }
+
   const fetchCardData = async () => {
     setIsLoading(true);
     try {
@@ -147,7 +145,14 @@ const MyCardPage = () => {
     }
   };
 
+  
+
   useEffect(() => {
+
+    if (!session) {
+      router.push("/login?to=my-card");
+      return;
+    }
     fetchCardData();
   }, []);
 

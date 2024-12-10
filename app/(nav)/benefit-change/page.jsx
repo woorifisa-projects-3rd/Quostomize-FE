@@ -90,11 +90,16 @@ const ChangeBenefitsPage = () => {
         },
         credentials: "include",
       });
+
+      if (response.redirected) {
+        router.push("login?to=benefit-change");
+        return;
+      }
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      const data = await response.json();
 
+      const data = await response.json();
       if (!data.data || data.data.length === 0) {
         setShowNoCardModal(true); // 카드가 없으면 모달을 띄우도록 설정
         return;
@@ -108,8 +113,9 @@ const ChangeBenefitsPage = () => {
         selectedOptions: transformedData.map(item => item.lowerCategoryId),
       };
       setBenefitState(updatedState);
-
+      console.log("set됨");
       setCardSequenceId(data.data[0].cardSequenceId);
+      
     } catch (error) {
       setError(error.message);
     }

@@ -43,6 +43,7 @@ const LoginContent = () => {
         setRedirectTo('/home');
       }  
     }, [searchParams])
+
   
     const handleLogin = async (e) => {
       e.preventDefault();
