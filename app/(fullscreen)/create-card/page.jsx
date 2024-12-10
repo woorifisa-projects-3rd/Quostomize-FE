@@ -154,7 +154,6 @@ const CreateCardPage = () => {
         homeDetailAddress: formData.detailedResidentialAddress
       };
 
-      console.log("cardApplication :", cardApplicationData)
       const response = await fetch("/api/create-card", {
         method: 'POST',
         cache: 'no-store',

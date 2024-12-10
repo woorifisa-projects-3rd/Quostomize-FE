@@ -15,6 +15,7 @@ import Image from "next/image";
 import Icons from "../../../public/icons/icons";
 import { Suspense } from "react";
 import Loading from "./loading";
+import { cookies } from 'next/headers';
 
 const LottoMain = async () => {
     const session = await auth();
@@ -25,6 +26,15 @@ const LottoMain = async () => {
 
     const memberName = session.memberName;
     const cookieList = await cookies();
+
+    if (!cookieList.has("winner_checked")) {
+        cookieList.set("winner_checked", "false", 
+            {
+                expires: endOfDay.getTime()
+            }
+        );
+    }
+    
     // 오늘 참여자 수
     const getTodayParticipants = async () => {
         const response = await fetch(

@@ -9,6 +9,7 @@ import MyPageHeader from "../../../components/my-page/myPageHeader";
 import EmailForm from "../../../components/create-card/input-address/EmailForm";
 import AddressForm from "../../../components/create-card/input-address/AddressForm";
 import LoadingSpinner from "../../../components/overlay/loadingSpinner";
+import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
 
 const MyPage = () => {
@@ -48,9 +49,10 @@ const MyPage = () => {
         cache: "no-store"
       },
     );
-
+  
     if (response.redirected) {
-        router.push("/login?to=my-page");
+      await signOut({redirect: false});
+      router.push("/login?to=my-page");
     }
   
     const result = await response.json();

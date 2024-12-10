@@ -2,11 +2,10 @@ import { NextResponse } from "next/server";
 import { auth } from "../../../../auth"
 
 export async function POST(request) {
-  try {
     const session = await auth();
     
     if (!session) {
-      return NextResponse.json({ message: "No active session" }, { status: 200 });
+      return NextResponse.redirect(new URL("/login", `${process.env.AUTH_URL}`));
     }
 
     const accessToken = session.accessToken;
@@ -37,9 +36,4 @@ export async function POST(request) {
         "Location": "/login"
       }
     });
-
-  } catch (error) {
-    console.error('Logout error:', error);
-    return NextResponse.json({ message: "Logout failed" }, { status: 500 });
-  }
 }

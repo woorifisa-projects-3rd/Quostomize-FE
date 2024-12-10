@@ -21,8 +21,6 @@ const MyCardPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showNoCardModal, setShowNoCardModal] = useState(false); // 카드가 없는 경우 모달 상태
   const {data:session} = useSession();
-  console.log("세션은");
-  console.log(session);
   if (!session) {
     router.push("/login?to=my-card")
   }
@@ -37,6 +35,11 @@ const MyCardPage = () => {
         },
         credentials: "include",
       });
+
+      if (response.redirected) {
+        router.push("/login");
+      }
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
