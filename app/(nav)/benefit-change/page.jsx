@@ -75,8 +75,6 @@ const ChangeBenefitsPage = () => {
         setButtonText(responsedata.data);
       };
     } catch (error) {
-      console.log("changerlable에서 오류 발생")
-      console.log(error)
       setError(error.message);
     }
   };
@@ -113,8 +111,6 @@ const ChangeBenefitsPage = () => {
 
       setCardSequenceId(data.data[0].cardSequenceId);
     } catch (error) {
-      console.log("fetch benefit data에서 오류 발생")
-      console.log(error)
       setError(error.message);
     }
   };

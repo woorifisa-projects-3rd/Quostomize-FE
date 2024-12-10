@@ -27,6 +27,16 @@ const LottoMain = async () => {
     const memberName = session.memberName;
     const cookieList = await cookies();
 
+    const now = new Date();
+
+    // 오늘의 자정을 계산
+    const endOfDay = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate(),
+        23, 59, 59, 999
+    );
+
     if (!cookieList.has("winner_checked")) {
         cookieList.set("winner_checked", "false", 
             {
