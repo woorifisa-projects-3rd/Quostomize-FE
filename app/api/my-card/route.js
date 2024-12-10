@@ -3,7 +3,11 @@ import { auth } from '../../../auth';
 
 export async function GET() {
     const session = await auth();
-    const accessToken = session.accessToken;
+    const accessToken = session?.accessToken;
+    if (!session || !accessToken) {
+        return NextResponse.redirect(new URL("/login", `${process.env.AUTH_URL}`));
+    }
+
     try {
         const backendResponse = await fetch(`${process.env.SERVER_URL}/v1/api/my-card`, {
             method: "GET",

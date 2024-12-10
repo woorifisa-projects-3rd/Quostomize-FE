@@ -7,7 +7,7 @@ const ChangeBenefitHeader = ({ onClick }) => {
     return (
         <div className='sticky top-0 left-0 bg-white z-20'>
             <PageHeader
-                modaltitle="포인트 혜택 변경"
+                modaltitle="카드 혜택 변경"
                 description={
                     <>
                         변경을 취소하시겠습니까?
@@ -20,7 +20,7 @@ const ChangeBenefitHeader = ({ onClick }) => {
                 exitDirection="/my-card"
 
             >
-                포인트 혜택 변경
+                카드 혜택 변경
             </PageHeader>
         </div>
     )

@@ -24,7 +24,7 @@ export async function GET(request) {
         if (result.code === "I-201") {
             return NextResponse.json({ data: null }, { status: 500 });
         }
-        return NextResponse.redirect(new URL("/login", `${process.env.NEXT_URL}`));
+        return NextResponse.redirect(new URL("/login", `${process.env.AUTH_URL}`));
     } else {
         const result = await response.json();
         return NextResponse.json({ data: result.data }, { status: 200 });

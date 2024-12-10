@@ -65,6 +65,7 @@ const LoginForm = ({ formData, handleInputChange, isFormValid, onSubmit }) => {
                     placeholder:text-sm
                     ${errors.memberLoginId ? 'border-red-500' : 'border-gray-300'}`}
           placeholder="아이디를 입력해주세요"
+          autoComplete='on'
         />
         {errors.memberLoginId && (
           <p className="mt-2 text-xs text-red-500">{errors.memberLoginId}</p>
@@ -85,6 +86,7 @@ const LoginForm = ({ formData, handleInputChange, isFormValid, onSubmit }) => {
                     placeholder:text-sm
                     ${errors.memberPassword ? 'border-red-500' : 'border-gray-300'}`}
           placeholder="비밀번호를 입력해주세요"
+          autoComplete='off'
         />
         {errors.memberPassword && (
           <p className="mt-2 text-xs text-red-500">{errors.memberPassword}</p>

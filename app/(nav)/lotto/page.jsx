@@ -1,4 +1,3 @@
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { auth } from "../../../auth";
@@ -8,21 +7,36 @@ import ParticipantCard from "../../../components/card/ParticipantCard";
 import WinnerCard from "../../../components/card/WinnerCard";
 import WinningModal from "../../../components/lotto/winningModal";
 import Bubble from "../../../components/bubble/bubble";
+import LottoHeader from "../../../components/lotto/lottoHeader"
 
 import { FaArrowRight } from "react-icons/fa";
 import Image from "next/image";
 import Icons from "../../../public/icons/icons";
 import { Suspense } from "react";
 import Loading from "./loading";
+import { cookies } from "next/headers";
+import ForbiddenModal from "../../../components/overlay/forbiddenModal";
+
 
 const LottoMain = async () => {
     const session = await auth();
-    const memberName = session.memberName;
     const cookieList = await cookies();
+
+    if (!session) {
+        return <ForbiddenModal title="로그인 필요" description="잠시후 로그인 페이지로 이동합니다." goal="login" />
+    }
+
+    if (!(session.memberRole === "ROLE_MEMBER" || session.memberRole === "ROLE_ADMIN")) {
+        return <ForbiddenModal title="권한이 없는 계정" description="잠시후 홈으로 돌아갑니다." goal="home" />
+    }
+
+    const memberName = session.memberName;
+
+
     // 오늘 참여자 수
     const getTodayParticipants = async () => {
         const response = await fetch(
-            `${process.env.NEXT_URL}/api/lotto`
+            `${process.env.AUTH_URL}/api/lotto`
             ,
             {
                 method: "GET",
@@ -45,7 +59,7 @@ const LottoMain = async () => {
     // 최근 당첨자들
     const getTodayWinners = async () => {
         const response = await fetch(
-            `${process.env.NEXT_URL}/api/lotto/winners`
+            `${process.env.AUTH_URL}/api/lotto/winners`
             ,
             {
                 method: "GET",
@@ -67,7 +81,7 @@ const LottoMain = async () => {
     // 참여 여부
     const getIsParticipant = async () => {
         const response = await fetch(
-            `${process.env.NEXT_URL}/api/lotto/isParticipant`,
+            `${process.env.AUTH_URL}/api/lotto/isParticipant`,
             {
                 method: "GET",
                 cache: "no-store",
@@ -84,7 +98,6 @@ const LottoMain = async () => {
             console.error(new Error("서버 오류"))
         }
     }
-
     
     
     const [stringValue, todayWinners, isParticipant] = await Promise.all([
@@ -102,10 +115,9 @@ const LottoMain = async () => {
     }
 
 
-
-
     return (
         <Suspense fallback={<Loading />}>
+            <LottoHeader />
             <div className="flex flex-col h-full items-center p-2 mt-4">
                 <div className="w-full h-32">
                     {
@@ -141,7 +153,7 @@ const LottoMain = async () => {
                     })}
                 </div>
             </div>
-            <WinningModal isWinner={isWinner}/>
+            <WinningModal isWinner={isWinner} />
         </Suspense>
     );
 }

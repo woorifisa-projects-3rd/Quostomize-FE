@@ -1,10 +1,33 @@
 'use server' 
 import { NextResponse } from "next/server";
 import { auth } from "../../../auth";
+import { cookies } from "next/headers";
 
 export async function GET(request) {
     const session = await auth();
     try {
+        const cookieList = await cookies();
+
+        const now = new Date();
+    
+        // 오늘의 자정을 계산
+        const endOfDay = new Date(
+            now.getFullYear(),
+            now.getMonth(),
+            now.getDate(),
+            23, 59, 59, 999
+        );
+    
+        if (!cookieList.has("winner_checked")) {
+            cookieList.set("winner_checked", 0, 
+                {
+                    expires: endOfDay.getTime()
+                }
+            );
+        }
+
+        
+
         const response = await fetch(`${process.env.SERVER_URL}/v1/api/lottery`,
             {
                 method: "GET",
@@ -19,7 +42,7 @@ export async function GET(request) {
         );
         
         if (response.status != 200) {
-            return NextResponse.redirect(new URL("/login", `${process.env.NEXT_URL}`));
+            return NextResponse.redirect(new URL("/login", `${process.env.AUTH_URL}`));
         } else {
             const result = await response.json();
             return NextResponse.json(result, {status:200});

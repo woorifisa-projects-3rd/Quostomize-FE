@@ -1,11 +1,9 @@
-"use client";
-
 import HomeFoot from './HomeFoot';
 import FadeInSection from "../fade-in/fade-in-section";
 import TabContentBox from "../../components/box/tab-content-box";
 import Icons from "../../public/icons/icons"
 
-const HomeBody4 = () => {
+const HomeBody4 = async () => {
     const tabData = [
         {
             title: "투자",
@@ -55,7 +53,7 @@ const HomeBody4 = () => {
     ];
 
     return (
-        <div className='flex flex-col justify-center items-center mt-60'>
+        <div className='flex w-full flex-col justify-center items-center mt-60'>
             <FadeInSection>
                 <div className='flex flex-col justify-center items-center w-full'>
                     <h1 className='font5 font-semibold'>포인트, 매일 변경</h1>
@@ -66,7 +64,7 @@ const HomeBody4 = () => {
                 </div>
             </FadeInSection>
 
-            <div className='mt-10 mb-16'>
+            <div className='mt-10 mb-16 flex w-full justify-center'>
                 <HomeFoot />
             </div>
         </div >

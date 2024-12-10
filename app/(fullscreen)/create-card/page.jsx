@@ -19,7 +19,6 @@ import InputAddressHeader from '../../../components/create-card/input-address/in
 import SelectOtherInfo from '../../../components/create-card/input-address/SelectOtherInfo';
 import CheckInformationHeader from '../../../components/create-card/check-information/CheckInformationHeader';
 import CheckInformation from '../../../components/create-card/check-information/CheckInformation';
-import Icons from '../../../public/icons/icons';
 import React, { useState, useEffect } from "react";
 import AlertModal from './AlertModal';
 import { useRouter } from 'next/navigation';
@@ -115,7 +114,7 @@ const CreateCardPage = () => {
       const cardApplicationData = {
         // 카드 기본 정보
         cardColor: selectedCardIndex,
-        cardBrand: cardOptions.cardBrand === 'VISA' ? 1 : cardOptions.cardBrand,
+        cardBrand: cardOptions.cardBrand === 'VISA' ? 1 : 2,
         isAppCard: cardOptions.isAppCard,
         isForeignBlocked: cardOptions.isForeignBlocked,
         isPostpaidTransport: cardOptions.isPostpaidTransport,
@@ -146,9 +145,9 @@ const CreateCardPage = () => {
         residenceNumber: `${applicantInfo.residenceNumber}${applicantInfo.residenceNumber2}`,
         applicantName: applicantInfo.name,
         englishName: applicantInfo.englishName,
-        zipCode: formData.deliveryPostalCode,
-        shippingAddress: formData.deliveryAddress,
-        shippingDetailAddress: formData.detailedDeliveryAddress,
+        zipCode: cardOptions.isAppCard ? '-' : formData.deliveryPostalCode,
+        shippingAddress: cardOptions.isAppCard ? '-' : formData.deliveryAddress,
+        shippingDetailAddress: cardOptions.isAppCard ? '-' : formData.detailedDeliveryAddress,
         applicantEmail: `${formData.emailId}@${formData.emailDomain}`,
         phoneNumber: formData.phoneNumber,
         homeAddress: formData.residentialAddress,
@@ -191,13 +190,13 @@ const CreateCardPage = () => {
       setShowAlertModal(true);
       return;
     }
-    if (currentPage === 5) {
-      const { residenceNumber, residenceNumber2, name, englishName } = applicantInfo;
-      if (!residenceNumber || !residenceNumber2 || !name || !englishName || !isVerified) {
-        setShowAlertModal(true);
-        return;
-      }
-    }
+    // if (currentPage === 5) {
+    //   const { residenceNumber, residenceNumber2, name, englishName } = applicantInfo;
+    //   if (!residenceNumber || !residenceNumber2 || !name || !englishName || !isVerified) {
+    //     setShowAlertModal(true);
+    //     return;
+    //   }
+    // }
     if (currentPage === 6) {
       // Check if first 4 items are all true
       const requiredTerms = isAccepted.slice(1, 4);
@@ -207,11 +206,16 @@ const CreateCardPage = () => {
       }
     }
     if (currentPage === 7) {
-      // Exclude isSameAsDeliveryAddress from validation check
-      const isFormValid = Object.entries(formData)
-        .filter(([key]) => key !== 'isSameAsDeliveryAddress')
-        .every(([_, value]) => value !== '');
+      // 검증에서 제외할 필드들을 배열로 정의
+      const excludeFields = ['isSameAsDeliveryAddress'];
 
+      // isAppCard가 true일 경우 배송지 관련 필드도 제외
+      if (cardOptions.isAppCard) {
+        excludeFields.push('deliveryPostalCode', 'deliveryAddress', 'detailedDeliveryAddress');
+      }
+      const isFormValid = Object.entries(formData)
+          .filter(([key]) => !excludeFields.includes(key))
+          .every(([_, value]) => value !== '');
       if (!isFormValid) {
         setShowAlertModal(true);
         return;
@@ -328,6 +332,7 @@ const CreateCardPage = () => {
             paymentHistoryReceiveMethod={formData.paymentHistoryReceiveMethod}
             isOverseasPaymentBlocked={cardOptions.isForeignBlocked}
             isTransportationEnabled={cardOptions.isPostpaidTransport}
+            isAppCard={cardOptions.isAppCard}
           />
         </div>;
     }

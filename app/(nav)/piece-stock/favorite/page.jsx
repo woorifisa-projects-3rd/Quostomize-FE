@@ -14,11 +14,6 @@ const FavoritePage = () => {
   const [cardData, setCardData] = useState([]) // 카드데이터-카드아이디뽑기용
   const [dragOverIndex, setDragOverIndex] = useState(null); // 드래깅 된 위치확인 값
 
-
-  useEffect(() => {
-    searchCardInfo();
-  }, []);
-
   const cardId = cardData[0]?.cardSequenceId
 
   // 백엔드에서 GET 위시리스트 조회시, 위시리스트의 priority, stockName, stockPresentPrice, stockImage 를 갖고온다.
@@ -41,6 +36,11 @@ const FavoritePage = () => {
       console.error('데이터 가져오기 오류:', error);
     }
   }
+
+  useEffect(() => {
+    searchCardInfo();
+  }, []);
+
   return (
     <>
       <ul className="my-7 flex flex-col h-full">

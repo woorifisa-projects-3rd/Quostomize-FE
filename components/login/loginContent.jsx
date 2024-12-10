@@ -22,6 +22,7 @@ const LoginContent = () => {
     });
     const [isFormValid, setIsFormValid] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [redirectTo, setRedirectTo] = useState("/home");
   
     useEffect(() => {
       if (session) {
@@ -34,8 +35,15 @@ const LoginContent = () => {
         formData.memberLoginId.length > 0 && formData.memberPassword.length > 0
       );
     }, [formData]);
-  
-    let redirectTo = searchParams.get('to') ? '/' + searchParams.get('to') : '/home';
+
+    useEffect(() => {
+      if ( searchParams.get('to') ) {
+        setRedirectTo('/' + searchParams.get('to'));
+      } else {
+        setRedirectTo('/home');
+      }  
+    }, [searchParams])
+
   
     const handleLogin = async (e) => {
       e.preventDefault();
@@ -58,9 +66,7 @@ const LoginContent = () => {
       } finally {
         setIsLoading(false);
         if (isAuthed) {
-          if (isAuthed) {
             router.push(redirectTo);
-          }
         }
       }
     };

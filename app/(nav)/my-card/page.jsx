@@ -7,13 +7,15 @@ import MyCardHeader from '../../../components/my-card/myCardHeader'
 import MyFullButton from "../../../components/button/full-button";
 import Icons from "../../../public/icons/icons"
 import GradientText from "../../../components/card/gradientText";
-import ColorInfo from "../../../components/card/ColorInfo";
+import ColorInfo from "../../../components/card/colorInfo";
 import PointUsageBox from "../../../components/box/pointUsageBox";
 import LoadingSpinner from "../../../components/overlay/loadingSpinner";
 import CardNotFoundModal from "../../../components/my-card/CardNotFoundModal"
+import { useSession } from "next-auth/react";
 
 const MyCardPage = () => {
   const router = useRouter();
+  const {data:session} = useSession();
   const [cardData, setCardData] = useState(null);
   const [error, setError] = useState(null);
   const [currentColorIndex, setCurrentColorIndex] = useState(0);
@@ -31,6 +33,11 @@ const MyCardPage = () => {
         },
         credentials: "include",
       });
+
+      if (response.redirected) {
+        router.push("/login");
+      }
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -138,7 +145,13 @@ const MyCardPage = () => {
     }
   };
 
+  
+
   useEffect(() => {
+    if (!session) {
+      setShowNoCardModal(true);
+      return;
+    }
     fetchCardData();
   }, []);
 
@@ -235,7 +248,7 @@ const MyCardPage = () => {
           </div>
 
         </div>
-        <div className="mb-20 flex">
+        <div className="mb-20 flex w-full justify-center">
           <MyFullButton href={"/benefit-change"} children={"혜택 새로 고르기"} />
         </div>
         <div className="px-6 w-full mb-20">

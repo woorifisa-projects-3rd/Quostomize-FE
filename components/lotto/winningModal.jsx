@@ -14,7 +14,11 @@ const WinningModal = (isWinner) => {
   const [isMounted, setMounted] = useState(false);
 
   useEffect(() => {
-    if (Cookies.get("winner_checked") == "false") {
+    if (!Cookies.get("winner_checked")) {
+      Cookies.set("winner_checked", 0)
+    }
+
+    if (Cookies.get("winner_checked") <=2 ) {
       setIsOpen(true);
     }
   },[])
@@ -30,21 +34,15 @@ const WinningModal = (isWinner) => {
     components.push(loserComponents);
   }
 
-  const setCookie = () => {
-      const now = new Date();
-      const endOfDay = new Date(
-        now.getFullYear(),
-        now.getMonth(),
-        now.getDate(),
-        23, 59, 59, 999
-    );
 
-    Cookies.set("winner_checked", "true",
-      {
-        expires: endOfDay.getTime()
-      }
-    );
-  }
+  const setCookie = async () => {
+    const response = await fetch(`/api/lotto/set-cookie`,
+        {
+            method: "GET",
+            cache: "no-store",
+        }
+    )
+}
 
 
   const handleComponentTransition = () => {
@@ -53,6 +51,7 @@ const WinningModal = (isWinner) => {
           return prev + 1;
         } else {
           setIsOpen(false);
+          setCookie();
           return 0;
         }
       }
@@ -74,7 +73,7 @@ const WinningModal = (isWinner) => {
     <Dialog
       open={isOpen}
       onClose={() => { 
-        setIsOpen(false);
+        
      }}
     >
       <div className="fixed inset-0 flex w-screen h-full bg-black/15 items-center justify-center p-4 z-30">
