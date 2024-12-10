@@ -130,13 +130,14 @@ const SignupSecond = ({ setPage, secondForm, setSecondForm, regionNumber, setReg
             <button className="material-icons cursor-pointer m-6 text-blue-600" onClick={toBeforePage}>arrow_back_ios</button>
             <h1 className="font-bold text-2xl p-3 mb-16 ml-5 text-blue-500">회원가입</h1>
 
-            <div className='m-5 p-6 bg-white rounded-xl shadow-lg'>
+            <div className='m-5  bg-white rounded-xl shadow-lg'>
+                <span className='ml-6 font-medium mt-2'>주민등록번호</span>
                 <div className='flex'>
                     {regionNumber?.map((reginInfo, i) => reginInfoDataFeild(reginInfo, i, regionNumber, setRegionNumber, setRegidenceNumberError))}
                 </div>
                 {(regidenceNumberError) && (
-                    <div className="w-full flex justify-center text-red-500 mt-2 text-sm font-semibold">
-                        <p>주민등록번호 입력값이 올바르지 않거나 값이 없습니다. 다시 입력해주세요</p>
+                    <div className="flex justify-center text-red-500 font1">
+                        <p>주민등록번호 입력값이 올바르지 않거나 값이 없습니다.</p>
                     </div>
                 )}
                 {secondForm?.map((signupInfo, index) => otherDataFeild(signupInfo, index, isModal, isReModal, setModal, number, setNumber, setReModal, setReNumber, reNumber, isBlocked, secondForm, setSecondForm, secondToAuthNumber, handleSearch, phoneNumberError))}
@@ -144,13 +145,13 @@ const SignupSecond = ({ setPage, secondForm, setSecondForm, regionNumber, setReg
                 {/* 에러 메시지 */}
                 {error && (
                     <div className="flex justify-center text-red-500 mt-2 text-sm font-semibold">
-                        <p>입력값이 올바르지 않거나 값이 없습니다. 다시 입력해주세요</p>
+                        <p>입력값이 올바르지 않거나 값이 없습니다</p>
                     </div>
                 )}
 
                 <div className='flex justify-center'>
                     <button
-                        className="bg-slate-200 text-white rounded-xl w-11/12 h-16 font-sans text-xl font-semibold mt-8 hover:bg-blue-700 transition duration-300"
+                        className="bg-slate-200 text-white rounded-xl w-11/12 h-16 font-sans text-xl font-semibold mt-8 mb-4 hover:bg-blue-700 transition duration-300"
                         onClick={toNextPage}
                     >
                         제출
