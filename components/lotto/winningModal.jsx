@@ -74,7 +74,7 @@ const WinningModal = (isWinner) => {
     <Dialog
       open={isOpen}
       onClose={() => { 
-        setIsOpen(false);
+        
      }}
     >
       <div className="fixed inset-0 flex w-screen h-full bg-black/15 items-center justify-center p-4 z-30">

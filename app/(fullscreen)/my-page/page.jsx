@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { IoWarningOutline } from 'react-icons/io5';
 
 import LogoutButton from "../../../components/button/logoutButton";
@@ -10,9 +10,14 @@ import EmailForm from "../../../components/create-card/input-address/EmailForm";
 import AddressForm from "../../../components/create-card/input-address/AddressForm";
 import LoadingSpinner from "../../../components/overlay/loadingSpinner";
 import { signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 const MyPage = () => {
   const router = useRouter();
+  const {data: session} = useSession();
+  if (!session) {
+    router.push("/login?to=my-page");
+  }
   const [memberName, setMemberName] = useState("")
   const [memberLoginId, setMemberLoginId] = useState("");
   const [formData, setFormData] = useState({

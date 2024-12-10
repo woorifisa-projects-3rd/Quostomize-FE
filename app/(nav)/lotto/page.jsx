@@ -16,10 +16,25 @@ import Icons from "../../../public/icons/icons";
 import { Suspense } from "react";
 import Loading from "./loading";
 
+
 const LottoMain = async () => {
     const session = await auth();
+    
+    if (!session) {
+        redirect("/login?to=lotto");
+    }
+
     const memberName = session.memberName;
     const cookieList = await cookies();
+
+    if (!cookieList.has("winner_checked")) {
+        cookieList.set("winner_checked", "false", 
+            {
+                expires: endOfDay.getTime()
+            }
+        );
+    }
+
     // 오늘 참여자 수
     const getTodayParticipants = async () => {
         const response = await fetch(

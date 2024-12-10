@@ -21,7 +21,9 @@ const MyCardPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showNoCardModal, setShowNoCardModal] = useState(false); // 카드가 없는 경우 모달 상태
   const {data:session} = useSession();
-
+  if (!session) {
+    router.push("/login?to=my-card")
+  }
   const fetchCardData = async () => {
     setIsLoading(true);
     try {
