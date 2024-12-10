@@ -53,7 +53,6 @@ const ChangeBenefitsPage = () => {
 
   const labels = Object.values(categoryMap);
 
-  // 예약 or 변경
   const getChangerabledate = async (cardSequenceId) => {
     try {
       const response = await fetch(`/api/benefit-change/changerable?cardSequenceId=${cardSequenceId}`,
@@ -79,7 +78,6 @@ const ChangeBenefitsPage = () => {
     }
   };
 
-  // 기존 정보 get
   const fetchBenefitData = async () => {
     try {
       const response = await fetch('/api/benefit-change', {
@@ -115,7 +113,6 @@ const ChangeBenefitsPage = () => {
     }
   };
 
-  // get 할 때 data 변환
   const transformBenefitData = (data) => {
     return data.map(item => ({
       ...item,
@@ -123,7 +120,6 @@ const ChangeBenefitsPage = () => {
     }));
   };
 
-  // patch 할때 공통적으로 쓰이는 부분
   const updateBenefit = async (url, cardSequenceId, authCode) => {
     const { categoryValues, selectedCategories, selectedOptions } = benefitState;
 
@@ -184,7 +180,6 @@ const ChangeBenefitsPage = () => {
     updateBenefit(`/api/benefit-change/reserve`, cardSequenceId, authCode);
   };
 
-  // 사용자 입력에 따라 update
   const updateCategoryValue = (index, value) => {
     setBenefitState((prevState) => ({
       ...prevState,
