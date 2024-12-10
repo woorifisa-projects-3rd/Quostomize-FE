@@ -19,9 +19,9 @@ const ForbiddenModal = ({title, description, goal}) => {
 
   return (
     <div className="fixed inset-0 flex w-screen h-full bg-black/15 items-center justify-center p-2 z-50">
-      <div className='flex flex-col justify-center items-center w-5/6 bg-white p-2 rounded-xl'>
+      <div className='flex flex-col justify-center items-center bg-white p-6 rounded-xl'>
         <div className="font2 font-bold">{title}</div>
-        <Image src={Icons.warning} width={200} height={200} alt='경고 아이콘'/>
+        <Image src={Icons.warning} width={150} height={150} alt='경고 아이콘'/>
         <div className="text-gray-500">{description}</div>
       </div>
     </div>

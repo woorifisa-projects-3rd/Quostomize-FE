@@ -35,6 +35,7 @@ const MyPage = () => {
 
   const [isLoading, setLoading] = useState(false);
   const [isMounting, setMounting] = useState(true)
+  const [isAuth, setAuth] = useState(200);
 
   const getMyInfo = async() => {
     const response = await fetch(`/api/my-page`,
@@ -50,12 +51,14 @@ const MyPage = () => {
   
     if (response.status === 401 ) {
       await signOut({redirect: false});
-      return <ForbiddenModal title="로그인 필요" description="잠시 후 로그인 페이지로 이동합니다." goal="login"/>
+      setAuth(401);
+      return;
     }
 
     if (response.status === 403 ) {
       await signOut({redirect: false});
-      return <ForbiddenModal title="로그인 필요" description="잠시 후 로그인 페이지로 이동합니다." goal="home"/>
+      setAuth(403);
+      return;
     }
   
     const result = await response.json();
@@ -85,6 +88,7 @@ const MyPage = () => {
         detailAddress: memberInfo.memberDetail,
       }
     })
+    setButtonActive(false);
     setMounting(false);
   }
 
@@ -126,7 +130,13 @@ const MyPage = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prevForm) => {
+      const prevValue = prevForm[name];
+      if (prevValue != value ) {
+        setButtonActive(true);
+        return {...prev, [name]: value}
+      }}
+    );
     validateField(name, value);
   };
 
@@ -229,7 +239,6 @@ const MyPage = () => {
             }
           ),
         }
-        
       );
       if (response.redirected) {
         router.push(`${response.url}`);
@@ -281,18 +290,28 @@ const MyPage = () => {
   }
 
   const submitChange = async () => {
-    setLoading(true);
-    await Promise.all([
-      submitUpdatePhoneNumber(),
-      submitUpdateAddress(),
-      submitUpdateEmail()
-    ])
-    setLoading(false);
+    if (buttonActive) {
+      setLoading(true);
+      await Promise.all([
+        submitUpdatePhoneNumber(),
+        submitUpdateAddress(),
+        submitUpdateEmail()
+      ])
+      setLoading(false);
+    }
   }
 
   useEffect(() => {
     getMyInfo();
   },[])
+
+  if(isAuth === 401) {
+    return <ForbiddenModal title="로그인 필요" description="잠시 후 로그인 페이지로 이동합니다." goal="login"/>
+  }
+  
+  if (isAuth === 403) {
+    return <ForbiddenModal title="권한이 없는 계정" description="잠시 후 홈 페이지로 이동합니다." goal="home"/>
+  }
 
   return (
     <div className="relative overflow-visible">
@@ -340,7 +359,7 @@ const MyPage = () => {
             <EmailForm formData={formData} handleInputChange={handleInputChange} validateField={validateField} handleBlur={handleBlur} errors={errors}/>
             <div className="mt-4 w-full flex justify-end pr-4">
               <div 
-                className="bg-blue-500 w-20 h-10 leading-10 text-center px-1 rounded-xl text-white hover:bg-blue-600 hover:font-bold select-none cursor-pointer"
+                className={`${buttonActive?"bg-blue-500":"bg-blue-200"} w-20 h-10 leading-10 text-center px-1 rounded-xl text-white ${buttonActive?"hover:bg-blue-600 hover:font-bold":""} select-none ${buttonActive?"cursor-pointer":"cursor-not-allowed"}`}
                 onClick={() => {submitChange()}}
               >
                 적용하기

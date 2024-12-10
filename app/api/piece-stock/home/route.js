@@ -22,7 +22,7 @@ export async function GET() {
         return NextResponse.json({message: "로그인 필요"}, {status: 401});
     }
     if (response.status === 403) {
-        return NextResponse.json({message: "권한 부족"}, {status: 403});
+        return NextResponse.json({message: "권한이 없는 계정"}, {status: 403});
     }
 
     const result = await response.json();

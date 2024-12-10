@@ -7,8 +7,9 @@ export async function GET(request) {
     const session = await auth();
 
     if (!session || !session.accessToken) {
-        return NextResponse.redirect(new URL("/login", `${process.env.AUTH_URL}`));
+        return NextResponse.json({message: "로그인 필요"}, {status: 401});
     }
+
 
     const accessToken = session.accessToken;
     const traceId = session.traceId;

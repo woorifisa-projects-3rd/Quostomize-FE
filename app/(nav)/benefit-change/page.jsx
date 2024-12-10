@@ -66,6 +66,7 @@ const ChangeBenefitsPage = () => {
             credentials: "include",
           });
       if (!response.ok) {
+        console.error(err)
         throw new Error(response.status);
       }
 
@@ -90,6 +91,7 @@ const ChangeBenefitsPage = () => {
         credentials: "include",
       });
       if (!response.ok) {
+        console.error(err)
         throw new Error(response.status);
       }
       const data = await response.json();
@@ -161,7 +163,7 @@ const ChangeBenefitsPage = () => {
 
 
       if (!response.ok) {
-        const errorText = await response.text();
+        console.error(err)
         throw new Error(response.status);
       }
 
@@ -238,13 +240,11 @@ const ChangeBenefitsPage = () => {
   }, [benefitState])
 
   if (error) {
-    if (error == 401) {
-      return <ForbiddenModal title="로그인이 필요" description="잠시후 홈으로 돌아갑니다." goal="login" />
-    } else if (error == 403) {
+    if (error == 403) {
       return <ForbiddenModal title="권한이 없는 계정" description="잠시후 홈으로 돌아갑니다." goal="home" />
     } else {
-      return <ForbiddenModal title="서버 오류" description="잠시후 다시 시도해주세요" goal="home" />
-    }
+      return <ForbiddenModal title="로그인 필요" description="잠시후 홈으로 돌아갑니다." goal="login" />
+    } 
   }
 
   if (showNoCardModal) {

@@ -11,8 +11,7 @@ export async function searchWishStocks(param, setWishInfo, cardId) {
         if (!response.ok) {
             throw new Error('값이 조회되지 않았습니다.');
         }
-        console.log("wish")
-        console.log(response);
+
         const data = await response.json(); // 응답을 JSON으로 파싱
         setWishInfo(data);
     } catch (error) {
@@ -103,8 +102,7 @@ export async function cardIdInfo(setData, setForbidden) {
             return
         }
         
-        console.log("cardInfo");
-        console.log(response);
+
         const newData = await response.json()
         setData(newData)
     } catch (error) {

@@ -30,7 +30,7 @@ const NavButton = ({iconTitle, icon, path, currentPath, selectMenu, setHamburger
   } else {
     return (
       <div 
-        className="flex flex-col justify-center items-center w-12 h-12 cursor-pointer text-gray-400"
+        className="flex flex-col justify-center items-center w-12 h-12 cursor-pointer rounded-xl text-gray-400 active:bg-slate-500"
         onClick={() => {selectMenu(path)}}
       >
         <div className='text-xl'>
