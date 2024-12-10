@@ -15,11 +15,11 @@ import Image from "next/image";
 import Icons from "../../../public/icons/icons";
 import { Suspense } from "react";
 import Loading from "./loading";
-import { cookies } from 'next/headers';
+
 
 const LottoMain = async () => {
     const session = await auth();
-
+    
     if (!session) {
         redirect("/login?to=lotto");
     }
@@ -34,7 +34,7 @@ const LottoMain = async () => {
             }
         );
     }
-    
+
     // 오늘 참여자 수
     const getTodayParticipants = async () => {
         const response = await fetch(
