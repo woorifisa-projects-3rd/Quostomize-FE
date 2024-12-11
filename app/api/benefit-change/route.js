@@ -3,10 +3,10 @@ import { auth } from '../../../auth';
 
 export async function GET() {
     const session = await auth();
+    if (!session || !session.accessToken) {
+        return NextResponse.json({message: "로그인 필요"}, {status: 401});
+    }
     try {
-        if (!session || !session.accessToken) {
-            return NextResponse.redirect(new URL("/login", `${process.env.AUTH_URL}`));
-        }
         const accessToken = session.accessToken;
         const backendResponse = await fetch(`${process.env.SERVER_URL}/v1/api/benefit-change`,
             {

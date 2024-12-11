@@ -66,7 +66,6 @@ const ChangeBenefitsPage = () => {
           credentials: "include",
         });
       if (!response.ok) {
-        console.error(err)
         throw new Error(response.status);
       }
 
@@ -91,7 +90,6 @@ const ChangeBenefitsPage = () => {
         credentials: "include",
       });
       if (!response.ok) {
-        console.error(err)
         throw new Error(response.status);
       }
       const data = await response.json();
@@ -242,6 +240,7 @@ const ChangeBenefitsPage = () => {
     } else if (error == 401) {
       return <ForbiddenModal title="로그인 필요" description="잠시후 홈으로 돌아갑니다." goal="login" />
     } else {
+      console.log(error);
       return <div>서버에서 오류가 발생했습니다. 잠시 후 다시 시도해주세요</div>
     }
   }
