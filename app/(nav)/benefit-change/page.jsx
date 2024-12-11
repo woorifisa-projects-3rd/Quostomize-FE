@@ -237,11 +237,12 @@ const ChangeBenefitsPage = () => {
 
 
   if (error) {
-    console.log(error);
     if (error == 403) {
       return <ForbiddenModal title="권한이 없는 계정" description="잠시후 홈으로 돌아갑니다." goal="home" />
     } else if (error == 401) {
       return <ForbiddenModal title="로그인 필요" description="잠시후 홈으로 돌아갑니다." goal="login" />
+    } else {
+      return <div>서버에서 오류가 발생했습니다. 잠시 후 다시 시도해주세요</div>
     }
   }
 

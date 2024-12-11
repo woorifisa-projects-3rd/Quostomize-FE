@@ -134,7 +134,7 @@ const MyPage = () => {
       const prevValue = prevForm[name];
       if (prevValue != value ) {
         setButtonActive(true);
-        return {...prev, [name]: value}
+        return {...prevForm, [name]: value}
       }}
     );
     validateField(name, value);
