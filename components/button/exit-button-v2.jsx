@@ -16,7 +16,7 @@ function ExitButtonV2({ direction }) {
     const handleConfirmExit = () => {
         setModalOpen(false);
         if (direction) {
-            window.location.href = direction;
+            window.location(direction);
         }
     };
 
