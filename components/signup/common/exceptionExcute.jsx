@@ -34,14 +34,14 @@ export const validateRegionNumberBack = (value) => {
 
 
 export const validatePassword = (password) => {
-    const hasUpperCase = /[A-Z]/.test(password); // 대문자 체크
+    // const hasUpperCase = /[A-Z]/.test(password); // 대문자 체크
     const hasLowerCase = /[a-z]/.test(password); // 소문자 체크
     const hasNumber = /\d/.test(password); // 숫자 체크
     const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password); // 특수문자 체크
     const isLongLength = password.length >= 8;
 
     // 비밀번호가 조건을 만족하는지 검사
-    if (hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar && isLongLength) {
+    if ( hasLowerCase && hasNumber && hasSpecialChar && isLongLength) {
         return true;
     } else if (password === "") {
         return true;
