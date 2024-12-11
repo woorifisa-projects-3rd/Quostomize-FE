@@ -55,7 +55,6 @@ const ChangeBenefitsPage = () => {
   const labels = Object.values(categoryMap);
 
   const getChangerabledate = async (cardSequenceId) => {
-    console.log("바꿀 수 있니?")
     try {
       const response = await fetch(`/api/benefit-change/changerable?cardSequenceId=${cardSequenceId}`,
         {
@@ -82,7 +81,6 @@ const ChangeBenefitsPage = () => {
   };
 
   const fetchBenefitData = async () => {
-    console.log("다시 정보 불러옴")
     try {
       const response = await fetch('/api/benefit-change', {
         method: "GET",
@@ -126,7 +124,6 @@ const ChangeBenefitsPage = () => {
   };
 
   const updateBenefit = async (url, cardSequenceId, authCode) => {
-    console.log("업데이트")
     const { categoryValues, selectedCategories, selectedOptions } = benefitState;
 
     const date = new Date();
