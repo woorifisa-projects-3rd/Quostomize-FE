@@ -10,7 +10,7 @@ import RecommendAlertModal from '../etc/recommendAlertModal'
 import LoadingSpinner from "../../../components/overlay/loadingSpinner"
 import CardNotFoundModal from "../../my-card/CardNotFoundModal"
 
-const HomeBody = ({ data, page, setPage, cardData, setCardData, wishInfo, setWishInfo }) => {
+const HomeBody = ({ data, page, setPage, cardData, setCardData, wishInfo, setWishInfo, setForbidden }) => {
     const [hoveredIndex, setHoveredIndex] = useState([{ order: 0 }, { order: 0 }, { order: 0 }]); // Hover된 항목의 인덱스를 관리
     const [orderInfo, setOrderInfo] = useState([]);
     const [isOpen, setOpen] = useState(false);
@@ -32,7 +32,7 @@ const HomeBody = ({ data, page, setPage, cardData, setCardData, wishInfo, setWis
 
     useEffect(() => {
         try {
-            searchCardInfo(setCardData)
+            searchCardInfo(setCardData, setForbidden)
         } catch (error) {
         } finally {
             setLoading(false)

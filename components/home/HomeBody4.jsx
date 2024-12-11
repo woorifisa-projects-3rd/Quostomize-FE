@@ -1,11 +1,9 @@
-"use client";
-
 import HomeFoot from './HomeFoot';
 import FadeInSection from "../fade-in/fade-in-section";
 import TabContentBox from "../../components/box/tab-content-box";
 import Icons from "../../public/icons/icons"
 
-const HomeBody4 = () => {
+const HomeBody4 = async () => {
     const tabData = [
         {
             title: "투자",

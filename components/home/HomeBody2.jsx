@@ -1,3 +1,5 @@
+"use client"
+
 import { useState, useEffect, useRef } from "react";
 import GradientText from "../../components/card/gradientText";
 import ColorInfo from "../card/colorInfo";

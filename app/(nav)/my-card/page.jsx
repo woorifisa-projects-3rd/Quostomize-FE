@@ -148,9 +148,8 @@ const MyCardPage = () => {
   
 
   useEffect(() => {
-
     if (!session) {
-      router.push("/login?to=my-card");
+      setShowNoCardModal(true);
       return;
     }
     fetchCardData();

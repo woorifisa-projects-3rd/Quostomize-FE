@@ -15,14 +15,19 @@ import Icons from "../../../public/icons/icons";
 import { Suspense } from "react";
 import Loading from "./loading";
 import { cookies } from "next/headers";
+import ForbiddenModal from "../../../components/overlay/forbiddenModal";
 
 
 const LottoMain = async () => {
     const session = await auth();
     const cookieList = await cookies();
-    
+
     if (!session) {
-        redirect("/login?to=lotto");
+        return <ForbiddenModal title="로그인 필요" description="잠시후 로그인 페이지로 이동합니다." goal="login" />
+    }
+
+    if (!(session.memberRole === "ROLE_MEMBER" || session.memberRole === "ROLE_ADMIN")) {
+        return <ForbiddenModal title="권한이 없는 계정" description="잠시후 홈으로 돌아갑니다." goal="home" />
     }
 
     const memberName = session.memberName;
