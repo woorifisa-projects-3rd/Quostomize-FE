@@ -38,9 +38,8 @@ export async function PATCH(request) {
             });
 
         if (backendResponse.status !== 204) {
-            const errorData = await backendResponse.json();
             return NextResponse.json(
-                { message: errorData.message, status: backendResponse.status }
+                { message: "변경이 되지 않았습니다.", status: backendResponse.status }
             );
         }
 

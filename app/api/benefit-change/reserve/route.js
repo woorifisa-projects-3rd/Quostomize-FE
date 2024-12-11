@@ -40,12 +40,12 @@ export async function PATCH(request) {
             });
 
         if (!backendResponse.status !== 204) {
-            const errorData = await backendResponse.json();
             return NextResponse.json(
-                { message: errorData.message || '서버 오류 발생', status: backendResponse.status }
+                { message: "예약이 되지 않았습니다.", status: backendResponse.status }
             );
 
         }
+        
         return new Response(null, {
             status: 204,
         });
