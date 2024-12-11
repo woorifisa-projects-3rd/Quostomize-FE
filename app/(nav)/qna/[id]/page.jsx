@@ -87,12 +87,12 @@ export default function QnaDetailPage() {
 
     const getCategoryName = (code) => {
         const categories = {
-            0: '카드',
-            1: '주식',
-            2: '보험',
-            3: '펀드',
-            4: '적금',
-            5: '기타'
+            1: '카드',
+            2: '주식',
+            3: '보험',
+            4: '펀드',
+            5: '적금',
+            6: '기타'
         };
         return categories[code] || '기타';
     };

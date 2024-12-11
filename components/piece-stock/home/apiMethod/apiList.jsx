@@ -11,6 +11,7 @@ export async function searchWishStocks(param, setWishInfo, cardId) {
         if (!response.ok) {
             throw new Error('값이 조회되지 않았습니다.');
         }
+
         const data = await response.json(); // 응답을 JSON으로 파싱
         setWishInfo(data);
     } catch (error) {
@@ -19,7 +20,7 @@ export async function searchWishStocks(param, setWishInfo, cardId) {
     }
 }
 
-export async function searchCardInfo(setCardData) {
+export async function searchCardInfo(setCardData, setForbidden) {
     try {
         const response = await fetch(`/api/piece-stock/favorite/searchCardId`, {
             method: 'GET',
@@ -28,6 +29,15 @@ export async function searchCardInfo(setCardData) {
                 'Content-Type': 'application/json',  // 요청 본문이 JSON임을 지정
             },
         });
+        if (response.status == 401) {
+            setForbidden(401);
+            return
+        }
+
+        if (response.status == 403) {
+            setForbidden(403);
+            return
+        }
 
         if (!response.ok) {
             throw new Error('값이 조회되지 않았습니다.');
@@ -72,7 +82,7 @@ export async function deleteStocks(param) {
     }
 }
 
-export async function cardIdInfo(setData) {
+export async function cardIdInfo(setData, setForbidden) {
     try {
         const response = await fetch(`/api/piece-stock/home`, {
             method: "GET",
@@ -81,6 +91,18 @@ export async function cardIdInfo(setData) {
             },
             credentials: "include",
         });
+
+        if (response.status == 401) {
+            setForbidden(401);
+            return
+        }
+
+        if (response.status == 403) {
+            setForbidden(403);
+            return
+        }
+        
+
         const newData = await response.json()
         setData(newData)
     } catch (error) {
@@ -121,10 +143,10 @@ export async function saveStocks(param) {
         });
 
         if (!response.ok) {
-            throw new Error('값이 조회되지 않았습니다.');
+            throw new Error(response.status);
         }
     } catch (error) {
-        console.error('데이터 가져오기 오류:', error);
+        console.error(error.message);
     }
 }
 
@@ -141,12 +163,13 @@ export async function searchStock(param, value, setSearchInfo) {
         });
 
         if (!response.ok) {
-            throw new Error('값이 조회되지 않았습니다.');
+            throw new Error(response.status);
         }
         const data = await response.json(); // 응답을 JSON으로 파싱
         setSearchInfo(data);
     } catch (error) {
         // console.error('데이터 가져오기 오류:', error);
+        setError(error.message);
         setSearchInfo([])
     }
 }

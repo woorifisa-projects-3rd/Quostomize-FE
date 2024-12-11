@@ -5,12 +5,12 @@ import SearchBody from "../../../components/piece-stock/search/body"
 import SearchBottom from "../../../components/piece-stock/search/bottom"
 import { searchCardInfo } from "../../../components/piece-stock/home/apiMethod/apiList"
 
-const Search = ({ cardData, setCardData, value, setValue, setPage, wishInfo, setWishInfo }) => {
+const Search = ({ cardData, setCardData, value, setValue, setPage, wishInfo, setWishInfo, setForbidden }) => {
     const [searchInfo, setSearchInfo] = useState([]);
     const [selectedStocks, setSelectedStocks] = useState([]);
 
     useEffect(() => {
-        searchCardInfo(setCardData)
+        searchCardInfo(setCardData, setForbidden)
     }, []);
 
     const cardId = cardData[0]?.cardSequenceId

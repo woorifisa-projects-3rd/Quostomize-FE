@@ -1,12 +1,16 @@
 import { NextResponse } from "next/server";
 import { auth } from "../../../auth";
+import { cookies } from "next/headers";
 
 export async function GET(request) {
     
     const session = await auth();
+
     if (!session || !session.accessToken) {
-        return NextResponse.redirect(new URL("/login", `${process.env.AUTH_URL}`));
+        return NextResponse.json({message: "로그인 필요"}, {status: 401});
     }
+
+
     const accessToken = session.accessToken;
     const traceId = session.traceId;
 
@@ -25,9 +29,26 @@ export async function GET(request) {
         }
     );
 
+
     if (response.status != 200) {
         if (response.status === 403 || response.status === 401) {
-            return NextResponse.redirect(new URL("/login", `${AUTH_URL}`));
+            if (response.status === 403) {
+                const cookieList = await cookies();
+                const logoutResponse = await fetch(`${process.env.AUTH_URL}/api/auth/logout`, {
+                    method: "POST",
+                    headers: {
+                      "Content-type": "application/json",
+                      Cookie: cookieList
+                    },
+                    cache: "no-store",
+                    credentials:"include",
+                    body: {
+                      message: "로그아웃 요청"
+                    }
+                  });
+                return NextResponse.json({message: "페이지 접근 권한이 존재하지 않습니다."}, {status: 403})
+            }
+            return NextResponse.json({message: "로그인 하지 않은 사용자입니다."}, {status: 401});
         }
     } else {
         const result = await response.json();
