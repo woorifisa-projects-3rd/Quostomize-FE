@@ -57,14 +57,14 @@ const ChangeBenefitsPage = () => {
   const getChangerabledate = async (cardSequenceId) => {
     try {
       const response = await fetch(`/api/benefit-change/changerable?cardSequenceId=${cardSequenceId}`,
-          {
-            method: "GET",
-            cache: "no-store",
-            headers: {
-              "Content-type": "application/json"
-            },
-            credentials: "include",
-          });
+        {
+          method: "GET",
+          cache: "no-store",
+          headers: {
+            "Content-type": "application/json"
+          },
+          credentials: "include",
+        });
       if (!response.ok) {
         console.error(err)
         throw new Error(response.status);
@@ -134,23 +134,23 @@ const ChangeBenefitsPage = () => {
     const formattedDate = `${yyyy}-${mm}-${dd}`;
 
     const requestBody = selectedCategories
-        .map((upperCategoryId, index) => {
-          // benefitRate가 0인 경우도 유효한 값으로 처리
-          const benefitRate = Math.max(0, categoryValues[index] - 1);
+      .map((upperCategoryId, index) => {
+        // benefitRate가 0인 경우도 유효한 값으로 처리
+        const benefitRate = Math.max(0, categoryValues[index] - 1);
 
-          if (upperCategoryId === null) return null;
+        if (upperCategoryId === null) return null;
 
-          return {
-            benefitEffectiveDate: formattedDate,
-            benefitRate,
-            isActive: true,
-            cardSequenceId,
-            upperCategoryId,
-            lowerCategoryId: selectedOptions[index] || null,
-            secondaryAuthCode: authCode,
-          };
-        })
-        .filter(Boolean);
+        return {
+          benefitEffectiveDate: formattedDate,
+          benefitRate,
+          isActive: true,
+          cardSequenceId,
+          upperCategoryId,
+          lowerCategoryId: selectedOptions[index] || null,
+          secondaryAuthCode: authCode,
+        };
+      })
+      .filter(Boolean);
 
     try {
       const response = await fetch(url, {
@@ -166,6 +166,15 @@ const ChangeBenefitsPage = () => {
         console.error(err)
         throw new Error(response.status);
       }
+
+      const responseText = await response.text();
+      if (!responseText) {
+        throw new Error("Empty response body");
+      }
+
+      const result = JSON.parse(responseText);
+
+      setAuthSuccess(result.status === 400 ? "400" : "200");
 
       setAuthTrigger(prev => prev + 1);
     } catch (error) {
@@ -244,18 +253,18 @@ const ChangeBenefitsPage = () => {
       return <ForbiddenModal title="권한이 없는 계정" description="잠시후 홈으로 돌아갑니다." goal="home" />
     } else {
       return <ForbiddenModal title="로그인 필요" description="잠시후 홈으로 돌아갑니다." goal="login" />
-    } 
+    }
   }
 
   if (showNoCardModal) {
     return (
-        <CardNotFoundModal
-            isOpen={showNoCardModal}
-            onClose={() => {
-              setShowNoCardModal(false);
-              router.push('/home');
-            }}
-        />
+      <CardNotFoundModal
+        isOpen={showNoCardModal}
+        onClose={() => {
+          setShowNoCardModal(false);
+          router.push('/home');
+        }}
+      />
     );
   }
 
@@ -264,31 +273,31 @@ const ChangeBenefitsPage = () => {
   }
 
   return (
-      <>
-        <div className="max-h-screen">
+    <>
+      <div className="max-h-screen">
 
-          <ChangeBenefitHeader />
-          <div className="flex flex-col justify-center items-center">
-            <ChangeBenefitBody1 labels={labels} benefitState={benefitState} />
-            <ChangeBenefitBody2 labels={labels} benefitState={benefitState} categoryMap={categoryMap} lowerCategoryMap={lowerCategoryMap} updateCategoryValue={updateCategoryValue} updateCategory={updateCategory} updateOption={updateOption} />
-          </div>
-          <span className="flex justify-center" style={{ fontSize: '0.7rem' }}> 포인트 혜택은 30일마다 변경이 가능하며 변경 수수료 1,000 원이 익월 청구됩니다.</span>
-          <div className='flex justify-end mt-2 pr-4'>
-            <button
-                onClick={resetContext}
-                className={`px-4 py-2 bg-red-200 text-white rounded-lg text-xs
-                                  ${isSelected
-                    ? "bg-red-500"
-                    : "bg-red-200"
-                }
-                          `}> 선택 초기화 </button>
-          </div>
-
-          <ChangeBenefitFoot modalTitle="혜택 변경" exitDirection="/my-card" buttonText={buttonText} onChangeBenefit={handleBenefitChange}
-                             onReserveBenefit={handleBenefitReserve} authSuccess={authSuccess} cardSequenceId={cardSequenceId} authTrigger={authTrigger} isButtonDisabled={isButtonDisabled} />
+        <ChangeBenefitHeader />
+        <div className="flex flex-col justify-center items-center">
+          <ChangeBenefitBody1 labels={labels} benefitState={benefitState} />
+          <ChangeBenefitBody2 labels={labels} benefitState={benefitState} categoryMap={categoryMap} lowerCategoryMap={lowerCategoryMap} updateCategoryValue={updateCategoryValue} updateCategory={updateCategory} updateOption={updateOption} />
         </div>
-        {isLoading && <LoadingSpinner />}
-      </>
+        <span className="flex justify-center" style={{ fontSize: '0.7rem' }}> 포인트 혜택은 30일마다 변경이 가능하며 변경 수수료 1,000 원이 익월 청구됩니다.</span>
+        <div className='flex justify-end mt-2 pr-4'>
+          <button
+            onClick={resetContext}
+            className={`px-4 py-2 bg-red-200 text-white rounded-lg text-xs
+                                  ${isSelected
+                ? "bg-red-500"
+                : "bg-red-200"
+              }
+                          `}> 선택 초기화 </button>
+        </div>
+
+        <ChangeBenefitFoot modalTitle="혜택 변경" exitDirection="/my-card" buttonText={buttonText} onChangeBenefit={handleBenefitChange}
+          onReserveBenefit={handleBenefitReserve} authSuccess={authSuccess} cardSequenceId={cardSequenceId} authTrigger={authTrigger} isButtonDisabled={isButtonDisabled} />
+      </div>
+      {isLoading && <LoadingSpinner />}
+    </>
   );
 }
 export default ChangeBenefitsPage;
