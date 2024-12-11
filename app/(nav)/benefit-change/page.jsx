@@ -55,6 +55,7 @@ const ChangeBenefitsPage = () => {
   const labels = Object.values(categoryMap);
 
   const getChangerabledate = async (cardSequenceId) => {
+    console.log("바꿀 수 있니?")
     try {
       const response = await fetch(`/api/benefit-change/changerable?cardSequenceId=${cardSequenceId}`,
         {
@@ -81,6 +82,7 @@ const ChangeBenefitsPage = () => {
   };
 
   const fetchBenefitData = async () => {
+    console.log("다시 정보 불러옴")
     try {
       const response = await fetch('/api/benefit-change', {
         method: "GET",
@@ -124,6 +126,7 @@ const ChangeBenefitsPage = () => {
   };
 
   const updateBenefit = async (url, cardSequenceId, authCode) => {
+    console.log("업데이트")
     const { categoryValues, selectedCategories, selectedOptions } = benefitState;
 
     const date = new Date();
@@ -161,20 +164,7 @@ const ChangeBenefitsPage = () => {
         body: JSON.stringify(requestBody),
       });
 
-
-      if (!response.ok) {
-        console.error(err)
-        throw new Error(response.status);
-      }
-
-      const responseText = await response.text();
-      if (!responseText) {
-        throw new Error("Empty response body");
-      }
-
-      const result = JSON.parse(responseText);
-
-      setAuthSuccess(result.status === 400 ? "400" : "200");
+      setAuthSuccess(response.status === 400 ? "400" : "204");
 
       setAuthTrigger(prev => prev + 1);
     } catch (error) {
@@ -248,10 +238,12 @@ const ChangeBenefitsPage = () => {
     setSelected(false);
   }, [benefitState])
 
+
   if (error) {
+    console.log(error);
     if (error == 403) {
       return <ForbiddenModal title="권한이 없는 계정" description="잠시후 홈으로 돌아갑니다." goal="home" />
-    } else {
+    } else if (error == 401) {
       return <ForbiddenModal title="로그인 필요" description="잠시후 홈으로 돌아갑니다." goal="login" />
     }
   }
