@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { X } from "lucide-react";
 import AlertModal from "../overlay/alertModal";
+import { useRouter } from "next/navigation";
 
 function ExitButton({ direction, title, description }) {
     const [isModalOpen, setModalOpen] = useState(false);
+    const router = useRouter();
 
     const handleOpenModal = () => {
         setModalOpen(true);
@@ -16,7 +18,7 @@ function ExitButton({ direction, title, description }) {
     const handleConfirmExit = () => {
         setModalOpen(false);
         if (direction) {
-            window.location.href = direction;
+            router.push(direction);
         }
     };
 

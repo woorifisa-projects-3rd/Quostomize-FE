@@ -1,7 +1,8 @@
 'use client';
 
-import Image from 'next/image';
-import Icons from '../../public/icons/icons';
+import Lottie from "../lottie/lottieComponent";
+import WarningLottie from "../../public/lotties/warning.json"
+
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
@@ -21,7 +22,7 @@ const ForbiddenModal = ({title, description, goal}) => {
     <div className="fixed inset-0 flex w-screen h-full bg-black/15 items-center justify-center p-2 z-50">
       <div className='flex flex-col justify-center items-center bg-white p-6 rounded-xl'>
         <div className="font2 font-bold">{title}</div>
-        <Image src={Icons.warning} width={150} height={150} alt='경고 아이콘'/>
+        <Lottie animationData={WarningLottie} loop={false} />
         <div className="text-gray-500">{description}</div>
       </div>
     </div>

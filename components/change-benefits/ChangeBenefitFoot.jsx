@@ -1,12 +1,15 @@
+"use client"
 
 import { Button } from '@headlessui/react'
 import React, { useEffect, useState } from 'react'
 import SecondAuthModal from '../overlay/SecondAuthModal';
 import AlertModal from '../overlay/alertModal';
 import Toast from '../overlay/toast';
+import { useRouter } from 'next/navigation';
 
 
 const ChangeBenefitFoot = ({ exitDirection, modalTitle, buttonText, onChangeBenefit, onReserveBenefit, authSuccess, cardSequenceId, authTrigger, isButtonDisabled }) => {
+    const router = useRouter();
     const [modalState, setModalState] = useState({
         isAlertModalOpen: false,
         isSecondAuthModalOpen: false,
@@ -31,7 +34,7 @@ const ChangeBenefitFoot = ({ exitDirection, modalTitle, buttonText, onChangeBene
     const handleSuccessClose = () => {
         setModalState(prevState => ({ ...prevState, isSuccessModalOpen: false }));
         if (exitDirection) {
-            window.location.href = exitDirection;
+            router.push(exitDirection);
         }
     };
 

@@ -7,6 +7,7 @@ import Pagination from './Pagination';
 import Icons from '../../../public/icons/icons'
 import Image from 'next/image';
 import LoadingSpinner from '../../../components/overlay/loadingSpinner';
+import ForbiddenModal from '../../../components/overlay/forbiddenModal';
 
 export default function QnaPage() {
     const { data: session } = useSession();
@@ -15,14 +16,9 @@ export default function QnaPage() {
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
+    const [isNotAuth, setNotAuth] = useState(false);
 
-    useEffect(() => {
-        if (!session) {
-            router.push('/login');
-            return;
-        }
-        fetchQuestions();
-    }, [currentPage, session]);
+
 
     const fetchQuestions = async () => {
         setIsLoading(true);
@@ -65,6 +61,18 @@ export default function QnaPage() {
         const day = String(d.getDate()).padStart(2, '0');
         return `${year}/${month}/${day}`;
     };
+
+    useEffect(() => {
+        if (!session) {
+            setNotAuth(true);
+            return;
+        }
+        fetchQuestions();
+    }, [currentPage, session]);
+    
+    if(isNotAuth) {
+        return <ForbiddenModal title="로그인 필요" description="잠시후 홈으로 돌아갑니다." goal="login" />
+    }
 
     if (isLoading) {
         return (
