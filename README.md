@@ -414,9 +414,10 @@ Feat/input : 비밀번호 숨김 처리
  </tr>
   <tr>
     <td align="center">
-      스프링 배치 복권 기능 구현 <br>
-      내용 입력 <br>
-      내용 입력
+      프론트 프로젝트 세팅 <br>
+      프론트 인증/인가 <br>
+      프론트 CI/CD <br>
+      기타 UI/기능 구현
     </td>
     <td align="center">
       내용 입력 <br>
