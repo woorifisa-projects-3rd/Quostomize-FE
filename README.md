@@ -74,6 +74,9 @@
 
 <br>
 
+## :nut_and_bolt: 시스템 아키텍쳐
+![시스템 아키텍쳐](./public/images/readme/sysArchitecture.png)
+
 
 ## ⚙️ 기술 스택
 ![image](https://github.com/user-attachments/assets/580632dd-5717-49b5-9fb7-1658a2b68a2a)
