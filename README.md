@@ -42,22 +42,45 @@
 
 ## 🔧 주요 기능
 **1. 카드 혜택 - 혜택 선택의 자유**
+![34](https://github.com/user-attachments/assets/169c99d9-17cd-4d44-b4b2-476fafd96a86)
+
    - 상위분류 혜택: 5가지 상위분류 선택 시 모든 가맹점에서 3% 적립
    - 맞춤형 혜택: 세부 가맹점 그룹 선택 시 최대 4% 적립
    - 유연한 변경: 30일마다 혜택 변경 가능
 
 **2. 포인트 사용처 - 포인트 사용의 다양성**
+![33](https://github.com/user-attachments/assets/232873f0-1275-4ef4-a2e6-3441331fd3a8)
+
    - 페이백: 카드 결제일에 포인트를 현금처럼 사용
    - 조각투자: 원하는 주식을 설정하고 포인트로 주식 매수
    - 일일복권: 매일 자정 추첨으로 최대 1만 포인트 지급
 
+**3. 카드 생성 - 실제 카드 생성 프로세스와 멱등성을 적용한 생성 기능**
+![커스터 마이징 서비스 (2)](https://github.com/user-attachments/assets/21f776ea-d0e6-4ff1-86a2-b4ab0807902b)
+
+**4. 주식 기능**
+![커스터 마이징 서비스 (3)](https://github.com/user-attachments/assets/cd6526f6-cc32-4161-a033-87d44d88365e)
+
+   - RestClient를 활용한한국투자증권 OPENAPI와 연동
+   - Access Token 발급 & 보유 주식 정보 기능
+   - S3를 활용한 주식 이미지 다운로드
+
+**5. 복권 기능**
+![커스터 마이징 서비스 (4)](https://github.com/user-attachments/assets/5640c409-79a2-42f8-84c9-dc1ab16c1a29)
+
+   - Spring Batch를 활용해 복권 기능을 활성화한 사용자 집계
+   - 자정(00:00)에 1/1000 확률로 포인트 획득
+
+
 <br>
+
+---
 
 ## ⚙️ 기술 스택
-- 
+![커스터 마이징 서비스](https://github.com/user-attachments/assets/e39930b0-e8e0-450d-a3cb-465df691d9ef)
 <br>
 
-## 🌐 배포 파이프라인
+## 🌐 프론트 배포 파이프라인
 관리자 페이지는 Vercel을 이용해 배포를 진행하였습니다. Vercel 대시보드를 통해 배포 상태를 한눈에 확인할 수 있습니다.
 <br>
 
@@ -66,6 +89,10 @@
 2. Vercel 배포: 메인 브랜치 병합 후 Vercel에 배포합니다.
 3. 실시간 업데이트: Vercel을 통해 관리자 사이트가 즉시 업데이트됩니다.
 <br>
+
+## 🖥️ 인프라 구조도
+![image](https://github.com/user-attachments/assets/aeb76baa-ece2-40fd-8ed6-18205d223d69)
+
 
 ## 🗂️ 주요 폴더 구조
 **프론트엔드**
@@ -130,9 +157,6 @@ root/
 - 프로젝트 종료일: 2024.12.08.
 <br>
 
-## 🖥️ 개발 환경
-- 
-<br>
 
 ## ✍️ 컨벤션
 **커밋 컨벤션**
@@ -283,10 +307,28 @@ Feat/input : 비밀번호 숨김 처리
     </td>
   </tr>
   <tr>
+   <td align="center">총괄 팀장<br/>Frontend 팀장<br/>FullStack 개발</td>
+   <td align="center">FullStack 개발 팀원</td>
+   <td align="center">Backend 팀장<br/>FullStack 개발</td>
+   <td align="center">FullStack 개발 팀원</td>
+   <td align="center">PM 팀장<br/>FullStack 개발 팀원</td>
+   <td align="center">FullStack 개발 팀원</td>
+ </tr>
+  <tr>
+    <td align="center">
+      스프링 배치 복권 기능 구현 <br>
+      내용 입력 <br>
+      내용 입력
+    </td>
     <td align="center">
       내용 입력 <br>
       내용 입력 <br>
       내용 입력
+    </td>
+    <td align="center">
+      인증, 인가 구현 <br>
+      CICD & 인프라 구축 <br>
+      백엔드 프로젝트 세팅
     </td>
     <td align="center">
       내용 입력 <br>
@@ -299,17 +341,7 @@ Feat/input : 비밀번호 숨김 처리
       내용 입력
     </td>
     <td align="center">
-      내용 입력 <br>
-      내용 입력 <br>
-      내용 입력
-    </td>
-    <td align="center">
-      내용 입력 <br>
-      내용 입력 <br>
-      내용 입력
-    </td>
-    <td align="center">
-      내용 입력 <br>
+      MDC 로깅 구현 <br>
       내용 입력 <br>
       내용 입력
     </td>
@@ -317,6 +349,42 @@ Feat/input : 비밀번호 숨김 처리
 </table>
 
 <br>
+
+## 👥 팀원 개인별 회고
+
+### 기남석
+- ~
+  
+### 김영성
+- ~
+
+### 김현우
+- ~
+
+### 방성경
+- ~
+
+### 오선민
+- ~
+
+### 홍찬의
+- ~
+
+<br>
+
+---
+[요구사항 정의서.pdf](https://github.com/user-attachments/files/18225291/default.pdf)
+
+[서비스 요구사항 정의서.pdf](https://github.com/user-attachments/files/18225293/default.pdf)
+
+[비즈니스프로세스모델.pdf](https://github.com/user-attachments/files/18225295/default.pdf)
+
+[WBS.pdf](https://github.com/user-attachments/files/18225296/WBS.pdf)
+
+[DB 설계서.pdf](https://github.com/user-attachments/files/18225297/DB.pdf)
+
+
+
 
 ## 🔗 관련 문서 링크
 - [Quostomize-BE](https://github.com/woorifisa-projects-3rd/Quostomize-BE)
