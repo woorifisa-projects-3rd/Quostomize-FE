@@ -74,20 +74,6 @@
 
 <br>
 
-## 📱화면
-
-| 메인 페이지                                                                                                                  | 상세 혜택 페이지                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------- |
-| ![렌딩 페이지](./public/images/readme/rendingPage.gif)<p align="center"> **메인 페이지** </p>                             | ![상세 혜택 페이지지](./public/images/readme/detailPage.gif)<p align="center"> **상세 혜택 페이지** </p>    |
-| 혜택 변경 페이지                                                                                                                     | 포인트 사용 방식 변경                                                                                                       |
-| ![혜택 변경](./public/images/readme/pointAccChange.png)<p align="center"> **포인트 적립 방식 변경** </p>              | ![포인트 사용 방식 변경경](./public/images/readme/pointUsageChange.png)<p align="center"> **포인트 사용 방식 변경** </p> |
-| 현재 내 주각투자 현황                                                                                                                       | 종목 검색 및 선호 종목 설정                                                                                                          |
-| ![보유 주식 현황](./public/images/readme/myStock.png) <p align="center"> **보유 주식 현황** </p>                          | ![종목 검색색](./public/images/readme/searchStock.png)<p align="center"> **장소 검색** </p>              |
-| 일일복권                                                                                                                  | 로그인페이지                                                                                                            |
-| ![일일복권](./public/images/readme/dailyLottoPage.png)<p align="center"> **일일복권** </p> | ![로그인](./public/images/readme/login.png)<p align="center"> **로그인 페이지** </p>                              |
-
-<br>
-
 
 ## ⚙️ 기술 스택
 ![image](https://github.com/user-attachments/assets/580632dd-5717-49b5-9fb7-1658a2b68a2a)
