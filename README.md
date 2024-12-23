@@ -425,9 +425,9 @@ Feat/input : 비밀번호 숨김 처리
       내용 입력
     </td>
     <td align="center">
-      인증, 인가 구현 <br>
-      CICD & 인프라 구축 <br>
-      백엔드 프로젝트 세팅
+      카드 생성 페이지 구현 <br>
+      카드 생성 API 연결 <br>
+      UUID로 멱등키 생성 <br>
     </td>
     <td align="center">
       내용 입력 <br>
