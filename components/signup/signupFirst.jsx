@@ -76,17 +76,17 @@ const SignupFirst = ({ setPage, firstForm, setFirstForm }) => {
             <div className='bg-slate-100'>
                 <button className="material-icons cursor-pointer m-6" onClick={toHome}>arrow_back_ios</button>
                 <h1 className="font-bold font5 p-3 mb-16 ml-5 text-blue-500">회원가입</h1>
-                <div className='m-5 p-4 bg-white rounded-xl shadow-md'>
+                <div className=' bg-white rounded-xl m-5 shadow-md'>
                     {firstForm.map((signupInfo, index) => firstTotalPrint(signupInfo, index, changeInfos, isChecked, checkMemberId, emailError, nameError, passwordError, rePasswordError)
                     )}
-                    <div className='flex justify-center'>
-                        <button className="bg-slate-200 rounded-xl w-11/12 h-20 font3 font-sans text-slate-400 font-semibold mt-8 hover:bg-blue-600 hover:text-white" onClick={(e) => toNextPage(e)}>다음</button>
-                    </div>
                     {totalError && (
-                        <div className="flex justify-center text-red-500">
+                        <div className="flex justify-center text-red-500 mt-2 text-sm font-semibold">
                             <p>입력값이 유효하지 않습니다 다시 확인해주세요.</p>
                         </div>
                     )}
+                    <div className='flex justify-center'>
+                        <button className="bg-slate-200 rounded-xl w-11/12 h-16 font3 font-sans text-slate-400 font-semibold mt-8 mb-4 hover:bg-blue-600 hover:text-white" onClick={(e) => toNextPage(e)}>다음</button>
+                    </div>
                 </div>
 
                 <div className='flex justify-center mt-8'>
