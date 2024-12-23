@@ -74,6 +74,8 @@
 
 <br>
 
+---
+
 ## ⚙️ 기술 스택
 ![image](https://github.com/user-attachments/assets/580632dd-5717-49b5-9fb7-1658a2b68a2a)
 <br>
@@ -88,7 +90,7 @@
 3. 실시간 업데이트: Vercel을 통해 관리자 사이트가 즉시 업데이트됩니다.
 <br>
 
-## 🖥️ 인프라 구조도
+## 📊 인프라 구조도
 ![image](https://github.com/user-attachments/assets/aeb76baa-ece2-40fd-8ed6-18205d223d69)
 
 
@@ -448,6 +450,12 @@ Feat/input : 비밀번호 숨김 처리
 </table>
 
 <br>
+
+---
+
+## 📝 회고
+[팀원 최종 회고 작성](https://ohsanman.notion.site/b60218a5e80f4dc494dd02e4a0a0f976?pvs=4)
+
 
 ---
 [요구사항 정의서.pdf](https://github.com/user-attachments/files/18225291/default.pdf)
