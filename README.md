@@ -389,9 +389,9 @@ Feat/input : 비밀번호 숨김 처리
       기타 UI/기능 구현
     </td>
     <td align="center">
-      내용 입력 <br>
-      내용 입력 <br>
-      내용 입력
+      - <br>
+      - <br>
+      -
     </td>
     <td align="center">
       카드 생성 페이지 구현 <br>
@@ -437,19 +437,21 @@ Feat/input : 비밀번호 숨김 처리
   </tr>
   <tr>
     <td align="center">FullStack 개발 팀원</td>
-    <td align="center">PM 팀장<br/>FullStack 개발 팀원</td>
+    <td align="center">PM<br/>FullStack 개발 팀원</td>
     <td align="center">FullStack 개발 팀원</td>
   </tr>
   <tr>
     <td align="center">
-      내용 입력 <br>
-      내용 입력 <br>
-      내용 입력
+      - <br>
+      - <br>
+      -
     </td>
     <td align="center">
-      내용 입력 <br>
-      내용 입력 <br>
-      내용 입력
+      카드 상세 혜택 페이지 구현 <br>
+      카드 생성 페이지 구현 <br>
+      나의 카드 페이지 API 연결 <br>
+      카드 혜택 변경 API 연결 <br>
+      카드 및 차트 애니메이션 구현
     </td>
     <td align="center">
       카드 생성 페이지 <br>
