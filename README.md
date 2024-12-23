@@ -77,7 +77,7 @@
 ---
 
 ## ⚙️ 기술 스택
-![커스터 마이징 서비스](https://github.com/user-attachments/assets/e39930b0-e8e0-450d-a3cb-465df691d9ef)
+![image](https://github.com/user-attachments/assets/580632dd-5717-49b5-9fb7-1658a2b68a2a)
 <br>
 
 ## 🌐 프론트 배포 파이프라인
@@ -95,7 +95,6 @@
 
 
 ## 🗂️ 주요 폴더 구조
-**프론트엔드**
 ```
 root/
 ├── app/
@@ -156,6 +155,107 @@ root/
 - 프로젝트 시작일: 2024.11.19.
 - 프로젝트 종료일: 2024.12.08.
 <br>
+
+## 💻 개발 환경
+<table>
+  <thead>
+    <tr>
+      <th>카테고리</th>
+      <th>라이브러리</th>
+      <th>설명</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td rowspan="2">프레임워크 & 코어</td>
+      <td><strong>Next.js (v15.0.2)</strong></td>
+      <td>React 기반의 풀스택 웹 프레임워크로 SSR 및 SSG를 지원</td>
+    </tr>
+    <tr>
+      <td><strong>React (v18.3.1)</strong></td>
+      <td>선언형 사용자 인터페이스를 개발하기 위한 라이브러리</td>
+    </tr>
+    <tr>
+      <td rowspan="7">UI & 아이콘콘</td>
+      <td><strong>Emotion (v11.13)</strong></td>
+      <td>CSS-in-JS 방식을 지원하여 동적 스타일링을 간단하게 구현</td>
+    </tr>
+    <tr>
+      <td><strong>Material-UI (v6.1.7)</strong></td>
+      <td>Google의 Material Design 기반 UI 컴포넌트 라이브러리</td>
+    </tr>
+    <tr>
+      <td><strong>Headless UI (v2.2.0)</strong></td>
+      <td>접근성 표준을 준수하는 UI 컴포넌트 라이브러리, 디자인 커스터마이징 용이</td>
+    </tr>
+    <tr>
+      <td><strong>Floating UI (v0.26.28)</strong></td>
+      <td>팝오버, 툴팁 등 UI 요소의 위치를 정교하게 제어</td>
+    </tr>
+    <tr>
+      <td><strong>Lucide React (v0.460.0)</strong></td>
+      <td>모던한 스타일의 오픈소스 아이콘 세트</td>
+    </tr>
+    <tr>
+      <td><strong>React Icons (v5.3.0)</strong></td>
+      <td>다양한 스타일의 아이콘을 지원하는 React 아이콘 라이브러리</td>
+    </tr>
+    <tr>
+      <td><strong>Material Icons (v1.13.12)</strong></td>
+      <td>Google의 Material Design 가이드 기반 아이콘</td>
+    </tr>
+    <tr>
+      <td>인증</td>
+      <td><strong>NextAuth.js (v5.0.0-beta.25)</strong></td>
+      <td>OAuth, Credentials 등 다양한 인증 방식을 간편하게 구현</td>
+    </tr>
+    <tr>
+      <td rowspan="4">애니메이션 & 시각 효과</td>
+      <td><strong>GSAP (v3.12.5)</strong></td>
+      <td>고성능 애니메이션, 타임라인 기반의 애니메이션 구현</td>
+    </tr>
+    <tr>
+      <td><strong>Lottie Web (v5.12.2)</strong></td>
+      <td>After Effects 애니메이션을 웹에서 JSON 파일로 쉽게 재생</td>
+    </tr>
+    <tr>
+      <td><strong>Canvas Confetti (v1.9.3)</strong></td>
+      <td>캔버스를 활용한 가벼운 컨페티 효과 제공</td>
+    </tr>
+    <tr>
+      <td><strong>React Slot Counter (v3.0.1)</strong></td>
+      <td>숫자를 애니메이션으로 카운팅하는 기능 제공</td>
+    </tr>
+    <tr>
+      <td rowspan="2">데이터 시각화</td>
+      <td><strong>Chart.js (v4.4.6)</strong></td>
+      <td>반응형 차트를 쉽게 생성할 수 있는 데이터 시각화 라이브러리</td>
+    </tr>
+    <tr>
+      <td><strong>Chartjs Plugin Datalabels (v2.2.0)</strong></td>
+      <td>차트에 데이터 라벨을 추가하여 정보를 시각적으로 강조</td>
+    </tr>
+    <tr>
+      <td rowspan="3">유틸리티</td>
+      <td><strong>UUID (v11.0.3)</strong></td>
+      <td>중복되지 않는 고유 식별자를 생성</td>
+    </tr>
+    <tr>
+      <td><strong>js-cookie (v3.0.5)</strong></td>
+      <td>브라우저 쿠키를 간편하게 설정하고 관리</td>
+    </tr>
+    <tr>
+      <td><strong>React Intersection Observer (v9.13.1)</strong></td>
+      <td>특정 요소가 뷰포트에 들어왔는지 감지하여 lazy loading 등 기능 구현</td>
+    </tr>
+    <tr>
+      <td>E2E 테스트</td>
+      <td><strong>Cypress (v13.16.1)</strong></td>
+      <td>브라우저 기반의 End-to-End(E2E) 테스트 수행</td>
+    </tr>
+  </tbody>
+</table>
+
 
 
 ## ✍️ 컨벤션
