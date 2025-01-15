@@ -389,9 +389,10 @@ Feat/input : 비밀번호 숨김 처리
       기타 UI/기능 구현
     </td>
     <td align="center">
-      - <br>
-      - <br>
-      -
+      투자 페이지 구현 <br>
+      회원가입 페이지 구현 <br>
+      투자 API 연결 <br>
+      회원가입 API 연결 <br>
     </td>
     <td align="center">
       카드 생성 페이지 구현 <br>
